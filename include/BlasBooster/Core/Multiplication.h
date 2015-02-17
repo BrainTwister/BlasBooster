@@ -1,17 +1,24 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef MULTIPLICATION_H_
 #define MULTIPLICATION_H_
 
-#include "AllMatrixTypes.h"
-#include "BinaryFunctors.h"
-#include "BoostLib/exec_if_2dim.h"
-#include "BoostLib/TypeChecker.h"
-#include "BoostLib/wrong_t.h"
-#include "CoreException.h"
-#include "Cursor.h"
-#include "IntelMKL/IntelMKL.h"
-#include "Matrix.h"
-#include "MatrixFiller.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/AllMatrixTypes.h"
+#include "BlasBooster/Core/BinaryFunctors.h"
+#include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixFiller.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/exec_if_2dim.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/wrong_t.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/shared_ptr.hpp>
@@ -118,6 +125,7 @@ struct MultiplicationFunctor<Dense,T1,P1,Dense,T2,P2,Dense,T3,P3>
  : public GeneralDenseMultiplicationFunctor<T1,P1,T2,P2,T3,P3>
 {};
 
+#if 0
 /// Matrix multiplication specialized for Matrix<Dense,double> * Matrix<Dense,double> via extern BLAS dgemm
 template <class P>
 struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P>
@@ -175,6 +183,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P>
 		IntelMKL::sgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
 	}
 };
+#endif
 
 /// Matrix multiplication specialized for DynamicMatrix Dense, Dense.
 template <class P1, class P2, class P3>

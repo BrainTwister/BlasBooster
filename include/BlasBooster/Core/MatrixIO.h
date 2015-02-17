@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -9,11 +9,11 @@
 #ifndef MATRIXIO_H_
 #define MATRIXIO_H_
 
-#include "BoostLib/exec_if.h"
-#include "BoostLib/TypeChecker.h"
-#include "BoostLib/wrong_t.h"
-#include "DenseMatrix.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/exec_if.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/wrong_t.h"
 #include <iostream>
 
 namespace BlasBooster {
