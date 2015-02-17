@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -9,21 +9,21 @@
 #ifndef DENSEMATRIX_H_
 #define DENSEMATRIX_H_
 
-#include "BoostLib/exec_if.h"
-#include "BoostLib/TypeChecker.h"
-#include "BoostLib/TypeName.h"
-#include "BoostLib/TypeRegister.h"
-#include "BinaryFunctors.h"
-#include "Copy.h"
-#include "Cursor.h"
-#include "DynamicMatrixFunctions.h"
-#include "Matrix.h"
-#include "MatrixFiller.h"
-#include "NormPolicy.h"
-#include "OccupationPolicy.h"
-#include "Parameter.h"
-#include "Storage.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/BinaryFunctors.h"
+#include "BlasBooster/Core/Copy.h"
+#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/DynamicMatrixFunctions.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixFiller.h"
+#include "BlasBooster/Core/NormPolicy.h"
+#include "BlasBooster/Core/OccupationPolicy.h"
+#include "BlasBooster/Core/Parameter.h"
+#include "BlasBooster/Core/Storage.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/exec_if.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeName.h"
+#include "BlasBooster/Utilities/TypeRegister.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/if.hpp>

@@ -1,4 +1,4 @@
-#include "BlockSizeGenerator.h"
+#include "BlasBooster/Core/BlockSizeGenerator.h"
 
 namespace BlasBooster {
 

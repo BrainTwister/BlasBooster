@@ -1,9 +1,5 @@
 include_directories(
-    ..
-    ../BoostLib
-    ../IntelMKL
-    ../PreprocessorLib
-    ../UtilitiesLib
+    ${BlasBooster_SOURCE_DIR}/include
 )
 
 add_library(

@@ -1,8 +1,8 @@
-#include "CoreLib/AbsoluteValueRangeChecker.h"
-#include "CoreLib/DenseMatrix.h"
-#include "CoreLib/SparseMatrix.h"
-#include "CoreLib/Multiplication.h"
-#include "CoreLib/Threshold.h"
+#include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Threshold.h"
 #include "gtest/gtest.h"
 
 using namespace std;
