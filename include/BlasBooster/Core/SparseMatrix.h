@@ -1,19 +1,27 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef SPARSEMATRIX_H_
 #define SPARSEMATRIX_H_
 
-#include "AbsoluteValueRangeChecker.h"
-#include "BoostLib/TypeChecker.h"
-#include "BoostLib/TypeName.h"
-#include "BoostLib/TypeRegister.h"
-#include "Cursor.h"
-#include "DebugPrint.h"
-#include "Matrix.h"
-#include "MatrixFiller.h"
-#include "NormPolicy.h"
-#include "OccupationPolicy.h"
-#include "Parameter.h"
-#include "SparseStorage.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
+#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixFiller.h"
+#include "BlasBooster/Core/NormPolicy.h"
+#include "BlasBooster/Core/OccupationPolicy.h"
+#include "BlasBooster/Core/Parameter.h"
+#include "BlasBooster/Core/SparseStorage.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/DebugPrint.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeName.h"
+#include "BlasBooster/Utilities/TypeRegister.h"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/if.hpp>

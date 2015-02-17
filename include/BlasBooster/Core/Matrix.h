@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -9,9 +9,9 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
-#include "MatrixBase.h"
-#include "Parameter.h"
-#include "BoostLib/wrong_t.h"
+#include "BlasBooster/Core/MatrixBase.h"
+#include "BlasBooster/Core/Parameter.h"
+#include "BlasBooster/Utilities/wrong_t.h"
 #include <boost/operators.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/type_traits.hpp>

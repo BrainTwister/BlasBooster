@@ -1,8 +1,16 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef GENERATETYPEMATRIX_H_
 #define GENERATETYPEMATRIX_H_
 
-#include "DenseMatrix.h"
-#include "TypeName.h"
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Utilities/TypeName.h"
 
 namespace BlasBooster {
 

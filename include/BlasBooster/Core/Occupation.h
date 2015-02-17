@@ -1,9 +1,17 @@
- #ifndef OCCUPATION_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef OCCUPATION_H_
 #define OCCUPATION_H_
 
-#include "BoostLib/exec_if.h"
-#include "BoostLib/TypeChecker.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/exec_if.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
 
 namespace BlasBooster {
 

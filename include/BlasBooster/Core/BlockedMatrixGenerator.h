@@ -1,12 +1,20 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef BLOCKEDMATRIXGENERATOR_H_
 #define BLOCKEDMATRIXGENERATOR_H_
 
-#include "BlockedMatrix.h"
-#include "CreateSettingsClass.h"
-#include "DenseMatrix.h"
-#include "MatrixConverter.h"
-#include "SparseMatrix.h"
-#include "STLHelpers.h"
+#include "BlasBooster/Core/BlockedMatrix.h"
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/MatrixConverter.h"
+#include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Preprocessor/CreateSettingsClass.h"
+#include "BlasBooster/Utilities/STLHelpers.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/nvp.hpp>

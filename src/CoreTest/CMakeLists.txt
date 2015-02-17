@@ -1,5 +1,5 @@
 include_directories(
-    ..
+    ${BlasBooster_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
 )
 

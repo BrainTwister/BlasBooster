@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -9,11 +9,11 @@
 #ifndef MULTIPLEMATRIX_H_
 #define MULTIPLEMATRIX_H_
 
-#include "BoostLib/TypeName.h"
-#include "BoostLib/TypeRegister.h"
-#include "CoreException.h"
-#include "MatrixBase.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/MatrixBase.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/TypeName.h"
+#include "BlasBooster/Utilities/TypeRegister.h"
 
 namespace BlasBooster {
 

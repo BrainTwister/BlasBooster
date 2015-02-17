@@ -1,9 +1,17 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef THRESHOLD_H_
 #define THRESHOLD_H_
 
-#include "BoostLib/wrong_t.h"
-#include "PreprocessorLib/CreateSettingsClass.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/wrong_t.h"
+#include "BlasBooster/Preprocessor/CreateSettingsClass.h"
 #include <boost/mpl/long.hpp>
 #include <boost/mpl/vector.hpp>
 

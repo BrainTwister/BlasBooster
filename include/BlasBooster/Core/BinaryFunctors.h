@@ -1,14 +1,22 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef BINARYFUNCTORS_H_
 #define BINARYFUNCTORS_H_
 
-#include "BoostLib/exec_if_2dim.h"
-#include "BoostLib/TypeChecker.h"
-#include "BoostLib/wrong_t.h"
-#include "CoreException.h"
-#include "AllMatrixTypes.h"
-#include "Cursor.h"
-#include "Matrix.h"
-#include "TypeList.h"
+#include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/AllMatrixTypes.h"
+#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/exec_if_2dim.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/wrong_t.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/shared_ptr.hpp>

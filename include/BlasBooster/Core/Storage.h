@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -9,11 +9,11 @@
 #ifndef STORAGE_H_
 #define STORAGE_H_
 
-#include "CoreException.h"
-#include "DebugPrint.h"
-#include "UtilitiesLib/EqualWithinNumericalAccuracy.h"
-#include "Noexcept.h"
-#include "StripedIterator.h"
+#include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/StripedIterator.h"
+#include "BlasBooster/Utilities/DebugPrint.h"
+#include "BlasBooster/Utilities/EqualWithinNumericalAccuracy.h"
+#include "BlasBooster/Utilities/Noexcept.h"
 #include <boost/serialization/split_member.hpp>
 #include <algorithm>
 #include <initializer_list>

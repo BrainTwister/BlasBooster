@@ -1,7 +1,15 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef DIMENSION_H_
 #define DIMENSION_H_
 
-#include "Noexcept.h"
+#include "BlasBooster/Utilities/Noexcept.h"
 #include <boost/operators.hpp>
 #include <boost/serialization/access.hpp>
 #include <cstddef>

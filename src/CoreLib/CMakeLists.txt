@@ -9,7 +9,7 @@ add_library(
     GenerateTypeMatrix.cpp
 )
 
-target_link_libraries(
-    CoreLib
-    IntelMKL
-)
+#target_link_libraries(
+#    CoreLib
+#    IntelMKL
+#)
