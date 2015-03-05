@@ -4,7 +4,7 @@ include_directories(
 )
 
 add_executable(
-    CoreGTest
+    CoreTest
     main.cpp
     AbsoluteValueRangeCheckerTest.cpp
     MatrixConverterTest.cpp
@@ -15,13 +15,13 @@ add_executable(
 )
     
 target_link_libraries(
-    CoreGTest
+    CoreTest
     CoreLib
     ${GTEST_BOTH_LIBRARIES}
 )
 
 add_test(
-    CoreGTest
-    ${CMAKE_BINARY_DIR}/bin/CoreGTest
-    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/CoreGTest.xml
+    CoreTest
+    ${CMAKE_BINARY_DIR}/bin/CoreTest
+    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/CoreTest.xml
 )
