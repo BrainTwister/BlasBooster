@@ -1,9 +1,12 @@
 project(BlasBooster CXX)
 
+set(BLASBOOSTER_VERSION_MAJOR 0)
+set(BLASBOOSTER_VERSION_MINOR 2)
+set(BLASBOOSTER_VERSION_PATCH 0)
+
 cmake_minimum_required(VERSION 2.6.2)
 
 set(CMAKE_MODULE_PATH ${BlasBooster_SOURCE_DIR}/cmake/modules)
-set(BLASBOOSTER_VERSION "0.1.3 rev 457")
 
 # guard against in-source builds
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -23,7 +26,7 @@ if(    NOT cmake_build_type_tolower STREQUAL "debug"
   message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
 endif()
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG -DBLASBOOSTER_VERSION=\"${BLASBOOSTER_VERSION}\"")
+set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -42,10 +45,10 @@ set(CMAKE_VERBOSE_MAKEFILE false)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-# include_directories() is a per-directory setting, i.e. a call applies 
-# to this directory and all sub directories of it.
-include_directories(
-    Source/CompilerLib
+# generate version string
+configure_file (
+  "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h.in"
+  "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h"
 )
 
 # Boost template libraries
