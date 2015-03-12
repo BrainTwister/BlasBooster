@@ -1,7 +1,7 @@
 BlasBoosterCore
 ===============
 
-Copyright 2013-2015 BrainTwister.
+Copyright 2013-2015 BrainTwister - All rights reserved.
 
 Requirements
 ------------
