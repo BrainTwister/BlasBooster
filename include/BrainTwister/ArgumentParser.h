@@ -1,14 +1,18 @@
 #ifndef ARGUMENTPARSER_H_
 #define ARGUMENTPARSER_H_
 
-#include <initializer_list>
-#include <map>
-#include <set>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 namespace BrainTwister {
 namespace ArgumentParser {
+
+enum ArgumentType {
+	REQUIRED,
+	OPTIONAL,
+	BOOLEAN
+};
 
 /**
  * Analyze an argument list given for a command. Three types of arguments will be distinguished:
@@ -26,52 +30,50 @@ class ArgumentParser
 {
 public:
 
-	enum ArgumentType { NonOptional, Optional, Boolean, NonOptionalList };
+	struct ArgumentDefinition
+	{
+		ArgumentDefinition(std::string const& longLabel, std::string const& description)
+		 : longLabel_(longLabel), shortLabel_(0), type_(BOOLEAN), description_(description)
+		{}
 
-	struct ArgumentDefinition{
-		std::string name_;
+		ArgumentDefinition(std::string const& longLabel, char shortLabel, std::string const& description)
+		 : longLabel_(longLabel), shortLabel_(shortLabel), type_(BOOLEAN), description_(description)
+		{}
+
+		std::string longLabel_;
+		char shortLabel_;
 		ArgumentType type_;
 		std::string description_;
+		std::string value_;
 	};
 
-	ArgumentParser( int argc, char* argv[],
-		std::initializer_list<ArgumentDefinition> argumentDefinitionList = std::initializer_list<ArgumentDefinition>()
+	ArgumentParser( int argc, char* argv[], int nbArguments,
+		std::vector<ArgumentDefinition> const& argumentDefinitions = std::vector<ArgumentDefinition>()
 	);
 
-	size_t getNbOfNonOptionalArguments() const {
-		return nonOptionalArgumentList_.size();
+	std::string getArgument(int position) const
+	{
+		if (position >= nbArguments_) throw std::runtime_error("Argument position larger than given number of arguments.");
+		return arguments_[position];
 	}
 
-	std::string getNonOptionalArgument( std::string const& nonOptionalFlag ) const;
-
-	std::vector<std::string> const& getNonOptionalList() const {
-		return nonOptionalList_;
+	std::string getOptionValue(std::string const& longLabel) const
+	{
+		return "";
 	}
-
-	bool isOptionalFlagSet( std::string const& optionalFlag ) const;
-
-	std::string getOptionalArgument( std::string const& optionalFlag ) const;
-
-	bool isBooleanFlagSet( std::string const& booleanFlag ) const;
 
 	void printUsage() const;
 
 private:
 
-	std::vector<std::string> nonOptionalArgumentList_;
-	std::vector<std::string> nonOptionalList_;
-	std::map<std::string,std::string> optionalArgumentList_;
-	std::set<std::string> booleanFlagList_;
-
-	std::vector<std::string> nonOptionalArgumentName_;
-	std::vector<std::string> nonOptionalArgumentDescription_;
-	std::map<std::string,std::string> optionalArgumentDescription_;
-	std::map<std::string,std::string> booleanFlagDescription_;
-
-	std::string nonOptionalListName_;
-	std::string nonOptionalListDescription_;
-
+	// Store the first entry of argv
 	std::string programName_;
+
+	int nbArguments_;
+
+	std::vector<ArgumentDefinition> argumentDefinitions_;
+
+	std::vector<std::string> arguments_;
 
 };
 
