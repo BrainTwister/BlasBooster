@@ -59,14 +59,3 @@ if(GTEST_FOUND)
     ENABLE_TESTING()
     add_subdirectory(test)
 endif(GTEST_FOUND)
-
-# Doxygen API documentation
-#FIND_PACKAGE(Doxygen)
-#if(DOXYGEN_FOUND)
-#    add_custom_target(
-#    	doc
-#    	${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxygen/Doxyfile
-#            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/Doxygen
-#            COMMENT "Generating API documentation with Doxygen" VERBATIM
-#    )    
-#endif(DOXYGEN_FOUND)

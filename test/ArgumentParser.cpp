@@ -1,14 +1,12 @@
 #include "BrainTwister/ArgumentParser.h"
 #include "gtest/gtest.h"
 
-namespace ap = BrainTwister::ArgumentParser;
-
 TEST(ArgumentParserTest, Test1)
 {
 	char *argv[] = {strdup("program"), strdup("arg1"), strdup("arg2")};
 	int argc = (int)(sizeof(argv) / sizeof(argv[0]));
 
-	ap::ArgumentParser arg(argc, argv, 2,
+	BrainTwister::ArgumentParser arg(argc, argv, 2,
 		//{{"input", ap::value<int>(), "Description of option input."},
 		{{"input", 'i', "Description of option input."},
 		 {"verbose", "Print more output."}}

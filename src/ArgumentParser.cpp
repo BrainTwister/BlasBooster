@@ -5,7 +5,6 @@
 using namespace std;
 
 namespace BrainTwister {
-namespace ArgumentParser {
 
 ArgumentParser::ArgumentParser(int argc, char* argv[], int nbArguments,
     std::vector<ArgumentDefinition> const& argumentDefinitions)
@@ -93,5 +92,4 @@ void ArgumentParser::printUsage() const
     cout << endl;
 }
 
-} // namespace ArgumentParser
 } // namespace BrainTwister

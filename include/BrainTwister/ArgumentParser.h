@@ -6,13 +6,6 @@
 #include <vector>
 
 namespace BrainTwister {
-namespace ArgumentParser {
-
-enum ArgumentType {
-	REQUIRED,
-	OPTIONAL,
-	BOOLEAN
-};
 
 /**
  * Analyze an argument list given for a command. Three types of arguments will be distinguished:
@@ -33,16 +26,15 @@ public:
 	struct ArgumentDefinition
 	{
 		ArgumentDefinition(std::string const& longLabel, std::string const& description)
-		 : longLabel_(longLabel), shortLabel_(0), type_(BOOLEAN), description_(description)
+		 : longLabel_(longLabel), shortLabel_(0), description_(description)
 		{}
 
 		ArgumentDefinition(std::string const& longLabel, char shortLabel, std::string const& description)
-		 : longLabel_(longLabel), shortLabel_(shortLabel), type_(BOOLEAN), description_(description)
+		 : longLabel_(longLabel), shortLabel_(shortLabel), description_(description)
 		{}
 
 		std::string longLabel_;
 		char shortLabel_;
-		ArgumentType type_;
 		std::string description_;
 		std::string value_;
 	};
@@ -77,7 +69,6 @@ private:
 
 };
 
-} // namespace ArgumentParser
 } // namespace BrainTwister
 
 #endif /* ARGUMENTPARSER_H_ */
