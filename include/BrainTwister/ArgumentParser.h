@@ -51,7 +51,9 @@ public:
 
 	std::string getOptionValue(std::string const& longLabel) const
 	{
-		return "";
+		for (auto & option : argumentDefinitions_)
+			if (option.longLabel_ == longLabel) return option.value_;
+		throw std::runtime_error("Option " + longLabel + " does not exist.");
 	}
 
 	void printUsage() const;
