@@ -1,1 +1,2 @@
-/Build_Release_Gnu/
+/Build_*
+/build_*
