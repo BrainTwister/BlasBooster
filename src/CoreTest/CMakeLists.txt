@@ -1,27 +1,25 @@
+set(TestName CoreTest)
+
 include_directories(
     ${BlasBooster_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
 )
 
+file(GLOB SOURCES *.cpp)
+
 add_executable(
-    CoreTest
-    main.cpp
-    AbsoluteValueRangeCheckerTest.cpp
-    MatrixConverterTest.cpp
-    MultipleMatrixTest.cpp
-    SparseMatrixTest.cpp
-    StorageTest.cpp
-    ThresholdTest.cpp
+    ${TestName}
+    ${SOURCES}
 )
     
 target_link_libraries(
-    CoreTest
+    ${TestName}
     CoreLib
     ${GTEST_BOTH_LIBRARIES}
 )
 
 add_test(
-    CoreTest
-    ${CMAKE_BINARY_DIR}/bin/CoreTest
-    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/CoreTest.xml
+    ${TestName}
+    ${CMAKE_BINARY_DIR}/bin/${TestName}
+    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/${TestName}.xml
 )
