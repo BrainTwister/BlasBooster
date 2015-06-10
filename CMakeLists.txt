@@ -6,7 +6,7 @@ set(BLASBOOSTER_VERSION_PATCH 0)
 
 cmake_minimum_required(VERSION 2.6.2)
 
-set(CMAKE_MODULE_PATH ${BlasBooster_SOURCE_DIR}/cmake/modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 # guard against in-source builds
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -82,8 +82,8 @@ FIND_PACKAGE(Doxygen)
 if(DOXYGEN_FOUND)
     add_custom_target(
     	doc
-    	${DOXYGEN_EXECUTABLE} ${BlasBooster_SOURCE_DIR}/Doxygen/Doxyfile
-            WORKING_DIRECTORY ${BlasBooster_SOURCE_DIR}/Doxygen
+    	${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxygen/Doxyfile
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/Doxygen
             COMMENT "Generating API documentation with Doxygen" VERBATIM
     )    
 endif(DOXYGEN_FOUND)

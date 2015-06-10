@@ -37,7 +37,7 @@ class MatrixMultiplicationTest
 {};
 
  /// Test body for MatrixMultiplicationTest
-TEST_P(MatrixMultiplicationTest, Basic)
+TEST_P(MatrixMultiplicationTest, DISABLED_Basic)
 {
     EXPECT_EQ(GetParam().C, GetParam().A * GetParam().B);
 }
