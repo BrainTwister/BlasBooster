@@ -68,13 +68,14 @@ endif(Boost_FOUND)
 #FIND_PACKAGE(MTL4)
 #FIND_PACKAGE(OpenBLAS)
 
+add_subdirectory(src/Benchmark)
 add_subdirectory(src/CoreLib)
 
 # Google C++ unit test framework
 FIND_PACKAGE(GTest)
 if(GTEST_FOUND)
     ENABLE_TESTING()
-    add_subdirectory(src/CoreTest)
+    add_subdirectory(test)
 endif(GTEST_FOUND)
 
 # Doxygen API documentation

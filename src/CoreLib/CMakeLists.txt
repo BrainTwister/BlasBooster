@@ -1,5 +1,5 @@
 include_directories(
-    ${BlasBooster_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 add_library(

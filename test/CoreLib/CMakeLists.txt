@@ -1,7 +1,7 @@
 set(TestName CoreTest)
 
 include_directories(
-    ${BlasBooster_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
 )
 
