@@ -2,7 +2,7 @@ project(BlasBooster CXX)
 
 set(PROJECT_VERSION_MAJOR 0 CACHE STRING "Major version number")
 set(PROJECT_VERSION_MINOR 2 CACHE STRING "Minor version number")
-set(PROJECT_VERSION_PATCH 0 CACHE STRING "Patch version number")
+set(PROJECT_VERSION_PATCH 1 CACHE STRING "Patch version number")
 mark_as_advanced(PROJECT_VERSION_MAJOR PROJECT_VERSION_MINOR PROJECT_VERSION_PATCH)
 
 cmake_minimum_required(VERSION 2.6.2)
@@ -27,7 +27,7 @@ if(    NOT cmake_build_type_tolower STREQUAL "debug"
   message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
 endif()
 
-set(CMAKE_CXX_FLAGS "-Wall -std=c++11 -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG")
+set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -70,7 +70,6 @@ endif(Boost_FOUND)
 #FIND_PACKAGE(OpenBLAS)
 
 add_subdirectory(src/Benchmark)
-add_subdirectory(src/CoreLib)
 
 # Google C++ unit test framework
 FIND_PACKAGE(GTest)

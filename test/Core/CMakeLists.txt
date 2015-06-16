@@ -5,16 +5,20 @@ include_directories(
     ${GTEST_INCLUDE_DIR}
 )
 
-file(GLOB SOURCES *.cpp)
-
 add_executable(
     ${TestName}
-    ${SOURCES}
+    AbsoluteValueRangeCheckerTest.cpp
+    main.cpp
+    MatrixConverterTest.cpp
+    MatrixMultiplicationTest.cpp
+    MultipleMatrixTest.cpp
+    SparseMatrixTest.cpp
+    StorageTest.cpp
+    ThresholdTest.cpp
 )
     
 target_link_libraries(
     ${TestName}
-    CoreLib
     ${GTEST_BOTH_LIBRARIES}
 )
 
