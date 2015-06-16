@@ -83,8 +83,8 @@ FIND_PACKAGE(Doxygen)
 if(DOXYGEN_FOUND)
     add_custom_target(
     	doc
-    	${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxygen/Doxyfile
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/Doxygen
+    	${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
             COMMENT "Generating API documentation with Doxygen" VERBATIM
     )    
 endif(DOXYGEN_FOUND)
