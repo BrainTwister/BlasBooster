@@ -82,10 +82,19 @@ endif(GTEST_FOUND)
 # Doxygen API documentation
 FIND_PACKAGE(Doxygen)
 if(DOXYGEN_FOUND)
-    add_custom_target(
-    	doc
-    	${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
-            COMMENT "Generating API documentation with Doxygen" VERBATIM
-    )    
+
+    set(doxyfile_in ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in)
+    set(doxyfile ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile)
+
+    configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+    add_custom_target(doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM)
+
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen/html DESTINATION share/doc)
+    
 endif(DOXYGEN_FOUND)
+
