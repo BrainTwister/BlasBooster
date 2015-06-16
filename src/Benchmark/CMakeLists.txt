@@ -11,3 +11,5 @@ target_link_libraries(
     Benchmark
     CoreLib
 )
+
+install(TARGETS Benchmark RUNTIME DESTINATION bin)
