@@ -13,3 +13,5 @@ add_library(
 #    CoreLib
 #    IntelMKL
 #)
+
+install(TARGETS CoreLib LIBRARY DESTINATION lib)
