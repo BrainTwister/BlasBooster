@@ -635,6 +635,7 @@ Matrix<Dense,T,P>& Matrix<Dense,T,P>::operator = (T value)
     {
         *iterCur = value;
     }
+    return *this;
 }
 
 template <class T, class P>
