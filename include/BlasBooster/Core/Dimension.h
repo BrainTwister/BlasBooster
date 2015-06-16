@@ -73,6 +73,7 @@ struct Dimension
 		nbColumns_ = other.nbColumns_;
 		other.nbRows_ = 0;
 		other.nbColumns_ = 0;
+		return *this;
 	}
 
     friend void swap(self& a, self& b) BLASBOOSTER_NOEXCEPT

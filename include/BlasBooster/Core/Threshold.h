@@ -62,6 +62,7 @@ public:
 		if (&other != this) {
 	        settings_ = other.settings_;
 		}
+		return *this;
 	}
 
 	template <class T>

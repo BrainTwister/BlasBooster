@@ -455,6 +455,7 @@ template <class M1, class T1,
 inline Matrix<M1,T1,P>& operator += (Matrix<M1,T1,P>& A, Matrix<M2,T2,P> const& B)
 {
     BinaryAssignmentOperationFunctor<Plus,M1,T1,P,M2,T2,P>()(A,B);
+    return A;
 }
 
 template <class M1, class T1,

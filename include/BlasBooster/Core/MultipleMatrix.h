@@ -75,24 +75,28 @@ struct MultipleMatrix
 	{
 		// TODO
 		BLASBOOSTER_CORE_FAILURE("not implemented yet");
+		return 0.0;
 	}
 
 	bool isOccupationLargerThan(double value, double threshold = 0.0) const
 	{
 		// TODO
 		BLASBOOSTER_CORE_FAILURE("not implemented yet");
+		return false;
 	}
 
 	double getNorm() const
 	{
 		// TODO
 		BLASBOOSTER_CORE_FAILURE("not implemented yet");
+		return 0.0;
 	}
 
 	bool isNormLargerThan(double value) const
 	{
 		// TODO
 		BLASBOOSTER_CORE_FAILURE("not implemented yet");
+		return false;
 	}
 
     const std::type_info& getTypeInfo() const { return typeid(*this); }

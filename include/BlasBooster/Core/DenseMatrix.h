@@ -195,8 +195,8 @@ public: // member functions
 
     /// Move constructor
     Matrix(self&& other)
-     : dimension(std::move(other)),
-       storage(std::forward<storage>(other))
+     : storage(std::forward<storage>(other)),
+       dimension(std::move(other))
     {
     	BLASBOOSTER_DEBUG_PRINT("Matrix: Move constructor is called.");
     }
@@ -333,7 +333,7 @@ private:
 
 template <class T, class P>
 Matrix<Dense,T,P>::Matrix()
- : dimension(), storage()
+ : storage(), dimension()
 {}
 
 template <class T, class P>

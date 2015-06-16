@@ -61,6 +61,7 @@ struct ConversionFunctor
 	DynamicMatrix operator () (Matrix<M1,T1,P1> const& matrix, Threshold const& threshold) const
     {
 		static_assert(wrong_t<M1>::value, "ConversionFunctor: Primary template must not be instantiated.");
+		return DynamicMatrix(nullptr);
     }
 };
 
