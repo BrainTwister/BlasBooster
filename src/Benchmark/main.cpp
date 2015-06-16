@@ -1,4 +1,7 @@
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
+#include "BlasBooster/Utilities/ScopedTimer.h"
 #include "BlasBooster/Utilities/Version.h"
 #include <iostream>
 
@@ -9,6 +12,15 @@ int main(int argc, char* argv[])
 	try {
 
 		std::cout << "BlasBooster " + version + " Benchmark" << std::endl;
+
+		const Matrix<Dense, double> refA;
+	    const Matrix<Dense, double> refB;
+	    Matrix<Dense, double> refC;
+
+	    {
+	    	ScopedTimer scopedtimer("Intel MKL dgemm");
+	        refC = refA * refB;
+	    }
 
 	} catch ( BlasBoosterException const& e ) {
 		std::cout << "BlasBooster exception: " << e.what() << std::endl;

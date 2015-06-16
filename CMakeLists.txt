@@ -1,8 +1,9 @@
 project(BlasBooster CXX)
 
-set(BLASBOOSTER_VERSION_MAJOR 0)
-set(BLASBOOSTER_VERSION_MINOR 2)
-set(BLASBOOSTER_VERSION_PATCH 0)
+set(PROJECT_VERSION_MAJOR 0)
+set(PROJECT_VERSION_MINOR 2)
+set(PROJECT_VERSION_PATCH 0)
+mark_as_advanced(PROJECT_VERSION_MAJOR PROJECT_VERSION_MINOR PROJECT_VERSION_PATCH)
 
 cmake_minimum_required(VERSION 2.6.2)
 
@@ -52,7 +53,7 @@ configure_file (
 )
 
 # Boost template libraries
-FIND_PACKAGE(Boost COMPONENTS chrono date_time filesystem serialization system timer REQUIRED)
+FIND_PACKAGE(Boost COMPONENTS filesystem serialization system REQUIRED)
 if(Boost_FOUND)
     set(Boost_USE_STATIC_LIBS ON)
     set(Boost_USE_MULTITHREADED ON)
