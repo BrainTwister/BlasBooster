@@ -16,7 +16,8 @@ public:
     virtual ~ScopedTimer()
     {
         std::chrono::duration<double> elapsed_seconds = std::chrono::high_resolution_clock::now() - start;
-        std::cout << "Time of " << label << elapsed_seconds.count() << std::endl;
+        std::cout << std::fixed << std::setprecision(2)
+                  << "Time of " << label << ": " << elapsed_seconds.count() << " s" << std::endl;
     }
 
 private:
