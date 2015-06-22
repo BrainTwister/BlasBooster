@@ -45,10 +45,10 @@ public:
 
     void updateNorm() const
     {
-    	if (!isNormUpToDate_) {
-    		norm_ = norm<NormType>(*(static_cast<const Derived*>(this)));
+        if (!isNormUpToDate_) {
+            norm_ = norm<NormType>(*(static_cast<const Derived*>(this)));
             isNormUpToDate_ = true;
-    	}
+        }
     }
 
 private:

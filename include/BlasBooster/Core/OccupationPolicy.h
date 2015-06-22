@@ -20,14 +20,14 @@ public:
     template <class ValueChecker>
     size_t getNbOfSignificantElements(ValueChecker const& valueChecker) const
     {
-    	auto key = std::shared_ptr<ValueCheckerBase>(new ValueChecker(valueChecker));
-    	if (nbDesiredElementsMap_.count(key)) {
-    		return nbDesiredElementsMap_[key];
-    	} else {
-    		size_t nbDesiredElements = countDesiredElements(*(static_cast<const Derived*>(this)),valueChecker);
-    		nbDesiredElementsMap_[key] = nbDesiredElements;
-    		return nbDesiredElements;
-    	}
+        auto key = std::shared_ptr<ValueCheckerBase>(new ValueChecker(valueChecker));
+        if (nbDesiredElementsMap_.count(key)) {
+            return nbDesiredElementsMap_[key];
+        } else {
+            size_t nbDesiredElements = countDesiredElements(*(static_cast<const Derived*>(this)),valueChecker);
+            nbDesiredElementsMap_[key] = nbDesiredElements;
+            return nbDesiredElements;
+        }
     }
 
     /// Return occupation of values which fulfill the valueChecker
@@ -35,24 +35,24 @@ public:
     double getOccupation(ValueChecker const& valueChecker) const
     {
         return static_cast<double>(getNbOfSignificantElements(valueChecker))
-        	/ static_cast<const Derived*>(this)->getSize();
+            / static_cast<const Derived*>(this)->getSize();
     }
 
     template <class ValueChecker>
-	bool isOccupationLargerThan(double value, ValueChecker const& valueChecker) const
-	{
-		return getOccupation(valueChecker) > value;
-	}
+    bool isOccupationLargerThan(double value, ValueChecker const& valueChecker) const
+    {
+        return getOccupation(valueChecker) > value;
+    }
 
     template <class ValueChecker>
-	bool isOccupationSmallerThan(double value, ValueChecker const& valueChecker) const
-	{
-		return getOccupation(valueChecker) < value;
-	}
+    bool isOccupationSmallerThan(double value, ValueChecker const& valueChecker) const
+    {
+        return getOccupation(valueChecker) < value;
+    }
 
     void reset()
     {
-    	nbDesiredElementsMap_.clear();
+        nbDesiredElementsMap_.clear();
     }
 
 private:
@@ -76,15 +76,15 @@ public:
         return 0.0;
     }
 
-	bool isOccupationLargerThan(double value, double threshold = 0.0) const
-	{
-		return 0.0 > value;
-	}
+    bool isOccupationLargerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 > value;
+    }
 
-	bool isOccupationSmallerThan(double value, double threshold = 0.0) const
-	{
-		return 0.0 < value;
-	}
+    bool isOccupationSmallerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 < value;
+    }
 };
 
 } // namespace BlasBooster

@@ -18,7 +18,7 @@ struct exec_if_impl
     template< class Iterator, class LastIterator, class Pred, class Exec >
     static typename Exec::result_type execute( Iterator*, LastIterator*, const Pred&, const Exec& )
     {
-    	throw std::runtime_error("exec_if: type not found.");
+        throw std::runtime_error("exec_if: type not found.");
     }
 };
 
@@ -28,16 +28,16 @@ struct exec_if_impl<false>
     template< class Iterator, class LastIterator, class Pred, class Exec >
     static typename Exec::result_type execute( Iterator*, LastIterator*, const Pred& f, const Exec& e )
     {
-	    typedef typename boost::mpl::deref<Iterator>::type item;
+        typedef typename boost::mpl::deref<Iterator>::type item;
 
-	    if (!f(static_cast<item*>(0)))
-	    {
-	        typedef typename boost::mpl::next<Iterator>::type iter;
-	        return exec_if_impl<boost::is_same<iter, LastIterator>::value>
-		        ::execute(static_cast<iter*>(0), static_cast<LastIterator*>(0), f, e);
-	    }
-	    else
-	        return e(static_cast<item*>(0));
+        if (!f(static_cast<item*>(0)))
+        {
+            typedef typename boost::mpl::next<Iterator>::type iter;
+            return exec_if_impl<boost::is_same<iter, LastIterator>::value>
+                ::execute(static_cast<iter*>(0), static_cast<LastIterator*>(0), f, e);
+        }
+        else
+            return e(static_cast<item*>(0));
     }
 };
 

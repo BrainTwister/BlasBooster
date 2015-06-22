@@ -21,50 +21,50 @@ typedef Matrix<Dense,double> NormMatrix;
 
 inline TypeMatrix generateTypeMatrix(BlockedDenseMatrix const& matrix)
 {
-	TypeMatrix typeMatrix(matrix.getNbRows(),matrix.getNbColumns());
+    TypeMatrix typeMatrix(matrix.getNbRows(),matrix.getNbColumns());
 
-	BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-	TypeMatrix::iterator typeMatrixCur(typeMatrix.begin()), typeMatrixEnd(typeMatrix.end());
-	for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++typeMatrixCur )
-	{
-		*typeMatrixCur = (*blockMatrixCur)->getTypeIndex();
-	}
+    BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
+    TypeMatrix::iterator typeMatrixCur(typeMatrix.begin()), typeMatrixEnd(typeMatrix.end());
+    for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++typeMatrixCur )
+    {
+        *typeMatrixCur = (*blockMatrixCur)->getTypeIndex();
+    }
 
-	return typeMatrix;
+    return typeMatrix;
 }
 
 inline DimensionMatrix generateDimensionMatrix(BlockedDenseMatrix const& matrix)
 {
-	DimensionMatrix dimMatrix(matrix.getNbRows(),matrix.getNbColumns());
+    DimensionMatrix dimMatrix(matrix.getNbRows(),matrix.getNbColumns());
 
-	BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-	DimensionMatrix::iterator dimMatrixCur(dimMatrix.begin()), dimMatrixEnd(dimMatrix.end());
-	for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++dimMatrixCur )
-	{
-		dimMatrixCur->first = getNbRows(*blockMatrixCur);
-		dimMatrixCur->second = getNbColumns(*blockMatrixCur);
-	}
+    BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
+    DimensionMatrix::iterator dimMatrixCur(dimMatrix.begin()), dimMatrixEnd(dimMatrix.end());
+    for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++dimMatrixCur )
+    {
+        dimMatrixCur->first = getNbRows(*blockMatrixCur);
+        dimMatrixCur->second = getNbColumns(*blockMatrixCur);
+    }
 
-	return dimMatrix;
+    return dimMatrix;
 }
 
 template <> struct TypeName<Dimension>
 {
-	static const std::string value() { return "Dimension"; }
+    static const std::string value() { return "Dimension"; }
 };
 
 inline NormMatrix generateNormMatrix(BlockedDenseMatrix const& matrix)
 {
-	NormMatrix normMatrix(matrix.getNbRows(),matrix.getNbColumns());
+    NormMatrix normMatrix(matrix.getNbRows(),matrix.getNbColumns());
 
-	BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-	NormMatrix::iterator normMatrixCur(normMatrix.begin()), normMatrixEnd(normMatrix.end());
-	for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++normMatrixCur )
-	{
-		*normMatrixCur = getNorm(*blockMatrixCur);
-	}
+    BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
+    NormMatrix::iterator normMatrixCur(normMatrix.begin()), normMatrixEnd(normMatrix.end());
+    for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++normMatrixCur )
+    {
+        *normMatrixCur = getNorm(*blockMatrixCur);
+    }
 
-	return normMatrix;
+    return normMatrix;
 }
 
 inline std::ostream& operator << (std::ostream& stream, Dimension const& dimension)

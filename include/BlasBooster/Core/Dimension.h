@@ -44,7 +44,7 @@ template <class IndexType>
 struct Dimension
  : boost::equality_comparable<Dimension<IndexType> >
 {
-	typedef Dimension self;
+    typedef Dimension self;
     static const bool fixed = false;
     static const IndexType size = 0;
 
@@ -60,27 +60,27 @@ struct Dimension
 
     /// Move constructor
     Dimension(Dimension&& other)
-	 : nbRows_(other.nbRows_), nbColumns_(other.nbColumns_)
-	{
-		other.nbRows_ = 0;
-		other.nbColumns_ = 0;
-	}
+     : nbRows_(other.nbRows_), nbColumns_(other.nbColumns_)
+    {
+        other.nbRows_ = 0;
+        other.nbColumns_ = 0;
+    }
 
     /// Move assignment
     Dimension& operator = (Dimension&& other) BLASBOOSTER_NOEXCEPT
     {
-		nbRows_ = other.nbRows_;
-		nbColumns_ = other.nbColumns_;
-		other.nbRows_ = 0;
-		other.nbColumns_ = 0;
-		return *this;
-	}
+        nbRows_ = other.nbRows_;
+        nbColumns_ = other.nbColumns_;
+        other.nbRows_ = 0;
+        other.nbColumns_ = 0;
+        return *this;
+    }
 
     friend void swap(self& a, self& b) BLASBOOSTER_NOEXCEPT
     {
-    	using std::swap; // bring in swap for built-in types
-    	swap(a.nbRows_,b.nbRows_);
-    	swap(a.nbColumns_,b.nbColumns_);
+        using std::swap; // bring in swap for built-in types
+        swap(a.nbRows_,b.nbRows_);
+        swap(a.nbColumns_,b.nbColumns_);
     }
 
     bool operator == (self const& rhs) const

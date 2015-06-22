@@ -102,16 +102,16 @@ public:
      : dimension(std::forward<dimension>(rhs)),
        storage(std::forward<storage>(rhs))
     {
-    	BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move constructor is called.");
+        BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move constructor is called.");
     }
 
     /// Move assignment
     Matrix& operator = (Matrix&& rhs)
     {
-    	BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move assignment operator is called.");
-		dimension::operator=(std::forward<dimension>(rhs));
-		storage::operator=(std::forward<storage>(rhs));
-    	return *this;
+        BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move assignment operator is called.");
+        dimension::operator=(std::forward<dimension>(rhs));
+        storage::operator=(std::forward<storage>(rhs));
+        return *this;
     }
 
     //MatrixBase* clone() const { return new self(*this); }
@@ -128,12 +128,12 @@ public:
     size_t getTypeIndex() const { return typeIndex_; }
 
     friend void swap(Matrix& a, Matrix& b) BLASBOOSTER_NOEXCEPT {
-    	using std::swap; // bring in swap for built-in types
-    	swap(a.value_,b.value_);
-    	swap(a.key_,b.key_);
-    	swap(a.offset_,b.offset_);
-    	swap(a.nbRows_,b.nbRows_);
-    	swap(a.nbColumns_,b.nbColumns_);
+        using std::swap; // bring in swap for built-in types
+        swap(a.value_,b.value_);
+        swap(a.key_,b.key_);
+        swap(a.offset_,b.offset_);
+        swap(a.nbRows_,b.nbRows_);
+        swap(a.nbColumns_,b.nbColumns_);
     }
 
     static const size_t typeIndex_ = TypeRegister<TypeList>::getTypeIndex<self>::value;
@@ -164,11 +164,11 @@ Matrix<Sparse,T,P>::Matrix()
 template <class T, class P>
 template <class FillerType>
 Matrix<Sparse,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns,
-	typename P::IndexType nbSignificantElements, FillerType)
+    typename P::IndexType nbSignificantElements, FillerType)
  : dimension(nbRows, nbColumns),
    storage(nbSignificantElements ? nbSignificantElements : nbRows*nbColumns, nbColumns + 1)
 {
-	MatrixFillerFunctor<FillerType,Sparse,T,P>()(*this);
+    MatrixFillerFunctor<FillerType,Sparse,T,P>()(*this);
 }
 
 template <class T, class P>
@@ -177,7 +177,7 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other, ValueChecker const
  : dimension(other.getNbRows(), other.getNbColumns()),
    storage(other.getNbOfSignificantElements(valueChecker), other.getNbColumns() + 1)
 {
-	throw std::runtime_error("Not implemented yet.");
+    throw std::runtime_error("Not implemented yet.");
 }
 
 // Conversion from DenseMatrix
@@ -187,32 +187,32 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
  : dimension(other.getNbRows(), other.getNbColumns()),
    storage(other.getNbOfSignificantElements(valueChecker), other.getNbColumns() + 1)
 {
-	iterator iterValueCur(this->begin());
-	index_iterator iterKeyCur(this->beginKey());
-	index_iterator iterOffsetCur(this->beginOffset());
+    iterator iterValueCur(this->begin());
+    index_iterator iterKeyCur(this->beginKey());
+    index_iterator iterOffsetCur(this->beginOffset());
 
-	typename P::IndexType key,offset(0);
+    typename P::IndexType key,offset(0);
 
-	typedef typename boost::mpl::if_<
-		boost::is_same< typename P::orientation, typename P2::orientation >,
-	    Cursor<const Matrix<Dense,T2,P2>, Direction::Column >,
-	    Cursor<const Matrix<Dense,T2,P2>, Direction::Row >
-	>::type OuterCursor;
+    typedef typename boost::mpl::if_<
+        boost::is_same< typename P::orientation, typename P2::orientation >,
+        Cursor<const Matrix<Dense,T2,P2>, Direction::Column >,
+        Cursor<const Matrix<Dense,T2,P2>, Direction::Row >
+    >::type OuterCursor;
 
-	typedef typename boost::mpl::if_<
-		boost::is_same< typename OuterCursor::direction, Direction::Column >,
-		Cursor< OuterCursor, Direction::Row >,
-		Cursor< OuterCursor, Direction::Column >
-	>::type InnerCursor;
+    typedef typename boost::mpl::if_<
+        boost::is_same< typename OuterCursor::direction, Direction::Column >,
+        Cursor< OuterCursor, Direction::Row >,
+        Cursor< OuterCursor, Direction::Column >
+    >::type InnerCursor;
 
-	for (OuterCursor outerCur(other,0), outerEnd(other,other.getNbColumns());
-		outerCur != outerEnd; ++outerCur)
-	{
-		*iterOffsetCur++ = offset;
-		key = 0;
-		for (InnerCursor innerCur(other,outerCur.begin()), innerEnd(other,outerCur.end());
-			innerCur != innerEnd; ++innerCur, ++key)
-		{
+    for (OuterCursor outerCur(other,0), outerEnd(other,other.getNbColumns());
+        outerCur != outerEnd; ++outerCur)
+    {
+        *iterOffsetCur++ = offset;
+        key = 0;
+        for (InnerCursor innerCur(other,outerCur.begin()), innerEnd(other,outerCur.end());
+            innerCur != innerEnd; ++innerCur, ++key)
+        {
             if (valueChecker(*innerCur)) {
                 *iterValueCur++ = *innerCur;
                 *iterKeyCur++ = key;
@@ -220,22 +220,22 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
             }
         }
     }
-	*iterOffsetCur++ = offset;
+    *iterOffsetCur++ = offset;
 }
 
 template <class M>
 struct ConvertToSparseMatrix
 {
-	typedef M result_type;
+    typedef M result_type;
 
-	ConvertToSparseMatrix(DynamicMatrix const& dynMatrix, double threshold)
-	 : dynMatrix_(dynMatrix), threshold_(threshold)
-	{}
+    ConvertToSparseMatrix(DynamicMatrix const& dynMatrix, double threshold)
+     : dynMatrix_(dynMatrix), threshold_(threshold)
+    {}
 
     template <class T>
     result_type operator()(T* = 0) const
     {
-    	return M(*boost::static_pointer_cast<T>(dynMatrix_),threshold_);
+        return M(*boost::static_pointer_cast<T>(dynMatrix_),threshold_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -246,18 +246,18 @@ template <class T, class P>
 Matrix<Sparse,T,P>::Matrix(DynamicMatrix const& dynMatrix, double threshold)
 : dimension(), storage()
 {
-	Matrix<Sparse,T,P> matrix = exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),
-		ConvertToSparseMatrix<self>(dynMatrix,threshold));
-	swap(*this,matrix);
+    Matrix<Sparse,T,P> matrix = exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),
+        ConvertToSparseMatrix<self>(dynMatrix,threshold));
+    swap(*this,matrix);
 }
 
 template <class T, class P>
 void Matrix<Sparse,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns,
-	typename P::IndexType nbSignificantElements)
+    typename P::IndexType nbSignificantElements)
 {
-	this->nbRows_ = nbRows;
-	this->nbColumns_ = nbColumns;
-	static_cast<storage*>(this)->resize(nbSignificantElements ? nbSignificantElements : nbRows*nbColumns, nbColumns + 1);
+    this->nbRows_ = nbRows;
+    this->nbColumns_ = nbColumns;
+    static_cast<storage*>(this)->resize(nbSignificantElements ? nbSignificantElements : nbRows*nbColumns, nbColumns + 1);
 }
 
 } // namespace BlasBooster

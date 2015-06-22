@@ -4,7 +4,7 @@
 template <class T>
 struct wrong_t
 {
-	static const bool value = false;
+    static const bool value = false;
 };
 
 #endif /* WRONG_T_H_ */

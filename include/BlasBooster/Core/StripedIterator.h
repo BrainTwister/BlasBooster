@@ -50,24 +50,24 @@ private:
     void increment()
     {
         if (position_ == continuousSizeMinus1_) {
-        	if (++block_ == nbBlocks_) ++iter_;
-        	else iter_ += separatorSizePlus1_;
-        	position_ = 0;
+            if (++block_ == nbBlocks_) ++iter_;
+            else iter_ += separatorSizePlus1_;
+            position_ = 0;
         } else {
-        	++iter_;
-        	++position_;
+            ++iter_;
+            ++position_;
         }
     }
 
     void decrement()
     {
         if (position_ == 0) {
-        	if (--block_ == -1) --iter_;
-        	else iter_ -= separatorSizePlus1_;
-        	position_ = continuousSizeMinus1_;
+            if (--block_ == -1) --iter_;
+            else iter_ -= separatorSizePlus1_;
+            position_ = continuousSizeMinus1_;
         } else {
-        	--iter_;
-        	--position_;
+            --iter_;
+            --position_;
         }
     }
 

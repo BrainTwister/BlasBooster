@@ -105,16 +105,16 @@ void PatternGenerator::generate(Matrix<Dense,T,P> const& matrix, boost::filesyst
     T absValue;
 
     typedef Cursor<const Matrix<Dense,T,P>, Direction::Row> RowCursor;
-	typedef Cursor<RowCursor, Direction::Column> ColumnCursor;
-	RowCursor rowLast(matrix,matrix.getNbRows());
-	--rowLast;
-	for ( RowCursor rowCur(matrix,0), rowEnd(matrix,matrix.getNbRows());
-		rowCur != rowEnd; ++rowCur )
-	{
-		outfile << "\"";
-		for (ColumnCursor columnCur(matrix,rowCur.begin()), columnEnd(matrix,rowCur.end());
-			columnCur != columnEnd; ++columnCur)
-		{
+    typedef Cursor<RowCursor, Direction::Column> ColumnCursor;
+    RowCursor rowLast(matrix,matrix.getNbRows());
+    --rowLast;
+    for ( RowCursor rowCur(matrix,0), rowEnd(matrix,matrix.getNbRows());
+        rowCur != rowEnd; ++rowCur )
+    {
+        outfile << "\"";
+        for (ColumnCursor columnCur(matrix,rowCur.begin()), columnEnd(matrix,rowCur.end());
+            columnCur != columnEnd; ++columnCur)
+        {
             absValue = std::abs(*columnCur);
             std::string pixel(settings_.backgroundIndex_);
 

@@ -54,8 +54,8 @@ Matrix<Zero,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbC
 template <class T, class P>
 void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
 {
-	this->nbRows_ = nbRows;
-	this->nbColumns_ = nbColumns;
+    this->nbRows_ = nbRows;
+    this->nbColumns_ = nbColumns;
 }
 
 } // namespace BlasBooster

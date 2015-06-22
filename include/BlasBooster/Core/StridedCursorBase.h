@@ -13,28 +13,28 @@ struct StridedCursorBase
  : CursorBase<Key>,
    boost::equality_comparable< StridedCursorBase<Key> >
 {
-	typedef StridedCursorBase self;
-	typedef CursorBase<Key> base;
+    typedef StridedCursorBase self;
+    typedef CursorBase<Key> base;
 
-	StridedCursorBase() : base(), stride_(0) {}
+    StridedCursorBase() : base(), stride_(0) {}
 
-	StridedCursorBase( Key key, size_t stride ) : base(key), stride_(stride) {}
+    StridedCursorBase( Key key, size_t stride ) : base(key), stride_(stride) {}
 
     virtual ~StridedCursorBase() {}
 
     self& operator ++ ()
     {
-    	this->key_ += stride_;
+        this->key_ += stride_;
         return *this;
     }
 
     self& operator -- ()
     {
-    	this->key_ -= stride_;
+        this->key_ -= stride_;
         return *this;
     }
 
-	size_t stride_;
+    size_t stride_;
 
 }; // class StridedCursorBase
 

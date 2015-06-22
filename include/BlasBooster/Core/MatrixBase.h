@@ -46,12 +46,12 @@ typedef boost::shared_ptr<const MatrixBase> ConstDynamicMatrix;
 
 template <> struct TypeName<DynamicMatrix>
 {
-	static const std::string value() { return "DynamicMatrix"; }
+    static const std::string value() { return "DynamicMatrix"; }
 };
 
 template <> struct TypeName<ConstDynamicMatrix>
 {
-	static const std::string value() { return "ConstDynamicMatrix"; }
+    static const std::string value() { return "ConstDynamicMatrix"; }
 };
 
 } // namespace BlasBooster

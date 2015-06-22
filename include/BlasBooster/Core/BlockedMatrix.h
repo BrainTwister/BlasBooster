@@ -14,10 +14,10 @@ typedef Matrix<Dense, ConstDynamicMatrix, BlockedDenseMatrixParameter> ConstBloc
 template <class T, class P, size_t nbRows, size_t nbColumns>
 struct FixedSizeBlockedDenseMatrix
 {
-	typedef typename P::IndexType IndexType;
-	typedef typename P::orientation orientation;
-	typedef Matrix<Dense, Matrix<Dense, T, Parameter<IndexType, orientation,
-		fixed::Dimension<IndexType, nbRows, nbColumns> > > > type;
+    typedef typename P::IndexType IndexType;
+    typedef typename P::orientation orientation;
+    typedef Matrix<Dense, Matrix<Dense, T, Parameter<IndexType, orientation,
+        fixed::Dimension<IndexType, nbRows, nbColumns> > > > type;
 };
 
 } // namespace BlasBooster

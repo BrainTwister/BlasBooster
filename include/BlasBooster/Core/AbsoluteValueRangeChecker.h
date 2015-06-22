@@ -22,17 +22,17 @@ struct InclusiveBound {};
 
 struct ValueCheckerBase
 {
-	virtual bool operator < (ValueCheckerBase const& other) const = 0;
-	virtual size_t getID() const = 0;
+    virtual bool operator < (ValueCheckerBase const& other) const = 0;
+    virtual size_t getID() const = 0;
 };
 
 struct ValueCheckerLess
 {
-	bool operator () (std::shared_ptr<ValueCheckerBase> const& v1, std::shared_ptr<ValueCheckerBase> const& v2) const
-	{
-		assert(v1 and v2);
-		return *v1 < *v2;
-	}
+    bool operator () (std::shared_ptr<ValueCheckerBase> const& v1, std::shared_ptr<ValueCheckerBase> const& v2) const
+    {
+        assert(v1 and v2);
+        return *v1 < *v2;
+    }
 };
 
 /**
@@ -54,33 +54,33 @@ class AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,NoBound> : public V
 {
 public:
 
-	AbsoluteValueRangeChecker(ThresholdType threshold = 0.0)
-	 : threshold_(threshold)
-	{
-    	if (threshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: threshold < 0.0");
-	}
+    AbsoluteValueRangeChecker(ThresholdType threshold = 0.0)
+     : threshold_(threshold)
+    {
+        if (threshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: threshold < 0.0");
+    }
 
-	template <class ValueType>
-	bool operator () (ValueType value) const
-	{
-		return std::abs(value) > threshold_;
-	}
+    template <class ValueType>
+    bool operator () (ValueType value) const
+    {
+        return std::abs(value) > threshold_;
+    }
 
-	bool operator < (ValueCheckerBase const& other) const
-	{
-		size_t otherID = other.getID();
-		return std::tie(id_,threshold_)
-		    < std::tie(otherID,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).threshold_);
-	}
+    bool operator < (ValueCheckerBase const& other) const
+    {
+        size_t otherID = other.getID();
+        return std::tie(id_,threshold_)
+            < std::tie(otherID,
+            static_cast<AbsoluteValueRangeChecker const&>(other).threshold_);
+    }
 
-	size_t getID() const { return id_; }
+    size_t getID() const { return id_; }
 
-	static const size_t id_;
+    static const size_t id_;
 
 private:
 
-	ThresholdType threshold_;
+    ThresholdType threshold_;
 
 };
 
@@ -92,38 +92,38 @@ class AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,InclusiveBound> : p
 {
 public:
 
-	AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
-	 : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
-	{
-    	if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
-    	if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
-    	if (lowerThreshold >= upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold >= upperThreshold");
-	}
+    AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
+     : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
+    {
+        if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
+        if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
+        if (lowerThreshold >= upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold >= upperThreshold");
+    }
 
-	template <class ValueType>
-	bool operator () (ValueType value) const
-	{
-		double absValue = std::abs(value);
-		return absValue > lowerThreshold_ and absValue <= upperThreshold_;
-	}
+    template <class ValueType>
+    bool operator () (ValueType value) const
+    {
+        double absValue = std::abs(value);
+        return absValue > lowerThreshold_ and absValue <= upperThreshold_;
+    }
 
-	bool operator < (ValueCheckerBase const& other) const
-	{
-		size_t otherID = other.getID();
-		return std::tie(id_,lowerThreshold_,upperThreshold_)
-		    < std::tie(otherID,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
-	}
+    bool operator < (ValueCheckerBase const& other) const
+    {
+        size_t otherID = other.getID();
+        return std::tie(id_,lowerThreshold_,upperThreshold_)
+            < std::tie(otherID,
+            static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
+            static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
+    }
 
-	size_t getID() const { return id_; }
+    size_t getID() const { return id_; }
 
-	static const size_t id_;
+    static const size_t id_;
 
 private:
 
-	ThresholdType lowerThreshold_;
-	ThresholdType upperThreshold_;
+    ThresholdType lowerThreshold_;
+    ThresholdType upperThreshold_;
 
 };
 
@@ -135,38 +135,38 @@ class AbsoluteValueRangeChecker<ThresholdType,InclusiveBound,InclusiveBound> : p
 {
 public:
 
-	AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
-	 : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
-	{
-    	if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
-    	if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
-    	if (lowerThreshold > upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold > upperThreshold");
-	}
+    AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
+     : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
+    {
+        if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
+        if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
+        if (lowerThreshold > upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold > upperThreshold");
+    }
 
-	template <class ValueType>
-	bool operator () (ValueType value) const
-	{
-		double absValue = std::abs(value);
-		return absValue >= lowerThreshold_ and absValue <= upperThreshold_;
-	}
+    template <class ValueType>
+    bool operator () (ValueType value) const
+    {
+        double absValue = std::abs(value);
+        return absValue >= lowerThreshold_ and absValue <= upperThreshold_;
+    }
 
-	bool operator < (ValueCheckerBase const& other) const
-	{
-		size_t otherID = other.getID();
-		return std::tie(id_,lowerThreshold_,upperThreshold_)
-		    < std::tie(otherID,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
-	}
+    bool operator < (ValueCheckerBase const& other) const
+    {
+        size_t otherID = other.getID();
+        return std::tie(id_,lowerThreshold_,upperThreshold_)
+            < std::tie(otherID,
+            static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
+            static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
+    }
 
-	size_t getID() const { return id_; }
+    size_t getID() const { return id_; }
 
-	static const size_t id_;
+    static const size_t id_;
 
 private:
 
-	ThresholdType lowerThreshold_;
-	ThresholdType upperThreshold_;
+    ThresholdType lowerThreshold_;
+    ThresholdType upperThreshold_;
 
 };
 
@@ -178,38 +178,38 @@ class AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,ExclusiveBound> : p
 {
 public:
 
-	AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
-	 : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
-	{
-    	if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
-    	if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
-    	if (lowerThreshold >= upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold >= upperThreshold");
-	}
+    AbsoluteValueRangeChecker(ThresholdType lowerThreshold, ThresholdType upperThreshold)
+     : lowerThreshold_(lowerThreshold), upperThreshold_(upperThreshold)
+    {
+        if (lowerThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold < 0.0");
+        if (upperThreshold < 0.0) throw CoreException("AbsoluteValueRangeChecker: upperThreshold < 0.0");
+        if (lowerThreshold >= upperThreshold) throw CoreException("AbsoluteValueRangeChecker: lowerThreshold >= upperThreshold");
+    }
 
-	template <class ValueType>
-	bool operator () (ValueType value) const
-	{
-		double absValue = std::abs(value);
-		return absValue > lowerThreshold_ and absValue < upperThreshold_;
-	}
+    template <class ValueType>
+    bool operator () (ValueType value) const
+    {
+        double absValue = std::abs(value);
+        return absValue > lowerThreshold_ and absValue < upperThreshold_;
+    }
 
-	bool operator < (ValueCheckerBase const& other) const
-	{
-		size_t otherID = other.getID();
-		return std::tie(id_,lowerThreshold_,upperThreshold_)
-		    < std::tie(otherID,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
-		    static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
-	}
+    bool operator < (ValueCheckerBase const& other) const
+    {
+        size_t otherID = other.getID();
+        return std::tie(id_,lowerThreshold_,upperThreshold_)
+            < std::tie(otherID,
+            static_cast<AbsoluteValueRangeChecker const&>(other).lowerThreshold_,
+            static_cast<AbsoluteValueRangeChecker const&>(other).upperThreshold_);
+    }
 
-	size_t getID() const { return id_; }
+    size_t getID() const { return id_; }
 
-	static const size_t id_;
+    static const size_t id_;
 
 private:
 
-	ThresholdType lowerThreshold_;
-	ThresholdType upperThreshold_;
+    ThresholdType lowerThreshold_;
+    ThresholdType upperThreshold_;
 
 };
 

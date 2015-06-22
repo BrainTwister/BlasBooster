@@ -12,7 +12,7 @@ template < class Key >
 struct CursorBase
  : boost::equality_comparable< CursorBase<Key> >
 {
-	typedef CursorBase self;
+    typedef CursorBase self;
 
     CursorBase() : key_() {}
 

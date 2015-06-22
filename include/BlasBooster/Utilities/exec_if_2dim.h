@@ -18,7 +18,7 @@ struct exec_if_1dim_impl
     template< class T1, class Iterator, class LastIterator, class Pred, class Exec >
     static typename Exec::result_type execute( T1*, Iterator*, LastIterator*, const Pred&, const Exec& )
     {
-    	throw std::runtime_error("exec_if_1dim: type not found.");
+        throw std::runtime_error("exec_if_1dim: type not found.");
     }
 };
 
@@ -28,16 +28,16 @@ struct exec_if_1dim_impl<false>
     template< class T1, class Iterator, class LastIterator, class Pred, class Exec >
     static typename Exec::result_type execute( T1*, Iterator*, LastIterator*, const Pred& p, const Exec& e )
     {
-	    typedef typename boost::mpl::deref<Iterator>::type T2;
+        typedef typename boost::mpl::deref<Iterator>::type T2;
 
-	    if (!p(static_cast<T2*>(0)))
-	    {
-	        typedef typename boost::mpl::next<Iterator>::type iter;
-	        return exec_if_1dim_impl<boost::is_same<iter, LastIterator>::value>
-		        ::execute(static_cast<T1*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p, e);
-	    }
-	    else
-	        return e(static_cast<T1*>(0), static_cast<T2*>(0));
+        if (!p(static_cast<T2*>(0)))
+        {
+            typedef typename boost::mpl::next<Iterator>::type iter;
+            return exec_if_1dim_impl<boost::is_same<iter, LastIterator>::value>
+                ::execute(static_cast<T1*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p, e);
+        }
+        else
+            return e(static_cast<T1*>(0), static_cast<T2*>(0));
     }
 };
 
@@ -47,7 +47,7 @@ struct exec_if_2dim_impl
     template< class Sequence, class Iterator, class LastIterator, class Pred1, class Pred2, class Exec >
     static typename Exec::result_type execute( Sequence*, Iterator*, LastIterator*, const Pred1& p1, const Pred2& p2, const Exec& )
     {
-    	throw std::runtime_error("exec_if_2dim: type not found.");
+        throw std::runtime_error("exec_if_2dim: type not found.");
     }
 };
 
@@ -57,22 +57,22 @@ struct exec_if_2dim_impl<false>
     template< class Sequence, class Iterator, class LastIterator, class Pred1, class Pred2, class Exec >
     static typename Exec::result_type execute( Sequence*, Iterator*, LastIterator*, const Pred1& p1, const Pred2& p2, const Exec& e )
     {
-	    typedef typename boost::mpl::deref<Iterator>::type T1;
+        typedef typename boost::mpl::deref<Iterator>::type T1;
 
-	    if (!p1(static_cast<T1*>(0)))
-	    {
-	        typedef typename boost::mpl::next<Iterator>::type iter;
-	        return exec_if_2dim_impl<boost::is_same<iter, LastIterator>::value>
-		        ::execute(static_cast<Sequence*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p1, p2, e);
-	    }
-	    else
-	    {
-	        typedef typename boost::mpl::begin<Sequence>::type first;
-	        typedef typename boost::mpl::end<Sequence>::type last;
+        if (!p1(static_cast<T1*>(0)))
+        {
+            typedef typename boost::mpl::next<Iterator>::type iter;
+            return exec_if_2dim_impl<boost::is_same<iter, LastIterator>::value>
+                ::execute(static_cast<Sequence*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p1, p2, e);
+        }
+        else
+        {
+            typedef typename boost::mpl::begin<Sequence>::type first;
+            typedef typename boost::mpl::end<Sequence>::type last;
 
-	        return exec_if_1dim_impl<boost::is_same<first,last>::value>
-	            ::execute(static_cast<T1*>(0), static_cast<first*>(0), static_cast<last*>(0), p2, e);
-	    }
+            return exec_if_1dim_impl<boost::is_same<first,last>::value>
+                ::execute(static_cast<T1*>(0), static_cast<first*>(0), static_cast<last*>(0), p2, e);
+        }
     }
 };
 

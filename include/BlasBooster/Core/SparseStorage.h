@@ -37,11 +37,11 @@ public:
     /// Copy assignment operator
     SparseStorage& operator = ( const self& rhs ) {
 
-    	 if ( &rhs == this ) {
-    		 std::copy_n(rhs.begin(),rhs.size(),this->begin());
-    	 }
+         if ( &rhs == this ) {
+             std::copy_n(rhs.begin(),rhs.size(),this->begin());
+         }
 
-    	 return *this;
+         return *this;
     }
 
     bool operator == ( const SparseStorage& rhs ) const {
@@ -66,7 +66,7 @@ public:
     }
 
     size_t size() const {
-    	return size_;
+        return size_;
     }
 
 private:
@@ -114,9 +114,9 @@ public:
     {}
 
     void resize(IndexType nbOfValues, IndexType nbOfOffsets) {
-    	value_.resize(nbOfValues);
-    	key_.resize(nbOfValues);
-    	offset_.resize(nbOfOffsets);
+        value_.resize(nbOfValues);
+        key_.resize(nbOfValues);
+        offset_.resize(nbOfOffsets);
     }
 
     bool operator == ( const SparseStorage& rhs ) const {
@@ -125,7 +125,7 @@ public:
 
     template < class T2, class I2, bool F2, size_t S2 >
     bool equal( const SparseStorage<T2,I2,F2,S2>& rhs ) const {
-		return offset_.equal(rhs.offset_) and key_.equal(rhs.key_) and value_.equal(rhs.value_);
+        return offset_.equal(rhs.offset_) and key_.equal(rhs.key_) and value_.equal(rhs.value_);
     }
 
     template < class T2, class I2, bool F2, size_t S2 >

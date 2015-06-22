@@ -7,7 +7,7 @@
 namespace BlasBooster {
 
 inline double& operator += ( double& v1, const boost::rational<int>& v2 ) {
-	return v1 += static_cast<double>(v2.numerator()) / v2.denominator();
+    return v1 += static_cast<double>(v2.numerator()) / v2.denominator();
 }
 
 } // namespace BlasBooster
