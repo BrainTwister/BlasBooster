@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 
         {
             ScopedTimer scopedTimer("Intel MKL dgemm");
+            //refC = (refA * refB).execute<IntelMKL>();
             refC = refA * refB;
         }
         {
