@@ -112,7 +112,8 @@ private:
 
 };
 
-template <class T1, class T2> struct TypeName<MultipleMatrix<T1,T2> >
+template <class T1, class T2>
+struct TypeName< MultipleMatrix<T1,T2> >
 {
     static const std::string value() { return "MultipleMatrix"; }
 };

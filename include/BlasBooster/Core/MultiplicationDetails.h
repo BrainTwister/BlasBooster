@@ -1,7 +1,32 @@
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
 #ifndef MULTIPLICATIONDETAILS_H_
 #define MULTIPLICATIONDETAILS_H_
 
 namespace BlasBooster {
+
+/// Metafunction returning result type of matrix-matrix multiplication
+template <class M1, class T1,
+          class M2, class T2, class P>
+struct MultiplicationResult
+{
+    typedef typename Matrix<
+        typename boost::mpl::if_<
+            boost::mpl::or_<
+                boost::is_same<M1, Dense>,
+                boost::is_same<M2, Dense>
+            >,
+            Dense,
+            Sparse
+        >::type,decltype(T1() * T2()),P
+    >::type type;
+};
 
 struct InitializeMultiplicationResult
 {

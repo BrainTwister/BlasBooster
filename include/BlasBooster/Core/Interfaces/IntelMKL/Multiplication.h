@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLICATION_H_
-#define MULTIPLICATION_H_
+#ifndef INTERFACES_INTELMKL_MULTIPLICATION_H_
+#define INTERFACES_INTELMKL_MULTIPLICATION_H_
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
@@ -70,7 +70,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P>
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
 
-        IntelMKL::dgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        //IntelMKL::dgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
 };
 
@@ -99,13 +99,12 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P>
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
 
-        IntelMKL::sgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        //IntelMKL::sgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
 };
 
-} // namespace IntelMKL
-
+}; // struct IntelMKL
 } // namespace BlasBooster
 
-#endif /* MULTIPLICATION_H_ */
+#endif /* INTERFACES_INTELMKL_MULTIPLICATION_H_ */
 

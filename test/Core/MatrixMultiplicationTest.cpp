@@ -12,6 +12,7 @@
 
 using namespace BlasBooster;
 
+#if 0
 namespace {
 
 struct TestDataStructure
@@ -51,3 +52,5 @@ INSTANTIATE_TEST_CASE_P(AllMatrixMultiplicationTests, MatrixMultiplicationTest,
         )
     )
 );
+#endif
+

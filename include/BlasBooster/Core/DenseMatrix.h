@@ -15,6 +15,8 @@
 #include "BlasBooster/Core/DynamicMatrixFunctions.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
+#include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Interfaces/Native/Multiplication.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -190,6 +192,10 @@ public: // member functions
     template <class X1, class X2>
     Matrix(MultipleMatrix<X1,X2> const& other);
 
+    /// Construction by multiplication expression template
+    template <class Op1, class Op2>
+    Matrix(MatrixMultExp<Op1, Op2> const& expression);
+
     /// Default copy constructor
     Matrix(self const& other) = default;
 
@@ -308,7 +314,7 @@ public: // member functions
 private:
 
     template <class M2, class T2, class P2>
-    friend class Matrix;
+    friend struct Matrix;
 
     friend class boost::serialization::access;
 
@@ -626,6 +632,14 @@ Matrix<Dense,T,P>::Matrix(MultipleMatrix<X1,X2> const& other)
 {
     *this = other.getMatrix1();
     *this += other.getMatrix2();
+}
+
+// Construction by multiplication expression template
+template <class T, class P>
+template <class Op1, class Op2>
+Matrix<Dense,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
+{
+	*this = expression.template execute<Native>();
 }
 
 template <class T, class P>

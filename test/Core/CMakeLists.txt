@@ -27,3 +27,4 @@ add_test(
     ${CMAKE_BINARY_DIR}/bin/${TestName}
     --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/${TestName}.xml
 )
+

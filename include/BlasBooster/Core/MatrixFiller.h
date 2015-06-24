@@ -42,6 +42,7 @@ struct MatrixFillerFunctor<ZeroFiller,M,T,P>
 {
     void operator () (Matrix<M,T,P>& matrix)
     {
+        // TODO: Use range-based for loop
         for (typename Matrix<M,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
             iterCur != iterEnd; ++iterCur)
         {

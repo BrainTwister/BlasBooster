@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(BlasBooster VERSION 0.2.2 LANGUAGES CXX)
+project(BlasBooster VERSION 0.2.3 LANGUAGES CXX)
 message("Project version ${PROJECT_VERSION}")
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
@@ -58,9 +58,13 @@ if(Boost_FOUND)
     add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER)
 endif(Boost_FOUND)
 
-# Third-party BLAS packages
-#FIND_PACKAGE(Eigen3)
+# Intel math kernel library (MKL)
 #FIND_PACKAGE(MKL)
+#if(MKL_FOUND)
+#    add_subdirectory(src/Interfaces/IntelMKL)
+#endif(MKL_FOUND)
+
+#FIND_PACKAGE(Eigen3)
 #FIND_PACKAGE(MTL4)
 #FIND_PACKAGE(OpenBLAS)
 
@@ -91,4 +95,11 @@ if(DOXYGEN_FOUND)
     install(DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen/html DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
+
+SET(CPACK_GENERATOR "TGZ;TBZ2;DEB")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BrainTwister")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+include(CPack)
 

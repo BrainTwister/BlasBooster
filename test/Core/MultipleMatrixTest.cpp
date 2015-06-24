@@ -41,8 +41,8 @@ TEST_F(MultipleMatrixTest,Addition)
 
 TEST_F(MultipleMatrixTest,Multiplication)
 {
-	auto M3 = M1 * M2;
-	auto M4 = M1 * (M1 + M1);
+	auto M3 = (M1 * M2).template execute<Native>();
+	auto M4 = (M1 * (M1 + M1)).template execute<Native>();
 
 	EXPECT_TRUE(M3.equal(M4)) << "Matrix<Dense,double> * MultipleMatrix< Matrix<Sparse,double>, Matrix<Sparse,float> >";
 }
@@ -51,3 +51,4 @@ TEST_F(MultipleMatrixTest, DISABLED_Norm)
 {
 	EXPECT_DOUBLE_EQ(norm<NormTwo>(M1),norm<NormTwo>(M2));
 }
+

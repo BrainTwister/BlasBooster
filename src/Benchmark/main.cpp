@@ -3,6 +3,7 @@
 #include "BlasBooster/Core/BlockSizeGenerator.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Interfaces/IntelMKL/Multiplication.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
@@ -10,7 +11,7 @@
 //#include "BrainTwister/ArgumentParser.h"
 #include <iostream>
 #include <memory>
-#include "omp.h"
+//#include "omp.h"
 
 using namespace BlasBooster;
 //namespace bt = BrainTwister;
@@ -21,8 +22,8 @@ int main(int argc, char* argv[])
 
         std::cout << "BlasBooster " + version + " Benchmark" << std::endl;
 
-        std::cout << "TestSuite set number of threads = 1" << std::endl;
-        omp_set_num_threads(1);
+//        std::cout << "TestSuite set number of threads = 1" << std::endl;
+//        omp_set_num_threads(1);
 
         Threshold threshold(ThresholdSettings(
             1e-5,  // std::numeric_limits<float>::epsilon()
@@ -48,20 +49,19 @@ int main(int argc, char* argv[])
         );
 #endif
 
-        const Matrix<Dense, double> refA(1000, 1000);
-        const Matrix<Dense, double> refB(1000, 1000);
+        const Matrix<Dense, double> refA(1000, 1000, NoFiller());
+        const Matrix<Dense, double> refB(1000, 1000, NoFiller());
         Matrix<Dense, double> refC;
 
         {
             ScopedTimer scopedTimer("Intel MKL dgemm");
-            //refC = (refA * refB).execute<IntelMKL>();
-            refC = refA * refB;
+            refC = (refA * refB).template execute<IntelMKL>();
         }
         {
             ScopedTimer scopedTimer("Intel MKL sgemm");
             Matrix<Dense, float> A(refA);
             Matrix<Dense, float> B(refB);
-            auto C = A * B;
+            Matrix<Dense, float> C = (A * B).template execute<IntelMKL>();
 
             std::cout << "max-norm = " << norm<NormMax>(C - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(C - refC) << std::endl;
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
             ScopedTimer scopedTimer("sparse double");
             Matrix<Sparse, double> A(refA, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
             Matrix<Sparse, double> B(refB, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
-            auto C = A * B;
+            Matrix<Sparse, double> C = A * B;
 
             Matrix<Dense, double> denseC(C);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
             BlockedDenseMatrix B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
 
             ptrScopedTimer.reset(new ScopedTimer("blocked multiplication, mult"));
-            BlockedDenseMatrix C = A * B;
+            BlockedDenseMatrix C = (A * B).template execute<Native>();
 
             Matrix<Dense, double> denseC(C);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
@@ -110,5 +110,6 @@ int main(int argc, char* argv[])
     }
 
     std::cout << "\n BlasBooster successfully finished. Have a nice day.\n" << std::endl;
+
 }
 

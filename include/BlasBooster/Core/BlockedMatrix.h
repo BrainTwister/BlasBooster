@@ -6,8 +6,15 @@
 
 namespace BlasBooster {
 
-typedef Parameter<size_t,ColumnMajor,nonfixed::Dimension<size_t>,
-    NoLeadingDimension,nonfixed::UnblockedDimension<size_t> > BlockedDenseMatrixParameter;
+/// Parameter type for BlockedDenseMatrix
+typedef Parameter<
+            size_t,
+            ColumnMajor,
+            nonfixed::Dimension<size_t>,
+            NoLeadingDimension,
+            nonfixed::UnblockedDimension<size_t>
+        > BlockedDenseMatrixParameter;
+
 typedef Matrix<Dense, DynamicMatrix, BlockedDenseMatrixParameter> BlockedDenseMatrix;
 typedef Matrix<Dense, ConstDynamicMatrix, BlockedDenseMatrixParameter> ConstBlockedDenseMatrix;
 

@@ -33,3 +33,4 @@ typedef boost::mpl::vector<
 } // namespace BlasBooster
 
 #endif /* TYPELIST_H_ */
+

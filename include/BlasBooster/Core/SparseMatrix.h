@@ -13,6 +13,8 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
+#include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Interfaces/Native/Multiplication.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -91,6 +93,10 @@ public:
     /// Conversion from DynamicMatrix
     Matrix(DynamicMatrix const& dynMatrix, double threshold = 0.0);
 
+    /// Construction by multiplication expression template
+    template <class Op1, class Op2>
+    Matrix(MatrixMultExp<Op1, Op2> const& expression);
+
     /// Default copy constructor
     Matrix(Matrix const& other) = default;
 
@@ -143,7 +149,7 @@ public:
 private:
 
     template <class M2, class T2, class P2>
-    friend class Matrix;
+    friend struct Matrix;
 
     friend class boost::serialization::access;
 
@@ -249,6 +255,14 @@ Matrix<Sparse,T,P>::Matrix(DynamicMatrix const& dynMatrix, double threshold)
     Matrix<Sparse,T,P> matrix = exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),
         ConvertToSparseMatrix<self>(dynMatrix,threshold));
     swap(*this,matrix);
+}
+
+// Construction by multiplication expression template
+template <class T, class P>
+template <class Op1, class Op2>
+Matrix<Sparse,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
+{
+    *this = expression.template execute<Native>();
 }
 
 template <class T, class P>
