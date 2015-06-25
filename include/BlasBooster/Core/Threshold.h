@@ -10,8 +10,8 @@
 #define THRESHOLD_H_
 
 #include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/CreateSettingsClass.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include "BlasBooster/Preprocessor/CreateSettingsClass.h"
 #include <boost/mpl/long.hpp>
 #include <boost/mpl/vector.hpp>
 

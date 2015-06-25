@@ -1,10 +1,17 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
+    ${MKL_INCLUDE_DIR}
 )
 
-add_executable(
-    Benchmark
-    main.cpp
+add_library(
+    BlasInterface_IntelMKL
+    SHARED
+    BlasInterface_IntelMKL.cpp
 )
 
-install(TARGETS Benchmark RUNTIME DESTINATION bin)
+target_link_libraries(
+    BlasInterface_IntelMKL
+    ${MKL_LIBRARIES}
+)
+
+install(TARGETS BlasInterface_IntelMKL LIBRARY DESTINATION lib)

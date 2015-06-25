@@ -6,9 +6,10 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef INTERFACES_INTELMKL_MULTIPLICATION_H_
-#define INTERFACES_INTELMKL_MULTIPLICATION_H_
+#ifndef MULTIPLICATION_INTELMKL_H_
+#define MULTIPLICATION_INTELMKL_H_
 
+#include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
@@ -19,35 +20,12 @@
 #include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
-#include <stdexcept>
-#include <string>
-#include <type_traits>
 
 namespace BlasBooster {
 
-/// \brief Functors for the Intel MKL interface.
-/// The interface has more the meaning of a namespace. A struct is taken to use it as template parameter.
-struct IntelMKL {
-
-/// Primary template matrix multiplication must never be instantiated.
-template <class M1, class T1, class P1,
-          class M2, class T2, class P2,
-          class M3, class T3, class P3>
-struct MultiplicationFunctor
-{
-    void operator () (Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<M3,T3,P3>& C)
-    {
-        static_assert(wrong_t<M1>::value, "Primary template must not be instantiated.");
-    }
-};
-
 /// Matrix multiplication specialized for Matrix<Dense,double> * Matrix<Dense,double> via extern BLAS dgemm
 template <class P>
-struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P>
+struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelMKL>
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
@@ -70,13 +48,13 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P>
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
 
-        //IntelMKL::dgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        BlasInterface<IntelMKL,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
 };
 
 /// Matrix multiplication specialized for Matrix<Dense,float> * Matrix<Dense,float> via extern BLAS sgemm
 template <class P>
-struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P>
+struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
@@ -99,12 +77,11 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P>
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
 
-        //IntelMKL::sgemm(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        BlasInterface<IntelMKL,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
 };
 
-}; // struct IntelMKL
 } // namespace BlasBooster
 
-#endif /* INTERFACES_INTELMKL_MULTIPLICATION_H_ */
+#endif /* MULTIPLICATION_INTELMKL_H_ */
 

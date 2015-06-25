@@ -13,8 +13,6 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixConverter.h"
 #include "BlasBooster/Core/SparseMatrix.h"
-#include "BlasBooster/Preprocessor/CreateSettingsClass.h"
-#include "BlasBooster/Utilities/STLHelpers.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/nvp.hpp>

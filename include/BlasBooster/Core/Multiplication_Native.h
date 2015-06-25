@@ -6,44 +6,18 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef INTERFACES_NATIVE_MULTIPLICATION_H_
-#define INTERFACES_NATIVE_MULTIPLICATION_H_
+#ifndef MULTIPLICATION_NATIVE_H_
+#define MULTIPLICATION_NATIVE_H_
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
-#include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Core/TypeList.h"
-#include "BlasBooster/Utilities/exec_if_2dim.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
-#include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
-#include <stdexcept>
-#include <string>
-#include <type_traits>
 
 namespace BlasBooster {
 
-/// \brief Functors for the native interface.
-/// The interface has more the meaning of a namespace. A struct is taken to use it as template parameter.
-struct Native {
-
-/// Primary template matrix multiplication must never be instantiated.
-template <class M1, class T1, class P1,
-          class M2, class T2, class P2,
-          class M3, class T3, class P3>
-struct MultiplicationFunctor
-{
-    void operator () (Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<M3,T3,P3>& C)
-    {
-        static_assert(wrong_t<M1>::value, "Primary template must not be instantiated.");
-    }
-};
+struct Native {};
 
 /// Matrix multiplication specialized for Dense, Dense.
 template <class T1, class P1,
@@ -125,13 +99,13 @@ struct GeneralDenseMultiplicationFunctorUsingCursor
 template <class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct MultiplicationFunctor<Dense,T1,P1,Dense,T2,P2,Dense,T3,P3>
+struct MultiplicationFunctor<Dense,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
  : public GeneralDenseMultiplicationFunctor<T1,P1,T2,P2,T3,P3>
 {};
 
 /// Matrix multiplication specialized for DynamicMatrix Dense, Dense.
 template <class P1, class P2, class P3>
-struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense,DynamicMatrix,P3>
+struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense,DynamicMatrix,P3,Native>
 {
     void operator () (Matrix<Dense,DynamicMatrix,P1> const& A, Matrix<Dense,DynamicMatrix,P2> const& B,
         Matrix<Dense,DynamicMatrix,P3>& C)
@@ -181,7 +155,7 @@ struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense
 template <class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct MultiplicationFunctor<Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3>
+struct MultiplicationFunctor<Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3,Native>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
     {
@@ -231,7 +205,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3>
 template <class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3>
+struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
@@ -269,7 +243,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3>
 template <class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3>
+struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
 {
     void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
@@ -309,7 +283,7 @@ template <class M1, class T1, class P1,
           class M2, class T2, class P2,
           class T3, class P3>
 struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename boost::enable_if<
-    boost::mpl::or_<boost::is_same<M1,Zero>,boost::is_same<M2,Zero> > >::type,T3,P3>
+    boost::mpl::or_<boost::is_same<M1,Zero>,boost::is_same<M2,Zero> > >::type,T3,P3,Native>
 {
     void operator () (Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<Zero,T3,P3>& C)
     {
@@ -317,8 +291,6 @@ struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename boost::enable_if<
     }
 };
 
-}; // struct Native
 } // namespace BlasBooster
 
-#endif /* INTERFACES_NATIVE_MULTIPLICATION_H_ */
-
+#endif /* MULTIPLICATION_NATIVE_H_ */

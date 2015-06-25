@@ -13,7 +13,6 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Core/TypeList.h"
-#include "BlasBooster/Preprocessor/CreateSettingsClass.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 

@@ -6,5 +6,10 @@ add_executable(
     Benchmark
     main.cpp
 )
+    
+target_link_libraries(
+    Benchmark
+    BlasInterface_IntelMKL
+)
 
 install(TARGETS Benchmark RUNTIME DESTINATION bin)

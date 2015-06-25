@@ -40,10 +40,22 @@ Zero operator * (Sparse, Zero);
 Zero operator * (Zero, Sparse);
 Zero operator * (Zero, Zero);
 
+/// Primary template matrix multiplication must never be instantiated.
+template <class M1, class T1, class P1,
+          class M2, class T2, class P2,
+          class M3, class T3, class P3,
+          class Interface>
+struct MultiplicationFunctor
+{
+    static_assert(wrong_t<M1>::value, "Primary template must not be instantiated.");
+};
+
 /// Primary expression template for matrix-matrix multiplication must never be instantiated.
 template <class TypeA, class TypeB>
 struct MatrixMultExp
-{};
+{
+    static_assert(wrong_t<TypeA>::value, "Primary template must not be instantiated.");
+};
 
 /// Expression template for multiplication Matrix * Matrix
 template <class M1, class T1, class M2, class T2, class P>
@@ -59,7 +71,7 @@ public:
     auto execute() const -> Matrix<decltype(M1() * M2()), decltype(T1() * T2()), P>
     {
         Matrix<decltype(M1() * M2()), decltype(T1() * T2()), P> C;
-        typename Interface::template MultiplicationFunctor<M1,T1,P,M2,T2,P, decltype(M1() * M2()), decltype(T1() * T2()), P>()(A,B,C);
+        MultiplicationFunctor<M1,T1,P,M2,T2,P, decltype(M1() * M2()), decltype(T1() * T2()), P, Interface>()(A,B,C);
         return C;
     }
 
@@ -84,7 +96,7 @@ public:
     auto execute() const -> Matrix<decltype(M1() * M2()), DynamicMatrix, P>
     {
         Matrix<decltype(M1() * M2()), DynamicMatrix, P> C;
-        typename Interface::template MultiplicationFunctor<M1,DynamicMatrix,P,M2,DynamicMatrix,P, decltype(M1() * M2()), DynamicMatrix, P>()(A,B,C);
+        MultiplicationFunctor<M1,DynamicMatrix,P,M2,DynamicMatrix,P, decltype(M1() * M2()), DynamicMatrix, P, Interface>()(A,B,C);
         return C;
     }
 

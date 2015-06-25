@@ -3,7 +3,7 @@
 #include "BlasBooster/Core/BlockSizeGenerator.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Interfaces/IntelMKL/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"

@@ -14,7 +14,7 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Interfaces/Native/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
