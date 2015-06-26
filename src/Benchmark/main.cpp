@@ -11,6 +11,7 @@
 #include "BlasBooster/Utilities/Version.h"
 //#include "BrainTwister/ArgumentParser.h"
 #include <iostream>
+#include <iomanip>
 #include <memory>
 #include "omp.h"
 
@@ -49,7 +50,7 @@ int main(int argc, char* argv[])
              {"verbose", bt::Value<bool>(), "Print more output."}}
         );
 #endif
-        DynamicMatrix F(new Matrix<Dense,double>(1000,1000,FullFiller()));
+        DynamicMatrix F(new Matrix<Dense,double>(1000,1000,HilbertFiller()));
         DynamicMatrix Z(new Matrix<Dense,double>(1000,1000,ZeroFiller()));
 
         BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
@@ -67,6 +68,7 @@ int main(int argc, char* argv[])
             Matrix<Dense, float> B(refB);
             Matrix<Dense, float> C = (A * B).template execute<IntelMKL>();
 
+            std::cout << std::scientific << std::setprecision(6);
             std::cout << "max-norm = " << norm<NormMax>(C - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(C - refC) << std::endl;
         }
@@ -77,6 +79,7 @@ int main(int argc, char* argv[])
             Matrix<Sparse, double> C = A * B;
 
             Matrix<Dense, double> denseC(C);
+            std::cout << std::scientific << std::setprecision(6);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(denseC - refC) << std::endl;
         }
@@ -95,6 +98,7 @@ int main(int argc, char* argv[])
             BlockedDenseMatrix C = (A * B).template execute<TheBestPolicy>();
 
             Matrix<Dense, double> denseC(C);
+            std::cout << std::scientific << std::setprecision(6);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(denseC - refC) << std::endl;
         }

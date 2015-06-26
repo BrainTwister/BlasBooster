@@ -69,6 +69,7 @@ endif(MKL_FOUND)
 #find_package(OpenBLAS)
 
 add_subdirectory(src/Benchmark)
+add_subdirectory(src/MatrixFactory)
 
 # Google C++ unit test framework
 find_package(GTest)
