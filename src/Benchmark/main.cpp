@@ -4,6 +4,7 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
+#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
@@ -11,7 +12,7 @@
 //#include "BrainTwister/ArgumentParser.h"
 #include <iostream>
 #include <memory>
-//#include "omp.h"
+#include "omp.h"
 
 using namespace BlasBooster;
 //namespace bt = BrainTwister;
@@ -22,8 +23,8 @@ int main(int argc, char* argv[])
 
         std::cout << "BlasBooster " + version + " Benchmark" << std::endl;
 
-//        std::cout << "TestSuite set number of threads = 1" << std::endl;
-//        omp_set_num_threads(1);
+        std::cout << "TestSuite set number of threads = 1" << std::endl;
+        omp_set_num_threads(1);
 
         Threshold threshold(ThresholdSettings(
             1e-5,  // std::numeric_limits<float>::epsilon()
@@ -48,9 +49,12 @@ int main(int argc, char* argv[])
              {"verbose", bt::Value<bool>(), "Print more output."}}
         );
 #endif
+        DynamicMatrix F(new Matrix<Dense,double>(1000,1000,FullFiller()));
+        DynamicMatrix Z(new Matrix<Dense,double>(1000,1000,ZeroFiller()));
 
-        const Matrix<Dense, double> refA(1000, 1000, NoFiller());
-        const Matrix<Dense, double> refB(1000, 1000, NoFiller());
+        BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
+        const Matrix<Dense, double> refA{block};
+        const Matrix<Dense, double> refB{block};
         Matrix<Dense, double> refC;
 
         {
@@ -88,7 +92,7 @@ int main(int argc, char* argv[])
             BlockedDenseMatrix B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
 
             ptrScopedTimer.reset(new ScopedTimer("blocked multiplication, mult"));
-            BlockedDenseMatrix C = (A * B).template execute<Native>();
+            BlockedDenseMatrix C = (A * B).template execute<TheBestPolicy>();
 
             Matrix<Dense, double> denseC(C);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;

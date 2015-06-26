@@ -10,16 +10,8 @@
 #define MULTIPLICATION_INTELMKL_H_
 
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
-#include "BlasBooster/Core/AllMatrixTypes.h"
-#include "BlasBooster/Core/BinaryFunctors.h"
-#include "BlasBooster/Core/CoreException.h"
-#include "BlasBooster/Core/Cursor.h"
-#include "BlasBooster/Core/Matrix.h"
-#include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Core/TypeList.h"
-#include "BlasBooster/Utilities/exec_if_2dim.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
-#include "BlasBooster/Utilities/wrong_t.h"
+#include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/Multiplication.h"
 
 namespace BlasBooster {
 

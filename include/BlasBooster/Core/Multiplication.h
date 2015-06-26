@@ -29,6 +29,9 @@
 
 namespace BlasBooster {
 
+struct TheBestPolicy {};
+struct Native {};
+
 /// Dummy operator to define resulting matrix type by multiplication by using decltype
 Dense operator * (Dense, Dense);
 Dense operator * (Dense, Sparse);

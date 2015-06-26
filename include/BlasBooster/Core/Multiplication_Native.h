@@ -15,9 +15,10 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
 
-namespace BlasBooster {
+// For testing
+#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 
-struct Native {};
+namespace BlasBooster {
 
 /// Matrix multiplication specialized for Dense, Dense.
 template <class T1, class P1,
@@ -141,7 +142,7 @@ struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense
                 for ( ; curColumnA != endColumnA; ++curColumnA, ++curRowB )
                 {
                     // TODO: Interface must be definable
-                    *curColumnC += ((*curColumnA) * (*curRowB)).template execute<Native>();
+                    *curColumnC += ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
                 }
 
                 //TODO: ConvertToTheBest
