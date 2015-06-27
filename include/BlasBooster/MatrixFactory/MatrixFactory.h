@@ -2,11 +2,14 @@
 #define MATRIXFACTORY_H_
 
 #include "BlasBooster/Core/DenseMatrix.h"
+#include <memory>
 
 namespace BlasBooster {
 
 struct MatrixFactory
 {
+	virtual ~MatrixFactory() {}
+
 	virtual Matrix<Dense,double> getMatrix() const = 0;
 
 	virtual size_t getNbRows() const = 0;
