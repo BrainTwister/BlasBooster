@@ -7,6 +7,7 @@ add_executable(
     ArgumentParserTest
     main.cpp
     ArgumentParser.cpp
+    Design.cpp
 )
     
 target_link_libraries(
