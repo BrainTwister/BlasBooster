@@ -1,23 +1,24 @@
+set(TestName ArgumentParserTest)
+
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
 )
 
 add_executable(
-    ArgumentParserTest
-    main.cpp
+    ${TestName}
     ArgumentParser.cpp
     Design.cpp
+    main.cpp
 )
     
 target_link_libraries(
-    ArgumentParserTest
+    ${TestName}
     ArgumentParser
     ${GTEST_BOTH_LIBRARIES}
 )
 
 add_test(
-    ArgumentParserTest
-    ${CMAKE_BINARY_DIR}/bin/ArgumentParserTest
-    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/ArgumentParserTest.xml
+    NAME ${TestName}
+    COMMAND ${TestName} --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/${TestName}.xml
 )
