@@ -84,13 +84,13 @@ find_package(Doxygen)
 if(DOXYGEN_FOUND)
 
     set(doxyfile_in ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in)
-    set(doxyfile ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile)
+    set(doxyfile ${PROJECT_BINARY_DIR}/doxygen/Doxyfile)
 
     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doxygen
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
@@ -104,4 +104,3 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 include(CPack)
-
