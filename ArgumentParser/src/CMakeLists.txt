@@ -4,9 +4,6 @@ include_directories(
 
 add_library(
     ArgumentParser
+    STATIC
     ArgumentParser.cpp
-)
-    
-target_link_libraries(
-    ArgumentParser
 )

@@ -1,5 +1,6 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/ArgumentParser/include
 )
 
 add_executable(
@@ -9,6 +10,7 @@ add_executable(
     
 target_link_libraries(
     Benchmark
+    ArgumentParser
     BlasInterface_IntelMKL
 )
 

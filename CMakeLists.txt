@@ -68,6 +68,7 @@ endif(MKL_FOUND)
 #find_package(MTL4)
 #find_package(OpenBLAS)
 
+add_subdirectory(ArgumentParser)
 add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
 

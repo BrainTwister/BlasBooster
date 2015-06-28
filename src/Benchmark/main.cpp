@@ -9,14 +9,14 @@
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
 #include "BlasBooster/Utilities/Version.h"
-//#include "BrainTwister/ArgumentParser.h"
+#include "BrainTwister/ArgumentParser.h"
 #include <iostream>
 #include <iomanip>
 #include <memory>
 #include "omp.h"
 
 using namespace BlasBooster;
-//namespace bt = BrainTwister;
+namespace bt = BrainTwister;
 
 int main(int argc, char* argv[])
 {
@@ -44,12 +44,11 @@ int main(int argc, char* argv[])
             1.0    // 1.0    occupationThresholdMatrixDenseDoubleDoublePrecision
         ));
 
-#if 0
-        bt::ArgumentParser arg(argc, argv, bt::Equal(2),
-            {{"input", 'i', bt::Value<std::string>(), "Description of option input."},
-             {"verbose", bt::Value<bool>(), "Print more output."}}
+        bt::ArgumentParser arg(argc, argv, bt::Equal(2)//,
+            //{{"input", 'i', bt::Value<std::string>(), "Description of option input."},
+            // {"verbose", bt::Value<bool>(), "Print more output."}}
         );
-#endif
+
         DynamicMatrix F(new Matrix<Dense,double>(1000,1000,HilbertFiller()));
         DynamicMatrix Z(new Matrix<Dense,double>(1000,1000,ZeroFiller()));
 

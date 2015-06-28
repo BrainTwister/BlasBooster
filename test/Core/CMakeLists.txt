@@ -23,8 +23,6 @@ target_link_libraries(
 )
 
 add_test(
-    ${TestName}
-    ${CMAKE_BINARY_DIR}/bin/${TestName}
-    --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/${TestName}.xml
+    NAME ${TestName}
+    COMMAND ${TestName} --gtest_output=xml:${CMAKE_BINARY_DIR}/Testing/${TestName}.xml
 )
-
