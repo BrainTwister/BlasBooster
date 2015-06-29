@@ -1,0 +1,73 @@
+/**
+ * \mainpage BlasBooster
+ *
+ * BlasBooster is a generic C++ template library for basic linear algebra operations (BLAS).
+ * BlasBooster automatically find an optimal way with respect to the desired accuracy.
+ *
+ * A fundamental question starting this library was if one of the Blas libraries can be used
+ * as basis for our developments. Especially MTL4 or Eigen are very powerful generic template libraries
+ * and it would be a very pragmatic way to reuse these libraries. Since Eigen has the disadvantage to run under
+ * the GNU license, MTL4 uses the BSD ??? license like Boost and could be used for commercial software.
+ * But the main problem is that matrix types are strictly separated, so that interactions between both,
+ * e.g. mixed operations between dense and sparse matrices, are not possible. Run-time polymorphism is
+ * needed for mixed-type blocked matrix.
+ *
+ * External BLAS libraries:\n
+ *  -# Intel Math Kernel Library (MKL)
+ *  -# Kazushige Gotos BLAS implementation (GOTO)
+ *  -# AMD Core Math Library (ACML)
+ *  -# GPU accerlerated BLAS library using Cuda (CUBLAS)
+ *  -# ATLAS
+ *  -# ESSL
+ *
+ * Generic Matrix libraries:\n
+ *  -# <a href="http://www.simunova.com">Matrix Template Library (MTL4)</a>
+ *  -# <a href="http://eigen.tuxfamily.org">Eigen</a>
+ *  -# <a href="http://arma.sourceforge.net">Armadillo</a>
+ *  -# Boost (uBLAS)
+ *  -# Blitz++
+ *
+ * \ref Roadmap
+ *
+ * \todo How can runtime code generation be used efficiently for statically binding
+ * matrix types?
+ *
+ * \attention
+ * For general development aspects of this class see \ref DESIGN page.\n
+ *
+ */
+ 
+/**
+ * \page DESIGN Design Codex
+ *
+ * -# Member variables have to be private denoted with an underscore.
+ * -# All member variables should have a set and get function.
+ * -# Names have to been written in the UpperCaseStyle. Classes with an upper char at beginning.
+ *    Functions and variables with an under char.
+ * -# Inclusion guards get the same name as the class.
+ *
+ * See more: http://www.possibility.com/Cpp/CppCodingStandard.html
+ *
+ */
+ 
+/**
+ * \page Roadmap
+ *
+ * -# Implement basic features
+ *   -# BlasAnalyzer
+ *     -# General Blas wrapper for all external libraries and the own interface
+ *     -# ReportManager: log number of calls of different blas calls and deep information for matrix-matrix multiplication
+ *     -# HTML Report
+ *   -# BlasBooster
+ *     -# BlockedMatrixGenerator: ProxyMatrix using external memory with leading dimensions
+ *     -# StaticDispatcher for polymorphic matrices
+ * -# Automatic TestSuite
+ * -# Proof of principle
+ * -# Benchmark Matrix-Matrix multiplication
+ * -# Benchmark applications
+ * -# Marketing
+ *   -# Market analysis
+ *   -# Business Plan
+ *   -# White paper / peer rev paper / conference paper
+ */
+ 

@@ -85,6 +85,7 @@ if(DOXYGEN_FOUND)
 
     set(doxyfile_in ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in)
     set(doxyfile ${PROJECT_BINARY_DIR}/doxygen/Doxyfile)
+    set(doxy_main_page ${PROJECT_SOURCE_DIR}/doxygen/main.doxy)
 
     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 
