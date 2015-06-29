@@ -9,21 +9,28 @@
 #ifndef VALUE_H_
 #define VALUE_H_
 
+#include <string>
+
 namespace BrainTwister {
 
 struct ValueBase
 {
     virtual ~ValueBase() {};
+
+    virtual void setValue(std::string const& str) = 0;
 };
 
 template <class T>
 struct Value : public ValueBase
 {
+    Value() : value() {}
+
     Value(T value) : value(value) {}
+
+    virtual void setValue(std::string const& str) { value = str; }
 
     T value;
 };
-template <class T>
 
 } // namespace BrainTwister
 

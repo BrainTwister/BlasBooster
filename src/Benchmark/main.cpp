@@ -44,9 +44,9 @@ int main(int argc, char* argv[])
             1.0    // 1.0    occupationThresholdMatrixDenseDoubleDoublePrecision
         ));
 
-        bt::ArgumentParser arg(argc, argv, bt::Equal(2)//,
-            //{{"input", 'i', bt::Value<std::string>(), "Description of option input."},
-            // {"verbose", bt::Value<bool>(), "Print more output."}}
+        bt::ArgumentParser arg(argc, argv,
+        	{{"A", std::shared_ptr<bt::ValueBase>(new bt::Value<std::string>), "File for matrix A."}}
+            //{{"input", "i", new bt::Value<std::string>(), "Description of option input."}}
         );
 
         DynamicMatrix F(new Matrix<Dense,double>(1000,1000,HilbertFiller()));
