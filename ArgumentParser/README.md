@@ -19,13 +19,17 @@ Example
 
 int main(int argc, char **argv)
 {
-    BrainTwister::ArgumentParser arg(argc, argv, 2,
-        {{"input", 'i', "Description of option input."},
-        {"verbose", "Print more output."}}
+    bt::ArgumentParser arg(argc, argv,
+        {{"file1", bt::Value<std::string>(), "File 1."},
+         {"file2", bt::Value<std::string>(), "File 2."}},
+        {{"input", "i", bt::Value<std::string>(), "Description of the option input."},
+         {"verbose", "v", bt::Value<std::string>("foo"), "Print more output."}}
     );
 
-    std::cout << "Argument 1:         " << arg.getArgument(0) << std::endl;
-    std::cout << "Argument 2:         " << arg.getArgument(1) << std::endl;
-    std::cout << "Value of '--input': " << arg.getOptionValue("input") << std::endl;
+    std::cout << "Argument 1:                  " << arg.get<std::string>("file1") << std::endl;
+    std::cout << "Argument 2:                  " << arg.get<std::string>("file2") << std::endl;
+    std::cout << "Value of option \"input\":   " << arg.get<std::string>("input") << std::endl;
+    std::cout << "Value of option \"verbose\": " << arg.get<std::string>("verbose") << std::endl;
 }
 ```
+

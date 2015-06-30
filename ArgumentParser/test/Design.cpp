@@ -18,7 +18,7 @@ struct Value : public ValueBase
 
 struct ValueList
 {
-	template <class T1, class T2>
+    template <class T1, class T2>
     ValueList(T1 const& t1, T2 const& t2) : values{std::shared_ptr<T1>(new T1(t1)), std::shared_ptr<T2>(new T2(t2))} {}
 
     template <class T>

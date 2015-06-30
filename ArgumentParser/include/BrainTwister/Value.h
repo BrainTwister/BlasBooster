@@ -9,6 +9,7 @@
 #ifndef VALUE_H_
 #define VALUE_H_
 
+#include <memory>
 #include <string>
 
 namespace BrainTwister {
@@ -21,17 +22,32 @@ struct ValueBase
 };
 
 template <class T>
-struct Value : public ValueBase
+struct TypedValue : public ValueBase
 {
-    Value() : value() {}
+    TypedValue() : value() {}
 
-    Value(T value) : value(value) {}
+    TypedValue(T const& value) : value(value) {}
 
     virtual void setValue(std::string const& str) { value = str; }
 
     T value;
 };
 
+/// Primary function called by ArgumentDescription
+template <class T>
+std::shared_ptr<ValueBase> Value()
+{
+    return std::make_shared< TypedValue<T> >();
+}
+
+/// Primary function called by ArgumentDescription
+template <class T>
+std::shared_ptr<ValueBase> Value(T const& value)
+{
+    return std::make_shared< TypedValue<T> >(value);
+}
+
 } // namespace BrainTwister
 
 #endif /* VALUE_H_ */
+

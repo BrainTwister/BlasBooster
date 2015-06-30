@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
         ));
 
         bt::ArgumentParser arg(argc, argv,
-        	{{"A", std::shared_ptr<bt::ValueBase>(new bt::Value<std::string>), "File for matrix A."}}
+            {{"A", bt::Value<std::string>(), "File for matrix A."}}
             //{{"input", "i", new bt::Value<std::string>(), "Description of option input."}}
         );
 
