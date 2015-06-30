@@ -10,6 +10,7 @@
 #define VALUE_H_
 
 #include <memory>
+#include <sstream>
 #include <string>
 
 namespace BrainTwister {
@@ -28,7 +29,11 @@ struct TypedValue : public ValueBase
 
     TypedValue(T const& value) : value(value) {}
 
-    virtual void setValue(std::string const& str) { value = str; }
+    virtual void setValue(std::string const& str) {
+        std::stringstream ss;
+        ss << str;
+        ss >> value;
+    }
 
     T value;
 };
