@@ -13,38 +13,38 @@ namespace BrainTwister {
 
 struct Arbitrary
 {
-	bool operator () (int value) const
-	{
-		return true;
-	}
+    bool operator () (int value) const
+    {
+        return true;
+    }
 };
 
 struct Equal
 {
-	Equal(int reference)
-	 : reference_(reference)
-	{}
+    Equal(int reference)
+     : reference_(reference)
+    {}
 
-	bool operator () (int value) const
-	{
-		return value == reference_;
-	}
+    bool operator () (int value) const
+    {
+        return value == reference_;
+    }
 
-	int reference_;
+    int reference_;
 };
 
 struct LargerThan
 {
-	LargerThan(int reference)
-	 : reference_(reference)
-	{}
+    LargerThan(int reference)
+     : reference_(reference)
+    {}
 
-	bool operator () (int value) const
-	{
-		return value > reference_;
-	}
+    bool operator () (int value) const
+    {
+        return value > reference_;
+    }
 
-	int reference_;
+    int reference_;
 };
 
 } // namespace BrainTwister
