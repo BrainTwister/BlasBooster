@@ -22,10 +22,17 @@ int main(int argc, char* argv[])
 {
     try {
 
-        std::cout << "BlasBooster " + version + " Benchmark" << std::endl;
+        bt::ArgumentParser arg(argc, argv, version,
+            {{"MatrixA", bt::Value<std::string>(), "File for matrix A."},
+             {"MatrixB", bt::Value<std::string>(), "File for matrix B."}},
+            {{"threads", "t", bt::Value<int>(1), "Number of threads."}}
+        );
 
-        std::cout << "TestSuite set number of threads = 1" << std::endl;
-        omp_set_num_threads(1);
+        std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
+
+        int nbThreads = arg.get<int>("threads");
+        std::cout << "Set number of threads to " << nbThreads << std::endl;
+        omp_set_num_threads(nbThreads);
 
         Threshold threshold(ThresholdSettings(
             1e-5,  // std::numeric_limits<float>::epsilon()
@@ -43,11 +50,6 @@ int main(int argc, char* argv[])
             1.0,   // 1.0    occupationThresholdMatrixDenseDoubleSinglePrecision
             1.0    // 1.0    occupationThresholdMatrixDenseDoubleDoublePrecision
         ));
-
-        bt::ArgumentParser arg(argc, argv,
-            {{"A", bt::Value<std::string>(), "File for matrix A."}}
-            //{{"input", "i", new bt::Value<std::string>(), "Description of option input."}}
-        );
 
         DynamicMatrix F(new Matrix<Dense,double>(1000,1000,HilbertFiller()));
         DynamicMatrix Z(new Matrix<Dense,double>(1000,1000,ZeroFiller()));

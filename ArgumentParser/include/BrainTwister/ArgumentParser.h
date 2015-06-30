@@ -50,7 +50,7 @@ class ArgumentParser
 {
 public:
 
-    ArgumentParser(int argc, char* argv[],
+    ArgumentParser(int argc, char* argv[], std::string const& version,
         std::vector<RequiredArgumentDefinition> const& reqArgDefs = std::vector<RequiredArgumentDefinition>(),
         std::vector<OptionalArgumentDefinition> const& optArgDefs = std::vector<OptionalArgumentDefinition>());
 
@@ -68,6 +68,9 @@ private:
 
     // Program name from argv[0].
     std::string programName;
+
+    // Verison string.
+    std::string version;
 
     // List of required argument definitions.
     std::vector<RequiredArgumentDefinition> reqArgDefs;
