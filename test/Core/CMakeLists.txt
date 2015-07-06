@@ -20,6 +20,7 @@ add_executable(
 target_link_libraries(
     ${TestName}
     ${GTEST_BOTH_LIBRARIES}
+    -pthread
 )
 
 add_test(
