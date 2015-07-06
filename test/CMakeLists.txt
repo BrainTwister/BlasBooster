@@ -16,6 +16,7 @@ target_link_libraries(
     ${TestName}
     ArgumentParser
     ${GTEST_BOTH_LIBRARIES}
+    -pthread
 )
 
 add_test(
