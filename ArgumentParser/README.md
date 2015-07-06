@@ -8,7 +8,7 @@ ArgumentParser is free software made available under the MIT License. For detail
 Requirements
 ------------
 
-- cmake (Version >= 2.6.6, http://www.cmake.org)
+- cmake (Version >= 3.0, http://www.cmake.org)
 - gtest (Optional, but recommended, https://code.google.com/p/googletest)
 
 Description
