@@ -16,7 +16,7 @@ class StripedIterator
 public:
 
     StripedIterator()
-     : iter_(nullptr), position_(0), continuousSizeMinus1_(0), separatorSizePlus1_(0), nbBlocks_(0)
+     : iter_(nullptr), position_(0), block_(0), continuousSizeMinus1_(0), separatorSizePlus1_(0), nbBlocks_(0)
     {}
 
     StripedIterator(T* iter, size_t position, size_t block, size_t continuousSize, size_t separatorSize, size_t nbBlocks)
@@ -50,7 +50,7 @@ private:
     void increment()
     {
         if (position_ == continuousSizeMinus1_) {
-            if (++block_ == nbBlocks_) ++iter_;
+            if (static_cast<size_t>(++block_) == nbBlocks_) ++iter_;
             else iter_ += separatorSizePlus1_;
             position_ = 0;
         } else {
@@ -73,17 +73,17 @@ private:
 
     T* iter_;
 
-    size_t continuousSizeMinus1_;
-
-    size_t separatorSizePlus1_;
-
-    size_t nbBlocks_;
-
     // Current position within the continuous memory space
     size_t position_;
 
     // Current continuous memory space block
     int block_;
+
+    size_t continuousSizeMinus1_;
+
+    size_t separatorSizePlus1_;
+
+    size_t nbBlocks_;
 
 };
 

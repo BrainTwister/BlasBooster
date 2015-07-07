@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(BlasBooster VERSION 0.2.4 LANGUAGES CXX)
-message("Project version ${PROJECT_VERSION}")
+message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
@@ -22,7 +22,7 @@ if(    NOT cmake_build_type_tolower STREQUAL "debug"
   message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
 endif()
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -pedantic-errors -fPIC -fopenmp -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")

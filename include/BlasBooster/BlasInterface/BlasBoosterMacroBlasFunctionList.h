@@ -203,13 +203,15 @@
 	BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_WITHOUT_ZDOT\
 	BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_ZDOT_WITH_RETURN
 
-//(( void,   cdotc,   (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>)(const int) ))\
-//(( void,   cdotci,  (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>) ))\
-//(( void,   cdotu,   (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>)(const int) ))\
-//(( void,   cdotui,  (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>) ))\
-//(( void,   zdotc,   (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>)(const int) ))\
-//(( void,   zdotci,  (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>) ))\
-//(( void,   zdotu,   (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>)(const int) ))\
-//(( void,   zdotui,  (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>) ))\
+#if 0
+  (( void,   cdotc,   (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>)(const int) ))
+  (( void,   cdotci,  (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>) ))
+  (( void,   cdotu,   (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>)(const int) ))
+  (( void,   cdotui,  (std::complex<float>)(const int)(const std::complex<float>)(const int)(const std::complex<float>) ))
+  (( void,   zdotc,   (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>)(const int) ))
+  (( void,   zdotci,  (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>) ))
+  (( void,   zdotu,   (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>)(const int) ))
+  (( void,   zdotui,  (std::complex<double>)(const int)(const std::complex<double>)(const int)(const std::complex<double>) ))
+#endif
 
 #endif /* BLASBOOSTERMACROBLASFUNCTIONLIST_H_ */

@@ -48,10 +48,10 @@ namespace BlasBooster {
 template <class T, class P>
 class Matrix<Dense,T,P>
  : public MatrixBase,
-   public Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix>,
    public P::dimension,
    public P::leadingDimension,
    public P::unblockedDimension,
+   public Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix>,
    public NormPolicy<Matrix<Dense,T,P>, typename P::NormType>,
    public OccupationPolicy<Matrix<Dense,T,P> >,
    boost::equality_comparable<Matrix<Dense,T,P> >
@@ -201,13 +201,16 @@ public: // member functions
 
     /// Move constructor
     Matrix(self&& other)
-     : storage(std::forward<storage>(other)),
-       dimension(std::move(other))
+     : dimension(std::move(other)),
+	   storage(std::forward<storage>(other))
     {
         BLASBOOSTER_DEBUG_PRINT("Matrix: Move constructor is called.");
     }
 
-    /// Default copy assignment constructor
+    /// Default destructor
+    ~Matrix() = default;
+
+    /// Default copy assignment operator
     Matrix& operator = (self const& other) = default;
 
     /// Move assignment operator
@@ -339,7 +342,7 @@ private:
 
 template <class T, class P>
 Matrix<Dense,T,P>::Matrix()
- : storage(), dimension()
+ : dimension(), storage()
 {}
 
 template <class T, class P>

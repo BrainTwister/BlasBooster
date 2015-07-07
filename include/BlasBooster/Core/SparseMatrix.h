@@ -46,8 +46,8 @@ namespace BlasBooster {
 template <class T, class P>
 class Matrix<Sparse,T,P>
  : public MatrixBase,
-   public SparseStorage<T,typename P::IndexType,P::dimension::fixed,P::dimension::size>,
    public P::dimension,
+   public SparseStorage<T,typename P::IndexType,P::dimension::fixed,P::dimension::size>,
    public NormPolicy<Matrix<Sparse,T,P>, typename P::NormType>,
    public OccupationPolicy<Matrix<Sparse,T,P> >,
    boost::equality_comparable<Matrix<Sparse,T,P> >
@@ -100,9 +100,6 @@ public:
     /// Default copy constructor
     Matrix(Matrix const& other) = default;
 
-    /// Default copy assignment operator
-    Matrix& operator = (Matrix const& other) = default;
-
     /// Move constructor
     Matrix(Matrix&& rhs)
      : dimension(std::forward<dimension>(rhs)),
@@ -111,7 +108,13 @@ public:
         BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move constructor is called.");
     }
 
-    /// Move assignment
+    /// Default destructor
+    ~Matrix() = default;
+
+    /// Default copy assignment operator
+    Matrix& operator = (Matrix const& other) = default;
+
+    /// Move assignment operator
     Matrix& operator = (Matrix&& rhs)
     {
         BLASBOOSTER_DEBUG_PRINT("SparseMatrix: Move assignment operator is called.");

@@ -47,6 +47,9 @@ struct MultipleMatrix
 //     : ptrT1(nullptr), ptrT2(nullptr)
 //    {}
 
+    /// Default destructor
+    ~MultipleMatrix() = default;
+
     void reset(std::shared_ptr<T1> const& ptrT1 = std::shared_ptr<T1>(),
         std::shared_ptr<T2> const& ptrT2 = std::shared_ptr<T2>()
     ){
