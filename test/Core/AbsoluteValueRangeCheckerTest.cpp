@@ -52,10 +52,10 @@ TEST(AbsoluteValueRangeCheckerTest,General)
 
 TEST(AbsoluteValueRangeCheckerTest,Polymorphism)
 {
-	EXPECT_EQ((AbsoluteValueRangeChecker<double>::id_),0);
-	EXPECT_EQ((AbsoluteValueRangeChecker<double,ExclusiveBound,InclusiveBound>::id_),1);
-	EXPECT_EQ((AbsoluteValueRangeChecker<double,InclusiveBound,InclusiveBound>::id_),2);
-	EXPECT_EQ((AbsoluteValueRangeChecker<double,ExclusiveBound,ExclusiveBound>::id_),3);
+	EXPECT_EQ((AbsoluteValueRangeChecker<double>::id_),0UL);
+	EXPECT_EQ((AbsoluteValueRangeChecker<double,ExclusiveBound,InclusiveBound>::id_),1UL);
+	EXPECT_EQ((AbsoluteValueRangeChecker<double,InclusiveBound,InclusiveBound>::id_),2UL);
+	EXPECT_EQ((AbsoluteValueRangeChecker<double,ExclusiveBound,ExclusiveBound>::id_),3UL);
 
 	std::shared_ptr<ValueCheckerBase> ptrV1(new AbsoluteValueRangeChecker<double>(1.0));
 	std::shared_ptr<ValueCheckerBase> ptrV2(new AbsoluteValueRangeChecker<double>(2.0));
@@ -94,3 +94,4 @@ TEST(AbsoluteValueRangeCheckerTest,Polymorphism)
 	EXPECT_FALSE(ValueCheckerLess()(ptrV8,ptrV7));
 
 }
+

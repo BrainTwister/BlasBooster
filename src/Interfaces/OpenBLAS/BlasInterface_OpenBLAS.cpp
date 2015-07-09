@@ -1,7 +1,7 @@
-#include "BlasBoosterMacroBlasFunctionList.h"
-#include "BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
-#include "BlasInterface_OpenBLAS.h"
-#include "Blas.h"
+#include "BlasBooster/BlasInterface/Blas.h"
+#include "BlasBooster/BlasInterface/BlasBoosterMacroBlasFunctionList.h"
+#include "BlasBooster/BlasInterface/BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
+#include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 
 namespace BlasBooster {
 

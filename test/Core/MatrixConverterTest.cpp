@@ -18,7 +18,12 @@ using namespace BlasBooster;
 
 class MatrixConverterTest : public ::testing::Test
 {
+public:
+
+	virtual ~MatrixConverterTest() {}
+
 protected:
+
     virtual void SetUp()
     {
     	threshold = Threshold(ThresholdSettings(

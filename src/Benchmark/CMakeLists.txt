@@ -12,6 +12,7 @@ target_link_libraries(
     Benchmark
     ArgumentParser
     BlasInterface_IntelMKL
+    BlasInterface_OpenBLAS
 )
 
 install(TARGETS Benchmark RUNTIME DESTINATION bin)

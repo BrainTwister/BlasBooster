@@ -64,9 +64,14 @@ if(MKL_FOUND)
     add_subdirectory(src/Interfaces/IntelMKL)
 endif(MKL_FOUND)
 
+# GotoBLAS/OpenBLAS 
+find_package(OpenBLAS)
+if(OPENBLAS_FOUND)
+    add_subdirectory(src/Interfaces/OpenBLAS)
+endif(OPENBLAS_FOUND)
+
 #find_package(Eigen3)
 #find_package(MTL4)
-#find_package(OpenBLAS)
 
 add_subdirectory(ArgumentParser)
 add_subdirectory(src/Benchmark)

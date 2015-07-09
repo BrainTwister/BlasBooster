@@ -4,6 +4,7 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
+#include "BlasBooster/Core/Multiplication_OpenBLAS.h"
 #include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
@@ -13,7 +14,6 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
-#include "omp.h"
 
 using namespace BlasBooster;
 namespace bt = BrainTwister;
@@ -31,8 +31,10 @@ int main(int argc, char* argv[])
         std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
         int nbThreads = arg.get<int>("threads");
-        std::cout << "Set number of threads to " << nbThreads << std::endl;
-        omp_set_num_threads(nbThreads);
+        std::cout << "Number of threads: " << nbThreads << std::endl;
+
+        //mkl_set_num_threads(nbThreads);
+        //openblas_set_num_threads(nbThreads);
 
         Threshold threshold(ThresholdSettings(
             1e-5,  // std::numeric_limits<float>::epsilon()
@@ -62,6 +64,10 @@ int main(int argc, char* argv[])
         {
             ScopedTimer scopedTimer("Intel MKL dgemm");
             refC = (refA * refB).template execute<IntelMKL>();
+        }
+        {
+            ScopedTimer scopedTimer("OpenBLAS dgemm");
+            Matrix<Dense, double> C = (refA * refB).template execute<OpenBLAS>();
         }
         {
             ScopedTimer scopedTimer("Intel MKL sgemm");
