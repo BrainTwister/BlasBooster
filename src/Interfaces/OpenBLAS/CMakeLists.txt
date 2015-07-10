@@ -10,7 +10,7 @@ add_library(
 
 target_link_libraries(
     BlasInterface_OpenBLAS
-    ${OPENBLAS_LIBRARIES}
+    ${OPENBLAS_LIBRARY}
 )
 
 install(TARGETS BlasInterface_OpenBLAS LIBRARY DESTINATION lib)

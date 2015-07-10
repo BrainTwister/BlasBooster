@@ -3,7 +3,14 @@
 #include "BlasBooster/BlasInterface/BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
 #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 
+extern "C" void openblas_set_num_threads(int nbThreads);
+
 namespace BlasBooster {
+
+void openblas_set_num_threads(int nbThreads)
+{
+	::openblas_set_num_threads(nbThreads);
+}
 
 BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DEFINITION_FOR_INTERFACE(OpenBLAS,BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_WITHOUT_ZDOT)
 

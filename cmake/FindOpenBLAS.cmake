@@ -2,8 +2,8 @@ if (OPENBLAS_FOUND)
     return()
 endif (OPENBLAS_FOUND)
 
-find_library( OPENBLAS_LIBRARY
-    libopenblas.so
+find_library(OPENBLAS_LIBRARY
+    libopenblas.a
     PATHS
     $ENV{OPENBLAS_ROOT}/lib
 )

@@ -12,6 +12,7 @@
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include <iostream>
 
 namespace BlasBooster {
 
@@ -39,6 +40,8 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelM
         double *pA = const_cast<double*>(A.getDataPointer());
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
+
+        std::cout << "Calling Intel dgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<IntelMKL,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
@@ -68,6 +71,8 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
         float *pA = const_cast<float*>(A.getDataPointer());
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
+
+        std::cout << "Calling Intel sgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<IntelMKL,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }

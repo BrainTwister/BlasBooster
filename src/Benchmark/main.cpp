@@ -33,8 +33,8 @@ int main(int argc, char* argv[])
         int nbThreads = arg.get<int>("threads");
         std::cout << "Number of threads: " << nbThreads << std::endl;
 
-        //mkl_set_num_threads(nbThreads);
-        //openblas_set_num_threads(nbThreads);
+        BlasBooster::mkl_set_num_threads(nbThreads);
+        BlasBooster::openblas_set_num_threads(nbThreads);
 
         Threshold threshold(ThresholdSettings(
             1e-5,  // std::numeric_limits<float>::epsilon()
@@ -94,8 +94,8 @@ int main(int argc, char* argv[])
             ScopedTimer scopedTimer("blocked multiplication");
 
             std::unique_ptr<ScopedTimer> ptrScopedTimer(new ScopedTimer("blocked multiplication, block size"));
-            auto blockSizeA = BlockSizeGenerator(50, 200)(refA);
-            auto blockSizeB = BlockSizeGenerator(50, 200)(refB);
+            auto blockSizeA = BlockSizeGenerator(50, 2000)(refA);
+            auto blockSizeB = BlockSizeGenerator(50, 2000)(refB);
 
             ptrScopedTimer.reset(new ScopedTimer("blocked multiplication, blocking"));
             BlockedDenseMatrix A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);

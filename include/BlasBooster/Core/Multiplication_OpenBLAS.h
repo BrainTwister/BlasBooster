@@ -12,6 +12,7 @@
 #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include <iostream>
 
 namespace BlasBooster {
 
@@ -39,6 +40,8 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
         double *pA = const_cast<double*>(A.getDataPointer());
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
+
+        std::cout << "Calling OpenBLAS dgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<OpenBLAS,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
@@ -68,6 +71,8 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
         float *pA = const_cast<float*>(A.getDataPointer());
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
+
+        std::cout << "Calling OpenBLAS sgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<OpenBLAS,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }

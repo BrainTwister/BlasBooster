@@ -3,7 +3,16 @@
 #include "BlasBooster/BlasInterface/BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 
+// The upper case name must be used, since the lower case one is only a macro definde in mkl_service.h
+// and results in a seg-fault.
+extern "C" void MKL_Set_Num_Threads(int nbThreads);
+
 namespace BlasBooster {
+
+void mkl_set_num_threads(int nbThreads)
+{
+	::MKL_Set_Num_Threads(nbThreads);
+}
 
 BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DEFINITION_FOR_INTERFACE(IntelMKL,BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_WITHOUT_ZDOT)
 
@@ -40,3 +49,4 @@ std::complex<double> BlasInterface < IntelMKL, zdotu >::operator() (
 }
 
 } // namespace BlasBooster
+
