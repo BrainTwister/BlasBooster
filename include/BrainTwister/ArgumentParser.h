@@ -9,6 +9,7 @@
 #ifndef ARGUMENTPARSER_H_
 #define ARGUMENTPARSER_H_
 
+#include "BrainTwister/ArgumentParserException.h"
 #include <BrainTwister/Value.h>
 #include <memory>
 #include <stdexcept>

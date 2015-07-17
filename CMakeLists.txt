@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
-project(ArgumentParser VERSION 1.0 LANGUAGES CXX)
-message("Project version ${PROJECT_VERSION}")
+project(ArgumentParser VERSION 1.1 LANGUAGES CXX)
+message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 # add own cmake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")

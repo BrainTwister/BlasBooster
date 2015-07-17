@@ -5,7 +5,7 @@
 
 struct ValueBase
 {
-    virtual ~ValueBase() {};
+    virtual ~ValueBase() {}
 };
 
 template <class T>
