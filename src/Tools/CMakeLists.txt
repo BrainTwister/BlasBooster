@@ -1,0 +1,34 @@
+include_directories(
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/ArgumentParser/include
+    ${Boost_INCLUDE_DIRS}
+)
+
+add_executable(
+    Coeff2Dens
+    Coeff2Dens.cpp
+)
+    
+target_link_libraries(
+    Coeff2Dens
+    ArgumentParser
+    BlasInterface_IntelMKL
+    BlasInterface_OpenBLAS
+    ${Boost_LIBRARIES}
+)
+
+install(TARGETS Coeff2Dens RUNTIME DESTINATION tools)
+
+add_executable(
+    ShowPattern
+    ShowPattern.cpp
+)
+    
+target_link_libraries(
+    ShowPattern
+    ArgumentParser
+    ${Boost_LIBRARIES}
+)
+
+install(TARGETS ShowPattern RUNTIME DESTINATION tools)
+

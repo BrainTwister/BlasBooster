@@ -3,7 +3,7 @@
 
 #include "Cursor.h"
 #include "DenseMatrix.h"
-#include <boost/filesystem.hpp>
+#include "BlasBooster/Utilities/Filesystem.h"
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
@@ -57,12 +57,12 @@ public:
         }
     };
 
-    PatternGenerator( const Settings& settings )
-    : settings_(settings)
+    PatternGenerator(Settings const& settings = Settings())
+        : settings_(settings)
     {}
 
-    template <class T,class P>
-    void generate(Matrix<Dense,T,P> const& matrix, boost::filesystem::path const& file);
+    template <class T, class P>
+    void operator()(Matrix<Dense,T,P> const& matrix, filesystem::path const& file) const;
 
 private:
 
@@ -70,8 +70,8 @@ private:
 
 };
 
-template<class T,class P>
-void PatternGenerator::generate(Matrix<Dense,T,P> const& matrix, boost::filesystem::path const& file)
+template <class T, class P>
+void PatternGenerator::operator()(Matrix<Dense,T,P> const& matrix, filesystem::path const& file) const
 {
     std::ofstream outfile(file.string());
 
