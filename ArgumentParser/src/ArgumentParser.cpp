@@ -91,6 +91,11 @@ ArgumentParser::ArgumentParser(int argc, char* argv[], std::string const& versio
             reqArgDefs[nbRegArgs++].value->setValue(current);
         }
     }
+
+    if (nbRegArgs != reqArgDefs.size()) {
+        printUsage();
+        throw ArgumentParserException("Wrong number of required arguments.");
+    }
 }
 
 void ArgumentParser::printUsage() const

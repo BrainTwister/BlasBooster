@@ -27,9 +27,20 @@ TEST(ArgumentParserTest, Test2)
     int argc = (int)(sizeof(argv) / sizeof(argv[0]));
 
     bt::ArgumentParser arg(argc, argv, "1.0",
-        {{"integer", bt::Value<int>(5), "Required integer."}}
+        {{"integer", bt::Value<int>(), "Required integer."}}
     );
 
     EXPECT_EQ(arg.get<int>("integer"), 7);
 }
 
+TEST(ArgumentParserTest, Test3)
+{
+    char *argv[] = {strdup("program")};
+    int argc = (int)(sizeof(argv) / sizeof(argv[0]));
+
+    EXPECT_THROW(
+		bt::ArgumentParser arg(argc, argv, "1.0",
+			{{"integer", bt::Value<int>(), "Required integer."}}
+		);
+    , ArgumentParserException);
+}
