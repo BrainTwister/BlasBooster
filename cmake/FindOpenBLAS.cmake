@@ -1,11 +1,10 @@
 if (OPENBLAS_FOUND)
-    return()
+  return()
 endif (OPENBLAS_FOUND)
 
 find_library(OPENBLAS_LIBRARY
-    libopenblas.a
-    PATHS
-    $ENV{OPENBLAS_ROOT}/lib
+  NAMES libopenblas.a
+  PATHS $ENV{OPENBLAS_ROOT}/lib
 )
 
 include(FindPackageHandleStandardArgs)

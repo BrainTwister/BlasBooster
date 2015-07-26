@@ -2,6 +2,7 @@
 #define MATRIXFILEIMPORTER_H_
 
 #include "BlasBooster/MatrixFactory/MatrixFactory.h"
+#include "BlasBooster/Utilities/Filesystem.h"
 #include <string>
 
 namespace BlasBooster {
@@ -11,23 +12,17 @@ class MatrixFileImporter : public MatrixFactory
 {
 public:
 
-	MatrixFileImporter(size_t nbRows, size_t nbColumns, std::string const& file)
-     : nbRows(nbRows), nbColumns(nbColumns), file(file)
+	MatrixFileImporter(size_t nbRows, size_t nbColumns, filesystem::path const& file)
+     : MatrixFactory(nbRows, nbColumns), file(file)
     {}
 
 	virtual ~MatrixFileImporter() {}
 
-	Matrix<Dense,double> getMatrix() const;
-
-	size_t getNbRows() const { return nbRows; }
-	size_t getNbColumns() const { return nbColumns; }
+	Matrix<Dense,double> operator()() const;
 
 private:
 
-	size_t nbRows;
-	size_t nbColumns;
-
-	std::string file;
+	filesystem::path file;
 
 };
 

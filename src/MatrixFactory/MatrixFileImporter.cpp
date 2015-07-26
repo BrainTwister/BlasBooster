@@ -3,7 +3,7 @@
 
 namespace BlasBooster {
 
-Matrix<Dense,double> MatrixFileImporter::getMatrix() const
+Matrix<Dense,double> MatrixFileImporter::operator()() const
 {
 	Matrix<Dense,double> matrix(nbRows,nbColumns);
 

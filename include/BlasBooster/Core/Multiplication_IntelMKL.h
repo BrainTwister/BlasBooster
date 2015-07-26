@@ -12,7 +12,6 @@
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
-#include <iostream>
 
 namespace BlasBooster {
 
@@ -26,24 +25,25 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelM
 
         C.resize(A.getNbRows(),B.getNbColumns());
 
-        char transA = 'N';
-        char transB = 'N';
+        char n = 'N';
         double alpha = 1.0;
         double beta = 0.0;
-        int M = A.getNbRows();
-        int N = B.getNbColumns();
-        int K = A.getNbColumns();
-        int LDA = A.getNbRows();
-        int LDB = A.getNbColumns();
-        int LDC = A.getNbRows();
 
-        double *pA = const_cast<double*>(A.getDataPointer());
-        double *pB = const_cast<double*>(B.getDataPointer());
-        double *pC = C.getDataPointer();
-
-        std::cout << "Calling Intel dgemm " << M << " " << N << " " << K << std::endl;
-
-        BlasInterface<IntelMKL,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        BlasInterface<IntelMKL,dgemm>()(
+            &n,
+            &n,
+            reinterpret_cast<const int*>(&A.nbRows_),
+            reinterpret_cast<const int*>(&B.nbColumns_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+            &alpha,
+            const_cast<double*>(A.data_),
+            reinterpret_cast<const int*>(&A.nbRows_),
+            const_cast<double*>(B.data_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+            &beta,
+	    C.data_,
+            reinterpret_cast<const int*>(&A.nbRows_)
+        );
     }
 };
 
@@ -57,26 +57,38 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
 
         C.resize(A.getNbRows(),B.getNbColumns());
 
-        char transA = 'N';
-        char transB = 'N';
+        char n = 'N';
         float alpha = 1.0f;
         float beta = 0.0f;
-        int M = A.getNbRows();
-        int N = B.getNbColumns();
-        int K = A.getNbColumns();
-        int LDA = A.getNbRows();
-        int LDB = A.getNbColumns();
-        int LDC = A.getNbRows();
 
-        float *pA = const_cast<float*>(A.getDataPointer());
-        float *pB = const_cast<float*>(B.getDataPointer());
-        float *pC = C.getDataPointer();
-
-        std::cout << "Calling Intel sgemm " << M << " " << N << " " << K << std::endl;
-
-        BlasInterface<IntelMKL,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
+        BlasInterface<IntelMKL,sgemm>()(
+            &n,
+            &n,
+            reinterpret_cast<const int*>(&A.nbRows_),
+            reinterpret_cast<const int*>(&B.nbColumns_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+            &alpha,
+            const_cast<float*>(A.data_),
+            reinterpret_cast<const int*>(&A.nbRows_),
+            const_cast<float*>(B.data_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+            &beta,
+            C.data_,
+            reinterpret_cast<const int*>(&A.nbRows_)
+        );
     }
 };
+
+#if 0
+/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Sparse,double> via extern SPBLAS dcsrmm
+template <class P>
+struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
+{
+	char n = 'N';
+	BlasInterface<IntelMKL,dcsrmm>()(char *transa, MKL_INT *m, MKL_INT *n, MKL_INT *k, double *alpha, char *matdescra,
+		double  *val, MKL_INT *indx,  MKL_INT *pntrb, MKL_INT *pntre, double *b, MKL_INT *ldb, double *beta, double *c, MKL_INT *ldc);
+}
+#endif
 
 } // namespace BlasBooster
 

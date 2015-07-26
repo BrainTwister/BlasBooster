@@ -5,7 +5,7 @@ using namespace std;
 
 namespace BlasBooster {
 
-Matrix<Dense,double> MatrixGenerator::getMatrix() const
+Matrix<Dense,double> MatrixGenerator::operator()() const
 {
 	Matrix<Dense,double> matrix(nbRows,nbColumns);
 
