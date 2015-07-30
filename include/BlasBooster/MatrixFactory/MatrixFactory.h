@@ -8,7 +8,7 @@ namespace BlasBooster {
 
 struct MatrixFactory
 {
-	MatrixFactory(size_t nbRows, size_t nbColumns)
+	MatrixFactory(size_t nbRows = 0, size_t nbColumns = 0)
 	 : nbRows(nbRows), nbColumns(nbColumns)
 	{}
 

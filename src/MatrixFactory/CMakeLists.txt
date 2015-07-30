@@ -3,7 +3,7 @@ include_directories(
 )
 
 add_library(
-    MatrixFactoryLib
+    MatrixFactory
     SHARED
     MatrixFileImporter.cpp
     MatrixGenerator.cpp

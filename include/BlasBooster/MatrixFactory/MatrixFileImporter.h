@@ -12,9 +12,7 @@ class MatrixFileImporter : public MatrixFactory
 {
 public:
 
-	MatrixFileImporter(size_t nbRows, size_t nbColumns, filesystem::path const& file)
-     : MatrixFactory(nbRows, nbColumns), file(file)
-    {}
+	MatrixFileImporter(filesystem::path const& file);
 
 	virtual ~MatrixFileImporter() {}
 
@@ -22,7 +20,7 @@ public:
 
 private:
 
-	filesystem::path file;
+	filesystem::path dataFile;
 
 };
 

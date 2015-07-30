@@ -1,5 +1,6 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/PatternGenerator.h"
+#include "BlasBooster/MatrixFactory/MatrixFileImporter.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
 
         std::cout << "\nBlasBooster " + version + " --- ShowPattern ---\n" << std::endl;
 
-        Matrix<Dense,double> matrix;// = MatrixFileImporter::Settings(arg.get<filesystem::path>("matrix"));
+        Matrix<Dense,double> matrix = MatrixFileImporter(arg.get<filesystem::path>("matrix"))();
 
         PatternGenerator()(matrix, arg.get<filesystem::path>("pattern"));
 

@@ -27,6 +27,7 @@ add_executable(
 target_link_libraries(
     ShowPattern
     ArgumentParser
+    MatrixFactory
     ${Boost_LIBRARIES}
 )
 
