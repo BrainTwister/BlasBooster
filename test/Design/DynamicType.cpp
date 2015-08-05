@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "gtest/gtest.h"
 
 struct Base
 { 
@@ -32,45 +33,40 @@ using DynType = std::shared_ptr<Base>;
 template <class T>
 struct MyFunctor
 {
-    void operator() (T const& t) {
-        std::cout << "MyFunctor was called for " << T::name() << std::endl;
+    std::string operator() (T const& t) {
+        return T::name();
     }
-    void operator() (DynType const& dynType) {
-        this->operator()(*std::static_pointer_cast<T>(dynType));
+    std::string operator() (DynType const& dynType) {
+        return this->operator()(*std::static_pointer_cast<T>(dynType));
     }
 };
 
-template <class ListType>
-struct DynamicFunctor
+template <>
+struct MyFunctor<DynType>
 {
-    DynamicFunctor() {
+	MyFunctor() {
         dynFunc.push_back(MyFunctor<Derived1>());
         dynFunc.push_back(MyFunctor<Derived2>());
     }
 
-    void operator() (DynType const& dynType) {
-        dynFunc[dynType->getIdx()](dynType);
+    std::string operator() (DynType const& dynType) {
+        return dynFunc[dynType->getIdx()](dynType);
     }
 
-    std::vector<std::function<void(DynType const&)>> dynFunc;
+    std::vector<std::function<std::string(DynType const&)>> dynFunc;
 };
 
-template <>
-struct MyFunctor<DynType> : DynamicFunctor<List>
-{};
-
-int main()
+TEST(Design, DynamicType)
 {
     Derived1 d1;
-    MyFunctor<Derived1>()(d1);
+	EXPECT_EQ("Derived1", MyFunctor<Derived1>()(d1));
 
     Derived2 d2;
-    MyFunctor<Derived2>()(d2);
+    EXPECT_EQ("Derived2", MyFunctor<Derived2>()(d2));
 
     DynType dyn1(new Derived1);
-    MyFunctor<DynType>()(dyn1);
+    EXPECT_EQ("Derived1", MyFunctor<DynType>()(dyn1));
 
     DynType dyn2(new Derived2);
-    MyFunctor<DynType>()(dyn2);
+    EXPECT_EQ("Derived2", MyFunctor<DynType>()(dyn2));
 }
-
