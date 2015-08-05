@@ -37,7 +37,7 @@ inline std::ostream& shortprint(std::ostream& stream)
 template <class M, class T, class P>
 struct MatrixPrintFunctor
 {
-    void operator () (std::ostream& stream, Matrix<M,T,P> const& A)
+    void operator () (std::ostream& stream, Matrix<M,T,P> const& A) const
     {
         static_assert(wrong_t<M>::value, "Primary template must not be instantiated.");
     }
@@ -46,7 +46,7 @@ struct MatrixPrintFunctor
 template <class T, class P>
 struct MatrixPrintFunctor<Dense,T,P>
 {
-    void operator () (std::ostream& stream, Matrix<Dense,T,P> const& A)
+    void operator () (std::ostream& stream, Matrix<Dense,T,P> const& A) const
     {
         const size_t maxNbRowsForPrinting = 100;
         const size_t maxNbColumnsForPrinting = 100;
@@ -102,7 +102,7 @@ struct MatrixPrintFunctor<Dense,T,P>
 template <class T, class P>
 struct MatrixPrintFunctor<Sparse,T,P>
 {
-    void operator () (std::ostream& stream, Matrix<Sparse,T,P> const& A)
+    void operator () (std::ostream& stream, Matrix<Sparse,T,P> const& A) const
     {
         typedef const Matrix<Sparse,T,P> ConstMatrix;
 

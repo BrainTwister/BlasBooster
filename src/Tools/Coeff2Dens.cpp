@@ -1,4 +1,5 @@
 #include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/MatrixFileIO.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Transposition.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
