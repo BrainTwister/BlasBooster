@@ -26,14 +26,15 @@ struct NormFunctor
     }
 };
 
+/// norm function wrapper, forwarded to the NormFunctor for partial specialization
 template <class NormType, class MatrixType>
 inline double norm(MatrixType const& m)
 {
-    return NormFunctor<NormType,MatrixType>()(m);
+    return NormFunctor<NormType, MatrixType>()(m);
 }
 
 template <class M, class T, class P>
-struct NormFunctor<NormOne,Matrix<M,T,P> >
+struct NormFunctor<NormOne, Matrix<M,T,P> >
 {
     double operator () (Matrix<M,T,P> const& m)
     {
@@ -155,36 +156,24 @@ struct NormFunctor<NormMax,Matrix<M,DynamicMatrix,P> >
 };
 
 template <class X1, class X2>
-struct NormFunctor<NormMax,MultipleMatrix<X1,X2> >
+struct NormFunctor<NormMax, MultipleMatrix<X1,X2> >
 {
     double operator () (MultipleMatrix<X1,X2> const& m)
     {
         return std::max(norm<NormMax>(m.getMatrix1()) + norm<NormMax>(m.getMatrix1()));
-        return 0.0;
     }
 };
 
 template <class NormType>
-struct DynamicNormFunctor
+struct NormFunctor<NormType, DynamicMatrix>
 {
-    typedef double result_type;
-
-    DynamicNormFunctor(DynamicMatrix const& dynMatrix) : dynMatrix_(dynMatrix) {}
-
-    template <class T>
-    result_type operator () (T* = 0) const
+    double operator () (DynamicMatrix const& m)
     {
-        return norm<NormType>(*(boost::static_pointer_cast<T>(dynMatrix_)));
+        return dynFunc[m->getTypeIndex()](m);
     }
 
-    DynamicMatrix dynMatrix_;
+    std::vector<std::function<double(DynamicMatrix const&)>> dynFunc;
 };
-
-template <class NormType>
-inline double norm(DynamicMatrix const& dynMatrix)
-{
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicNormFunctor<NormType>(dynMatrix));
-}
 
 } // namespace BlasBooster
 

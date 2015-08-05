@@ -44,16 +44,17 @@ struct MyFunctor
 template <>
 struct MyFunctor<DynType>
 {
-	MyFunctor() {
-        dynFunc.push_back(MyFunctor<Derived1>());
-        dynFunc.push_back(MyFunctor<Derived2>());
-    }
-
     std::string operator() (DynType const& dynType) {
         return dynFunc[dynType->getIdx()](dynType);
     }
 
-    std::vector<std::function<std::string(DynType const&)>> dynFunc;
+    static std::function<std::string(DynType const&)> dynFunc[2];
+};
+
+std::function<std::string(DynType const&)> MyFunctor<DynType>::dynFunc[] =
+{
+    MyFunctor<Derived1>(),
+	MyFunctor<Derived2>()
 };
 
 TEST(Design, DynamicType)
