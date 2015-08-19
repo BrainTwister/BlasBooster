@@ -10,11 +10,11 @@
 #define MATRIXIO_H_
 
 #include "BlasBooster/Core/DenseMatrix.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <iostream>
+#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 

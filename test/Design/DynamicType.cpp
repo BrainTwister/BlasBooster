@@ -24,7 +24,8 @@ struct Derived2 : public Base
 };
 
 template <class... T>
-struct TypeList{};
+struct TypeList
+{};
 
 using List = TypeList<Derived1, Derived2>;
 
@@ -33,10 +34,12 @@ using DynType = std::shared_ptr<Base>;
 template <class T>
 struct MyFunctor
 {
-    std::string operator() (T const& t) {
+    using Result = std::string;
+
+    Result operator() (T const& t) {
         return T::name();
     }
-    std::string operator() (DynType const& dynType) {
+    Result operator() (DynType const& dynType) {
         return this->operator()(*std::static_pointer_cast<T>(dynType));
     }
 };
@@ -44,23 +47,26 @@ struct MyFunctor
 template <>
 struct MyFunctor<DynType>
 {
-    std::string operator() (DynType const& dynType) {
+    using Result = std::string;
+    using Function = std::function< Result(DynType const&) >;
+
+    Result operator() (DynType const& dynType) {
         return dynFunc[dynType->getIdx()](dynType);
     }
 
-    static std::function<std::string(DynType const&)> dynFunc[2];
+    static Function dynFunc[2];
 };
 
-std::function<std::string(DynType const&)> MyFunctor<DynType>::dynFunc[] =
+MyFunctor<DynType>::Function MyFunctor<DynType>::dynFunc[] =
 {
     MyFunctor<Derived1>(),
-	MyFunctor<Derived2>()
+    MyFunctor<Derived2>()
 };
 
 TEST(Design, DynamicType)
 {
     Derived1 d1;
-	EXPECT_EQ("Derived1", MyFunctor<Derived1>()(d1));
+    EXPECT_EQ("Derived1", MyFunctor<Derived1>()(d1));
 
     Derived2 d2;
     EXPECT_EQ("Derived2", MyFunctor<Derived2>()(d2));
@@ -71,3 +77,4 @@ TEST(Design, DynamicType)
     DynType dyn2(new Derived2);
     EXPECT_EQ("Derived2", MyFunctor<DynType>()(dyn2));
 }
+

@@ -9,11 +9,12 @@
 #ifndef MATRIXBASE_H_
 #define MATRIXBASE_H_
 
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include <boost/operators.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
 #include <cstddef>
+#include <memory>
+#include <type_traits>
 
 /**
  * \brief Dense and sparse linear algebra operations.
@@ -43,26 +44,48 @@ public:
 
 };
 
-typedef boost::shared_ptr<MatrixBase> DynamicMatrix;
-typedef boost::shared_ptr<const MatrixBase> ConstDynamicMatrix;
+typedef std::shared_ptr<MatrixBase> DynamicMatrix;
+typedef std::shared_ptr<const MatrixBase> ConstDynamicMatrix;
 
-template <> struct TypeName<DynamicMatrix>
+template <> struct TypeName <DynamicMatrix>
 {
     static const std::string value() { return "DynamicMatrix"; }
 };
 
-template <> struct TypeName<ConstDynamicMatrix>
+template <> struct TypeName <ConstDynamicMatrix>
 {
     static const std::string value() { return "ConstDynamicMatrix"; }
 };
 
+/// Forward declaration
+template <class T1, class T2>
+struct MultipleMatrix;
+
+/**
+ * \brief Matrix types of the DynamicMatrix.
+ *
+ * A DynamicMatrix can only be converted into a matrix type listed here.
+ * Other types will cause a runtime error.
+ *
+ * The order of the matrix type list is fixed by the important for the MatrixConverter.
+ * The source matrix will be converted into the first matrix type which match the criteria.
+ */
+using DynamicMatrixTypeList = TypeList <
+    Matrix<Sparse, float>,
+    Matrix<Dense, float>,
+    Matrix<Sparse, double>,
+    MultipleMatrix<Matrix<Sparse,double>, Matrix<Sparse,float>>,
+    MultipleMatrix<Matrix<Sparse,double>, Matrix<Dense,float>>,
+    Matrix<Dense, double>
+>;
+
 } // namespace BlasBooster
 
-namespace boost {
+namespace std {
 
 template <>
-struct is_arithmetic<BlasBooster::DynamicMatrix> : public false_type {};
+struct is_arithmetic<BlasBooster::DynamicMatrix> : std::integral_constant<bool, false> {};
 
-} // namespace boost
+} // namespace std
 
 #endif // MATRIXBASE_H_

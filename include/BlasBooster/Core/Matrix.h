@@ -9,7 +9,6 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
-#include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <boost/operators.hpp>

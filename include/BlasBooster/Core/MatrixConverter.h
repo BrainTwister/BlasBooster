@@ -9,10 +9,10 @@
 #ifndef MATRIXCONVERTER_H_
 #define MATRIXCONVERTER_H_
 
+#include "../Utilities/TypeList.h"
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/Threshold.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 

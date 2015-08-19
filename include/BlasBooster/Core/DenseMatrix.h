@@ -14,6 +14,7 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/DynamicMatrixFunctions.h"
 #include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_Native.h"
@@ -21,11 +22,10 @@
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Storage.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include "BlasBooster/Utilities/TypeRegister.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/and.hpp>
 #include <boost/mpl/if.hpp>
@@ -39,6 +39,7 @@
 #include <stdexcept>
 #include <string>
 #include <typeinfo>
+#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -310,7 +311,7 @@ public: // member functions
         //swap(a.storage,b.storage);
     }
 
-    static const size_t typeIndex_ = TypeRegister<TypeList>::getTypeIndex<self>::value;
+    static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
     static const std::string name() { return "Matrix<Dense," + TypeName<T>::value() + ">"; }
 

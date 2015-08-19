@@ -9,11 +9,11 @@
 #ifndef MULTIPLEMATRIX_H_
 #define MULTIPLEMATRIX_H_
 
+#include "../Utilities/TypeList.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/MatrixBase.h"
-#include "BlasBooster/Core/TypeList.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include "BlasBooster/Utilities/TypeRegister.h"
 
 namespace BlasBooster {
 
@@ -30,6 +30,8 @@ template <class T1, class T2>
 struct MultipleMatrix
  : public MatrixBase
 {
+    typedef MultipleMatrix<T1, T2> self;
+
     explicit MultipleMatrix(std::shared_ptr<T1> const& ptrT1 = std::shared_ptr<T1>(),
         std::shared_ptr<T2> const& ptrT2 = std::shared_ptr<T2>()
     )
@@ -106,7 +108,7 @@ struct MultipleMatrix
 
     size_t getTypeIndex() const { return typeIndex_; }
 
-    static const size_t typeIndex_ = TypeRegister<TypeList>::getTypeIndex<MultipleMatrix>::value;
+    static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
 private:
 

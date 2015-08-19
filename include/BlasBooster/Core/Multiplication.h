@@ -15,7 +15,6 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/wrong_t.h"
@@ -26,6 +25,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 

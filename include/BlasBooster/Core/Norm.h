@@ -9,7 +9,7 @@
 #ifndef NORM_H_
 #define NORM_H_
 
-#include "BlasBooster/Core/TypeList.h"
+#include "../Utilities/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 

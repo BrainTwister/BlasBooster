@@ -10,10 +10,10 @@
 #define DYNAMICMATRIXFUNCTIONS_H_
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 
 namespace BlasBooster {
 

@@ -19,17 +19,17 @@
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/SparseStorage.h"
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/DebugPrint.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include "BlasBooster/Utilities/TypeRegister.h"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/operators.hpp>
 #include <boost/type_traits.hpp>
 #include <typeinfo>
+#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -145,7 +145,7 @@ public:
         swap(a.nbColumns_,b.nbColumns_);
     }
 
-    static const size_t typeIndex_ = TypeRegister<TypeList>::getTypeIndex<self>::value;
+    static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
     static const std::string name() { return "Matrix<Sparse," + TypeName<T>::value() + ">"; }
 

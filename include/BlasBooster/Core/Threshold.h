@@ -9,11 +9,11 @@
 #ifndef THRESHOLD_H_
 #define THRESHOLD_H_
 
-#include "BlasBooster/Core/TypeList.h"
 #include "BlasBooster/Utilities/CreateSettingsClass.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <boost/mpl/long.hpp>
 #include <boost/mpl/vector.hpp>
+#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
