@@ -164,16 +164,24 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2> >
     }
 };
 
+template <class FunctionType, template <class... T> class TypeList>
+struct DynFuncGenerator
+{
+    static FunctionType dynFunc[sizeof...(T)];
+};
+
 template <class NormType>
 struct NormFunctor<NormType, DynamicMatrix>
+ : DynFuncGenerator<std::function< double(DynamicMatrix const&) >, DynamicMatrixTypeList>
 {
-    double operator () (DynamicMatrix const& m)
+    double operator () (DynamicMatrix const& m) const
     {
         return dynFunc[m->getTypeIndex()](m);
     }
-
-    std::vector<std::function<double(DynamicMatrix const&)>> dynFunc;
 };
+
+template <class FunctionType, class... T>
+FunctionType DynFuncGenerator<FunctionType, T...>::dynFunc[sizeof...(T)] = { T... }
 
 } // namespace BlasBooster
 
