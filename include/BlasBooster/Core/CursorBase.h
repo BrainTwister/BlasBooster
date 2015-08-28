@@ -1,29 +1,37 @@
-#ifndef CURSORBASE_H_
-#define CURSORBASE_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
 
-#include <boost/operators.hpp>
+#ifndef BLASBOOSTER_CORE_CURSORBASE_H_
+#define BLASBOOSTER_CORE_CURSORBASE_H_
 
 namespace BlasBooster {
 
-/**
- * CursorBase
- */
-template < class Key >
+template <class Key>
 struct CursorBase
- : boost::equality_comparable< CursorBase<Key> >
 {
     typedef CursorBase self;
 
     CursorBase() : key_() {}
 
-    CursorBase( Key key ) : key_(key) {}
+    CursorBase(Key key) : key_(key) {}
 
     virtual ~CursorBase() {}
 
-    template < class OtherCursor >
-    bool operator == ( const OtherCursor& other ) const
+    template <class OtherCursor>
+    bool operator == (OtherCursor const& other) const
     {
         return key_ == other.key_;
+    }
+
+    template <class OtherCursor>
+    bool operator != (OtherCursor const& other) const
+    {
+        return !operator==(other);
     }
 
     self& operator ++ ()
@@ -44,4 +52,4 @@ struct CursorBase
 
 } // namespace BlasBooster
 
-#endif // CURSORBASE_H_
+#endif // BLASBOOSTER_CORE_CURSORBASE_H_

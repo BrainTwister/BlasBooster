@@ -6,14 +6,15 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLICATION_NATIVE_H_
-#define MULTIPLICATION_NATIVE_H_
+#ifndef BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_
+#define BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_
 
-#include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
+#include <type_traits>
+#include <vector>
 
 // For testing
 #include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
@@ -283,8 +284,8 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
 template <class M1, class T1, class P1,
           class M2, class T2, class P2,
           class T3, class P3>
-struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename boost::enable_if<
-    boost::mpl::or_<boost::is_same<M1,Zero>,boost::is_same<M2,Zero> > >::type,T3,P3,Native>
+struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename std::enable_if<
+    std::is_same<M1,Zero>{} or std::is_same<M2,Zero>{}, Zero>::type,T3,P3,Native>
 {
     void operator () (Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<Zero,T3,P3>& C)
     {
@@ -294,4 +295,4 @@ struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename boost::enable_if<
 
 } // namespace BlasBooster
 
-#endif /* MULTIPLICATION_NATIVE_H_ */
+#endif // BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_

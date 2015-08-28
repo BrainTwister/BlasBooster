@@ -6,16 +6,14 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef BLOCKSIZEGENERATOR_H_
-#define BLOCKSIZEGENERATOR_H_
+#ifndef BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_
+#define BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_
 
 #include "BlasBooster/Core/BlockedMatrix.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixConverter.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/STLHelpers.h"
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
 #include <set>
 #include <stdexcept>
 
@@ -158,4 +156,4 @@ std::vector<size_t> BlockSizeGenerator::getBlockSizeList(std::vector<T> const& d
 
 } // namespace BlasBooster
 
-#endif /* BLOCKSIZEGENERATOR_H_ */
+#endif // BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_

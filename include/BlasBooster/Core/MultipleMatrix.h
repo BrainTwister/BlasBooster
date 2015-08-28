@@ -6,10 +6,9 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLEMATRIX_H_
-#define MULTIPLEMATRIX_H_
+#ifndef BLASBOOSTER_CORE_MULTIPLEMATRIX_H_
+#define BLASBOOSTER_CORE_MULTIPLEMATRIX_H_
 
-#include "../Utilities/TypeList.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Utilities/TypeList.h"
@@ -125,4 +124,4 @@ struct TypeName< MultipleMatrix<T1,T2> >
 
 } // namespace BlasBooster
 
-#endif // MULTIPLEMATRIX_H_
+#endif // BLASBOOSTER_CORE_MULTIPLEMATRIX_H_

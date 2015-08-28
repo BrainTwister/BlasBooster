@@ -6,14 +6,11 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MATRIX_H_
-#define MATRIX_H_
+#ifndef BLASBOOSTER_CORE_MATRIX_H_
+#define BLASBOOSTER_CORE_MATRIX_H_
 
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/operators.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
 #include <cstddef>
 
 namespace BlasBooster {
@@ -38,4 +35,4 @@ struct Matrix
 
 } // namespace BlasBooster
 
-#endif // MATRIX_H_
+#endif // BLASBOOSTER_CORE_MATRIX_H_

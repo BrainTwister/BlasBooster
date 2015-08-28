@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2014, Bernd Doser (bernd.doser@gmx.de)
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
 // All rights reserved.
 //
 // This file is part of BlasBooster
@@ -6,13 +6,12 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef PARAMETER_H_
-#define PARAMETER_H_
+#ifndef BLASBOOSTER_CORE_PARAMETER_H_
+#define BLASBOOSTER_CORE_PARAMETER_H_
 
 #include "Dimension.h"
-#include <boost/mpl/not.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/utility.hpp>
+#include <complex>
+#include <type_traits>
 
 namespace BlasBooster {
 
@@ -43,19 +42,19 @@ struct Parameter
     typedef LeadingDimension leadingDimension;
     typedef UnblockedDimension unblockedDimension;
     typedef Norm NormType;
-    static const bool isSubMatrix = boost::mpl::not_<boost::is_same<LeadingDimension,NoLeadingDimension> >::value;
-    static const bool isBlockedMatrix = boost::mpl::not_<boost::is_same<UnblockedDimension,NoUnblockedDimension> >::value;
-    static const bool onStack = boost::is_same<Storage,OnStack>::value;
+    static const bool isSubMatrix = !std::is_same<LeadingDimension, NoLeadingDimension>::value;
+    static const bool isBlockedMatrix = !std::is_same<UnblockedDimension, NoUnblockedDimension>::value;
+    static const bool onStack = std::is_same<Storage, OnStack>::value;
     static const bool isFixed = Dimension::fixed;
 };
 
 } // namespace BlasBooster
 
-namespace boost {
+namespace std {
 
-template < typename T >
-struct is_arithmetic< std::complex<T> > : public true_type {};
+template <typename T>
+struct is_arithmetic<std::complex<T>> : public true_type {};
 
-} // namespace boost
+} // namespace std
 
-#endif /* PARAMETER_H_ */
+#endif // BLASBOOSTER_CORE_PARAMETER_H_

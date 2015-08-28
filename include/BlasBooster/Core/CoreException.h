@@ -1,7 +1,15 @@
-#ifndef COREEXCEPTION_H_
-#define COREEXCEPTION_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
 
-#include <assert.h>
+#ifndef BLASBOOSTER_CORE_COREEXCEPTION_H_
+#define BLASBOOSTER_CORE_COREEXCEPTION_H_
+
+#include <cassert>
 #include <stdexcept>
 #include <string>
 
@@ -16,4 +24,4 @@ struct CoreException : public std::runtime_error
     #define BLASBOOSTER_CORE_FAILURE(msg) assert(false && msg);
 #endif
 
-#endif /* COREEXCEPTION_H_ */
+#endif // BLASBOOSTER_CORE_COREEXCEPTION_H_

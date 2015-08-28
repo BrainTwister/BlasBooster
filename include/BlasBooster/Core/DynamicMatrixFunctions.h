@@ -26,7 +26,7 @@ struct DynamicGetNbRows
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getNbRows();
+        return std::static_pointer_cast<T>(dynMatrix_)->getNbRows();
     }
 
     DynamicMatrix dynMatrix_;
@@ -34,7 +34,7 @@ struct DynamicGetNbRows
 
 inline size_t getNbRows(DynamicMatrix const& dynMatrix)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNbRows(dynMatrix));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNbRows(dynMatrix));
 }
 
 struct DynamicGetNbColumns
@@ -46,7 +46,7 @@ struct DynamicGetNbColumns
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getNbColumns();
+        return std::static_pointer_cast<T>(dynMatrix_)->getNbColumns();
     }
 
     DynamicMatrix dynMatrix_;
@@ -54,7 +54,7 @@ struct DynamicGetNbColumns
 
 inline size_t getNbColumns(DynamicMatrix const& dynMatrix)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNbColumns(dynMatrix));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNbColumns(dynMatrix));
 }
 
 struct DynamicGetSize
@@ -66,7 +66,7 @@ struct DynamicGetSize
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getSize();
+        return std::static_pointer_cast<T>(dynMatrix_)->getSize();
     }
 
     DynamicMatrix dynMatrix_;
@@ -74,7 +74,7 @@ struct DynamicGetSize
 
 inline size_t getSize( const DynamicMatrix& dynMatrix )
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetSize(dynMatrix));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetSize(dynMatrix));
 }
 
 struct DynamicGetNorm
@@ -86,7 +86,7 @@ struct DynamicGetNorm
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getNorm();
+        return std::static_pointer_cast<T>(dynMatrix_)->getNorm();
     }
 
     DynamicMatrix dynMatrix_;
@@ -94,7 +94,7 @@ struct DynamicGetNorm
 
 inline double getNorm(DynamicMatrix const& dynMatrix)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNorm(dynMatrix));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetNorm(dynMatrix));
 }
 
 struct DynamicIsNormLargerThan
@@ -108,7 +108,7 @@ struct DynamicIsNormLargerThan
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->isNormLargerThan(value_);
+        return std::static_pointer_cast<T>(dynMatrix_)->isNormLargerThan(value_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -117,7 +117,7 @@ struct DynamicIsNormLargerThan
 
 inline bool isNormLargerThan(DynamicMatrix const& dynMatrix, double value)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicIsNormLargerThan(dynMatrix,value));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicIsNormLargerThan(dynMatrix,value));
 }
 
 template <class ValueChecker>
@@ -132,7 +132,7 @@ struct DynamicGetOccupation
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getOccupation(valueChecker_);
+        return std::static_pointer_cast<T>(dynMatrix_)->getOccupation(valueChecker_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -142,7 +142,7 @@ struct DynamicGetOccupation
 template <class ValueChecker>
 inline double getOccupation(DynamicMatrix const& dynMatrix, ValueChecker const& valueChecker)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetOccupation<ValueChecker>(dynMatrix,valueChecker));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicGetOccupation<ValueChecker>(dynMatrix,valueChecker));
 }
 
 template <class ValueChecker>
@@ -157,7 +157,7 @@ struct DynamicIsOccupationLargerThan
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->isOccupationLargerThan(valueChecker_);
+        return std::static_pointer_cast<T>(dynMatrix_)->isOccupationLargerThan(valueChecker_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -168,7 +168,7 @@ struct DynamicIsOccupationLargerThan
 template <class ValueChecker>
 inline bool isOccupationLargerThan(DynamicMatrix const& dynMatrix, double value, ValueChecker const& valueChecker)
 {
-    return exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicIsOccupationLargerThan<ValueChecker>(dynMatrix,value,valueChecker));
+    return exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicIsOccupationLargerThan<ValueChecker>(dynMatrix,value,valueChecker));
 }
 
 } // namespace BlasBooster

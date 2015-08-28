@@ -1,93 +1,74 @@
-#ifndef EXEC_IF_2DIM_H_
-#define EXEC_IF_2DIM_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/next_prior.hpp>
-#include <boost/mpl/is_sequence.hpp>
-#include <stdexcept>
+#ifndef BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_
+#define BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_
+
+#include "BlasBooster/Core/CoreException.h"
 
 namespace BlasBooster {
 
-template< bool done = true >
-struct exec_if_1dim_impl
+template <class L>
+struct exec_if_1dim_impl;
+
+template <class T>
+struct exec_if_1dim_impl<TypeList<T>>
 {
-    template< class T1, class Iterator, class LastIterator, class Pred, class Exec >
-    static typename Exec::result_type execute( T1*, Iterator*, LastIterator*, const Pred&, const Exec& )
+    template <class T1, class P, class E>
+    static typename E::result_type execute(T1*, P const& p, E const& e)
     {
-        throw std::runtime_error("exec_if_1dim: type not found.");
+        if (p(static_cast<T*>(0))) return e(static_cast<T1*>(0), static_cast<T*>(0));
+        BLASBOOSTER_CORE_FAILURE("type not found");
     }
 };
 
-template<>
-struct exec_if_1dim_impl<false>
+template <class Tail, class... Ts>
+struct exec_if_1dim_impl<TypeList<Tail, Ts...>>
 {
-    template< class T1, class Iterator, class LastIterator, class Pred, class Exec >
-    static typename Exec::result_type execute( T1*, Iterator*, LastIterator*, const Pred& p, const Exec& e )
+    template <class T1, class P, class E>
+    static typename E::result_type execute(T1*, P const& p, E const& e)
     {
-        typedef typename boost::mpl::deref<Iterator>::type T2;
-
-        if (!p(static_cast<T2*>(0)))
-        {
-            typedef typename boost::mpl::next<Iterator>::type iter;
-            return exec_if_1dim_impl<boost::is_same<iter, LastIterator>::value>
-                ::execute(static_cast<T1*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p, e);
-        }
-        else
-            return e(static_cast<T1*>(0), static_cast<T2*>(0));
+        if (p(static_cast<Tail*>(0))) return e(static_cast<T1*>(0), static_cast<Tail*>(0));
+        return exec_if_1dim_impl<TypeList<Ts...>>::execute(static_cast<T1*>(0), p, e);
     }
 };
 
-template< bool done = true >
-struct exec_if_2dim_impl
+template <class L>
+struct exec_if_2dim_impl;
+
+template <class T>
+struct exec_if_2dim_impl<TypeList<T>>
 {
-    template< class Sequence, class Iterator, class LastIterator, class Pred1, class Pred2, class Exec >
-    static typename Exec::result_type execute( Sequence*, Iterator*, LastIterator*, const Pred1& p1, const Pred2& p2, const Exec& )
+    template <class L, class P1, class P2, class E>
+    static typename E::result_type execute(P1 const& p1, P2 const& p2, E const& e, L* = nullptr)
     {
-        throw std::runtime_error("exec_if_2dim: type not found.");
+        if (p1(static_cast<T*>(0))) return exec_if_1dim_impl<L>::execute(static_cast<T*>(0), p2, e);
+        BLASBOOSTER_CORE_FAILURE("type not found");
     }
 };
 
-template<>
-struct exec_if_2dim_impl<false>
+template <class Tail, class... Ts>
+struct exec_if_2dim_impl<TypeList<Tail, Ts...>>
 {
-    template< class Sequence, class Iterator, class LastIterator, class Pred1, class Pred2, class Exec >
-    static typename Exec::result_type execute( Sequence*, Iterator*, LastIterator*, const Pred1& p1, const Pred2& p2, const Exec& e )
+    template <class L, class P1, class P2, class E>
+    static typename E::result_type execute(P1 const& p1, P2 const& p2, E const& e, L* pl = nullptr)
     {
-        typedef typename boost::mpl::deref<Iterator>::type T1;
-
-        if (!p1(static_cast<T1*>(0)))
-        {
-            typedef typename boost::mpl::next<Iterator>::type iter;
-            return exec_if_2dim_impl<boost::is_same<iter, LastIterator>::value>
-                ::execute(static_cast<Sequence*>(0), static_cast<iter*>(0), static_cast<LastIterator*>(0), p1, p2, e);
-        }
-        else
-        {
-            typedef typename boost::mpl::begin<Sequence>::type first;
-            typedef typename boost::mpl::end<Sequence>::type last;
-
-            return exec_if_1dim_impl<boost::is_same<first,last>::value>
-                ::execute(static_cast<T1*>(0), static_cast<first*>(0), static_cast<last*>(0), p2, e);
-        }
+        if (p1(static_cast<Tail*>(0))) return exec_if_1dim_impl<L>::execute(static_cast<Tail*>(0), p2, e);
+        return exec_if_2dim_impl<TypeList<Ts...>>::execute(p1, p2, e, pl);
     }
 };
 
-template< class Sequence, class Pred1, class Pred2, class Exec >
-inline typename Exec::result_type exec_if_2dim( const Pred1& p1, const Pred2& p2, const Exec& e, Sequence* = 0 )
+template <class L, class P1, class P2, class E>
+inline typename E::result_type exec_if_2dim(P1 const& p1, P2 const& p2, E const& e, L* pl = nullptr)
 {
-    BOOST_MPL_ASSERT(( boost::mpl::is_sequence<Sequence> ));
-
-    typedef typename boost::mpl::begin<Sequence>::type first;
-    typedef typename boost::mpl::end<Sequence>::type last;
-
-    return exec_if_2dim_impl<boost::is_same<first,last>::value>
-        ::execute(static_cast<Sequence*>(0), static_cast<first*>(0), static_cast<last*>(0), p1, p2, e);
+    return exec_if_2dim_impl<L>::execute(p1, p2, e, pl);
 }
 
 } // namespace BlasBooster
 
-#endif /* EXEC_IF_2DIM_H_ */
+#endif // BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_

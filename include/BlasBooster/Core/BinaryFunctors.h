@@ -6,24 +6,22 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef BINARYFUNCTORS_H_
-#define BINARYFUNCTORS_H_
+#ifndef BLASBOOSTER_CORE_BINARYFUNCTORS_H_
+#define BLASBOOSTER_CORE_BINARYFUNCTORS_H_
 
-#include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/AllMatrixTypes.h"
+#include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixBase.h"
+#include "BlasBooster/Core/MultipleMatrix.h"
 #include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
-#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -557,10 +555,10 @@ struct DynamicAddFunctor
     template <class T1, class T2>
     result_type operator () (T1* = 0, T2* = 0) const
     {
-        typedef decltype(*(boost::static_pointer_cast<T1>(ptrA_)) + *(boost::static_pointer_cast<T2>(ptrB_))) ResultType;
+        typedef decltype(*(std::static_pointer_cast<T1>(ptrA_)) + *(std::static_pointer_cast<T2>(ptrB_))) ResultType;
 
         DynamicMatrix ptrC(new ResultType);
-        *(boost::static_pointer_cast<ResultType>(ptrC)) = *(boost::static_pointer_cast<T1>(ptrA_)) + *(boost::static_pointer_cast<T2>(ptrB_));
+        *(std::static_pointer_cast<ResultType>(ptrC)) = *(std::static_pointer_cast<T1>(ptrA_)) + *(std::static_pointer_cast<T2>(ptrB_));
 
         return ptrC;
     }
@@ -572,7 +570,7 @@ struct DynamicAddFunctor
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-    return exec_if_2dim<TypeList>(TypeChecker(ptrA->getTypeIndex()),
+    return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
         TypeChecker(ptrB->getTypeIndex()), DynamicAddFunctor(ptrA,ptrB));
 }
 
@@ -586,7 +584,7 @@ struct DynamicAddAssignFunctor
     template <class T1, class T2>
     result_type operator () (T1* = 0, T2* = 0) const
     {
-        *(boost::static_pointer_cast<T1>(ptrA_)) += *(boost::static_pointer_cast<T2>(ptrB_));
+        *(std::static_pointer_cast<T1>(ptrA_)) += *(std::static_pointer_cast<T2>(ptrB_));
         return ptrA_;
     }
 
@@ -597,10 +595,10 @@ struct DynamicAddAssignFunctor
 /// Operator for DynamicMatrix addition assignment
 inline DynamicMatrix operator += (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-    return exec_if_2dim<TypeList>(TypeChecker(ptrA->getTypeIndex()),
+    return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
         TypeChecker(ptrB->getTypeIndex()), DynamicAddAssignFunctor(ptrA,ptrB));
 }
 
 } // namespace BlasBooster
 
-#endif /* BINARYFUNCTORS_H_ */
+#endif // BLASBOOSTER_CORE_BINARYFUNCTORS_H_

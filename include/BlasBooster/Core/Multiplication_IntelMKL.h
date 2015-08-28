@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLICATION_INTELMKL_H_
-#define MULTIPLICATION_INTELMKL_H_
+#ifndef BLASBOOSTER_CORE_MULTIPLICATION_INTELMKL_H_
+#define BLASBOOSTER_CORE_MULTIPLICATION_INTELMKL_H_
 
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
@@ -92,5 +92,4 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
 
 } // namespace BlasBooster
 
-#endif /* MULTIPLICATION_INTELMKL_H_ */
-
+#endif // BLASBOOSTER_CORE_MULTIPLICATION_INTELMKL_H_

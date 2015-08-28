@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef ABSOLUTEVALUERANGECHECKER_H_
-#define ABSOLUTEVALUERANGECHECKER_H_
+#ifndef BLASBOOSTER_CORE_ABSOLUTEVALUERANGECHECKER_H_
+#define BLASBOOSTER_CORE_ABSOLUTEVALUERANGECHECKER_H_
 
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Core/CoreException.h"
@@ -78,13 +78,17 @@ public:
 
     size_t getID() const { return id_; }
 
-    static const size_t id_ = GetIndex<self, ValueCheckerTypeList>::value;
+    static const size_t id_;
 
 private:
 
     ThresholdType threshold_;
 
 };
+
+template <class ThresholdType>
+const size_t AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,NoBound>::id_
+    = GetIndex<AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,NoBound>, ValueCheckerTypeList>::value;
 
 template <class ThresholdType>
 class AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,InclusiveBound> : public ValueCheckerBase
@@ -119,7 +123,7 @@ public:
 
     size_t getID() const { return id_; }
 
-    static const size_t id_ = GetIndex<self, ValueCheckerTypeList>::value;
+    static const size_t id_;
 
 private:
 
@@ -127,6 +131,10 @@ private:
     ThresholdType upperThreshold_;
 
 };
+
+template <class ThresholdType>
+const size_t AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,InclusiveBound>::id_
+    = GetIndex<AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,InclusiveBound>, ValueCheckerTypeList>::value;
 
 template <class ThresholdType>
 class AbsoluteValueRangeChecker<ThresholdType,InclusiveBound,InclusiveBound> : public ValueCheckerBase
@@ -161,7 +169,7 @@ public:
 
     size_t getID() const { return id_; }
 
-    static const size_t id_ = GetIndex<self, ValueCheckerTypeList>::value;
+    static const size_t id_;
 
 private:
 
@@ -169,6 +177,10 @@ private:
     ThresholdType upperThreshold_;
 
 };
+
+template <class ThresholdType>
+const size_t AbsoluteValueRangeChecker<ThresholdType,InclusiveBound,InclusiveBound>::id_
+    = GetIndex<AbsoluteValueRangeChecker<ThresholdType,InclusiveBound,InclusiveBound>, ValueCheckerTypeList>::value;
 
 template <class ThresholdType>
 class AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,ExclusiveBound> : public ValueCheckerBase
@@ -203,7 +215,7 @@ public:
 
     size_t getID() const { return id_; }
 
-    static const size_t id_ = GetIndex<self, ValueCheckerTypeList>::value;
+    static const size_t id_;
 
 private:
 
@@ -212,6 +224,10 @@ private:
 
 };
 
+template <class ThresholdType>
+const size_t AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,ExclusiveBound>::id_
+    = GetIndex<AbsoluteValueRangeChecker<ThresholdType,ExclusiveBound,ExclusiveBound>, ValueCheckerTypeList>::value;
+
 } // namespace BlasBooster
 
-#endif /* ABSOLUTEVALUERANGECHECKER_H_ */
+#endif // BLASBOOSTER_CORE_ABSOLUTEVALUERANGECHECKER_H_

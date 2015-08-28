@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef DENSEMATRIX_H_
-#define DENSEMATRIX_H_
+#ifndef BLASBOOSTER_CORE_DENSEMATRIX_H_
+#define BLASBOOSTER_CORE_DENSEMATRIX_H_
 
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/Copy.h"
@@ -26,20 +26,11 @@
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/operators.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/utility.hpp>
-#include <boost/type_traits.hpp>
 #include <initializer_list>
 #include <iomanip>
 #include <stdexcept>
 #include <string>
 #include <typeinfo>
-#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -54,8 +45,7 @@ class Matrix<Dense,T,P>
    public P::unblockedDimension,
    public Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix>,
    public NormPolicy<Matrix<Dense,T,P>, typename P::NormType>,
-   public OccupationPolicy<Matrix<Dense,T,P> >,
-   boost::equality_comparable<Matrix<Dense,T,P> >
+   public OccupationPolicy<Matrix<Dense,T,P>>
 {
 public: // typedefs
 
@@ -83,13 +73,13 @@ public: // member functions
     /// Parameter constructor
     template <class FillerType = NoFiller, class U = T>
     Matrix(IndexType nbRows, IndexType nbColumns, FillerType filler = FillerType(),
-        typename boost::disable_if<boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Parameter constructor for BlockedMatrix
     template <class U = T>
     Matrix(IndexType nbRows = 0, IndexType nbColumns = 0,
         IndexType nbUnblockedRows = 0, IndexType nbUnblockedColumns = 0,
-        typename boost::enable_if< boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Parameter constructor using external memory
     Matrix(IndexType nbRows, IndexType nbColumns, T* ptrExternalMemory);
@@ -98,24 +88,22 @@ public: // member functions
     /// Initializer list constructor
     template <class U = T>
     Matrix(std::initializer_list< std::initializer_list<T> > values,
-        typename boost::disable_if< boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Initializer constructor for BlockedMatrix
     template <class U = T>
     Matrix(std::initializer_list< std::initializer_list<T> > values,
-        typename boost::enable_if< boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type* = 0);
 #endif
 
     /// Submatrix constructor, use storage of reference matrix, ColumnMajor
     template <class T2, class P2, class U = P>
     Matrix(Matrix<Dense,T2,P2> const& other, IndexType nbRows, IndexType nbColumns,
         IndexType beginRow = 0, IndexType beginColumn = 0,
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, ColumnMajor >,
-                boost::is_same< typename P2::orientation, ColumnMajor >,
-                boost::mpl::bool_< U::isSubMatrix >
-            >
+        typename std::enable_if<
+		    std::is_same<typename P::orientation, ColumnMajor>::value and
+            std::is_same<typename P2::orientation, ColumnMajor>::value and
+            U::isSubMatrix
         >::type* = 0
     );
 
@@ -123,62 +111,52 @@ public: // member functions
     template <class T2, class P2, class U = P>
     Matrix(Matrix<Dense,T2,P2> const& other, IndexType nbRows, IndexType nbColumns,
         IndexType beginRow = 0, IndexType beginColumn = 0,
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, RowMajor >,
-                boost::is_same< typename P2::orientation, RowMajor >,
-                boost::mpl::bool_< U::isSubMatrix >
-            >
+        typename std::enable_if<
+            std::is_same<typename P::orientation, RowMajor>::value and
+            std::is_same<typename P2::orientation, RowMajor>::value and
+            U::isSubMatrix
         >::type* = 0
     );
 
     /// Conversion from DenseMatrix
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, ColumnMajor >,
-                boost::is_same< typename P2::orientation, ColumnMajor >,
-                boost::mpl::not_< boost::mpl::bool_< P2::isSubMatrix > >,
-                boost::mpl::not_< boost::mpl::bool_< P2::isBlockedMatrix > >
-            >
+        typename std::enable_if<
+            std::is_same<typename P::orientation, ColumnMajor>::value and
+            std::is_same<typename P2::orientation, ColumnMajor>::value and
+            !P2::isSubMatrix and
+            !P2::isBlockedMatrix
         >::type* = 0
     );
 
     /// Conversion from SubDenseMatrix
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, ColumnMajor >,
-                boost::is_same< typename P2::orientation, ColumnMajor >,
-                boost::mpl::bool_< P2::isSubMatrix >
-            >
+        typename std::enable_if<
+            std::is_same<typename P::orientation, ColumnMajor>::value and
+            std::is_same<typename P2::orientation, ColumnMajor>::value and
+            P2::isSubMatrix
         >::type* = 0
     );
 
     /// Conversion from SubDenseMatrix
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, RowMajor >,
-                boost::is_same< typename P2::orientation, RowMajor >,
-                boost::mpl::bool_< P2::isSubMatrix >
-            >
+        typename std::enable_if<
+            std::is_same<typename P::orientation, RowMajor>::value and
+            std::is_same<typename P2::orientation, RowMajor>::value and
+            P2::isSubMatrix
         >::type* = 0
     );
 
     /// Conversion from blocked DenseMatrix
     template <class T2, class P2>
     Matrix(Matrix<Dense,T2,P2> const& other,
-        typename boost::enable_if<
-            boost::mpl::and_<
-                boost::is_same< typename P::orientation, ColumnMajor >,
-                boost::is_same< typename P2::orientation, ColumnMajor >,
-                boost::mpl::not_<boost::mpl::bool_<P::isSubMatrix > >,
-                boost::mpl::bool_< P2::isBlockedMatrix >
-            >
+        typename std::enable_if<
+            std::is_same<typename P::orientation, ColumnMajor>::value and
+            std::is_same<typename P2::orientation, ColumnMajor>::value and
+            !P::isSubMatrix and
+            P2::isBlockedMatrix
         >::type* = 0
     );
 
@@ -230,13 +208,13 @@ public: // member functions
     /// Resize function for non-blocked matrix
     template <class FillerType = NoFiller, class U = T>
     void resize(IndexType nbRows, IndexType nbColumns, FillerType filler = FillerType(),
-        typename boost::disable_if<boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Resize function for BlockedMatrix
     template <class U = T>
     void resize(IndexType nbRows, IndexType nbColumns,
         IndexType nbUnblockedRows, IndexType nbUnblockedColumns,
-        typename boost::enable_if< boost::is_same<U, DynamicMatrix> >::type* = 0);
+        typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     bool operator == (self const& rhs) const {
         return storage::operator==(rhs) and dimension::operator==(rhs);
@@ -258,42 +236,42 @@ public: // member functions
     const T& operator () (IndexType row, IndexType column) const;
 
     template <class U = P>
-    IndexType getMajorDimension(typename boost::enable_if< boost::is_same< typename U::orientation, RowMajor > >::type* = 0) const {
+    IndexType getMajorDimension(typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const {
         return this->getNbColumns();
     }
 
     template <class U = P>
-    IndexType getMajorDimension( typename boost::enable_if< boost::is_same< typename U::orientation, ColumnMajor > >::type* = 0 ) const {
+    IndexType getMajorDimension(typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const {
         return this->getNbRows();
     }
 
     template <class U = P>
-    IndexType getMinorDimension( typename boost::enable_if< boost::is_same< typename U::orientation, RowMajor > >::type* = 0 ) const {
+    IndexType getMinorDimension(typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const {
         return this->getNbRows();
     }
 
     template <class U = P>
-    IndexType getMinorDimension( typename boost::enable_if< boost::is_same< typename U::orientation, ColumnMajor > >::type* = 0 ) const {
+    IndexType getMinorDimension(typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const {
         return this->getNbColumns();
     }
 
     template <class U = P>
-    IndexType getLdColumns( typename boost::disable_if_c<U::isSubMatrix>::type* = 0 ) const {
+    IndexType getLdColumns(typename std::enable_if<!U::isSubMatrix>::type* = 0) const {
         return this->getNbColumns();
     }
 
     template <class U = P>
-    IndexType getLdColumns( typename boost::enable_if_c<U::isSubMatrix>::type* = 0 ) const {
+    IndexType getLdColumns(typename std::enable_if<U::isSubMatrix>::type* = 0) const {
         return leadingDimension::getLdColumns();
     }
 
     template <class U = P>
-    IndexType getLdRows( typename boost::disable_if_c<U::isSubMatrix>::type* = 0 ) const {
+    IndexType getLdRows(typename std::enable_if<!U::isSubMatrix>::type* = 0) const {
         return this->getNbRows();
     }
 
     template <class U = P>
-    IndexType getLdRows( typename boost::enable_if_c<U::isSubMatrix>::type* = 0 ) const {
+    IndexType getLdRows(typename std::enable_if<U::isSubMatrix>::type* = 0) const {
         return leadingDimension::getLdRows();
     }
 
@@ -325,22 +303,22 @@ private:
 
     friend class boost::serialization::access;
 
-    template < class Archive >
-    void serialize( Archive & ar, const unsigned int version )
+    template <class Archive>
+    void serialize(Archive & ar, const unsigned int version)
     {
         ar & boost::serialization::base_object<dimension>(*this);
         ar & boost::serialization::base_object<storage>(*this);
     }
 
-    void checkIfPositionIsAvailable( IndexType row, typename P::IndexType column ) const;
+    void checkIfPositionIsAvailable(IndexType row, typename P::IndexType column) const;
 
     template <class U = P>
     size_t getPosition(IndexType row, typename P::IndexType column,
-        typename boost::enable_if<boost::is_same< typename U::orientation, RowMajor> >::type* = 0) const;
+        typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const;
 
     template <class U = P>
     size_t getPosition(IndexType row, typename P::IndexType column,
-        typename boost::enable_if<boost::is_same< typename U::orientation, ColumnMajor> >::type* = 0) const;
+        typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const;
 
 }; // class DenseMatrix
 
@@ -352,7 +330,7 @@ Matrix<Dense,T,P>::Matrix()
 template <class T, class P>
 template <class FillerType, class U>
 Matrix<Dense,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns, FillerType,
-    typename boost::disable_if<boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
  : dimension(nbRows,nbColumns),
    storage(nbRows*nbColumns)
 {
@@ -363,7 +341,7 @@ template <class T, class P>
 template <class U>
 Matrix<Dense,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns,
     typename P::IndexType nbUnblockedRows, typename P::IndexType nbUnblockedColumns,
-    typename boost::enable_if<boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type*)
  : dimension(nbRows,nbColumns),
    unblockedDimension(nbUnblockedRows,nbUnblockedColumns),
    storage(nbRows*nbColumns)
@@ -380,7 +358,7 @@ Matrix<Dense,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nb
 template <class T, class P>
 template <class U>
 Matrix<Dense,T,P>::Matrix(std::initializer_list< std::initializer_list<T> > values,
-    typename boost::disable_if< boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
  : dimension(values.size(),values.begin()->size()),
    storage(values.size() * values.begin()->size())
 {
@@ -402,7 +380,7 @@ Matrix<Dense,T,P>::Matrix(std::initializer_list< std::initializer_list<T> > valu
 template <class T, class P>
 template <class U>
 Matrix<Dense,T,P>::Matrix(std::initializer_list< std::initializer_list<T> > values,
-    typename boost::enable_if< boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type*)
  : dimension(values.size(),values.begin()->size()),
    storage(values.size() * values.begin()->size())
 {
@@ -434,13 +412,11 @@ template <class T, class P>
 template <class T2, class P2, class U>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, typename P::IndexType nbRows,
     typename P::IndexType nbColumns, typename P::IndexType beginRow, typename P::IndexType beginColumn,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, ColumnMajor >,
-            boost::is_same< typename P2::orientation, ColumnMajor >,
-            boost::mpl::bool_< U::isSubMatrix >
-        >
-    >::type* )
+    typename std::enable_if<
+        std::is_same<typename P::orientation, ColumnMajor>::value and
+        std::is_same<typename P2::orientation, ColumnMajor>::value and
+        U::isSubMatrix
+    >::type*)
  : dimension(nbRows,nbColumns),
    leadingDimension(other.getNbRows(),other.getNbColumns()),
    // TODO: avoid const_cast
@@ -452,13 +428,11 @@ template <class T, class P>
 template <class T2, class P2, class U>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, typename P::IndexType nbRows,
     typename P::IndexType nbColumns, typename P::IndexType beginRow, typename P::IndexType beginColumn,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, RowMajor >,
-            boost::is_same< typename P2::orientation, RowMajor >,
-            boost::mpl::bool_< U::isSubMatrix >
-        >
-    >::type* )
+    typename std::enable_if<
+        std::is_same<typename P::orientation, RowMajor>::value and
+        std::is_same<typename P2::orientation, RowMajor>::value and
+        U::isSubMatrix
+    >::type*)
  : dimension(nbRows,nbColumns),
    leadingDimension(other.getNbRows(),other.getNbColumns()),
    storage(
@@ -470,15 +444,13 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, typename P::IndexTyp
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, ColumnMajor >,
-            boost::is_same< typename P2::orientation, ColumnMajor >,
-            boost::mpl::not_< boost::mpl::bool_< P2::isSubMatrix > >,
-            boost::mpl::not_< boost::mpl::bool_< P2::isBlockedMatrix > >
-        >
-    >::type*
-) : dimension(other.getNbRows(),other.getNbColumns()),
+    typename std::enable_if<
+        std::is_same<typename P::orientation, ColumnMajor>::value and
+        std::is_same<typename P2::orientation, ColumnMajor>::value and
+        !P2::isSubMatrix and
+        !P2::isBlockedMatrix
+    >::type*)
+  : dimension(other.getNbRows(),other.getNbColumns()),
     storage(other.getSize())
 {
     T* ptrDest = this->getDataPointer();
@@ -492,14 +464,12 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, ColumnMajor >,
-            boost::is_same< typename P2::orientation, ColumnMajor >,
-            boost::mpl::bool_< P2::isSubMatrix >
-        >
-    >::type*
-) : dimension(other.getNbRows(),other.getNbColumns()),
+    typename std::enable_if<
+        std::is_same<typename P::orientation, ColumnMajor>::value and
+        std::is_same<typename P2::orientation, ColumnMajor>::value and
+        P2::isSubMatrix
+    >::type*)
+  : dimension(other.getNbRows(),other.getNbColumns()),
     storage(other.getSize())
 {
     typename storage::iterator iterCur(this->begin());
@@ -513,14 +483,12 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, RowMajor >,
-            boost::is_same< typename P2::orientation, RowMajor >,
-            boost::mpl::bool_< P2::isSubMatrix >
-        >
-    >::type*
-) : dimension(other.getNbRows(),other.getNbColumns()),
+    typename std::enable_if<
+        std::is_same<typename P::orientation, RowMajor>::value and
+        std::is_same<typename P2::orientation, RowMajor>::value and
+        P2::isSubMatrix
+    >::type*)
+  : dimension(other.getNbRows(),other.getNbColumns()),
     storage(other.getSize())
 {
     typename storage::iterator iterCur(this->begin());
@@ -539,13 +507,11 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
 template <class T, class P>
 template <class T2, class P2>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other,
-    typename boost::enable_if<
-        boost::mpl::and_<
-            boost::is_same< typename P::orientation, ColumnMajor >,
-            boost::is_same< typename P2::orientation, ColumnMajor >,
-            boost::mpl::not_< boost::mpl::bool_< P::isSubMatrix > >,
-            boost::mpl::bool_< P2::isBlockedMatrix >
-        >
+    typename std::enable_if<
+        std::is_same<typename P::orientation, ColumnMajor>::value and
+        std::is_same<typename P2::orientation, ColumnMajor>::value and
+        !P::isSubMatrix and
+        P2::isBlockedMatrix
     >::type*
 ) : dimension(other.getUnblockedRows(), other.getUnblockedColumns()),
     storage(other.getUnblockedRows() * other.getUnblockedColumns())
@@ -589,7 +555,7 @@ struct ConvertToDenseMatrix
     template <class T>
     result_type operator () (T* = 0) const
     {
-        M matrix(*boost::static_pointer_cast<T>(dynMatrix_));
+        M matrix(*std::static_pointer_cast<T>(dynMatrix_));
         return matrix;
     }
 
@@ -600,7 +566,7 @@ template <class T, class P>
 Matrix<Dense,T,P>::Matrix(DynamicMatrix const& dynMatrix)
  : dimension(), storage()
 {
-    self matrix = exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),
+    self matrix = exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),
         ConvertToDenseMatrix<self>(dynMatrix));
     swap(*this,matrix);
 }
@@ -662,7 +628,7 @@ Matrix<Dense,T,P>& Matrix<Dense,T,P>::operator = (T value)
 template <class T, class P>
 template <class FillerType, class U>
 void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns, FillerType,
-    typename boost::disable_if<boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
@@ -674,7 +640,7 @@ template <class T, class P>
 template <class U>
 void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns,
     typename P::IndexType nbUnblockedRows, typename P::IndexType nbUnblockedColumns,
-    typename boost::enable_if<boost::is_same<U, DynamicMatrix> >::type*)
+    typename std::enable_if<std::is_same<U, DynamicMatrix>::value>::type*)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
@@ -705,7 +671,7 @@ void Matrix<Dense,T,P>::checkIfPositionIsAvailable(typename P::IndexType row, ty
 template <class T, class P>
 template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
-    typename boost::enable_if< boost::is_same< typename U::orientation, ColumnMajor > >::type*) const
+    typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type*) const
 {
     #ifdef BLASBOOSTER_DEBUG_MODE
         checkIfPositionIsAvailable(row,column);
@@ -716,7 +682,7 @@ size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::Ind
 template <class T, class P>
 template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
-    typename boost::enable_if<boost::is_same<typename U::orientation, RowMajor> >::type*) const
+    typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type*) const
 {
     #ifdef BLASBOOSTER_DEBUG_MODE
         checkIfPositionIsAvailable(row,column);
@@ -725,7 +691,7 @@ size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::Ind
 }
 
 template <class T, class P>
-void createHilbert(Matrix<Dense,T,P>& matrix, typename boost::enable_if<boost::is_arithmetic<T> >::type* dummy = 0)
+void createHilbert(Matrix<Dense,T,P>& matrix, typename std::enable_if<std::is_arithmetic<T>::value>::type* dummy = 0)
 {
     T one(1), row(1), column(1);
 
@@ -744,7 +710,7 @@ void createHilbert(Matrix<Dense,T,P>& matrix, typename boost::enable_if<boost::i
 }
 
 template <class T, class P>
-void createNumbered(Matrix<Dense,T,P>& matrix, typename boost::enable_if<boost::is_arithmetic<T> >::type* dummy = 0)
+void createNumbered(Matrix<Dense,T,P>& matrix, typename std::enable_if<std::is_arithmetic<T>::value>::type* dummy = 0)
 {
     T number(1);
     for (typename Matrix<Dense,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
@@ -756,4 +722,4 @@ void createNumbered(Matrix<Dense,T,P>& matrix, typename boost::enable_if<boost::
 
 } // namespace BlasBooster
 
-#endif // DENSEMATRIX_H_
+#endif // BLASBOOSTER_CORE_DENSEMATRIX_H_

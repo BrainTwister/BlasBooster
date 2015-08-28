@@ -92,6 +92,4 @@ TEST(AbsoluteValueRangeCheckerTest,Polymorphism)
 
 	EXPECT_TRUE(ValueCheckerLess()(ptrV7,ptrV8));
 	EXPECT_FALSE(ValueCheckerLess()(ptrV8,ptrV7));
-
 }
-

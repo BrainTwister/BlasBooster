@@ -6,10 +6,9 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLICATION_H_
-#define MULTIPLICATION_H_
+#ifndef BLASBOOSTER_CORE_MULTIPLICATION_H_
+#define BLASBOOSTER_CORE_MULTIPLICATION_H_
 
-#include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
@@ -17,15 +16,12 @@
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/mpl/and.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/type_traits.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
-#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -195,7 +191,7 @@ struct DynamicMultFunctor
         typedef decltype((T1() * T2()).template execute<Interface>()) ResultType;
 
         DynamicMatrix ptrC(new ResultType);
-        *(boost::static_pointer_cast<ResultType>(ptrC)) = (*(boost::static_pointer_cast<T1>(ptrA)) * *(boost::static_pointer_cast<T2>(ptrB))).template execute<Interface>();
+        *(std::static_pointer_cast<ResultType>(ptrC)) = (*(std::static_pointer_cast<T1>(ptrA)) * *(std::static_pointer_cast<T2>(ptrB))).template execute<Interface>();
 
         return ptrC;
     }
@@ -217,7 +213,7 @@ public:
     template <class Interface>
     DynamicMatrix execute() const
     {
-        return exec_if_2dim<TypeList>(TypeChecker(ptrA->getTypeIndex()),
+        return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
             TypeChecker(ptrB->getTypeIndex()), DynamicMultFunctor<Interface>(ptrA,ptrB));
     }
 
@@ -264,5 +260,4 @@ inline MatrixMultExp<DynamicMatrix, DynamicMatrix> operator * (DynamicMatrix con
 
 } // namespace BlasBooster
 
-#endif /* MULTIPLICATION_H_ */
-
+#endif // BLASBOOSTER_CORE_MULTIPLICATION_H_

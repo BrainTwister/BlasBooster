@@ -1,58 +1,49 @@
-#ifndef EXEC_IF_H_
-#define EXEC_IF_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/assert.hpp>
-#include <boost/mpl/begin_end.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/deref.hpp>
-#include <boost/mpl/next_prior.hpp>
-#include <boost/mpl/is_sequence.hpp>
-#include <stdexcept>
+#ifndef BLASBOOSTER_UTILITIES_EXEC_IF_H_
+#define BLASBOOSTER_UTILITIES_EXEC_IF_H_
+
+#include "BlasBooster/Core/CoreException.h"
 
 namespace BlasBooster {
 
-template< bool done = true >
-struct exec_if_impl
+template <class L>
+struct exec_if_impl;
+
+template <class T>
+struct exec_if_impl<TypeList<T>>
 {
-    template< class Iterator, class LastIterator, class Pred, class Exec >
-    static typename Exec::result_type execute( Iterator*, LastIterator*, const Pred&, const Exec& )
+    template <class P, class E>
+    static typename E::result_type execute(P const& p, E const& e)
     {
-        throw std::runtime_error("exec_if: type not found.");
+        if (p(static_cast<T*>(0))) return e(static_cast<T*>(0));
+        BLASBOOSTER_CORE_FAILURE("type not found");
     }
 };
 
-template<>
-struct exec_if_impl<false>
+template <class Tail, class... Ts>
+struct exec_if_impl<TypeList<Tail, Ts...>>
 {
-    template< class Iterator, class LastIterator, class Pred, class Exec >
-    static typename Exec::result_type execute( Iterator*, LastIterator*, const Pred& f, const Exec& e )
+    template <class P, class E>
+    static typename E::result_type execute(P const& p, E const& e)
     {
-        typedef typename boost::mpl::deref<Iterator>::type item;
-
-        if (!f(static_cast<item*>(0)))
-        {
-            typedef typename boost::mpl::next<Iterator>::type iter;
-            return exec_if_impl<boost::is_same<iter, LastIterator>::value>
-                ::execute(static_cast<iter*>(0), static_cast<LastIterator*>(0), f, e);
-        }
-        else
-            return e(static_cast<item*>(0));
+        if (p(static_cast<Tail*>(0))) return e(static_cast<Tail*>(0));
+        return exec_if_impl<TypeList<Ts...>>::execute(p, e);
     }
 };
 
-template< class Sequence, class Pred, class Exec >
-inline typename Exec::result_type exec_if( const Pred& f, const Exec& e, Sequence* = 0 )
+template <class L, class P, class E>
+inline typename E::result_type exec_if(P const& p, E const& e, L* = nullptr)
 {
-    BOOST_MPL_ASSERT(( boost::mpl::is_sequence<Sequence> ));
-
-    typedef typename boost::mpl::begin<Sequence>::type first;
-    typedef typename boost::mpl::end<Sequence>::type last;
-
-    return exec_if_impl<boost::is_same<first,last>::value>
-        ::execute(static_cast<first*>(0), static_cast<last*>(0), f, e);
+    return exec_if_impl<L>::execute(p, e);
 }
 
 } // namespace BlasBooster
 
-#endif /* EXEC_IF_H_ */
+#endif // BLASBOOSTER_UTILITIES_EXEC_IF_H_

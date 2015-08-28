@@ -6,12 +6,12 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef OCCUPATION_H_
-#define OCCUPATION_H_
+#ifndef BLASBOOSTER_CORE_OCCUPATION_H_
+#define BLASBOOSTER_CORE_OCCUPATION_H_
 
-#include "../Utilities/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -69,7 +69,7 @@ struct DynamicCountDesiredElementsFunctor
     template <class T>
     result_type operator () (T* = 0) const
     {
-        return boost::static_pointer_cast<T>(dynMatrix_)->getNbOfSignificantElements(valueChecker_);
+        return std::static_pointer_cast<T>(dynMatrix_)->getNbOfSignificantElements(valueChecker_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -84,4 +84,4 @@ inline size_t countDesiredElements(DynamicMatrix const& dynMatrix, ValueChecker 
 
 } // namespace BlasBooster
 
-#endif /* OCCUPATION_H_ */
+#endif // BLASBOOSTER_CORE_OCCUPATION_H_

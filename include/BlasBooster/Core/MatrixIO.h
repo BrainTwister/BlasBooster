@@ -165,7 +165,7 @@ struct DynamicMatrixPrintFunctor
     template <class T>
     result_type operator () (T* = 0) const
     {
-        *ptrStream_ << *(boost::static_pointer_cast<T>(dynMatrix_));
+        *ptrStream_ << *(std::static_pointer_cast<T>(dynMatrix_));
     }
 
     DynamicMatrix dynMatrix_;
@@ -177,7 +177,7 @@ inline std::ostream& operator << (std::ostream& stream, DynamicMatrix const& dyn
     if (dynMatrix.get() == 0) {
         stream << "No Matrix found.";
     } else {
-        exec_if<TypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicMatrixPrintFunctor(stream,dynMatrix));
+        exec_if<DynamicMatrixTypeList>(TypeChecker(dynMatrix->getTypeIndex()),DynamicMatrixPrintFunctor(stream,dynMatrix));
     }
     return stream << std::flush;
 }

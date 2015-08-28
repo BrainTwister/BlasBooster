@@ -6,16 +6,13 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef BLOCKEDMATRIXGENERATOR_H_
-#define BLOCKEDMATRIXGENERATOR_H_
+#ifndef BLASBOOSTER_CORE_BLOCKEDMATRIXGENERATOR_H_
+#define BLASBOOSTER_CORE_BLOCKEDMATRIXGENERATOR_H_
 
 #include "BlasBooster/Core/BlockedMatrix.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixConverter.h"
 #include "BlasBooster/Core/SparseMatrix.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/nvp.hpp>
 #include <set>
 #include <stdexcept>
 
@@ -65,5 +62,4 @@ struct BlockedMatrixGenerator
 
 } // namespace BlasBooster
 
-#endif /* BLOCKEDMATRIXGENERATOR_H_ */
-
+#endif // BLASBOOSTER_CORE_BLOCKEDMATRIXGENERATOR_H_

@@ -6,14 +6,15 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef THRESHOLD_H_
-#define THRESHOLD_H_
+#ifndef BLASBOOSTER_CORE_THRESHOLD_H_
+#define BLASBOOSTER_CORE_THRESHOLD_H_
 
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MultipleMatrix.h"
 #include "BlasBooster/Utilities/CreateSettingsClass.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
-#include <boost/mpl/long.hpp>
-#include <boost/mpl/vector.hpp>
-#include "../Utilities/TypeList.h"
+#include <limits>
 
 namespace BlasBooster {
 
@@ -169,4 +170,4 @@ struct OccupationThresholdDistributor<Matrix<Dense,double>,double>
 
 } // namespace BlasBooster
 
-#endif /* THRESHOLD_H_ */
+#endif // BLASBOOSTER_CORE_THRESHOLD_H_

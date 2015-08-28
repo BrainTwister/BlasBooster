@@ -12,6 +12,7 @@
 #include "../Utilities/TypeList.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include <functional>
 
 namespace BlasBooster {
 
@@ -160,28 +161,29 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2> >
 {
     double operator () (MultipleMatrix<X1,X2> const& m)
     {
-        return std::max(norm<NormMax>(m.getMatrix1()) + norm<NormMax>(m.getMatrix1()));
+        return std::max(norm<NormMax>(m.getMatrix1()), norm<NormMax>(m.getMatrix1()));
     }
 };
 
-template <class FunctionType, template <class... T> class TypeList>
+template <class NormType, class FunctionType, class... T>
 struct DynFuncGenerator
 {
     static FunctionType dynFunc[sizeof...(T)];
 };
 
+template <class NormType, class FunctionType, class... T>
+FunctionType DynFuncGenerator<NormType, FunctionType, T...>::dynFunc[sizeof...(T)]
+														   = { NormFunctor<Matrix<Dense,double>, NormType>() };
+
 template <class NormType>
 struct NormFunctor<NormType, DynamicMatrix>
- : DynFuncGenerator<std::function< double(DynamicMatrix const&) >, DynamicMatrixTypeList>
+ : DynFuncGenerator<NormType, std::function< double(DynamicMatrix const&) >, DynamicMatrixTypeList>
 {
     double operator () (DynamicMatrix const& m) const
     {
-        return dynFunc[m->getTypeIndex()](m);
+        return this->dynFunc[m->getTypeIndex()](m);
     }
 };
-
-template <class FunctionType, class... T>
-FunctionType DynFuncGenerator<FunctionType, T...>::dynFunc[sizeof...(T)] = { T... }
 
 } // namespace BlasBooster
 

@@ -6,14 +6,14 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MATRIXCONVERTER_H_
-#define MATRIXCONVERTER_H_
+#ifndef BLASBOOSTER_CORE_MATRIXCONVERTER_H_
+#define BLASBOOSTER_CORE_MATRIXCONVERTER_H_
 
-#include "../Utilities/TypeList.h"
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/exec_if.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 
 namespace BlasBooster {
@@ -139,11 +139,13 @@ struct MatrixConverter
     template <class M, class T, class P>
     DynamicMatrix operator () (Matrix<M,T,P> const& matrix, Threshold const& threshold) const
     {
-        return exec_if<TypeList>(IsConvertibleChecker<M,T,P>(matrix,threshold),
-            DynamicConversionFunctor<M,T,P>(matrix,threshold));
+        return exec_if<DynamicMatrixTypeList>(
+        	IsConvertibleChecker<M,T,P>(matrix, threshold),
+            DynamicConversionFunctor<M,T,P>(matrix, threshold)
+		);
     }
 };
 
 } // namespace BlasBooster
 
-#endif /* MATRIXCONVERTER_H_ */
+#endif // BLASBOOSTER_CORE_MATRIXCONVERTER_H_
