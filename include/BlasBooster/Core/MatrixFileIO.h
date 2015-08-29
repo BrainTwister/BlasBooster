@@ -36,4 +36,4 @@ struct MatrixFileReader<Dense,T,P>
 
 } // namespace BlasBooster
 
-#endif /* BLASBOOSTER_CORE_MATRIXFILEIO_H_ */
+#endif // BLASBOOSTER_CORE_MATRIXFILEIO_H_

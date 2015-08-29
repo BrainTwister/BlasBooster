@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef GENERATETYPEMATRIX_H_
-#define GENERATETYPEMATRIX_H_
+#ifndef BLASBOOSTER_CORE_GENERATETYPEMATRIX_H_
+#define BLASBOOSTER_CORE_GENERATETYPEMATRIX_H_
 
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Utilities/TypeName.h"
@@ -74,4 +74,4 @@ inline std::ostream& operator << (std::ostream& stream, Dimension const& dimensi
 
 } // namespace BlasBooster
 
-#endif /* GENERATETYPEMATRIX_H_ */
+#endif // BLASBOOSTER_CORE_GENERATETYPEMATRIX_H_

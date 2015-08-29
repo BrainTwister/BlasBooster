@@ -6,13 +6,13 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef DIMENSION_H_
-#define DIMENSION_H_
+#ifndef BLASBOOSTER_CORE_DIMENSION_H_
+#define BLASBOOSTER_CORE_DIMENSION_H_
 
 #include "BlasBooster/Utilities/Noexcept.h"
-#include <boost/operators.hpp>
 #include <boost/serialization/access.hpp>
 #include <cstddef>
+#include <utility>
 
 namespace BlasBooster {
 
@@ -21,7 +21,7 @@ class NoUnblockedDimension {};
 
 namespace fixed {
 
-template < class IndexType, IndexType NbRows = 0, IndexType NbColumns = 0 >
+template <class IndexType, IndexType NbRows = 0, IndexType NbColumns = 0>
 struct Dimension
 {
     static const bool fixed = true;
@@ -29,7 +29,7 @@ struct Dimension
     static const IndexType nbColumns = NbColumns;
     static const IndexType size = NbRows * NbColumns;
 
-    Dimension( IndexType = 0, IndexType = 0 ) {}
+    Dimension(IndexType = 0, IndexType = 0) {}
 
     IndexType getNbRows() const { return nbRows; }
     IndexType getNbColumns() const { return nbColumns; }
@@ -42,7 +42,6 @@ namespace nonfixed {
 
 template <class IndexType>
 struct Dimension
- : boost::equality_comparable<Dimension<IndexType> >
 {
     typedef Dimension self;
     static const bool fixed = false;
@@ -78,14 +77,18 @@ struct Dimension
 
     friend void swap(self& a, self& b) BLASBOOSTER_NOEXCEPT
     {
-        using std::swap; // bring in swap for built-in types
-        swap(a.nbRows_,b.nbRows_);
-        swap(a.nbColumns_,b.nbColumns_);
+        std::swap(a.nbRows_, b.nbRows_);
+        std::swap(a.nbColumns_, b.nbColumns_);
     }
 
     bool operator == (self const& rhs) const
     {
         return this->nbRows_ == rhs.nbRows_ and this->nbColumns_ == rhs.nbColumns_;
+    }
+
+    bool operator != (self const& rhs) const
+    {
+        return !operator==(rhs);
     }
 
     IndexType getNbRows() const { return nbRows_; }
@@ -101,13 +104,12 @@ private:
 
     friend class boost::serialization::access;
 
-    template < class Archive >
-    void serialize( Archive & ar, const unsigned int version )
+    template <class Archive>
+    void serialize(Archive & ar, const unsigned int version)
     {
         ar & nbRows_;
         ar & nbColumns_;
     }
-
 };
 
 template < class IndexType >
@@ -147,4 +149,4 @@ protected:
 } // namespace nonfixed
 } // namespace BlasBooster
 
-#endif /* DIMENSION_H_ */
+#endif // BLASBOOSTER_CORE_DIMENSION_H_

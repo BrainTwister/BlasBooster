@@ -1,5 +1,13 @@
-#ifndef STATISTICALERRORINFORMATION_H_
-#define STATISTICALERRORINFORMATION_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef BLASBOOSTER_CORE_STATISTICALERRORINFORMATION_H_
+#define BLASBOOSTER_CORE_STATISTICALERRORINFORMATION_H_
 
 namespace BlasBooster {
 
@@ -31,4 +39,4 @@ double getRootMeanSquareDeviation(Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> co
 
 } // namespace BlasBooster
 
-#endif /* STATISTICALERRORINFORMATION_H_ */
+#endif // BLASBOOSTER_CORE_STATISTICALERRORINFORMATION_H_

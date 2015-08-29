@@ -1,5 +1,13 @@
-#ifndef STRIPEDITERATOR_H_
-#define STRIPEDITERATOR_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef BLASBOOSTER_CORE_STRIPEDITERATOR_H_
+#define BLASBOOSTER_CORE_STRIPEDITERATOR_H_
 
 #include <boost/iterator/iterator_facade.hpp>
 #include <iterator>
@@ -87,4 +95,4 @@ private:
 
 };
 
-#endif // STRIPEDITERATOR_H_
+#endif // BLASBOOSTER_CORE_STRIPEDITERATOR_H_

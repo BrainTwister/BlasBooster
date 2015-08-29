@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MATRIXFILLER_H_
-#define MATRIXFILLER_H_
+#ifndef BLASBOOSTER_CORE_MATRIXFILLER_H_
+#define BLASBOOSTER_CORE_MATRIXFILLER_H_
 
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Matrix.h"
@@ -157,4 +157,4 @@ struct MatrixFillerFunctor<DiagonalFiller,Dense,T,P>
 
 } // namespace BlasBooster
 
-#endif /* MATRIXFILLER_H_ */
+#endif // BLASBOOSTER_CORE_MATRIXFILLER_H_

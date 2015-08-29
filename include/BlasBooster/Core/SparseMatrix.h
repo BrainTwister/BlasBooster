@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef SPARSEMATRIX_H_
-#define SPARSEMATRIX_H_
+#ifndef BLASBOOSTER_CORE_SPARSEMATRIX_H_
+#define BLASBOOSTER_CORE_SPARSEMATRIX_H_
 
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/Cursor.h"
@@ -23,13 +23,8 @@
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/mpl/if.hpp>
-#include <boost/operators.hpp>
-#include <boost/type_traits.hpp>
+#include <type_traits>
 #include <typeinfo>
-#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -49,8 +44,7 @@ class Matrix<Sparse,T,P>
    public P::dimension,
    public SparseStorage<T,typename P::IndexType,P::dimension::fixed,P::dimension::size>,
    public NormPolicy<Matrix<Sparse,T,P>, typename P::NormType>,
-   public OccupationPolicy<Matrix<Sparse,T,P> >,
-   boost::equality_comparable<Matrix<Sparse,T,P> >
+   public OccupationPolicy<Matrix<Sparse,T,P>>
 {
 public: // typedefs
 
@@ -202,14 +196,14 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
 
     typename P::IndexType key,offset(0);
 
-    typedef typename boost::mpl::if_<
-        boost::is_same< typename P::orientation, typename P2::orientation >,
-        Cursor<const Matrix<Dense,T2,P2>, Direction::Column >,
-        Cursor<const Matrix<Dense,T2,P2>, Direction::Row >
+    typedef typename std::conditional<
+        std::is_same<typename P::orientation, typename P2::orientation>::value,
+        Cursor<const Matrix<Dense,T2,P2>, Direction::Column>,
+        Cursor<const Matrix<Dense,T2,P2>, Direction::Row>
     >::type OuterCursor;
 
-    typedef typename boost::mpl::if_<
-        boost::is_same< typename OuterCursor::direction, Direction::Column >,
+    typedef typename std::conditional<
+        std::is_same<typename OuterCursor::direction, Direction::Column>::value,
         Cursor< OuterCursor, Direction::Row >,
         Cursor< OuterCursor, Direction::Column >
     >::type InnerCursor;
@@ -244,7 +238,7 @@ struct ConvertToSparseMatrix
     template <class T>
     result_type operator()(T* = 0) const
     {
-        return M(*boost::static_pointer_cast<T>(dynMatrix_),threshold_);
+        return M(*std::static_pointer_cast<T>(dynMatrix_),threshold_);
     }
 
     DynamicMatrix dynMatrix_;
@@ -279,4 +273,4 @@ void Matrix<Sparse,T,P>::resize(typename P::IndexType nbRows, typename P::IndexT
 
 } // namespace BlasBooster
 
-#endif // SPARSEMATRIX_H_
+#endif // BLASBOOSTER_CORE_SPARSEMATRIX_H_

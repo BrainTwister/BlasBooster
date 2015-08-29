@@ -6,15 +6,15 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MATRIXIO_H_
-#define MATRIXIO_H_
+#ifndef BLASBOOSTER_CORE_MATRIXIO_H_
+#define BLASBOOSTER_CORE_MATRIXIO_H_
 
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <iostream>
-#include "../Utilities/TypeList.h"
 
 namespace BlasBooster {
 
@@ -184,4 +184,4 @@ inline std::ostream& operator << (std::ostream& stream, DynamicMatrix const& dyn
 
 } // namespace BlasBooster
 
-#endif /* MATRIXIO_H_ */
+#endif // BLASBOOSTER_CORE_MATRIXIO_H_

@@ -1,12 +1,15 @@
-#ifndef NORMPOLICY_H_
-#define NORMPOLICY_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef BLASBOOSTER_CORE_NORMPOLICY_H_
+#define BLASBOOSTER_CORE_NORMPOLICY_H_
 
 #include "Norm.h"
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/equal_to.hpp>
-#include <boost/mpl/not.hpp>
-#include <boost/mpl/not_equal_to.hpp>
-#include <boost/utility.hpp>
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
@@ -82,4 +85,4 @@ public:
 
 } // namespace BlasBooster
 
-#endif /* NORMPOLICY_H_ */
+#endif // BLASBOOSTER_CORE_NORMPOLICY_H_

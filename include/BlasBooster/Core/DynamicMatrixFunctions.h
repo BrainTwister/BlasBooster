@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef DYNAMICMATRIXFUNCTIONS_H_
-#define DYNAMICMATRIXFUNCTIONS_H_
+#ifndef BLASBOOSTER_CORE_DYNAMICMATRIXFUNCTIONS_H_
+#define BLASBOOSTER_CORE_DYNAMICMATRIXFUNCTIONS_H_
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Utilities/exec_if.h"
@@ -173,4 +173,4 @@ inline bool isOccupationLargerThan(DynamicMatrix const& dynMatrix, double value,
 
 } // namespace BlasBooster
 
-#endif /* DYNAMICMATRIXFUNCTIONS_H_ */
+#endif // BLASBOOSTER_CORE_DYNAMICMATRIXFUNCTIONS_H_

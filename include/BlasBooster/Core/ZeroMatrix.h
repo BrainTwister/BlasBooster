@@ -1,5 +1,13 @@
-#ifndef ZEROMATRIX_H_
-#define ZEROMATRIX_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef BLASBOOSTER_CORE_ZEROMATRIX_H_
+#define BLASBOOSTER_CORE_ZEROMATRIX_H_
 
 #include "Matrix.h"
 
@@ -12,8 +20,7 @@ class Matrix<Zero,T,P>
    public P::leadingDimension,
    public P::unblockedDimension,
    public NormPolicy<Matrix<Zero,T,P>, typename P::NormType>,
-   public OccupationPolicy<Matrix<Zero,T,P> >,
-   boost::equality_comparable<Matrix<Zero,T,P> >
+   public OccupationPolicy<Matrix<Zero,T,P>>
 {
 public: // typedefs
 
@@ -60,4 +67,4 @@ void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexTyp
 
 } // namespace BlasBooster
 
-#endif /* ZEROMATRIX_H_ */
+#endif // BLASBOOSTER_CORE_ZEROMATRIX_H_

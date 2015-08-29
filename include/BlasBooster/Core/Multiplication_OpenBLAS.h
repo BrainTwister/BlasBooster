@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MULTIPLICATION_OPENBLAS_H_
-#define MULTIPLICATION_OPENBLAS_H_
+#ifndef BLASBOOSTER_CORE_MULTIPLICATION_OPENBLAS_H_
+#define BLASBOOSTER_CORE_MULTIPLICATION_OPENBLAS_H_
 
 #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 #include "BlasBooster/Core/DenseMatrix.h"
@@ -80,5 +80,4 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 
 } // namespace BlasBooster
 
-#endif /* MULTIPLICATION_OPENBLAS_H_ */
-
+#endif // BLASBOOSTER_CORE_MULTIPLICATION_OPENBLAS_H_

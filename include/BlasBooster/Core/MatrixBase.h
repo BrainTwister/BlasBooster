@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef MATRIXBASE_H_
-#define MATRIXBASE_H_
+#ifndef BLASBOOSTER_CORE_MATRIXBASE_H_
+#define BLASBOOSTER_CORE_MATRIXBASE_H_
 
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Utilities/TypeList.h"
@@ -88,4 +88,4 @@ struct is_arithmetic<BlasBooster::DynamicMatrix> : std::integral_constant<bool, 
 
 } // namespace std
 
-#endif // MATRIXBASE_H_
+#endif // BLASBOOSTER_CORE_MATRIXBASE_H_

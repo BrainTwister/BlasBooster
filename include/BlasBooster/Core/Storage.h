@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef STORAGE_H_
-#define STORAGE_H_
+#ifndef BLASBOOSTER_CORE_STORAGE_H_
+#define BLASBOOSTER_CORE_STORAGE_H_
 
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/StripedIterator.h"
@@ -559,12 +559,11 @@ public:
     }
 
     friend void swap(self& a, self& b) BLASBOOSTER_NOEXCEPT {
-        using std::swap; // bring in swap for built-in types
-        swap(a.data_,b.data_);
-        swap(a.size_,b.size_);
-        swap(a.continuousSize_,b.continuousSize_);
-        swap(a.nbBlocks_,b.nbBlocks_);
-        swap(a.separatorSize_,b.separatorSize_);
+        std::swap(a.data_,b.data_);
+        std::swap(a.size_,b.size_);
+        std::swap(a.continuousSize_,b.continuousSize_);
+        std::swap(a.nbBlocks_,b.nbBlocks_);
+        std::swap(a.separatorSize_,b.separatorSize_);
     }
 
     bool operator == (Storage const& rhs) const
@@ -669,4 +668,4 @@ protected:
 
 } // namespace BlasBooster
 
-#endif /* STORAGE_H_ */
+#endif // BLASBOOSTER_CORE_STORAGE_H_

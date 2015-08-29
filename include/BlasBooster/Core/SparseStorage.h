@@ -1,5 +1,13 @@
-#ifndef SPARSESTORAGE_H_
-#define SPARSESTORAGE_H_
+// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
+// All rights reserved.
+//
+// This file is part of BlasBooster
+//
+// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
+// TERMS OF THE COPYRIGHT NOTICE
+
+#ifndef BLASBOOSTER_CORE_SPARSESTORAGE_H_
+#define BLASBOOSTER_CORE_SPARSESTORAGE_H_
 
 #include "Storage.h"
 #include <boost/serialization/access.hpp>
@@ -119,17 +127,21 @@ public:
         offset_.resize(nbOfOffsets);
     }
 
-    bool operator == ( const SparseStorage& rhs ) const {
+    bool operator == (SparseStorage const& rhs ) const {
         return offset_ == rhs.offset_ and key_ == rhs.key_ and value_ == rhs.value_;
     }
 
-    template < class T2, class I2, bool F2, size_t S2 >
-    bool equal( const SparseStorage<T2,I2,F2,S2>& rhs ) const {
+    bool operator != (SparseStorage const& rhs ) const {
+        return !operator==(rhs);
+    }
+
+    template <class T2, class I2, bool F2, size_t S2>
+    bool equal(SparseStorage<T2,I2,F2,S2> const& rhs) const {
         return offset_.equal(rhs.offset_) and key_.equal(rhs.key_) and value_.equal(rhs.value_);
     }
 
-    template < class T2, class I2, bool F2, size_t S2 >
-    bool notEqual( const SparseStorage<T2,I2,F2,S2>& rhs ) const {
+    template <class T2, class I2, bool F2, size_t S2>
+    bool notEqual(SparseStorage<T2,I2,F2,S2> const& rhs) const {
         return !equal(rhs);
     }
 
@@ -174,4 +186,4 @@ protected:
 
 } // namespace BlasBooster
 
-#endif /* SPARSESTORAGE_H_ */
+#endif // BLASBOOSTER_CORE_SPARSESTORAGE_H_
