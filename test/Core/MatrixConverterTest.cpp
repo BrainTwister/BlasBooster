@@ -47,7 +47,7 @@ protected:
 	Threshold threshold;
 };
 
-TEST_F(MatrixConverterTest,ConvertDenseToSparse)
+TEST_F(MatrixConverterTest, ConvertDenseToSparse)
 {
 	Matrix<Dense,double> A {
 		{ 1e-12, 1e-6  },
@@ -70,7 +70,7 @@ TEST_F(MatrixConverterTest,ConvertDenseToSparse)
 	EXPECT_TRUE(C.equal(Matrix<Dense,double>(B)));
 }
 
-TEST_F(MatrixConverterTest,ConvertDenseDoubleToDenseFloat)
+TEST_F(MatrixConverterTest, ConvertDenseDoubleToDenseFloat)
 {
 	Matrix<Dense,double> A {
 		{ 1e-6, 1e-6 },

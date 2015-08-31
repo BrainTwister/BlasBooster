@@ -11,6 +11,7 @@ add_executable(
     main.cpp
     MatrixConverterTest.cpp
     MatrixMultiplicationTest.cpp
+    MatrixNorm.cpp
     MultipleMatrixTest.cpp
     SparseMatrixTest.cpp
     StorageTest.cpp

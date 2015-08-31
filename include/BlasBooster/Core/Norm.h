@@ -6,12 +6,10 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef NORM_H_
-#define NORM_H_
+#ifndef BLASBOOSTER_CORE_NORM_H_
+#define BLASBOOSTER_CORE_NORM_H_
 
-#include "../Utilities/TypeList.h"
-#include "BlasBooster/Utilities/exec_if.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/TypeList.h"
 #include <functional>
 
 namespace BlasBooster {
@@ -78,7 +76,7 @@ struct NormFunctor<NormOne,MultipleMatrix<X1,X2> >
 };
 
 template <class M, class T, class P>
-struct NormFunctor<NormTwo,Matrix<M,T,P> >
+struct NormFunctor<NormTwo, Matrix<M,T,P>>
 {
     double operator () (Matrix<M,T,P> const& m)
     {
@@ -91,6 +89,11 @@ struct NormFunctor<NormTwo,Matrix<M,T,P> >
             sum += std::pow(*iterCur,2);
         }
         return std::sqrt(sum);
+    }
+
+    double operator () (DynamicMatrix const& m)
+    {
+        return this->operator()(*std::static_pointer_cast<Matrix<M,T,P>>(m));
     }
 };
 
@@ -112,13 +115,18 @@ struct NormFunctor<NormTwo,Matrix<M,DynamicMatrix,P> >
 };
 
 template <class X1, class X2>
-struct NormFunctor<NormTwo,MultipleMatrix<X1,X2> >
+struct NormFunctor<NormTwo, MultipleMatrix<X1,X2>>
 {
     double operator () (MultipleMatrix<X1,X2> const& m)
     {
         // subadditivity ||A + B|| <= ||A| + ||B|||
         //return std::sqrt(pow(norm<NormTwo>(m.getMatrix1()),2) + pow(norm<NormTwo>(m.getMatrix2()),2));
-        return norm<NormTwo>(m.getMatrix1() + m.getMatrix1());
+        return norm<NormTwo>(m.getMatrix1() + m.getMatrix2());
+    }
+
+    double operator () (DynamicMatrix const& m)
+    {
+        return this->operator()(*std::static_pointer_cast<MultipleMatrix<X1,X2>>(m));
     }
 };
 
@@ -165,21 +173,23 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2> >
     }
 };
 
-template <class NormType, class FunctionType, class... T>
-struct DynFuncGenerator
+template <class NormType, class FunctionType, class TypeList>
+struct DynFuncGenerator;
+
+template <class NormType, class FunctionType, class... Args>
+struct DynFuncGenerator<NormType, FunctionType, TypeList<Args...>>
 {
-    static FunctionType dynFunc[sizeof...(T)];
+    static FunctionType dynFunc[sizeof...(Args)];
 };
 
-template <class NormType, class FunctionType, class... T>
-FunctionType DynFuncGenerator<NormType, FunctionType, T...>::dynFunc[sizeof...(T)]
-														   = { NormFunctor<Matrix<Dense,double>, NormType>() };
+template <class NormType, class FunctionType, class ...Args>
+FunctionType DynFuncGenerator<NormType, FunctionType, TypeList<Args...>>::dynFunc[] = { NormFunctor<NormType, Args>()... };
 
 template <class NormType>
 struct NormFunctor<NormType, DynamicMatrix>
  : DynFuncGenerator<NormType, std::function< double(DynamicMatrix const&) >, DynamicMatrixTypeList>
 {
-    double operator () (DynamicMatrix const& m) const
+    double operator () (DynamicMatrix const& m)
     {
         return this->dynFunc[m->getTypeIndex()](m);
     }
@@ -187,4 +197,4 @@ struct NormFunctor<NormType, DynamicMatrix>
 
 } // namespace BlasBooster
 
-#endif /* NORM_H_ */
+#endif // BLASBOOSTER_CORE_NORM_H_

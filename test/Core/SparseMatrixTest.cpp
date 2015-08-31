@@ -8,7 +8,7 @@
 using namespace std;
 using namespace BlasBooster;
 
-TEST(SparseMatrix,SparseDoubleNorm)
+TEST(SparseMatrix, SparseDoubleNorm)
 {
 	Matrix<Dense,double> A(5,5,DiagonalFiller());
 	Matrix<Sparse,double> spA(A);
@@ -17,7 +17,7 @@ TEST(SparseMatrix,SparseDoubleNorm)
 	EXPECT_DOUBLE_EQ(0.2,spA.getOccupation(AbsoluteValueRangeChecker<ThresholdType>(1.0e-10)));
 }
 
-TEST(SparseMatrix,SparseFloatNorm)
+TEST(SparseMatrix, SparseFloatNorm)
 {
 	Matrix<Dense,float> A(5,5,DiagonalFiller());
 	Matrix<Sparse,float> spA(A);
@@ -26,7 +26,7 @@ TEST(SparseMatrix,SparseFloatNorm)
 	EXPECT_FLOAT_EQ(0.2,spA.getOccupation(AbsoluteValueRangeChecker<ThresholdType>(1.0e-10)));
 }
 
-TEST(SparseMatrix,DenseSparseConversion)
+TEST(SparseMatrix, DenseSparseConversion)
 {
 	Matrix<Dense,double> A {{0.0,2.0},{3.0,0.0}};
 	Matrix<Sparse,double> B(A);

@@ -12,7 +12,7 @@
 using namespace std;
 using namespace BlasBooster;
 
-TEST(AbsoluteValueRangeCheckerTest,Exceptions)
+TEST(AbsoluteValueRangeCheckerTest, Exceptions)
 {
 	EXPECT_THROW(AbsoluteValueRangeChecker<double>(-1.0),CoreException);
 	EXPECT_NO_THROW(AbsoluteValueRangeChecker<double>(1.0));
@@ -27,7 +27,7 @@ TEST(AbsoluteValueRangeCheckerTest,Exceptions)
 	EXPECT_THROW((AbsoluteValueRangeChecker<double,ExclusiveBound,ExclusiveBound>(1.0,0.5)),CoreException);
 }
 
-TEST(AbsoluteValueRangeCheckerTest,General)
+TEST(AbsoluteValueRangeCheckerTest, General)
 {
 	EXPECT_FALSE(AbsoluteValueRangeChecker<double>(1e-6)(1e-7));
 	EXPECT_FALSE(AbsoluteValueRangeChecker<double>(1e-6)(1e-6));
@@ -50,7 +50,7 @@ TEST(AbsoluteValueRangeCheckerTest,General)
 	EXPECT_FALSE((AbsoluteValueRangeChecker<double,ExclusiveBound,InclusiveBound>(1e-16,1e-8)(-1e-7)));
 }
 
-TEST(AbsoluteValueRangeCheckerTest,Polymorphism)
+TEST(AbsoluteValueRangeCheckerTest, Polymorphism)
 {
 	EXPECT_EQ((AbsoluteValueRangeChecker<double>::id_),0UL);
 	EXPECT_EQ((AbsoluteValueRangeChecker<double,ExclusiveBound,InclusiveBound>::id_),1UL);

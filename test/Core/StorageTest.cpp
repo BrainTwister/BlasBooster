@@ -12,7 +12,7 @@
 using namespace std;
 using namespace BlasBooster;
 
-TEST(Storage,FlexibleSizeMoveAssignment)
+TEST(Storage, FlexibleSizeMoveAssignment)
 {
 	typedef Storage<int,false,false,0> StorageType;
 	StorageType A(3);
@@ -23,7 +23,7 @@ TEST(Storage,FlexibleSizeMoveAssignment)
 	EXPECT_TRUE(C.equal(A));
 }
 
-TEST(Storage,FixedSizeMoveAssignment)
+TEST(Storage, FixedSizeMoveAssignment)
 {
 	typedef Storage<int,false,true,3> StorageType;
 	StorageType A;
@@ -36,7 +36,7 @@ TEST(Storage,FixedSizeMoveAssignment)
 	EXPECT_TRUE(C.equal(A));
 }
 
-TEST(Storage,FlexibleSizeSwap)
+TEST(Storage, FlexibleSizeSwap)
 {
 	Storage<int,false,false,0> A1 {2,-3};
 	Storage<int,false,false,0> A2 {-4,0,1};
@@ -49,7 +49,7 @@ TEST(Storage,FlexibleSizeSwap)
     EXPECT_TRUE(B2.equal(A1));
 }
 
-TEST(Storage,CompareFixedWithFlexibleSize)
+TEST(Storage, CompareFixedWithFlexibleSize)
 {
 	Storage<double,false,true,2> fixed2{2,3};
 	Storage<double,false,true,3> fixed3 = {1,2,3};
@@ -61,7 +61,7 @@ TEST(Storage,CompareFixedWithFlexibleSize)
 	EXPECT_FALSE(fixed2.equal(flexible3));
 }
 
-TEST(Storage,FlexibleSizeStriped)
+TEST(Storage, FlexibleSizeStriped)
 {
 	vector<int> a1 {0,1,2,3,4,5,6,7,8,9};
 

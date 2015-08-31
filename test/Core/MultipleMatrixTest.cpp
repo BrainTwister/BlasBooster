@@ -31,7 +31,7 @@ protected:
 	MultipleMatrix< Matrix<Sparse,double>, Matrix<Sparse,float> > M2;
 };
 
-TEST_F(MultipleMatrixTest,Addition)
+TEST_F(MultipleMatrixTest, Addition)
 {
 	auto M3 = M1 + M2;
 	auto M4 = M1 + M1 + M1;
@@ -39,7 +39,7 @@ TEST_F(MultipleMatrixTest,Addition)
 	EXPECT_TRUE(M3.equal(M4)) << "Matrix<Dense,double> + MultipleMatrix< Matrix<Sparse,double>, Matrix<Sparse,float> >";
 }
 
-TEST_F(MultipleMatrixTest,Multiplication)
+TEST_F(MultipleMatrixTest, Multiplication)
 {
 	auto M3 = (M1 * M2).template execute<Native>();
 	auto M4 = (M1 * (M1 + M1)).template execute<Native>();
@@ -47,8 +47,12 @@ TEST_F(MultipleMatrixTest,Multiplication)
 	EXPECT_TRUE(M3.equal(M4)) << "Matrix<Dense,double> * MultipleMatrix< Matrix<Sparse,double>, Matrix<Sparse,float> >";
 }
 
-TEST_F(MultipleMatrixTest, DISABLED_Norm)
+TEST_F(MultipleMatrixTest, NormMax)
+{
+	EXPECT_DOUBLE_EQ(norm<NormMax>(M1),norm<NormMax>(M2));
+}
+
+TEST_F(MultipleMatrixTest, NormTwo)
 {
 	EXPECT_DOUBLE_EQ(norm<NormTwo>(M1),norm<NormTwo>(M2));
 }
-

@@ -15,9 +15,10 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
+#include "BlasBooster/Utilities/exec_dyn_2dim.h"
 #include "BlasBooster/Utilities/exec_if_2dim.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/TypeList.h"
+#include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <stdexcept>
 #include <string>
@@ -546,32 +547,26 @@ inline auto operator - (MultipleMatrix<X1,X2> const& A, MultipleMatrix<Y1,Y2> co
 }
 
 /// Functor for DynamicMatrix addition
+template <class T1, class T2>
 struct DynamicAddFunctor
 {
     typedef DynamicMatrix result_type;
 
-    DynamicAddFunctor(DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) : ptrA_(ptrA), ptrB_(ptrB) {}
-
-    template <class T1, class T2>
-    result_type operator () (T1* = 0, T2* = 0) const
+    result_type operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
     {
-        typedef decltype(*(std::static_pointer_cast<T1>(ptrA_)) + *(std::static_pointer_cast<T2>(ptrB_))) ResultType;
+        typedef decltype(*(std::static_pointer_cast<T1>(ptrA)) + *(std::static_pointer_cast<T2>(ptrB))) ResultType;
 
         DynamicMatrix ptrC(new ResultType);
-        *(std::static_pointer_cast<ResultType>(ptrC)) = *(std::static_pointer_cast<T1>(ptrA_)) + *(std::static_pointer_cast<T2>(ptrB_));
+        *(std::static_pointer_cast<ResultType>(ptrC)) = *(std::static_pointer_cast<T1>(ptrA)) + *(std::static_pointer_cast<T2>(ptrB));
 
         return ptrC;
     }
-
-    DynamicMatrix ptrA_;
-    DynamicMatrix ptrB_;
 };
 
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-    return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
-        TypeChecker(ptrB->getTypeIndex()), DynamicAddFunctor(ptrA,ptrB));
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, DynamicMatrix, std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 /// Functor for DynamicMatrix addition assignment

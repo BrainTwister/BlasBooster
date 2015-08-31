@@ -9,6 +9,7 @@ add_executable(
     ${TestName}
     DynamicType.cpp
     main.cpp
+    unpackTwoVariadicTemplates.cpp
 )
     
 target_link_libraries(

@@ -1,5 +1,4 @@
-#include <iostream>
-#include <typeinfo>
+#include "gtest/gtest.h"
 
 template <typename ... Args> struct Tuple {};
 template <typename T1, typename T2> struct Pair {};
@@ -30,10 +29,14 @@ struct unpack<List, Tuple<Args2...>>
 
 typedef Tuple<int, short, double> L;
 
-typedef unpack<L, L>::type T3;
+typedef unpack<L, L>::type T2;
 
-int main()
+TEST(Design, unpackTwoVariadicTemplates)
 {
-    std::cout << typeid(T1).name() << std::endl;
-    std::cout << typeid(T3).name() << std::endl;
+	EXPECT_TRUE((std::is_same<T1,
+		Tuple<Pair<short, unsigned short>, Pair<int, unsigned int>>>::value));
+	EXPECT_TRUE((std::is_same<T2,
+		Tuple<Tuple<Pair<int, int>, Pair<int, short>, Pair<int, double> >,
+	    Tuple<Pair<short, int>, Pair<short, short>, Pair<short, double> >,
+		Tuple<Pair<double, int>, Pair<double, short>, Pair<double, double>>>>::value));
 }
