@@ -16,9 +16,7 @@
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
 #include "BlasBooster/Utilities/exec_dyn_2dim.h"
-#include "BlasBooster/Utilities/exec_if_2dim.h"
 #include "BlasBooster/Utilities/TypeList.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <stdexcept>
 #include <string>
@@ -533,7 +531,7 @@ inline auto operator - (Matrix<M1,T1,P1> const& A, MultipleMatrix<X1,X2> const& 
 /// Operator for MultipleMatrix subtraction
 template <class M1, class T1, class P1, class X1, class X2>
 inline auto operator - (MultipleMatrix<X1,X2> const& A, Matrix<M1,T1,P1> const& B)
-    -> decltype(X1()() + X2() - Matrix<M1,T1,P1>())
+    -> decltype(X1() + X2() - Matrix<M1,T1,P1>())
 {
     return A.getMatrix1() + A.getMatrix2() - B;
 }
@@ -550,9 +548,7 @@ inline auto operator - (MultipleMatrix<X1,X2> const& A, MultipleMatrix<Y1,Y2> co
 template <class T1, class T2>
 struct DynamicAddFunctor
 {
-    typedef DynamicMatrix result_type;
-
-    result_type operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
+    DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
         typedef decltype(*(std::static_pointer_cast<T1>(ptrA)) + *(std::static_pointer_cast<T2>(ptrB))) ResultType;
 
@@ -566,32 +562,49 @@ struct DynamicAddFunctor
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, DynamicMatrix, std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, DynamicMatrix,
+	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
+/// Functor for DynamicMatrix subtraction
+template <class T1, class T2>
+struct DynamicSubFunctor
+{
+    DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
+    {
+        typedef decltype(*(std::static_pointer_cast<T1>(ptrA)) - *(std::static_pointer_cast<T2>(ptrB))) ResultType;
+
+        DynamicMatrix ptrC(new ResultType);
+        *(std::static_pointer_cast<ResultType>(ptrC)) = *(std::static_pointer_cast<T1>(ptrA)) - *(std::static_pointer_cast<T2>(ptrB));
+
+        return ptrC;
+    }
+};
+
+/// Operator for DynamicMatrix subtraction
+inline DynamicMatrix operator - (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
+{
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor, DynamicMatrix,
+	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+}
+
+
 /// Functor for DynamicMatrix addition assignment
+template <class T1, class T2>
 struct DynamicAddAssignFunctor
 {
-    typedef DynamicMatrix result_type;
-
-    DynamicAddAssignFunctor(DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) : ptrA_(ptrA), ptrB_(ptrB) {}
-
-    template <class T1, class T2>
-    result_type operator () (T1* = 0, T2* = 0) const
+	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
-        *(std::static_pointer_cast<T1>(ptrA_)) += *(std::static_pointer_cast<T2>(ptrB_));
-        return ptrA_;
+        *(std::static_pointer_cast<T1>(ptrA)) += *(std::static_pointer_cast<T2>(ptrB));
+        return ptrA;
     }
-
-    DynamicMatrix ptrA_;
-    DynamicMatrix ptrB_;
 };
 
 /// Operator for DynamicMatrix addition assignment
 inline DynamicMatrix operator += (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-    return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
-        TypeChecker(ptrB->getTypeIndex()), DynamicAddAssignFunctor(ptrA,ptrB));
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor, DynamicMatrix,
+	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 } // namespace BlasBooster

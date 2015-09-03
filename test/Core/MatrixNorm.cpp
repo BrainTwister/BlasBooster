@@ -11,7 +11,6 @@
 #include "gtest/gtest.h"
 
 using namespace BlasBooster;
-using namespace BlasBooster;
 
 namespace {
 
@@ -47,7 +46,7 @@ TEST_P(MatrixNorm, DynamicMatrix)
 INSTANTIATE_TEST_CASE_P(AllMatrixNormTests, MatrixNorm,
 	::testing::Values(
         TestDataStructure(
-            Matrix<Dense,double>{{ 1e-12, 1e-6 }, { 1e-6, 1e-12 }}, 1.41421e-06
+            {{ 1e-12, 1e-6 }, { 1e-6, 1e-12 }}, 1.41421e-06
         )
     )
 );

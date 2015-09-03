@@ -8,6 +8,7 @@ include_directories(
 add_executable(
     ${TestName}
     AbsoluteValueRangeCheckerTest.cpp
+    BinaryFunctors.cpp
     main.cpp
     MatrixConverterTest.cpp
     MatrixMultiplicationTest.cpp

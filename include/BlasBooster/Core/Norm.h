@@ -71,7 +71,8 @@ struct NormFunctor<NormOne,MultipleMatrix<X1,X2> >
 {
     double operator () (MultipleMatrix<X1,X2> const& m)
     {
-        return norm<NormOne>(m.getMatrix1()) + norm<NormOne>(m.getMatrix1());
+        //return norm<NormOne>(m.getMatrix1()) + norm<NormOne>(m.getMatrix1());
+        return norm<NormOne>(m.getMatrix1() + m.getMatrix1());
     }
 };
 
@@ -131,7 +132,7 @@ struct NormFunctor<NormTwo, MultipleMatrix<X1,X2>>
 };
 
 template <class M, class T, class P>
-struct NormFunctor<NormMax,Matrix<M,T,P> >
+struct NormFunctor<NormMax, Matrix<M,T,P>>
 {
     double operator () (Matrix<M,T,P> const& m)
     {
@@ -148,7 +149,7 @@ struct NormFunctor<NormMax,Matrix<M,T,P> >
 };
 
 template <class M, class P>
-struct NormFunctor<NormMax,Matrix<M,DynamicMatrix,P> >
+struct NormFunctor<NormMax, Matrix<M,DynamicMatrix,P>>
 {
     double operator () (Matrix<M,DynamicMatrix,P> const& m)
     {
@@ -165,11 +166,12 @@ struct NormFunctor<NormMax,Matrix<M,DynamicMatrix,P> >
 };
 
 template <class X1, class X2>
-struct NormFunctor<NormMax, MultipleMatrix<X1,X2> >
+struct NormFunctor<NormMax, MultipleMatrix<X1,X2>>
 {
     double operator () (MultipleMatrix<X1,X2> const& m)
     {
-        return std::max(norm<NormMax>(m.getMatrix1()), norm<NormMax>(m.getMatrix1()));
+        //return std::max(norm<NormMax>(m.getMatrix1()), norm<NormMax>(m.getMatrix1()));
+        return norm<NormMax>(m.getMatrix1() + m.getMatrix2());
     }
 };
 
