@@ -595,7 +595,7 @@ struct DynamicAddFunctor
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, TypeList<>,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
@@ -617,7 +617,7 @@ struct DynamicSubFunctor
 /// Operator for DynamicMatrix subtraction
 inline DynamicMatrix operator - (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor, TypeList<>,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
@@ -635,7 +635,7 @@ struct DynamicAddAssignFunctor
 /// Operator for DynamicMatrix addition assignment
 inline DynamicMatrix operator += (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor, TypeList<>,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
@@ -653,7 +653,7 @@ struct DynamicSubAssignFunctor
 /// Operator for DynamicMatrix subtraction assignment
 inline DynamicMatrix operator -= (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubAssignFunctor,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubAssignFunctor, TypeList<>,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 

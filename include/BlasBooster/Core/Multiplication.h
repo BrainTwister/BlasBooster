@@ -14,8 +14,7 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Utilities/exec_if_2dim.h"
-#include "BlasBooster/Utilities/TypeChecker.h"
+#include "BlasBooster/Utilities/exec_dyn_2dim.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <memory>
@@ -178,15 +177,10 @@ private:
 };
 
 /// Functor for multiplication DynamicMatrix * DynamicMatrix
-template <class Interface>
+template <class Interface, class T1, class T2>
 struct DynamicMultFunctor
 {
-    typedef DynamicMatrix result_type;
-
-    DynamicMultFunctor(DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) : ptrA(ptrA), ptrB(ptrB) {}
-
-    template <class T1, class T2>
-    result_type operator () (T1* = 0, T2* = 0) const
+	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
         typedef decltype((T1() * T2()).template execute<Interface>()) ResultType;
 
@@ -195,14 +189,11 @@ struct DynamicMultFunctor
 
         return ptrC;
     }
-
-    DynamicMatrix ptrA;
-    DynamicMatrix ptrB;
 };
 
 /// Expression template for multiplication DynamicMatrix * DynamicMatrix.
 template <>
-class MatrixMultExp< DynamicMatrix, DynamicMatrix >
+class MatrixMultExp<DynamicMatrix, DynamicMatrix>
 {
 public:
 
@@ -213,8 +204,8 @@ public:
     template <class Interface>
     DynamicMatrix execute() const
     {
-        return exec_if_2dim<DynamicMatrixTypeList>(TypeChecker(ptrA->getTypeIndex()),
-            TypeChecker(ptrB->getTypeIndex()), DynamicMultFunctor<Interface>(ptrA,ptrB));
+        return exec_dyn_2dim<DynamicMatrixTypeList, DynamicMultFunctor, TypeList<Interface>,
+        	std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
     }
 
 private:
