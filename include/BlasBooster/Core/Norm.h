@@ -9,8 +9,8 @@
 #ifndef BLASBOOSTER_CORE_NORM_H_
 #define BLASBOOSTER_CORE_NORM_H_
 
+#include "BlasBooster/Utilities/exec_dyn.h"
 #include "BlasBooster/Utilities/TypeList.h"
-#include <functional>
 
 namespace BlasBooster {
 
@@ -91,11 +91,6 @@ struct NormFunctor<NormTwo, Matrix<M,T,P>>
         }
         return std::sqrt(sum);
     }
-
-    double operator () (DynamicMatrix const& m)
-    {
-        return this->operator()(*std::static_pointer_cast<Matrix<M,T,P>>(m));
-    }
 };
 
 template <class M, class P>
@@ -123,11 +118,6 @@ struct NormFunctor<NormTwo, MultipleMatrix<X1,X2>>
         // subadditivity ||A + B|| <= ||A| + ||B|||
         //return std::sqrt(pow(norm<NormTwo>(m.getMatrix1()),2) + pow(norm<NormTwo>(m.getMatrix2()),2));
         return norm<NormTwo>(m.getMatrix1() + m.getMatrix2());
-    }
-
-    double operator () (DynamicMatrix const& m)
-    {
-        return this->operator()(*std::static_pointer_cast<MultipleMatrix<X1,X2>>(m));
     }
 };
 
@@ -175,25 +165,23 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2>>
     }
 };
 
-template <class NormType, class FunctionType, class TypeList>
-struct DynFuncGenerator;
-
-template <class NormType, class FunctionType, class... Args>
-struct DynFuncGenerator<NormType, FunctionType, TypeList<Args...>>
+/// Functor for DynamicMatrix
+template <class NormType, class T>
+struct DynamicNormFunctor
 {
-    static FunctionType dynFunc[sizeof...(Args)];
+	double operator () (DynamicMatrix const& ptrA)
+    {
+        return NormFunctor<NormType, T>()(*std::static_pointer_cast<T>(ptrA));
+    }
 };
-
-template <class NormType, class FunctionType, class ...Args>
-FunctionType DynFuncGenerator<NormType, FunctionType, TypeList<Args...>>::dynFunc[] = { NormFunctor<NormType, Args>()... };
 
 template <class NormType>
 struct NormFunctor<NormType, DynamicMatrix>
- : DynFuncGenerator<NormType, std::function< double(DynamicMatrix const&) >, DynamicMatrixTypeList>
 {
-    double operator () (DynamicMatrix const& m)
+    double operator () (DynamicMatrix const& ptrA)
     {
-        return this->dynFunc[m->getTypeIndex()](m);
+    	return exec_dyn<DynamicMatrixTypeList, DynamicNormFunctor, TypeList<NormType>,
+    	    std::function<double(DynamicMatrix const&)>>(ptrA);
     }
 };
 

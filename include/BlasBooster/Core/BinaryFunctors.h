@@ -471,6 +471,7 @@ template <class M1, class T1,
 inline Matrix<M1,T1,P>& operator -= (Matrix<M1,T1,P>& A, Matrix<M2,T2,P> const& B)
 {
     BinaryAssignmentOperationFunctor<Minus,M1,T1,P,M2,T2,P>()(A,B);
+    return A;
 }
 
 /// Operator for MultipleMatrix addition
@@ -508,16 +509,20 @@ inline Matrix<M1,T1,P1>& operator += (Matrix<M1,T1,P1>& A, MultipleMatrix<X1,X2>
 template <class M1, class T1, class P1, class X1, class X2>
 inline MultipleMatrix<X1,X2>& operator += (MultipleMatrix<X1,X2>& A, Matrix<M1,T1,P1> const& B)
 {
-    //static_assert(wrong_t<M1>::value, "not available.");
-    throw CoreException("not available.");
+    A.getMatrix1() += B;
+    A.getMatrix2() += B;
+    return A;
 }
 
 /// Operator for MultipleMatrix addition assignment
 template <class X1, class X2, class Y1, class Y2>
 inline MultipleMatrix<X1,X2>& operator += (MultipleMatrix<X1,X2>& A, MultipleMatrix<Y1,Y2> const& B)
 {
-    //static_assert(wrong_t<X1>::value, "not available.");
-    throw CoreException("not available.");
+    A.getMatrix1() += B.getMatrix1();
+    A.getMatrix2() += B.getMatrix1();
+    A.getMatrix1() += B.getMatrix2();
+    A.getMatrix2() += B.getMatrix2();
+    return A;
 }
 
 /// Operator for MultipleMatrix subtraction
@@ -544,6 +549,34 @@ inline auto operator - (MultipleMatrix<X1,X2> const& A, MultipleMatrix<Y1,Y2> co
     return A.getMatrix1() + A.getMatrix2() - B.getMatrix1() + B.getMatrix2();
 }
 
+/// Operator for MultipleMatrix addition assignment
+template <class M1, class T1, class P1, class X1, class X2>
+inline Matrix<M1,T1,P1>& operator -= (Matrix<M1,T1,P1>& A, MultipleMatrix<X1,X2> const& B)
+{
+    A -= B.getMatrix1();
+    return A -= B.getMatrix2();
+}
+
+/// Operator for MultipleMatrix addition assignment
+template <class M1, class T1, class P1, class X1, class X2>
+inline MultipleMatrix<X1,X2>& operator -= (MultipleMatrix<X1,X2>& A, Matrix<M1,T1,P1> const& B)
+{
+    A.getMatrix1() -= B;
+    A.getMatrix2() -= B;
+    return A;
+}
+
+/// Operator for MultipleMatrix addition assignment
+template <class X1, class X2, class Y1, class Y2>
+inline MultipleMatrix<X1,X2>& operator -= (MultipleMatrix<X1,X2>& A, MultipleMatrix<Y1,Y2> const& B)
+{
+    A.getMatrix1() -= B.getMatrix1();
+    A.getMatrix2() -= B.getMatrix1();
+    A.getMatrix1() -= B.getMatrix2();
+    A.getMatrix2() -= B.getMatrix2();
+    return A;
+}
+
 /// Functor for DynamicMatrix addition
 template <class T1, class T2>
 struct DynamicAddFunctor
@@ -562,7 +595,7 @@ struct DynamicAddFunctor
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, DynamicMatrix,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
@@ -584,10 +617,9 @@ struct DynamicSubFunctor
 /// Operator for DynamicMatrix subtraction
 inline DynamicMatrix operator - (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor, DynamicMatrix,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
-
 
 /// Functor for DynamicMatrix addition assignment
 template <class T1, class T2>
@@ -603,7 +635,25 @@ struct DynamicAddAssignFunctor
 /// Operator for DynamicMatrix addition assignment
 inline DynamicMatrix operator += (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor, DynamicMatrix,
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor,
+	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+}
+
+/// Functor for DynamicMatrix subtraction assignment
+template <class T1, class T2>
+struct DynamicSubAssignFunctor
+{
+	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
+    {
+        *(std::static_pointer_cast<T1>(ptrA)) -= *(std::static_pointer_cast<T2>(ptrB));
+        return ptrA;
+    }
+};
+
+/// Operator for DynamicMatrix subtraction assignment
+inline DynamicMatrix operator -= (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
+{
+	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubAssignFunctor,
 	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 

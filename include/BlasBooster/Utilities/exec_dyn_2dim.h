@@ -37,8 +37,8 @@ template <class FunctionType, template <class, class> class Executor, class Type
 std::array<std::array<FunctionType, sizeof...(Args)>, sizeof...(Args)>
     DynFuncGenerator2<FunctionType, Executor, TypeList1, TypeList<Args...>>::dynFunc = { DynFuncGenerator1<FunctionType, Executor, Args, TypeList1>::dynFunc... };
 
-template <class TypeList, template <class, class> class Executor, class ResultType, class FunctionType>
-inline ResultType exec_dyn_2dim(DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
+template <class TypeList, template <class, class> class Executor, class FunctionType>
+inline typename FunctionType::result_type exec_dyn_2dim(DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
     return DynFuncGenerator2<FunctionType, Executor, TypeList, TypeList>::dynFunc[ptrA->getTypeIndex()][ptrB->getTypeIndex()](ptrA, ptrB);
 }
