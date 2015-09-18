@@ -1,0 +1,15 @@
+ThresholdSettings:
+  significanceThresholdSinglePrecision: 1e-5
+  significanceThresholdDoublePrecision: 1e-10
+  occupationThresholdMatrixSparseFloatSinglePrecision: 0.0
+  occupationThresholdMatrixSparseFloatDoublePrecision: 0.2
+  occupationThresholdMatrixDenseFloatSinglePrecision: 0.0
+  occupationThresholdMatrixDenseFloatDoublePrecision: 1.0
+  occupationThresholdMatrixSparseDoubleSinglePrecision: 0.2
+  occupationThresholdMatrixSparseDoubleDoublePrecision: 0.2
+  occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision: 0.2
+  occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision: 0.4
+  occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision: 0.2
+  occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision: 1.0
+  occupationThresholdMatrixDenseDoubleSinglePrecision: 1.0
+  occupationThresholdMatrixDenseDoubleDoublePrecision: 1.0

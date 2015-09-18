@@ -11,6 +11,7 @@
 
 #include "Cursor.h"
 #include "DenseMatrix.h"
+#include "BlasBooster/Utilities/FileIO.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/string.hpp>
@@ -39,7 +40,7 @@ public:
         double threshold_;
     private:
         friend class boost::serialization::access;
-        template<class Archive>
+        template <class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
             ar & boost::serialization::make_nvp("Index", index_);
@@ -56,7 +57,7 @@ public:
         std::string backgroundColor_;
     private:
         friend class boost::serialization::access;
-        template<class Archive>
+        template <class Archive>
         void serialize(Archive & ar, const unsigned int version)
         {
             ar & boost::serialization::make_nvp("Palette", palette_);
@@ -66,8 +67,14 @@ public:
     };
 
     PatternGenerator(Settings const& settings = Settings())
-        : settings_(settings)
+     : settings_(settings)
     {}
+
+    PatternGenerator(filesystem::path const& file)
+     : settings_()
+    {
+        readXML(settings_, "PatternSettings", file);
+    }
 
     template <class T, class P>
     void operator()(Matrix<Dense,T,P> const& matrix, filesystem::path const& file) const;

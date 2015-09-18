@@ -29,7 +29,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelM
         double alpha = 1.0;
         double beta = 0.0;
 
-        BlasInterface<IntelMKL,dgemm>()(
+        BlasInterface<IntelMKL, dgemm>()(
             &n,
             &n,
             reinterpret_cast<const int*>(&A.nbRows_),
@@ -41,7 +41,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelM
             const_cast<double*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             &beta,
-	    C.data_,
+	        C.data_,
             reinterpret_cast<const int*>(&A.nbRows_)
         );
     }
@@ -61,7 +61,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
         float alpha = 1.0f;
         float beta = 0.0f;
 
-        BlasInterface<IntelMKL,sgemm>()(
+        BlasInterface<IntelMKL, sgemm>()(
             &n,
             &n,
             reinterpret_cast<const int*>(&A.nbRows_),
@@ -80,15 +80,73 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
 };
 
 #if 0
-/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Sparse,double> via extern SPBLAS dcsrmm
+/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Dense,double> via extern SPBLAS dcsrmm
+template <class P>
+struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,IntelMKL>
+{
+    void operator () (Matrix<Sparse,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
+    {
+		char n = 'N';
+		char g = 'G';
+        double alpha = 1.0;
+        double beta = 0.0;
+
+		BlasInterface<IntelMKL, dcsrmm>()(
+			&n,
+            reinterpret_cast<const int*>(&A.nbRows_),
+            reinterpret_cast<const int*>(&B.nbColumns_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+			&alpha,
+			&g,
+			double *val,
+			MKL_INT *indx,
+			MKL_INT *pntrb,
+			MKL_INT *pntre,
+			const_cast<double*>(B.data_),
+			MKL_INT *ldb,
+			&beta,
+	        C.data_,
+			MKL_INT *ldc
+		);
+    }
+};
+#endif
+
+/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Sparse,double> via extern SPBLAS dcsrmultcsr
 template <class P>
 struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
 {
-	char n = 'N';
-	BlasInterface<IntelMKL,dcsrmm>()(char *transa, MKL_INT *m, MKL_INT *n, MKL_INT *k, double *alpha, char *matdescra,
-		double  *val, MKL_INT *indx,  MKL_INT *pntrb, MKL_INT *pntre, double *b, MKL_INT *ldb, double *beta, double *c, MKL_INT *ldc);
-}
-#endif
+    void operator () (Matrix<Sparse,double,P> const& A, Matrix<Sparse,double,P> const& B, Matrix<Sparse,double,P>& C)
+    {
+		char n = 'N';
+		char g = 'G';
+        double alpha = 1.0;
+        double beta = 0.0;
+        int request = 0;
+        int sort = 0;
+        int info;
+
+		BlasInterface<IntelMKL, dcsrmultcsr>()(
+			&n,
+			&request,
+			&sort,
+			reinterpret_cast<const int*>(&A.nbRows_),
+            reinterpret_cast<const int*>(&B.nbColumns_),
+            reinterpret_cast<const int*>(&A.nbColumns_),
+			A.value_,
+			A.key_,
+			A.offset_,
+			B.value_,
+			B.key_,
+			B.offset_,
+			C.value_,
+			C.key_,
+			C.offset_,
+			C.value_.size(),
+			&info
+		);
+    }
+};
 
 } // namespace BlasBooster
 

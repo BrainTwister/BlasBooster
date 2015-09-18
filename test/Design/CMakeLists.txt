@@ -7,6 +7,7 @@ include_directories(
 
 add_executable(
     ${TestName}
+    BoostPropertyTree.cpp
     DynamicType.cpp
     main.cpp
     unpackTwoVariadicTemplates.cpp

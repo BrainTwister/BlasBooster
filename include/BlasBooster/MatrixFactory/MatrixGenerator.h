@@ -1,7 +1,7 @@
 #ifndef MATRIXGENERATOR_H_
 #define MATRIXGENERATOR_H_
 
-#include "BlasBooster/Utilities/CreateSettingsClass.h"
+#include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/MatrixFactory/MatrixFactory.h"
 
 namespace BlasBooster {
@@ -10,7 +10,7 @@ class MatrixGenerator : public MatrixFactory
 {
 public:
 
-	BLASBOOSTER_CREATE_SETTINGS_CLASS( Settings,\
+	BLASBOOSTER_SETTINGS( Settings,\
 		(( unsigned int, seed, 0 ))\
 	    (( double, occupation, 1.0 ))\
 	    (( double, minValue, 0.0 ))\

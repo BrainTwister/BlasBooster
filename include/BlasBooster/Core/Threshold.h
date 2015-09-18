@@ -11,7 +11,7 @@
 
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
-#include "BlasBooster/Utilities/CreateSettingsClass.h"
+#include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <limits>
@@ -21,7 +21,7 @@ namespace BlasBooster {
 /// Global type for all thresholds
 typedef double ThresholdType;
 
-BLASBOOSTER_CREATE_SETTINGS_CLASS( ThresholdSettings,\
+BLASBOOSTER_SETTINGS( ThresholdSettings,\
     (( ThresholdType, significanceThresholdSinglePrecision, std::numeric_limits<float>::epsilon() ))\
     (( ThresholdType, significanceThresholdDoublePrecision, std::numeric_limits<double>::epsilon() ))\
     (( ThresholdType, occupationThresholdMatrixSparseFloatSinglePrecision, 0.0 ))\
@@ -55,13 +55,13 @@ class Threshold
 public:
 
     Threshold(ThresholdSettings const& settings = ThresholdSettings())
-     : settings_(settings)
+     : settings(settings)
     {}
 
     Threshold& operator = (Threshold const& other)
     {
         if (&other != this) {
-            settings_ = other.settings_;
+            settings = other.settings;
         }
         return *this;
     }
@@ -80,92 +80,92 @@ private:
     template <class M, class T>
     friend class OccupationThresholdDistributor;
 
-    ThresholdSettings settings_;
+    ThresholdSettings settings;
 
 };
 
 template <>
 struct SignificanceThresholdDistributor<float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.significanceThresholdSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.significanceThresholdSinglePrecision; }
 };
 
 template <>
 struct SignificanceThresholdDistributor<double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.significanceThresholdDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.significanceThresholdDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Sparse,float>,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixSparseFloatSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixSparseFloatSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Sparse,float>,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixSparseFloatDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixSparseFloatDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<MultipleMatrix< Matrix<Sparse,double>,Matrix<Sparse,float> >,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<MultipleMatrix< Matrix<Sparse,double>,Matrix<Sparse,float> >,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<MultipleMatrix< Matrix<Sparse,double>, Matrix<Dense,float> >,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<MultipleMatrix< Matrix<Sparse,double>, Matrix<Dense,float> >,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Sparse,double>,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixSparseDoubleSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixSparseDoubleSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Sparse,double>,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixSparseDoubleDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixSparseDoubleDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Dense,float>,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixDenseFloatSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseFloatSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Dense,float>,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixDenseFloatDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseFloatDoublePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Dense,double>,float>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixDenseDoubleSinglePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseDoubleSinglePrecision; }
 };
 
 template <>
 struct OccupationThresholdDistributor<Matrix<Dense,double>,double>
 {
-    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings_.occupationThresholdMatrixDenseDoubleDoublePrecision_; }
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseDoubleDoublePrecision; }
 };
 
 } // namespace BlasBooster

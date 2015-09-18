@@ -1,4 +1,5 @@
-#ifndef BLAS_H_
+#ifndef BLASBOOSTER_BLASINTERFACE_BLAS_H_
+#define BLASBOOSTER_BLASINTERFACE_BLAS_H_
 
 #include "BlasBoosterMacroBlasFunctionList.h"
 #include "BlasBoosterMacroCreateBlasFunctionDeclaration.h"
@@ -11,4 +12,4 @@ BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DECLARATION(BLASBOOSTER_MACRO_BLAS_FUNCTI
 
 } // extern "C"
 
-#endif /* BLAS_H_ */
+#endif // BLASBOOSTER_BLASINTERFACE_BLAS_H_

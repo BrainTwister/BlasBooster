@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="9">
+<PatternSettings class_id="0" tracking_level="0" version="0">
+	<Palette class_id="1" tracking_level="0" version="0">
+		<count>10</count>
+		<item_version>0</item_version>
+		<item><Index>a</Index><Color>ffff00</Color><Threshold>1e0</Threshold></item>
+		<item><Index>b</Index><Color>db2020</Color><Threshold>1e-1</Threshold></item>
+		<item><Index>c</Index><Color>dc00dc</Color><Threshold>1e-2</Threshold></item>
+		<item><Index>d</Index><Color>800080</Color><Threshold>1e-3</Threshold></item>
+		<item><Index>e</Index><Color>3379b2</Color><Threshold>1e-4</Threshold></item>
+		<item><Index>f</Index><Color>0000c0</Color><Threshold>1e-5</Threshold></item>
+		<item><Index>g</Index><Color>34ad34</Color><Threshold>1e-6</Threshold></item>
+		<item><Index>h</Index><Color>008000</Color><Threshold>1e-7</Threshold></item>
+		<item><Index>i</Index><Color>b87604</Color><Threshold>1e-8</Threshold></item>
+		<item><Index>j</Index><Color>7a4d1d</Color><Threshold>1e-9</Threshold></item>
+	</Palette>
+	<BackgroundIndex>k</BackgroundIndex><BackgroundColor>000000</BackgroundColor>
+</PatternSettings>

@@ -74,8 +74,8 @@ using DynamicMatrixTypeList = TypeList <
     Matrix<Sparse, float>,
     Matrix<Dense, float>,
     Matrix<Sparse, double>,
-    MultipleMatrix<Matrix<Sparse,double>, Matrix<Sparse,float>>,
-    MultipleMatrix<Matrix<Sparse,double>, Matrix<Dense,float>>,
+    MultipleMatrix<Matrix<Sparse, double>, Matrix<Sparse, float>>,
+    MultipleMatrix<Matrix<Sparse, double>, Matrix<Dense, float>>,
     Matrix<Dense, double>
 >;
 

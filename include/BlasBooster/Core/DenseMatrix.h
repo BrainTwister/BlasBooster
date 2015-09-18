@@ -15,6 +15,7 @@
 #include "BlasBooster/Core/DynamicMatrixFunctions.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixBase.h"
+#include "BlasBooster/Core/MatrixFileIO.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_Native.h"
@@ -23,9 +24,11 @@
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Storage.h"
 #include "BlasBooster/Utilities/exec_if.h"
+#include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
+#include <fstream>
 #include <initializer_list>
 #include <iomanip>
 #include <stdexcept>
@@ -174,6 +177,9 @@ public: // member functions
     /// Construction by multiplication expression template
     template <class Op1, class Op2>
     Matrix(MatrixMultExp<Op1, Op2> const& expression);
+
+    /// Construction by file
+    Matrix(filesystem::path const& file);
 
     /// Default copy constructor
     Matrix(self const& other) = default;
@@ -613,6 +619,15 @@ template <class Op1, class Op2>
 Matrix<Dense,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
 	*this = expression.template execute<Native>();
+}
+
+// Construction by file
+template <class T, class P>
+Matrix<Dense,T,P>::Matrix(filesystem::path const& file)
+{
+	std::ifstream ifs(file.string());
+	if (!ifs) throw BlasBoosterException("Can't open file " + file.string());
+	ifs >> *this;
 }
 
 template <class T, class P>

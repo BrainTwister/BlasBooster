@@ -41,7 +41,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
 
-        std::cout << "Calling OpenBLAS dgemm " << M << " " << N << " " << K << std::endl;
+        //std::cout << "Calling OpenBLAS dgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<OpenBLAS,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
@@ -72,7 +72,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
 
-        std::cout << "Calling OpenBLAS sgemm " << M << " " << N << " " << K << std::endl;
+        //std::cout << "Calling OpenBLAS sgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<OpenBLAS,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }

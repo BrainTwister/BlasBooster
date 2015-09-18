@@ -67,9 +67,9 @@ inline NormMatrix generateNormMatrix(BlockedDenseMatrix const& matrix)
     return normMatrix;
 }
 
-inline std::ostream& operator << (std::ostream& stream, Dimension const& dimension)
+inline std::ostream& operator << (std::ostream& os, Dimension const& dimension)
 {
-    return stream << dimension.first << "x" << dimension.second;
+    return os << dimension.first << "x" << dimension.second;
 }
 
 } // namespace BlasBooster

@@ -13,9 +13,9 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixConverter.h"
 #include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/STLHelpers.h"
 #include <set>
-#include <stdexcept>
 
 namespace BlasBooster {
 
@@ -48,7 +48,7 @@ struct BlockSizeGenerator
     BlockSizeGenerator(size_t minBlockSize, size_t maxBlockSize)
      : minBlockSize_(minBlockSize), maxBlockSize_(maxBlockSize)
     {
-        if (2*minBlockSize > maxBlockSize) throw std::runtime_error("BlockSizeGenerator: maxBlockSize must be at least twice as large as minBlockSize.");
+        if (2*minBlockSize > maxBlockSize) throw BlasBoosterException("BlockSizeGenerator: maxBlockSize must be at least twice as large as minBlockSize.");
     }
 
     template <class T, class P>
@@ -68,19 +68,22 @@ private:
 };
 
 template <class T, class P>
-std::pair<std::vector<size_t>, std::vector<size_t> > BlockSizeGenerator::operator () (Matrix<Dense,T,P> const& matrix) const
+std::pair<std::vector<size_t>, std::vector<size_t>> BlockSizeGenerator::operator () (Matrix<Dense,T,P> const& matrix) const
 {
-    size_t i,j;
+    size_t i, j;
     size_t nbRows = matrix.getNbRows();
-    size_t nbColumns = matrix.getNbRows();
-    size_t nbRowsMinus1 = matrix.getNbRows()-1;
-    size_t nbColumnsMinus1 = matrix.getNbColumns()-1;
+    size_t nbColumns = matrix.getNbColumns();
+    size_t nbRowsMinus1 = matrix.getNbRows() - 1;
+    size_t nbColumnsMinus1 = matrix.getNbColumns() - 1;
 
-    typename Matrix<Dense,T,P>::const_iterator iter1(matrix.begin()),iter2(matrix.begin()+1),iter3(matrix.begin()+nbColumns);
-    int exp1,exp2,exp3;
+    // TODO: if only one is larger then maxBlockSize, only this detection matrix must be build
+    if (nbRows <= maxBlockSize_ and nbColumns <= maxBlockSize_) return std::make_pair(std::vector<size_t>(1, nbRows), std::vector<size_t>(1, nbColumns));
 
-    std::vector<T> rowDetection(nbRowsMinus1,0.0);
-    std::vector<T> columnDetection(nbColumnsMinus1,0.0);
+    typename Matrix<Dense,T,P>::const_iterator iter1(matrix.begin()), iter2(matrix.begin() + 1), iter3(matrix.begin() + nbColumns);
+    int exp1, exp2, exp3;
+
+    std::vector<T> rowDetection(nbRowsMinus1, 0.0);
+    std::vector<T> columnDetection(nbColumnsMinus1, 0.0);
 
     for (i = 0; i != nbRowsMinus1; ++i)
     {
@@ -105,7 +108,8 @@ std::pair<std::vector<size_t>, std::vector<size_t> > BlockSizeGenerator::operato
         columnDetection[j] += std::abs(exp1 - exp2);
     }
 
-    return std::make_pair(getBlockSizeList(rowDetection,nbRows),getBlockSizeList(columnDetection,nbColumns));
+    return std::make_pair(getBlockSizeList(rowDetection, nbRows),
+    		              getBlockSizeList(columnDetection, nbColumns));
 }
 
 template <class T>

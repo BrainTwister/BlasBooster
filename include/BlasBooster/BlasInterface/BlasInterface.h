@@ -4,7 +4,8 @@
 namespace BlasBooster {
 
 /// Primary template
-template < class BlasInterfaceType, class BlasFunctionType > class BlasInterface;
+template <class BlasInterfaceType, class BlasFunctionType>
+class BlasInterface;
 
 } // namespace BlasBooster
 

@@ -1,6 +1,7 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/ArgumentParser/include
+    ${Boost_INCLUDE_DIRS}
 )
 
 add_executable(
@@ -13,6 +14,7 @@ target_link_libraries(
     ArgumentParser
     BlasInterface_IntelMKL
     BlasInterface_OpenBLAS
+    ${Boost_LIBRARIES}
 )
 
 install(TARGETS Benchmark RUNTIME DESTINATION bin)

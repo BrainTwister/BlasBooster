@@ -3,6 +3,7 @@ set(TestName CoreTest)
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
 )
 
 add_executable(
@@ -23,6 +24,7 @@ target_link_libraries(
     ${TestName}
     ${GTEST_BOTH_LIBRARIES}
     -pthread
+    ${Boost_LIBRARIES}
 )
 
 add_test(
