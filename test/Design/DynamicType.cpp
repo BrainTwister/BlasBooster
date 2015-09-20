@@ -7,6 +7,7 @@
 
 struct Base
 { 
+    virtual ~Base() = default;
     static const std::string name() { return "Base"; }
     virtual int getIdx() = 0;
 };

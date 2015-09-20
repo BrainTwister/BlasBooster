@@ -165,7 +165,7 @@ public:
 
 protected:
 
-    template < class T2, class I2, bool F2, size_t S2 >
+    template <class T2, class I2, bool F2, size_t S2>
     friend class SparseStorage;
 
     friend class boost::serialization::access;

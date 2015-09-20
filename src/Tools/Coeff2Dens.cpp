@@ -34,13 +34,13 @@ int main(int argc, char* argv[])
         BlasBooster::mkl_set_num_threads(nbThreads);
         BlasBooster::openblas_set_num_threads(nbThreads);
 
-        Matrix<Dense,double> Cocc;
-        //read(Cocc, arg.get<filesystem::path>("C"));
+        const Matrix<Dense, double> Cocc(arg.get<filesystem::path>("C"));
 
         auto CoccT = transpose(Cocc);
-        Matrix<Dense,double> Pocc = (Cocc * CoccT).template execute<IntelMKL>();
+        Matrix<Dense, double> Pocc = Cocc * CoccT;
 
-        //write(Pocc, arg.get<filesystem::path>("Pocc"));
+        std::ofstream ofs(arg.get<filesystem::path>("Pocc").string());
+        //ofs << Pocc;
 
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;

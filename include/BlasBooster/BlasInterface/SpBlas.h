@@ -1,0 +1,13 @@
+#ifndef BLASBOOSTER_BLASINTERFACE_SPBLAS_H_
+#define BLASBOOSTER_BLASINTERFACE_SPBLAS_H_
+
+#include "BlasBoosterMacroSpBlasFunctionList.h"
+#include "BlasBoosterMacroCreateBlasFunctionDeclaration.h"
+
+extern "C" {
+
+BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DECLARATION(mkl_, BLASBOOSTER_MACRO_SPBLAS_FUNCTION_LIST)
+
+} // extern "C"
+
+#endif // BLASBOOSTER_BLASINTERFACE_SPBLAS_H_

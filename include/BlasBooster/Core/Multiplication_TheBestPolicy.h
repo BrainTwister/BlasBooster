@@ -34,6 +34,11 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,TheBestPo
  : public MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 {};
 
+template <class P>
+struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,TheBestPolicy>
+ : public MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
+{};
+
 } // namespace BlasBooster
 
 #endif // BLASBOOSTER_CORE_MULTIPLICATION_THEBESTPOLICY_H_

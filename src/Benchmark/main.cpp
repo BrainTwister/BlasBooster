@@ -103,6 +103,7 @@ int main(int argc, char* argv[])
             BlockedDenseMatrix A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, settings.thresholdSettings);
             BlockedDenseMatrix B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, settings.thresholdSettings);
 
+            //std::cout << *(std::static_pointer_cast<MultipleMatrix<Matrix<Sparse, double>, Matrix<Dense, float>>>(A(0,0))->getMatrix1().endOffset()-1) << std::endl;
             std::cout << generateTypeMatrix(A) << std::endl;
             std::cout << generateDimensionMatrix(A) << std::endl;
 

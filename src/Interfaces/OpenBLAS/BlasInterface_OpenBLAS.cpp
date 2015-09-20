@@ -2,6 +2,7 @@
 #include "BlasBooster/BlasInterface/BlasBoosterMacroBlasFunctionList.h"
 #include "BlasBooster/BlasInterface/BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
 #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
+#include <boost/preprocessor/facilities/empty.hpp>
 
 extern "C" void openblas_set_num_threads(int nbThreads);
 
@@ -12,7 +13,7 @@ void openblas_set_num_threads(int nbThreads)
 	::openblas_set_num_threads(nbThreads);
 }
 
-BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DEFINITION_FOR_INTERFACE(OpenBLAS,BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_WITHOUT_ZDOT)
+BLASBOOSTER_MACRO_CREATE_BLAS_FUNCTION_DEFINITION_FOR_INTERFACE(OpenBLAS, BOOST_PP_EMPTY(), BLASBOOSTER_MACRO_BLAS_FUNCTION_LIST_WITHOUT_ZDOT)
 
 std::complex<float> BlasInterface < OpenBLAS, cdotc >::operator() (
 	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )

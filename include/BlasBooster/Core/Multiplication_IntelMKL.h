@@ -119,9 +119,6 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
     void operator () (Matrix<Sparse,double,P> const& A, Matrix<Sparse,double,P> const& B, Matrix<Sparse,double,P>& C)
     {
 		char n = 'N';
-		char g = 'G';
-        double alpha = 1.0;
-        double beta = 0.0;
         int request = 0;
         int sort = 0;
         int info;
@@ -133,16 +130,16 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
 			reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
-			A.value_,
-			A.key_,
-			A.offset_,
-			B.value_,
-			B.key_,
-			B.offset_,
-			C.value_,
-			C.key_,
-			C.offset_,
-			C.value_.size(),
+			const_cast<double*>(A.value_.getDataPointer()),
+			const_cast<int*>(reinterpret_cast<const int*>(A.key_.getDataPointer())),
+			const_cast<int*>(reinterpret_cast<const int*>(A.offset_.getDataPointer())),
+			const_cast<double*>(B.value_.getDataPointer()),
+			const_cast<int*>(reinterpret_cast<const int*>(B.key_.getDataPointer())),
+			const_cast<int*>(reinterpret_cast<const int*>(B.offset_.getDataPointer())),
+			const_cast<double*>(C.value_.getDataPointer()),
+			reinterpret_cast<int*>(C.key_.getDataPointer()),
+			reinterpret_cast<int*>(C.offset_.getDataPointer()),
+			reinterpret_cast<const int*>(C.value_.size()),
 			&info
 		);
     }
