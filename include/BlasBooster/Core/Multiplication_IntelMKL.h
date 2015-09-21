@@ -123,6 +123,8 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
         int sort = 0;
         int info;
 
+        std::vector<int> A_key(A.key_.size());
+
 		BlasInterface<IntelMKL, dcsrmultcsr>()(
 			&n,
 			&request,

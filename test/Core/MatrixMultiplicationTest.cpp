@@ -12,43 +12,38 @@
 
 using namespace BlasBooster;
 
-namespace {
-
-struct TestDataStructure
+/// Test fixture
+template <typename T>
+class MatrixMatrixMultiplicationTest : public ::testing::Test
 {
-	TestDataStructure(
-        DynamicMatrix A,
-        DynamicMatrix B,
-        DynamicMatrix C
-	): A(A), B(B), C(C)
-	{}
 
-    DynamicMatrix A;
-    DynamicMatrix B;
-    DynamicMatrix C;
 };
 
-} // namespace anonymous
+TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest);
 
-/// Test fixture for MatrixMultiplicationTest
-class MatrixMultiplicationTest
- : public ::testing::WithParamInterface<TestDataStructure>,
-   public ::testing::Test
-{};
-
- /// Test body for MatrixMultiplicationTest
-TEST_P(MatrixMultiplicationTest, Basic)
+ /// Test body
+TYPED_TEST_P(MatrixMatrixMultiplicationTest, Basic)
 {
-    GetParam().A * GetParam().B;
-    //EXPECT_EQ(GetParam().C, GetParam().A * GetParam().B);
+	using TypeA = typename std::tuple_element<0, TypeParam>::type;
+	using TypeB = typename std::tuple_element<1, TypeParam>::type;
+	using TypeC = typename std::tuple_element<2, TypeParam>::type;
+	using Interface = typename std::tuple_element<3, TypeParam>::type;
+
+	Matrix<Dense, double> ref{{1,2},{3,4}};
+	TypeA A(ref);
+	TypeB B(ref);
+	Matrix<Dense, double> C = (A * B).template execute<Interface>();
+
+	Matrix<Dense, double> expected{{7,10},{15,22}};
+	EXPECT_NEAR(0.0, norm<NormMax>(C - expected), 1e-6);
 }
 
-INSTANTIATE_TEST_CASE_P(AllMatrixMultiplicationTests, MatrixMultiplicationTest,
-	::testing::Values(
-        TestDataStructure(
-            DynamicMatrix(new Matrix<Dense,double>(3,3,ContinuousNumberFiller())),
-            DynamicMatrix(new Matrix<Dense,double>(3,3,ContinuousNumberFiller())),
-            DynamicMatrix(new Matrix<Dense,double>(3,3,ContinuousNumberFiller()))
-        )
-    )
-);
+REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Basic);
+
+typedef ::testing::Types<
+    std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>,
+    std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>,
+	std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Dense, double>, IntelMKL>
+> MyTypes;
+
+INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixMatrixMultiplicationTest, MyTypes);

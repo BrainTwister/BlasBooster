@@ -25,6 +25,8 @@ target_link_libraries(
     ${GTEST_BOTH_LIBRARIES}
     -pthread
     ${Boost_LIBRARIES}
+    BlasInterface_IntelMKL
+    BlasInterface_OpenBLAS
 )
 
 add_test(
