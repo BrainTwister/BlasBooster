@@ -10,6 +10,7 @@
 #define BLASBOOSTER_CORE_ALLMATRIXTYPES_H_
 
 #include "DenseMatrix.h"
+#include "DynamicMatrix.h"
 #include "MultipleMatrix.h"
 #include "SparseMatrix.h"
 #include "ZeroMatrix.h"

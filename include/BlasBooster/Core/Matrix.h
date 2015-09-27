@@ -26,6 +26,9 @@ struct NoType{};
  * \brief Primary template for all matrix types.
  *
  * All matrix types are specialized from this template class.
+ * M: MatrixType, e.g. Dense, Sparse
+ * T: DataType, which can be a simple build-in type (double, float, int) or again a matrix
+ * P: Parameters, which describes the inner structure of the matrix
  */
 template <class M = Dense, class T = double, class P = Parameter<> >
 struct Matrix

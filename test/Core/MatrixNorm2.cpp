@@ -12,28 +12,34 @@
 
 using namespace BlasBooster;
 
-namespace {
-
+/// Test fixture
 template <typename T>
 class MatrixNorm : public ::testing::Test
 {};
 
-using MyTypes = ::testing::Types<
-    Matrix<Dense,double>,
-	Matrix<Dense,float>,
-	DynamicMatrix
->;
-
-} // anonymous namespace
-
 TYPED_TEST_CASE_P(MatrixNorm);
 
-TYPED_TEST_P(MatrixNorm, CheckResult)
+ /// Test body
+template <class TypeParam>
+void test(Matrix<Dense, double> const& refA, double result)
 {
-    TypeParam A;
-    EXPECT_EQ(1.0, norm<NormTwo>(A));
+	TypeParam A(refA);
+	EXPECT_NEAR(result, norm<NormTwo>(refA), 1e-5);
 }
 
-REGISTER_TYPED_TEST_CASE_P(MatrixNorm, CheckResult);
+using MyTypes = ::testing::Types<
+    Matrix<Dense, double>,
+	Matrix<Dense, float>,
+    Matrix<Sparse, double>,
+    Matrix<Sparse, double, Parameter<size_t, RowMajor>>
+	//DynamicMatrix
+>;
+
+TYPED_TEST_P(MatrixNorm, Test1)
+{
+	test<TypeParam>({{1e-12, 1e-6}, {1e-6, 1e-12}}, 1.41421e-06);
+}
+
+REGISTER_TYPED_TEST_CASE_P(MatrixNorm, Test1);
 
 INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixNorm, MyTypes);

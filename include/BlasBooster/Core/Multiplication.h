@@ -11,7 +11,8 @@
 
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
-#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/DynamicMatrix.h"
+#include "BlasBooster/Core/DynamicMatrixTypeList.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Utilities/exec_dyn_2dim.h"

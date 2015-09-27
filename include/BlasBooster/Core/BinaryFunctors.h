@@ -11,7 +11,8 @@
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/CoreException.h"
-#include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/DynamicMatrix.h"
+#include "BlasBooster/Core/DynamicMatrixTypeList.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MultipleMatrix.h"

@@ -10,9 +10,11 @@
 #define BLASBOOSTER_CORE_MULTIPLEMATRIX_H_
 
 #include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/DynamicMatrixTypeList.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/TypeName.h"
+#include <memory>
 
 namespace BlasBooster {
 
