@@ -15,7 +15,7 @@
 namespace BlasBooster {
 
 template <class T, class P>
-Matrix<Dense,T,P> transpose( const Matrix<Dense,T,P>& matrix )
+Matrix<Dense,T,P> transpose(Matrix<Dense,T,P> const& matrix)
 {
     Matrix<Dense,T,P> transposedMatrix(matrix.getNbColumns(),matrix.getNbRows());
 
@@ -41,7 +41,7 @@ Matrix<Dense,T,P> transpose( const Matrix<Dense,T,P>& matrix )
 }
 
 template <class T, class P>
-Matrix<Sparse,T,P> transpose( const Matrix<Sparse,T,P>& matrix )
+Matrix<Sparse,T,P> transpose(Matrix<Sparse,T,P> const& matrix)
 {
     Matrix<Sparse,T,P> transposedMatrix(matrix.getNbColumns(), matrix.getNbRows(),
         matrix.getNbOfSignificantElements());

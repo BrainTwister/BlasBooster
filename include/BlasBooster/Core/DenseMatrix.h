@@ -121,14 +121,21 @@ public: // member functions
         >::type* = 0
     );
 
-    /// Conversion from DenseMatrix
+    /// Conversion from DenseMatrix with same orientation
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
         typename std::enable_if<
-            std::is_same<typename P::orientation, ColumnMajor>::value and
-            std::is_same<typename P2::orientation, ColumnMajor>::value and
-            !P2::isSubMatrix and
-            !P2::isBlockedMatrix
+            std::is_same<typename P::orientation, typename P2::orientation>::value and
+            !P2::isSubMatrix and !P2::isBlockedMatrix
+        >::type* = 0
+    );
+
+    // Conversion from DenseMatrix with different orientation
+    template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
+    Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
+        typename std::enable_if<
+            !std::is_same<typename P::orientation, typename P2::orientation>::value and
+            !P2::isSubMatrix and !P2::isBlockedMatrix
         >::type* = 0
     );
 
@@ -447,25 +454,29 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, typename P::IndexTyp
    )
 {}
 
+// Conversion from DenseMatrix with same orientation
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
     typename std::enable_if<
-        std::is_same<typename P::orientation, ColumnMajor>::value and
-        std::is_same<typename P2::orientation, ColumnMajor>::value and
-        !P2::isSubMatrix and
-        !P2::isBlockedMatrix
+        std::is_same<typename P::orientation, typename P2::orientation>::value and
+        !P2::isSubMatrix and !P2::isBlockedMatrix
     >::type*)
   : dimension(other.getNbRows(),other.getNbColumns()),
-    storage(other.getSize())
-{
-    T* ptrDest = this->getDataPointer();
-    const T2* ptrSource = other.getDataPointer();
+    storage(other)
+{}
 
-    for (size_t i(0); i != other.getSize(); ++i) {
-           *ptrDest++ = *ptrSource++;
-    }
-}
+// Conversion from DenseMatrix with different orientation
+template <class T, class P>
+template <class T2, class P2, class ValueChecker>
+Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
+    typename std::enable_if<
+        !std::is_same<typename P::orientation, typename P2::orientation>::value and
+        !P2::isSubMatrix and !P2::isBlockedMatrix
+    >::type*)
+  : dimension(other.getNbRows(),other.getNbColumns()),
+    storage(other)
+{}
 
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>

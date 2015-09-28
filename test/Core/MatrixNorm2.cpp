@@ -30,6 +30,7 @@ void test(Matrix<Dense, double> const& refA, double result)
 using MyTypes = ::testing::Types<
     Matrix<Dense, double>,
 	Matrix<Dense, float>,
+    //Matrix<Dense, double, Parameter<size_t, RowMajor>>,
     Matrix<Sparse, double>,
     Matrix<Sparse, double, Parameter<size_t, RowMajor>>
 	//DynamicMatrix

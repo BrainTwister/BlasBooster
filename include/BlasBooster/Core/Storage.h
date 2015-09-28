@@ -44,14 +44,14 @@ public:
      : data_()
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onStack): Copy constructor is called.");
-        std::copy(other.begin(),other.end(),begin());
+        std::copy(other.begin(), other.end(), begin());
     }
 
     /// Copy assignment operator
     Storage& operator = (self const& rhs)
     {
          if ( this != &rhs ) {
-             std::copy_n(rhs.begin(),rhs.size(),this->begin());
+             std::copy_n(rhs.begin(), rhs.size(), this->begin());
          }
          return *this;
     }
