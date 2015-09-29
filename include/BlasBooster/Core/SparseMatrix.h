@@ -19,6 +19,7 @@
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/SparseStorage.h"
+#include "BlasBooster/Core/Transposition.h"
 #include "BlasBooster/Utilities/DebugPrint.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
 #include "BlasBooster/Utilities/TypeList.h"
@@ -177,27 +178,26 @@ Matrix<Sparse,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType n
     MatrixFillerFunctor<FillerType,Sparse,T,P>()(*this);
 }
 
+// Conversion from SparseMatrix
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Sparse,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other, ValueChecker const& valueChecker)
  : dimension(other.getNbRows(), other.getNbColumns()),
-   storage(other.getNbOfSignificantElements(valueChecker), other.getNbColumns() + 1)
-{
-    throw std::runtime_error("Not implemented yet.");
-}
+   storage(std::is_same<typename P::orientation, typename P2::orientation>::value ? other : transpose(other))
+{}
 
 // Conversion from DenseMatrix
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker)
  : dimension(other.getNbRows(), other.getNbColumns()),
-   storage(other.getNbOfSignificantElements(valueChecker), other.getNbColumns() + 1)
+   storage(other.getNbOfSignificantElements(valueChecker), other.getMajorDimension() + 1)
 {
     iterator iterValueCur(this->begin());
     index_iterator iterKeyCur(this->beginKey());
     index_iterator iterOffsetCur(this->beginOffset());
 
-    typename P::IndexType key,offset(0);
+    typename P::IndexType key, offset(0);
 
     typedef typename std::conditional<
         std::is_same<typename P::orientation, typename P2::orientation>::value,
@@ -207,11 +207,11 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
 
     typedef typename std::conditional<
         std::is_same<typename OuterCursor::direction, Direction::Column>::value,
-        Cursor< OuterCursor, Direction::Row >,
-        Cursor< OuterCursor, Direction::Column >
+        Cursor<OuterCursor, Direction::Row>,
+        Cursor<OuterCursor, Direction::Column>
     >::type InnerCursor;
 
-    for (OuterCursor outerCur(other,0), outerEnd(other,other.getNbColumns());
+    for (OuterCursor outerCur(other,0), outerEnd(other,other.getMajorDimension());
         outerCur != outerEnd; ++outerCur)
     {
         *iterOffsetCur++ = offset;

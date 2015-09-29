@@ -23,6 +23,7 @@
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Storage.h"
+#include "BlasBooster/Core/Transposition.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
@@ -475,7 +476,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
         !P2::isSubMatrix and !P2::isBlockedMatrix
     >::type*)
   : dimension(other.getNbRows(),other.getNbColumns()),
-    storage(other)
+    storage(transpose(other))
 {}
 
 template <class T, class P>
