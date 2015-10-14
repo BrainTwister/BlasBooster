@@ -19,6 +19,7 @@ add_executable(
     SparseMatrixTest.cpp
     StorageTest.cpp
     ThresholdTest.cpp
+    Transposition.cpp
 )
     
 target_link_libraries(

@@ -16,6 +16,8 @@
 
 namespace BlasBooster {
 
+struct TheBestPolicy {};
+
 /// The general case of TheBestPolicy is the Native multiplication
 template <class M1, class T1, class P1,
           class M2, class T2, class P2,

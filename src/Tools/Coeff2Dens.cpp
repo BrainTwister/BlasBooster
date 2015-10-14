@@ -1,5 +1,6 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixFileIO.h"
+#include "BlasBooster/Core/MatrixMultExp.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Transposition.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
@@ -31,8 +32,8 @@ int main(int argc, char* argv[])
         int nbThreads = arg.get<int>("threads");
         std::cout << "Number of threads: " << nbThreads << std::endl;
 
-        BlasBooster::mkl_set_num_threads(nbThreads);
-        BlasBooster::openblas_set_num_threads(nbThreads);
+        //BlasBooster::mkl_set_num_threads(nbThreads);
+        //BlasBooster::openblas_set_num_threads(nbThreads);
 
         const Matrix<Dense, double> Cocc(arg.get<filesystem::path>("C"));
 

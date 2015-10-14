@@ -1,7 +1,8 @@
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/DenseMatrix.h"
-#include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "gtest/gtest.h"
 
@@ -33,6 +34,35 @@ TEST(SparseMatrix, DenseSparseConversion)
 	Matrix<Dense,double> C(B);
 
 	EXPECT_TRUE(C.equal(A));
+}
+
+TEST(SparseMatrix, DenseSparseConversion2)
+{
+	Matrix<Dense, int> A {{1,2,3}, {4,5,6}};
+	EXPECT_EQ(6UL, A.getNbOfSignificantElements(AbsoluteValueRangeChecker<int>()));
+
+	Matrix<Sparse, int> B(A);
+	Matrix<Dense, int> C(B);
+
+	EXPECT_TRUE(C.equal(A)) << B << C;
+}
+
+TEST(SparseMatrix, DenseSparseRowMajorConversion)
+{
+	Matrix<Dense, int> A {{1,2}, {3,4}};
+	Matrix<Sparse, int, Parameter<size_t, RowMajor>> B(A);
+	Matrix<Dense, int> C(B);
+
+	EXPECT_TRUE(C.equal(A)) << B << C;
+}
+
+TEST(SparseMatrix, DenseSparseRowMajorConversion2)
+{
+	Matrix<Dense, int> A {{1,2,3}, {4,5,6}};
+	Matrix<Sparse, int, Parameter<size_t, RowMajor>> B(A);
+	Matrix<Dense, int> C(B);
+
+	EXPECT_TRUE(C.equal(A)) << B << C;
 }
 
 #if 0

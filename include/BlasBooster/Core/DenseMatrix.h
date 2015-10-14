@@ -17,8 +17,8 @@
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MatrixFileIO.h"
 #include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Multiplication_Native.h"
+#include "BlasBooster/Core/MatrixMultExp.h"
+//#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -131,7 +131,7 @@ public: // member functions
         >::type* = 0
     );
 
-    // Conversion from DenseMatrix with different orientation
+    /// Conversion from DenseMatrix with different orientation
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker(),
         typename std::enable_if<
@@ -174,9 +174,17 @@ public: // member functions
     /// Conversion from DynamicMatrix
     Matrix(DynamicMatrix const& other);
 
-    /// Conversion from SparseMatrix
+    /// Conversion from SparseMatrix with same orientation
     template <class T2, class P2>
-    Matrix(Matrix<Sparse,T2,P2> const& other);
+    Matrix(Matrix<Sparse,T2,P2> const& other,
+        typename std::enable_if<std::is_same<typename P::orientation, typename P2::orientation>::value>::type* = 0
+    );
+
+    /// Conversion from SparseMatrix with different orientation
+    template <class T2, class P2>
+    Matrix(Matrix<Sparse,T2,P2> const& other,
+        typename std::enable_if<!std::is_same<typename P::orientation, typename P2::orientation>::value>::type* = 0
+    );
 
     /// Conversion from MultipleMatrix
     template <class X1, class X2>
@@ -249,6 +257,7 @@ public: // member functions
     T& operator () (IndexType row, IndexType column);
     const T& operator () (IndexType row, IndexType column) const;
 
+    // TODO: move to dimension
     template <class U = P>
     IndexType getMajorDimension(typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const {
         return this->getNbColumns();
@@ -463,7 +472,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
         std::is_same<typename P::orientation, typename P2::orientation>::value and
         !P2::isSubMatrix and !P2::isBlockedMatrix
     >::type*)
-  : dimension(other.getNbRows(),other.getNbColumns()),
+  : dimension(other.getNbRows(), other.getNbColumns()),
     storage(other)
 {}
 
@@ -475,7 +484,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
         !std::is_same<typename P::orientation, typename P2::orientation>::value and
         !P2::isSubMatrix and !P2::isBlockedMatrix
     >::type*)
-  : dimension(other.getNbRows(),other.getNbColumns()),
+  : dimension(other.getNbRows(), other.getNbColumns()),
     storage(transpose(other))
 {}
 
@@ -589,28 +598,55 @@ Matrix<Dense,T,P>::Matrix(DynamicMatrix const& dynMatrix)
     swap(*this,matrix);
 }
 
+// Conversion from SparseMatrix with same orientation
 template <class T, class P>
 template <class T2, class P2>
-Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other)
- : dimension(other.getNbRows(),other.getNbColumns()),
-   storage(other.getSize())
+Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
+    typename std::enable_if<std::is_same<typename P::orientation, typename P2::orientation>::value>::type*)
+ : dimension(other.getNbRows(), other.getNbColumns()), storage(other.getSize())
 {
-    //setToZero(*this);
-    for ( iterator iterCur(this->begin()), iterEnd(this->end()); iterCur != iterEnd; ++iterCur )
-    {
-        *iterCur = 0;
-    }
+    typedef typename Matrix<Sparse,T2,P2>::const_index_iterator ConstIndexIterator;
+    typedef typename Matrix<Sparse,T2,P2>::const_iterator ConstIterator;
 
-    IndexType majorIndex(0);
-    for ( typename Matrix<Sparse,T2,P2>::const_index_iterator iterOffsetCur(other.beginOffset()),
-        iterOffsetEnd(other.endOffset() - 1); iterOffsetCur != iterOffsetEnd; ++iterOffsetCur, ++majorIndex )
+    this->fill(0);
+
+    iterator iterDense = this->begin();
+    for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
+        iterOffsetEnd(other.endOffset() - 1); iterOffsetCur != iterOffsetEnd; ++iterOffsetCur)
     {
-        typename Matrix<Sparse,T2,P2>::const_iterator iterValueCur(other.begin() + *iterOffsetCur);
-        for ( typename Matrix<Sparse,T2,P2>::const_index_iterator iterKeyCur(other.beginKey() + *iterOffsetCur),
-            iterKeyEnd(other.beginKey() + *(iterOffsetCur + 1)); iterKeyCur != iterKeyEnd; ++iterKeyCur, ++iterValueCur )
+    	ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
+        for (ConstIndexIterator iterKeyCur(other.beginKey() + *iterOffsetCur),
+            iterKeyEnd(other.beginKey() + *(iterOffsetCur + 1)); iterKeyCur != iterKeyEnd; ++iterKeyCur, ++iterValueCur)
         {
-            *(this->begin() + majorIndex * this->getMajorDimension() + *iterKeyCur) = *iterValueCur;
+        	iterDense[*iterKeyCur] = *iterValueCur;
         }
+        iterDense += this->getMajorDimension();
+    }
+}
+
+// Conversion from SparseMatrix with different orientation
+template <class T, class P>
+template <class T2, class P2>
+Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
+    typename std::enable_if<!std::is_same<typename P::orientation, typename P2::orientation>::value>::type*)
+ : dimension(other.getNbRows(), other.getNbColumns()), storage(other.getSize())
+{
+    typedef typename Matrix<Sparse,T2,P2>::const_index_iterator ConstIndexIterator;
+    typedef typename Matrix<Sparse,T2,P2>::const_iterator ConstIterator;
+
+    this->fill(0);
+
+    iterator iterDense = this->begin();
+    for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
+        iterOffsetEnd(other.endOffset() - 1); iterOffsetCur != iterOffsetEnd; ++iterOffsetCur)
+    {
+    	ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
+        for (ConstIndexIterator iterKeyCur(other.beginKey() + *iterOffsetCur),
+            iterKeyEnd(other.beginKey() + *(iterOffsetCur + 1)); iterKeyCur != iterKeyEnd; ++iterKeyCur, ++iterValueCur)
+        {
+        	iterDense[*iterKeyCur * this->getMajorDimension()] = *iterValueCur;
+        }
+        ++iterDense;
     }
 }
 
@@ -618,8 +654,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other)
 template <class T, class P>
 template <class X1, class X2>
 Matrix<Dense,T,P>::Matrix(MultipleMatrix<X1,X2> const& other)
- : dimension(other.getNbRows(),other.getNbColumns()),
-   storage(other.getSize())
+ : dimension(other.getNbRows(), other.getNbColumns()), storage(other.getSize())
 {
     *this = other.getMatrix1();
     *this += other.getMatrix2();
@@ -630,7 +665,7 @@ template <class T, class P>
 template <class Op1, class Op2>
 Matrix<Dense,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
-	*this = expression.template execute<Native>();
+	//*this = expression.template execute<Native>();
 }
 
 // Construction by file

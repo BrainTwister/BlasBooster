@@ -13,8 +13,8 @@
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
-#include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Multiplication_Native.h"
+#include "BlasBooster/Core/MatrixMultExp.h"
+//#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -76,13 +76,13 @@ public:
     Matrix(IndexType nbRows, IndexType nbColumns, IndexType nbSignificantElements = 0, FillerType filler = FillerType());
 
     /// Conversion from SparseMatrix
-    template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
+    template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<T>>
     Matrix(Matrix<Sparse,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker());
 
     /// Conversion from DenseMatrix
     /// Elements with an absolute value in the range (lowerThreshold,upperThreshold] are significant.
     /// Significant elements will be counted for ideal storage size.
-    template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<double> >
+    template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<T>>
     Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker = ValueChecker());
 
     /// Conversion from DynamicMatrix
@@ -191,7 +191,8 @@ template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker)
  : dimension(other.getNbRows(), other.getNbColumns()),
-   storage(other.getNbOfSignificantElements(valueChecker), other.getMajorDimension() + 1)
+   storage(other.getNbOfSignificantElements(valueChecker), other.getMinorDimension() + 1)
+//   storage(other.getNbOfSignificantElements(valueChecker), this->getMinorDimension() + 1)
 {
     iterator iterValueCur(this->begin());
     index_iterator iterKeyCur(this->beginKey());
@@ -211,7 +212,7 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
         Cursor<OuterCursor, Direction::Column>
     >::type InnerCursor;
 
-    for (OuterCursor outerCur(other,0), outerEnd(other,other.getMajorDimension());
+    for (OuterCursor outerCur(other,0), outerEnd(other,other.getMinorDimension());
         outerCur != outerEnd; ++outerCur)
     {
         *iterOffsetCur++ = offset;
@@ -262,7 +263,7 @@ template <class T, class P>
 template <class Op1, class Op2>
 Matrix<Sparse,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
-    *this = expression.template execute<Native>();
+    //*this = expression.template execute<Native>();
 }
 
 template <class T, class P>

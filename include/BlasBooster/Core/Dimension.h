@@ -43,7 +43,6 @@ namespace nonfixed {
 template <class IndexType>
 struct Dimension
 {
-    typedef Dimension self;
     static const bool fixed = false;
     static const IndexType size = 0;
 
@@ -75,18 +74,18 @@ struct Dimension
         return *this;
     }
 
-    friend void swap(self& a, self& b) BLASBOOSTER_NOEXCEPT
+    friend void swap(Dimension& a, Dimension& b) BLASBOOSTER_NOEXCEPT
     {
         std::swap(a.nbRows_, b.nbRows_);
         std::swap(a.nbColumns_, b.nbColumns_);
     }
 
-    bool operator == (self const& rhs) const
+    bool operator == (Dimension const& rhs) const
     {
         return this->nbRows_ == rhs.nbRows_ and this->nbColumns_ == rhs.nbColumns_;
     }
 
-    bool operator != (self const& rhs) const
+    bool operator != (Dimension const& rhs) const
     {
         return !operator==(rhs);
     }
@@ -112,10 +111,10 @@ private:
     }
 };
 
-template < class IndexType >
+template <class IndexType>
 struct LeadingDimension
 {
-    LeadingDimension( IndexType ldRows = 0, IndexType ldColumns = 0 )
+    LeadingDimension(IndexType ldRows = 0, IndexType ldColumns = 0)
      : ldRows_(ldRows), ldColumns_(ldColumns)
     {}
 
@@ -129,10 +128,10 @@ protected:
 
 };
 
-template < class IndexType >
+template <class IndexType>
 struct UnblockedDimension
 {
-    UnblockedDimension( IndexType ubRows = 0, IndexType ubColumns = 0 )
+    UnblockedDimension(IndexType ubRows = 0, IndexType ubColumns = 0)
      : ubRows_(ubRows), ubColumns_(ubColumns)
     {}
 

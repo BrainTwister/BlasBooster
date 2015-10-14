@@ -11,7 +11,9 @@
 
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
+#include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/SparseMatrix.h"
 #include <algorithm>
 #include <iostream>
 
@@ -92,9 +94,24 @@ struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,Intel
         C.resize(A.getNbRows(), B.getNbColumns());
 
 		char n = 'N';
-		char matdescra[6] = {'G', 'L', 'N', 'C', 'X', 'X'};
+		// one-based indexing matdescra[3] = 'F' => B and C must be column-major
+		// zero-based indexing matdescra[3] = 'C' => B and C must be row-major
+		char matdescra[6] = {'G', 'L', 'N', 'F', 'X', 'X'};
         double alpha = 1.0;
         double beta = 0.0;
+
+        // TODO: Add parameter for index-base
+        Matrix<Sparse, double, Parameter<size_t, RowMajor>> rmA(A);
+
+        std::vector<int> rmA_key(rmA.key_.size());
+        std::transform(rmA.key_.begin(), rmA.key_.end(), rmA_key.begin(), [](size_t value){
+            return ++value;
+        });
+
+        std::vector<int> rmA_offset(rmA.offset_.size());
+        std::transform(rmA.offset_.begin(), rmA.offset_.end(), rmA_offset.begin(), [](size_t value){
+            return ++value;
+        });
 
 		BlasInterface<IntelMKL, dcsrmm>()(
 			&n,
@@ -103,10 +120,10 @@ struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,Intel
             reinterpret_cast<const int*>(&A.nbColumns_),
 			&alpha,
 			matdescra,
-			const_cast<double*>(A.value_.getDataPointer()),
-			const_cast<int*>(reinterpret_cast<const int*>(A.key_.getDataPointer())),
-			const_cast<int*>(reinterpret_cast<const int*>(A.offset_.getDataPointer())),
-			const_cast<int*>(reinterpret_cast<const int*>(A.offset_.getDataPointer() + 1)),
+			const_cast<double*>(rmA.value_.getDataPointer()),
+			&rmA_key[0],
+			&rmA_offset[0],
+			&rmA_offset[1],
 			const_cast<double*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
 			&beta,

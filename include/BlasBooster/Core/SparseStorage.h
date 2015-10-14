@@ -160,8 +160,8 @@ public:
     index_iterator endOffset() { return offset_.end(); }
     const_index_iterator endOffset() const { return offset_.end(); }
 
-    IndexType size() { return value_.size(); }
-    IndexType sizeOffset() { return offset_.size(); }
+    IndexType nnz() const { return value_.size(); }
+    IndexType sizeOffset() const { return offset_.size(); }
 
 protected:
 

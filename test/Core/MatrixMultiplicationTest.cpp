@@ -8,6 +8,7 @@
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/MatrixIO.h"
 #include "gtest/gtest.h"
 
@@ -33,7 +34,7 @@ void test(Matrix<Dense, double> const& refA, Matrix<Dense, double> const& refB, 
 	TypeB B(refB);
 	Matrix<Dense, double> C = (A * B).template execute<Interface>();
 
-	EXPECT_NEAR(0.0, norm<NormMax>(C - refC), 1e-6);
+	EXPECT_NEAR(0.0, norm<NormMax>(C - refC), 1e-6) << C;
 }
 
 TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test1)
@@ -50,8 +51,8 @@ REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Test1, Test2);
 
 typedef ::testing::Types<
     std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>,
-    std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>
-	//std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>,
+    std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>,
+	std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
 	//std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, IntelMKL>
 > MyTypes;
 

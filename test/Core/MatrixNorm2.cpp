@@ -7,6 +7,7 @@
 // TERMS OF THE COPYRIGHT NOTICE
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
+#include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Norm.h"
 #include "gtest/gtest.h"
 
@@ -21,18 +22,17 @@ TYPED_TEST_CASE_P(MatrixNormTest);
 
  /// Test body
 template <class TypeParam>
-void test(Matrix<Dense, double> const& refA, double result)
+void test(Matrix<Dense, double> const& A, double result)
 {
-	TypeParam A(refA);
-	EXPECT_NEAR(result, norm<NormTwo>(refA), 1e-5);
+	EXPECT_NEAR(result, norm<NormTwo>(TypeParam(A)), 1e-5) << A << TypeParam(A);
 }
 
 using MyTypes = ::testing::Types<
     Matrix<Dense, double>,
 	Matrix<Dense, float>,
     Matrix<Dense, double, Parameter<size_t, RowMajor>>,
-    Matrix<Sparse, double>,
-    Matrix<Sparse, double, Parameter<size_t, RowMajor>>
+    Matrix<Sparse, double>
+    //Matrix<Sparse, double, Parameter<size_t, RowMajor>>
 	//DynamicMatrix
 >;
 

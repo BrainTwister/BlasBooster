@@ -43,8 +43,7 @@ Matrix<Dense,T,P> transpose(Matrix<Dense,T,P> const& matrix)
 template <class T, class P>
 Matrix<Sparse,T,P> transpose(Matrix<Sparse,T,P> const& matrix)
 {
-    Matrix<Sparse,T,P> transposedMatrix(matrix.getNbColumns(), matrix.getNbRows(),
-        matrix.getNbOfSignificantElements());
+    Matrix<Sparse,T,P> transposedMatrix(matrix.getNbColumns(), matrix.getNbRows(), matrix.nnz());
 
     typedef typename Matrix<Sparse,T,P>::IndexType IndexType;
     typedef typename Matrix<Sparse,T,P>::iterator iterator;

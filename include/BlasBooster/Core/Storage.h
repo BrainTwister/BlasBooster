@@ -471,6 +471,10 @@ public:
         return data_;
     }
 
+    void fill(ElementType const& value) {
+    	std::fill(data_, data_ + size_, value);
+    }
+
 protected:
 
     template <class T2, bool onStack2, bool isFixed2, size_t Size2, bool Strided2>

@@ -60,7 +60,7 @@ if(Boost_FOUND)
     set(Boost_USE_STATIC_RUNTIME OFF)
     include_directories(${Boost_INCLUDE_DIRS})
     link_directories(${Boost_LIBRARY_DIRS})
-    add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG)
+    add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG -DBOOST_SYSTEM_NO_DEPRECATED)
 endif(Boost_FOUND)
 
 # Intel math kernel library (MKL)

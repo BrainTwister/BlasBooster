@@ -13,13 +13,14 @@
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
+//#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include <type_traits>
 #include <vector>
 
-// For testing
-#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
-
 namespace BlasBooster {
+
+struct Native {};
+struct TheBestPolicy;
 
 /// Matrix multiplication specialized for Dense, Dense.
 template <class T1, class P1,

@@ -9,6 +9,7 @@
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_Native.h"
 #include "gtest/gtest.h"
 
 using namespace std;
