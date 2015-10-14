@@ -16,38 +16,46 @@
 
 namespace BlasBooster {
 
-class NoLeadingDimension {};
-class NoUnblockedDimension {};
+/// Matrix is stored row-wise (C-style).
+struct RowMajor{};
 
-namespace fixed {
+/// Matrix is stored column-wise (Fortran-style).
+struct ColumnMajor{};
 
-template <class IndexType, IndexType NbRows = 0, IndexType NbColumns = 0>
+/// Dimension is determined during compile-time.
+template <size_t NbRows = 0, size_t NbColumns = 0>
+struct FixedSize
+{
+    static const size_t nbRows = NbRows;
+    static const size_t nbColumns = NbColumns;
+};
+
+/// Dimension is determined during run-time.
+struct VariableSize {};
+
+template <class SizeArg, class OrientationArg>
 struct Dimension
 {
     static const bool fixed = true;
-    static const IndexType nbRows = NbRows;
-    static const IndexType nbColumns = NbColumns;
-    static const IndexType size = NbRows * NbColumns;
+    static const size_t nbRows = SizeArg::NbRows;
+    static const size_t nbColumns = SizeArg::NbColumns;
+    static const size_t size = nbRows * nbColumns;
 
-    Dimension(IndexType = 0, IndexType = 0) {}
+    Dimension(size_t = 0, size_t = 0) {}
 
-    IndexType getNbRows() const { return nbRows; }
-    IndexType getNbColumns() const { return nbColumns; }
-    IndexType getSize() const { return size; }
+    size_t getNbRows() const { return nbRows; }
+    size_t getNbColumns() const { return nbColumns; }
+    size_t getSize() const { return size; }
 };
 
-} // namespace fixed
-
-namespace nonfixed {
-
-template <class IndexType>
-struct Dimension
+template <class OrientationArg>
+struct Dimension<VariableSize, OrientationArg>
 {
     static const bool fixed = false;
-    static const IndexType size = 0;
+    static const size_t size = 0;
 
-    Dimension(IndexType nbRows = 0, IndexType nbColumns = 0)
-     : nbRows_(nbRows), nbColumns_(nbColumns)
+    Dimension(size_t nbRows = 0, size_t nbColumns = 0)
+     : nbRows_(nbRows), nbColumns_(nbColumns), full_size_(nbRows * nbColumns)
     {}
 
     /// Default copy constructor
@@ -56,28 +64,17 @@ struct Dimension
     /// Default copy assignment operator
     Dimension& operator = (Dimension const& other) = default;
 
-    /// Move constructor
-    Dimension(Dimension&& other)
-     : nbRows_(other.nbRows_), nbColumns_(other.nbColumns_)
-    {
-        other.nbRows_ = 0;
-        other.nbColumns_ = 0;
-    }
+    /// Default move constructor
+    Dimension(Dimension&& other) = default;
 
-    /// Move assignment
-    Dimension& operator = (Dimension&& other) BLASBOOSTER_NOEXCEPT
-    {
-        nbRows_ = other.nbRows_;
-        nbColumns_ = other.nbColumns_;
-        other.nbRows_ = 0;
-        other.nbColumns_ = 0;
-        return *this;
-    }
+    /// Default move assignment
+    Dimension& operator = (Dimension&& other) = default;
 
     friend void swap(Dimension& a, Dimension& b) BLASBOOSTER_NOEXCEPT
     {
         std::swap(a.nbRows_, b.nbRows_);
         std::swap(a.nbColumns_, b.nbColumns_);
+        std::swap(a.full_size_, b.full_size_);
     }
 
     bool operator == (Dimension const& rhs) const
@@ -90,14 +87,35 @@ struct Dimension
         return !operator==(rhs);
     }
 
-    IndexType getNbRows() const { return nbRows_; }
-    IndexType getNbColumns() const { return nbColumns_; }
-    IndexType getSize() const { return nbRows_ * nbColumns_; }
+    size_t getNbRows() const { return nbRows_; }
+    size_t getNbColumns() const { return nbColumns_; }
+    size_t getSize() const { return full_size_; }
+
+    template <class U = OrientationArg>
+    size_t getMajorDimension(typename std::enable_if<std::is_same<U, RowMajor>::value>::type* = 0) const {
+        return nbColumns_;
+    }
+
+    template <class U = OrientationArg>
+    size_t getMajorDimension(typename std::enable_if<std::is_same<U, ColumnMajor>::value>::type* = 0) const {
+        return nbRows_;
+    }
+
+    template <class U = OrientationArg>
+    size_t getMinorDimension(typename std::enable_if<std::is_same<U, RowMajor>::value>::type* = 0) const {
+        return nbRows_;
+    }
+
+    template <class U = OrientationArg>
+    size_t getMinorDimension(typename std::enable_if<std::is_same<U, ColumnMajor>::value>::type* = 0) const {
+        return nbColumns_;
+    }
 
 protected:
 
-    IndexType nbRows_;
-    IndexType nbColumns_;
+    size_t nbRows_;
+    size_t nbColumns_;
+    size_t full_size_;
 
 private:
 
@@ -108,44 +126,46 @@ private:
     {
         ar & nbRows_;
         ar & nbColumns_;
+        ar & full_size_;
     }
 };
 
-template <class IndexType>
+struct NoLeadingDimension {};
+
 struct LeadingDimension
 {
-    LeadingDimension(IndexType ldRows = 0, IndexType ldColumns = 0)
+    LeadingDimension(size_t ldRows = 0, size_t ldColumns = 0)
      : ldRows_(ldRows), ldColumns_(ldColumns)
     {}
 
-    IndexType getLdRows() const { return ldRows_; }
-    IndexType getLdColumns() const { return ldColumns_; }
+    size_t getLdRows() const { return ldRows_; }
+    size_t getLdColumns() const { return ldColumns_; }
 
 protected:
 
-    IndexType ldRows_;
-    IndexType ldColumns_;
+    size_t ldRows_;
+    size_t ldColumns_;
 
 };
 
-template <class IndexType>
+struct NoUnblockedDimension {};
+
 struct UnblockedDimension
 {
-    UnblockedDimension(IndexType ubRows = 0, IndexType ubColumns = 0)
+    UnblockedDimension(size_t ubRows = 0, size_t ubColumns = 0)
      : ubRows_(ubRows), ubColumns_(ubColumns)
     {}
 
-    IndexType getUnblockedRows() const { return ubRows_; }
-    IndexType getUnblockedColumns() const { return ubColumns_; }
+    size_t getUnblockedRows() const { return ubRows_; }
+    size_t getUnblockedColumns() const { return ubColumns_; }
 
 protected:
 
-    IndexType ubRows_;
-    IndexType ubColumns_;
+    size_t ubRows_;
+    size_t ubColumns_;
 
 };
 
-} // namespace nonfixed
 } // namespace BlasBooster
 
 #endif // BLASBOOSTER_CORE_DIMENSION_H_

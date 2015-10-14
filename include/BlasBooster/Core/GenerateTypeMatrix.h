@@ -14,14 +14,14 @@
 
 namespace BlasBooster {
 
-typedef Matrix<Dense,size_t> TypeMatrix;
-typedef std::pair<size_t,size_t> Dimension;
-typedef Matrix<Dense,Dimension> DimensionMatrix;
-typedef Matrix<Dense,double> NormMatrix;
+typedef Matrix<Dense, int> TypeMatrix;
+typedef std::pair<size_t, size_t> Dim;
+typedef Matrix<Dense, Dim> DimensionMatrix;
+typedef Matrix<Dense, double> NormMatrix;
 
 inline TypeMatrix generateTypeMatrix(BlockedDenseMatrix const& matrix)
 {
-    TypeMatrix typeMatrix(matrix.getNbRows(),matrix.getNbColumns());
+    TypeMatrix typeMatrix(matrix.getNbRows(), matrix.getNbColumns());
 
     BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
     TypeMatrix::iterator typeMatrixCur(typeMatrix.begin()), typeMatrixEnd(typeMatrix.end());
@@ -48,7 +48,8 @@ inline DimensionMatrix generateDimensionMatrix(BlockedDenseMatrix const& matrix)
     return dimMatrix;
 }
 
-template <> struct TypeName<Dimension>
+template <>
+struct TypeName<Dim>
 {
     static const std::string value() { return "Dimension"; }
 };
@@ -67,7 +68,7 @@ inline NormMatrix generateNormMatrix(BlockedDenseMatrix const& matrix)
     return normMatrix;
 }
 
-inline std::ostream& operator << (std::ostream& os, Dimension const& dimension)
+inline std::ostream& operator << (std::ostream& os, Dim const& dimension)
 {
     return os << dimension.first << "x" << dimension.second;
 }

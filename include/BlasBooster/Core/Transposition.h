@@ -54,7 +54,7 @@ Matrix<Sparse,T,P> transpose(Matrix<Sparse,T,P> const& matrix)
     const index_iterator iterOffsetTransBeg(transposedMatrix.beginOffset());
     const index_iterator iterOffsetTransBeg1(transposedMatrix.beginOffset() + 1);
 
-    std::fill(transposedMatrix.beginOffset(),transposedMatrix.endOffset(),0);
+    std::fill(transposedMatrix.beginOffset(), transposedMatrix.endOffset(), 0);
 
     // count number of elements in minor dimension
     for ( typename Matrix<Sparse,T,P>::const_index_iterator iterOffsetCur(matrix.beginOffset()),
@@ -74,7 +74,7 @@ Matrix<Sparse,T,P> transpose(Matrix<Sparse,T,P> const& matrix)
         *iterOffsetTransCur += *(iterOffsetTransCur - 1);
     }
 
-    IndexType offset,key(0);
+    IndexType offset, key(0);
     std::vector<IndexType> currentOffset(transposedMatrix.sizeOffset() - 1);
 
     // insert values into new positions

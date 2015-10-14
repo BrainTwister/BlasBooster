@@ -18,9 +18,9 @@ namespace BlasBooster {
 typedef Parameter<
             size_t,
             ColumnMajor,
-            nonfixed::Dimension<size_t>,
+            VariableSize,
             NoLeadingDimension,
-            nonfixed::UnblockedDimension<size_t>
+            UnblockedDimension
         > BlockedDenseMatrixParameter;
 
 typedef Matrix<Dense, DynamicMatrix, BlockedDenseMatrixParameter> BlockedDenseMatrix;
@@ -31,8 +31,7 @@ struct FixedSizeBlockedDenseMatrix
 {
     typedef typename P::IndexType IndexType;
     typedef typename P::orientation orientation;
-    typedef Matrix<Dense, Matrix<Dense, T, Parameter<IndexType, orientation,
-        fixed::Dimension<IndexType, nbRows, nbColumns> > > > type;
+    typedef Matrix<Dense, Matrix<Dense, T, Parameter<IndexType, orientation, FixedSize<nbRows, nbColumns> > > > type;
 };
 
 } // namespace BlasBooster

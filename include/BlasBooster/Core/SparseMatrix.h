@@ -191,8 +191,7 @@ template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker)
  : dimension(other.getNbRows(), other.getNbColumns()),
-   storage(other.getNbOfSignificantElements(valueChecker), other.getMinorDimension() + 1)
-//   storage(other.getNbOfSignificantElements(valueChecker), this->getMinorDimension() + 1)
+   storage(other.getNbOfSignificantElements(valueChecker), this->getMinorDimension() + 1)
 {
     iterator iterValueCur(this->begin());
     index_iterator iterKeyCur(this->beginKey());
@@ -212,7 +211,7 @@ Matrix<Sparse,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const&
         Cursor<OuterCursor, Direction::Column>
     >::type InnerCursor;
 
-    for (OuterCursor outerCur(other,0), outerEnd(other,other.getMinorDimension());
+    for (OuterCursor outerCur(other, 0), outerEnd(other, this->getMinorDimension());
         outerCur != outerEnd; ++outerCur)
     {
         *iterOffsetCur++ = offset;

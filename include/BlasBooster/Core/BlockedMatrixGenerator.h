@@ -26,8 +26,7 @@ struct BlockedMatrixGenerator
     {
         typedef Cursor<BlockedDenseMatrix, Direction::Row> RowCursor;
         typedef Cursor<RowCursor, Direction::Column> ColumnCursor;
-        typedef Parameter<typename P::IndexType, typename P::orientation, typename P::dimension,
-            nonfixed::LeadingDimension<typename P::IndexType> > ParameterType;
+        typedef Parameter<typename P::IndexType, typename P::orientation, typename P::SizeType, LeadingDimension> ParameterType;
     
         BlockedDenseMatrix blockedMatrix(rowBlockSizeList.size(),columnBlockSizeList.size(),
             matrix.getNbRows(),matrix.getNbColumns());

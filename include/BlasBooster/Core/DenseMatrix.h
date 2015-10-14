@@ -259,26 +259,6 @@ public: // member functions
 
     // TODO: move to dimension
     template <class U = P>
-    IndexType getMajorDimension(typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const {
-        return this->getNbColumns();
-    }
-
-    template <class U = P>
-    IndexType getMajorDimension(typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const {
-        return this->getNbRows();
-    }
-
-    template <class U = P>
-    IndexType getMinorDimension(typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const {
-        return this->getNbRows();
-    }
-
-    template <class U = P>
-    IndexType getMinorDimension(typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const {
-        return this->getNbColumns();
-    }
-
-    template <class U = P>
     IndexType getLdColumns(typename std::enable_if<!U::isSubMatrix>::type* = 0) const {
         return this->getNbColumns();
     }
@@ -552,8 +532,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other,
         for (ColumnCursor columnCur(other,rowCur.begin()),
             columnEnd(other,rowCur.end()); columnCur != columnEnd; ++columnCur)
         {
-            typedef Matrix<Dense,T,Parameter<typename P::IndexType, typename P::orientation,
-                typename P::dimension, nonfixed::LeadingDimension<typename P::IndexType> > > SubMatrix;
+            typedef Matrix<Dense, T, Parameter<typename P::IndexType, typename P::orientation, typename P::SizeType, LeadingDimension>> SubMatrix;
 
             SubMatrix subMatrixOut(*this,getNbRows(*columnCur),getNbColumns(*columnCur),subRowOffset,subColumnOffset);
 
