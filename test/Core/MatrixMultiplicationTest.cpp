@@ -47,7 +47,12 @@ TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test2)
 	test<TypeParam>({{1,2,3},{4,5,6}}, {{1,2},{3,4},{5,6}}, {{22,28},{49,64}});
 }
 
-REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Test1, Test2);
+TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test3)
+{
+	test<TypeParam>({{1,2,3}}, {{1,2},{3,4},{5,6}}, {{22,28}});
+}
+
+REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Test1, Test2, Test3);
 
 typedef ::testing::Types<
     std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>,

@@ -90,6 +90,7 @@ struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,Intel
     void operator () (Matrix<Sparse,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
         if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        //std::cout << "Calling MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,IntelMKL>" << std::endl;
 
         C.resize(A.getNbRows(), B.getNbColumns());
 

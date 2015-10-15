@@ -37,9 +37,14 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,TheBestPo
 {};
 
 template <class P>
-struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,TheBestPolicy>
- : public MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
+struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,TheBestPolicy>
+ : public MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,IntelMKL>
 {};
+
+//template <class P>
+//struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,TheBestPolicy>
+// : public MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
+//{};
 
 } // namespace BlasBooster
 

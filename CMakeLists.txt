@@ -1,7 +1,12 @@
-cmake_minimum_required(VERSION 3.0)
-project(BlasBooster VERSION 0.2.4 LANGUAGES CXX)
+cmake_minimum_required(VERSION 2.8)
+project(BlasBooster CXX)
+
+set(PROJECT_VERSION_MAJOR 0)
+set(PROJECT_VERSION_MINOR 2)
+set(PROJECT_VERSION_PATCH 5)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
+# add own cmake modules
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # guard against in-source builds
@@ -16,16 +21,20 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
-if(    NOT cmake_build_type_tolower STREQUAL "debug"
-   AND NOT cmake_build_type_tolower STREQUAL "release"
+if(    NOT cmake_build_type_tolower STREQUAL "release"
+   AND NOT cmake_build_type_tolower STREQUAL "debug"
+   AND NOT cmake_build_type_tolower STREQUAL "profiling"
    AND NOT cmake_build_type_tolower STREQUAL "relwithdebinfo")
-  message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
+  message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Release, Debug, Profiling, RelWithDebInfo (case-insensitive).")
 endif()
 
+message("CMake build type: ${CMAKE_BUILD_TYPE}")
+
 set(CMAKE_CXX_FLAGS "-Wall -pedantic-errors -fPIC -fopenmp")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+set(CMAKE_CXX_FLAGS_PROFILING "-O3 -pg")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 
 # C++ ISO standard
 set(CPP_ISO_STANDARD "c++14" CACHE STRING "C++ ISO standard")
