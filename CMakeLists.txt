@@ -1,9 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
-project(BlasBooster CXX)
-
-set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 2)
-set(PROJECT_VERSION_PATCH 5)
+cmake_minimum_required(VERSION 3.0)
+project(BlasBooster VERSION 0.2.5 LANGUAGES CXX)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 # add own cmake modules
