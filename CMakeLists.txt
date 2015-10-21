@@ -56,18 +56,16 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 # generate version string
 configure_file (
-  "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h.in"
-  "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h"
+    "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h.in"
+    "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h"
 )
 
 # Boost template libraries
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost COMPONENTS filesystem serialization system REQUIRED)
 if(Boost_FOUND)
-    set(Boost_USE_STATIC_LIBS ON)
-    set(Boost_USE_MULTITHREADED ON)
-    set(Boost_USE_STATIC_RUNTIME OFF)
-    include_directories(${Boost_INCLUDE_DIRS})
-    link_directories(${Boost_LIBRARY_DIRS})
     add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG -DBOOST_SYSTEM_NO_DEPRECATED)
 endif(Boost_FOUND)
 

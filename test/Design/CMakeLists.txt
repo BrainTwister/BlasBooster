@@ -3,6 +3,7 @@ set(TestName DesignTest)
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${GTEST_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
 )
 
 add_executable(

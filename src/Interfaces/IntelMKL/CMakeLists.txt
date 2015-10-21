@@ -1,6 +1,7 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${MKL_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
 )
 
 add_library(
