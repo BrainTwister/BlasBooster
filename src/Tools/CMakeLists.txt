@@ -17,7 +17,7 @@ target_link_libraries(
     ${Boost_LIBRARIES}
 )
 
-install(TARGETS Coeff2Dens RUNTIME DESTINATION tools)
+install(TARGETS Coeff2Dens RUNTIME DESTINATION bin)
 
 add_executable(
     ShowPattern
@@ -31,5 +31,5 @@ target_link_libraries(
     ${Boost_LIBRARIES}
 )
 
-install(TARGETS ShowPattern RUNTIME DESTINATION tools)
+install(TARGETS ShowPattern RUNTIME DESTINATION bin)
 

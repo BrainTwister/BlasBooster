@@ -5,7 +5,7 @@ include_directories(
 
 add_library(
     MatrixFactory
-    SHARED
+    STATIC
     MatrixFileImporter.cpp
     MatrixGenerator.cpp
 )
