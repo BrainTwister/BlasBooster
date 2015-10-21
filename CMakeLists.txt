@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(BlasBooster VERSION 0.2.5 LANGUAGES CXX)
+project(BlasBooster VERSION 0.2.6 LANGUAGES CXX)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 # add own cmake modules
@@ -111,7 +111,8 @@ if(DOXYGEN_FOUND)
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${PROJECT_SOURCE_DIR}/doxygen/html DESTINATION share/doc)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/html DESTINATION share/doc)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/man DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
 
