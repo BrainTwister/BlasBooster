@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(BlasBooster VERSION 0.2.6 LANGUAGES CXX)
+project(BlasBooster VERSION 0.2.7 LANGUAGES CXX)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 
 # add own cmake modules
@@ -115,6 +115,9 @@ if(DOXYGEN_FOUND)
     install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/man DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
+
+# Set rpath relative to executable
+set(CMAKE_INSTALL_RPATH "$ORIGIN")
 
 SET(CPACK_GENERATOR "TGZ;TBZ2;DEB")
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BrainTwister")
