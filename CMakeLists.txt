@@ -47,6 +47,9 @@ if(${CMAKE_COMPILER_IS_GNUCXX})
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -funroll-loops --param max-unroll-times=100 -ffast-math -mfpmath=sse -march=core2 -mtune=core2")
 endif()
 
+# Set RPATH relative to executable
+set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+
 set(CMAKE_VERBOSE_MAKEFILE false)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
@@ -115,9 +118,6 @@ if(DOXYGEN_FOUND)
     install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/man DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
-
-# Set rpath relative to executable
-set(CMAKE_INSTALL_RPATH "$ORIGIN")
 
 SET(CPACK_GENERATOR "TGZ;TBZ2;DEB")
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BrainTwister")
