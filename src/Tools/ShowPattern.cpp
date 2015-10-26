@@ -16,13 +16,13 @@ int main(int argc, char* argv[])
 
         ScopedTimer scopedTimer("Total time");
 
+        std::cout << "\nBlasBooster " + version + " --- ShowPattern ---\n" << std::endl;
+
         bt::ArgumentParser arg(argc, argv, version,
             {{"matrix", bt::Value<filesystem::path>(), "Matrix filename."}},
             {{"pattern", "p", bt::Value<filesystem::path>("pattern.xpm"), "Matrix pattern filename."},
              {"settings", "s", bt::Value<filesystem::path>("settings.xml"), "Settings for the matrix pattern."}}
         );
-
-        std::cout << "\nBlasBooster " + version + " --- ShowPattern ---\n" << std::endl;
 
         const Matrix<Dense, double> matrix(arg.get<filesystem::path>("matrix"));
 

@@ -18,9 +18,7 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
-// tmp
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
+#include <vector>
 
 using namespace BlasBooster;
 namespace bt = BrainTwister;
@@ -33,10 +31,13 @@ BLASBOOSTER_SETTINGS( Settings,\
 	(( int, nbThreads, 1 ))\
 	(( ThresholdSettings, thresholdSettings, ThresholdSettings() ))\
 )
+//	(( std::vector<Action>, action_list, std::vector<Action>() ))
 
 int main(int argc, char* argv[])
 {
     try {
+
+        std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
         bt::ArgumentParser arg(argc, argv, version,
             {{"matrixA", bt::Value<filesystem::path>(), "File for matrix A."},
@@ -44,20 +45,13 @@ int main(int argc, char* argv[])
             {{"settings", "s", bt::Value<filesystem::path>("settings.xml"), "File for benchmark settings."}}
         );
 
-        std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
-
-        std::ifstream ifs(arg.get<filesystem::path>("settings").string());
-        if (!ifs) throw std::runtime_error("Error opening file " + arg.get<filesystem::path>("settings").string());
-        boost::property_tree::ptree tree;
-        boost::property_tree::read_xml(ifs, tree);
-        Settings settings(tree);
+        const Settings settings(arg.get<filesystem::path>("settings"));
+        const Threshold threshold(settings.thresholdSettings);
 
         std::cout << "Number of threads: " << settings.nbThreads << std::endl;
 
         BlasBooster::mkl_set_num_threads(settings.nbThreads);
         BlasBooster::openblas_set_num_threads(settings.nbThreads);
-
-        Threshold threshold(settings.thresholdSettings);
 
         const Matrix<Dense, double> refA(arg.get<filesystem::path>("matrixA"));
         const Matrix<Dense, double> refB(arg.get<filesystem::path>("matrixB"));
@@ -96,8 +90,9 @@ int main(int argc, char* argv[])
             ScopedTimer scopedTimer("blocked multiplication");
 
             std::unique_ptr<ScopedTimer> ptrScopedTimer(new ScopedTimer("blocked multiplication, block size"));
-            auto blockSizeA = BlockSizeGenerator(100, 400)(refA);
-            auto blockSizeB = BlockSizeGenerator(100, 400)(refB);
+            BlockSizeGenerator block_size_generator(100, 400);
+            auto blockSizeA = block_size_generator(refA);
+            auto blockSizeB = block_size_generator(refB);
 
             ptrScopedTimer.reset(new ScopedTimer("blocked multiplication, blocking"));
             BlockedDenseMatrix A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, settings.thresholdSettings);

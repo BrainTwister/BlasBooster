@@ -1,6 +1,7 @@
 #ifndef BLASBOOSTER_UTILITIES_SETTINGS_H_
 #define BLASBOOSTER_UTILITIES_SETTINGS_H_
 
+#include "BlasBooster/Utilities/Filesystem.h"
 #include <boost/preprocessor/arithmetic/sub.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 #include <boost/preprocessor/logical/not.hpp>
@@ -10,7 +11,18 @@
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/seq/size.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <fstream>
 #include <type_traits>
+
+inline boost::property_tree::ptree read_xml_tree(filesystem::path const& path)
+{
+    std::ifstream ifs(path.string());
+    if (!ifs) throw std::runtime_error("Error opening file " + path.string());
+    boost::property_tree::ptree tree;
+    boost::property_tree::read_xml(ifs, tree);
+    return tree;
+}
 
 template <class T, class Enable = void>
 struct GenericLoader
@@ -78,6 +90,10 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         {\
             PRINT_CLASS_MEMBERS_LOAD(Members)\
         }\
+\
+        Name(filesystem::path const& path)\
+		 : Name(read_xml_tree(path))\
+        {}\
 \
         PRINT_CLASS_MEMBERS(Members)\
 \

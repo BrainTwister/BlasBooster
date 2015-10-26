@@ -21,13 +21,13 @@ int main(int argc, char* argv[])
 
         ScopedTimer scopedTimer("Total time");
 
+        std::cout << "\nBlasBooster " + version + " --- Coeff2Dens ---\n" << std::endl;
+
         bt::ArgumentParser arg(argc, argv, version,
             {{"C", bt::Value<filesystem::path>("C.mat"), "Coefficient matrix C."},
              {"Pocc", bt::Value<filesystem::path>("Pocc.mat"), "Occupied density matrix Pocc."}},
             {{"threads", "t", bt::Value<int>(1), "Number of threads."}}
         );
-
-        std::cout << "\nBlasBooster " + version + " --- Coeff2Dens ---\n" << std::endl;
 
         int nbThreads = arg.get<int>("threads");
         std::cout << "Number of threads: " << nbThreads << std::endl;
