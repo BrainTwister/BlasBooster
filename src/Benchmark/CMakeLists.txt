@@ -1,6 +1,7 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/ArgumentParser/include
+    ${PROJECT_SOURCE_DIR}/BenchmarkManager/include
     ${Boost_INCLUDE_DIRS}
 )
 

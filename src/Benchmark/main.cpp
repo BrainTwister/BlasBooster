@@ -15,6 +15,7 @@
 #include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/ArgumentParser.h"
+#include "BrainTwister/BenchmarkManager.h"
 #include <iostream>
 #include <iomanip>
 #include <memory>
@@ -23,15 +24,19 @@
 using namespace BlasBooster;
 namespace bt = BrainTwister;
 
-BLASBOOSTER_SETTINGS( Settings,\
-	(( bool, openBLASDouble, true ))\
-	(( bool, intelMKLSingle, true ))\
-	(( bool, sparseDouble, true ))\
-	(( bool, blockedTheBestPolicy, true ))\
+#if 0
+BLASBOOSTER_SETTINGS( ActionSettings,\
+	(( MatrixType, matrix_type, MatrixType::dense ))\
 	(( int, nbThreads, 1 ))\
 	(( ThresholdSettings, thresholdSettings, ThresholdSettings() ))\
 )
-//	(( std::vector<Action>, action_list, std::vector<Action>() ))
+
+BLASBOOSTER_SETTINGS( Settings,\
+	(( bt::BenchmarkManager::Settings, benchmark_manager_settings, bt::BenchmarkManager::Settings() ))
+	(( std::vector<MatrixSet>, matrix_set_list, std::vector<MatrixSet>() ))
+	(( std::vector<ActionSettings>, action_settings_list, std::vector<ActionSettings>() ))
+)
+#endif
 
 int main(int argc, char* argv[])
 {
@@ -39,13 +44,25 @@ int main(int argc, char* argv[])
 
         std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
-        bt::ArgumentParser arg(argc, argv, version,
-            {{"matrixA", bt::Value<filesystem::path>(), "File for matrix A."},
-             {"matrixB", bt::Value<filesystem::path>(), "File for matrix B."}},
-            {{"settings", "s", bt::Value<filesystem::path>("settings.xml"), "File for benchmark settings."}}
+        bt::ArgumentParser arg(argc, argv, version, {},
+            {{"input", "i", bt::Value<filesystem::path>("input.xml"), "Input file defining the benchmark settings."},
+             {"output", "o", bt::Value<filesystem::path>("output.xml"), "Output file containing the benchmark results."}}
         );
 
+#if 0
         const Settings settings(arg.get<filesystem::path>("settings"));
+
+        for (auto const& matrix_set : matrix_set_list)
+        {
+            bt::BenchmarkManager benchmark_manager(settings.benchmark_manager_settings);
+            for (auto const& action : settings.action_list)
+            {
+                benchmark_manager.benchIt(action);
+            }
+        }
+
+
+
         const Threshold threshold(settings.thresholdSettings);
 
         std::cout << "Number of threads: " << settings.nbThreads << std::endl;
@@ -56,6 +73,10 @@ int main(int argc, char* argv[])
         const Matrix<Dense, double> refA(arg.get<filesystem::path>("matrixA"));
         const Matrix<Dense, double> refB(arg.get<filesystem::path>("matrixB"));
         Matrix<Dense, double> refC;
+
+        bt::BenchmarkManager benchmark_manager;
+        for (auto const& action : settings.action_list) benchmark_manager.benchIt(action);
+
 
         {
             ScopedTimer scopedTimer("Intel MKL dgemm");
@@ -110,7 +131,7 @@ int main(int argc, char* argv[])
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(denseC - refC) << std::endl;
         }
-
+#endif
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
         std::cout << "Program was aborted." << std::endl;

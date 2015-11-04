@@ -85,6 +85,7 @@ endif(OPENBLAS_FOUND)
 #find_package(MTL4)
 
 add_subdirectory(ArgumentParser)
+add_subdirectory(BenchmarkManager)
 add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
 add_subdirectory(src/Tools)
