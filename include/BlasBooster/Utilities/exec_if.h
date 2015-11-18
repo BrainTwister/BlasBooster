@@ -22,8 +22,8 @@ struct exec_if_impl<TypeList<T>>
     template <class P, class E>
     static typename E::result_type execute(P const& p, E const& e)
     {
-        if (p(static_cast<T*>(0))) return e(static_cast<T*>(0));
-        BLASBOOSTER_CORE_FAILURE("type not found");
+        if (!p(static_cast<T*>(0))) BLASBOOSTER_CORE_FAILURE("type not found");
+        return e(static_cast<T*>(0));
     }
 };
 
