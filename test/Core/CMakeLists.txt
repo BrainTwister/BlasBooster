@@ -24,11 +24,10 @@ add_executable(
     
 target_link_libraries(
     ${TestName}
+    ${Boost_LIBRARIES}
+    ${EXTERNAL_BLAS_LIBRARIES}
     ${GTEST_BOTH_LIBRARIES}
     -pthread
-    ${Boost_LIBRARIES}
-    BlasInterface_IntelMKL
-    BlasInterface_OpenBLAS
 )
 
 add_test(

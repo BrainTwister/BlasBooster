@@ -13,8 +13,7 @@ add_executable(
 target_link_libraries(
     Benchmark
     ArgumentParser
-    BlasInterface_IntelMKL
-    BlasInterface_OpenBLAS
+    ${EXTERNAL_BLAS_LIBRARIES}
     ${Boost_LIBRARIES}
 )
 

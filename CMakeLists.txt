@@ -69,16 +69,21 @@ if(Boost_FOUND)
     add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG -DBOOST_SYSTEM_NO_DEPRECATED)
 endif(Boost_FOUND)
 
+# List for external BLAS interfaces
+set(EXTERNAL_BLAS_LIBRARIES "")
+
 # Intel math kernel library (MKL)
 find_package(MKL)
 if(MKL_FOUND)
     add_subdirectory(src/Interfaces/IntelMKL)
+    list(APPEND EXTERNAL_BLAS_LIBRARIES BlasInterface_IntelMKL)
 endif(MKL_FOUND)
 
 # GotoBLAS/OpenBLAS 
 find_package(OpenBLAS)
 if(OPENBLAS_FOUND)
     add_subdirectory(src/Interfaces/OpenBLAS)
+    list(APPEND EXTERNAL_BLAS_LIBRARIES BlasInterface_OpenBLAS)
 endif(OPENBLAS_FOUND)
 
 #find_package(Eigen3)

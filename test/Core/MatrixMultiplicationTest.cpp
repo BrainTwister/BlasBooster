@@ -9,6 +9,7 @@
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
+#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/MatrixIO.h"
 #include "gtest/gtest.h"
 
@@ -55,10 +56,16 @@ TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test3)
 REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Test1, Test2, Test3);
 
 typedef ::testing::Types<
-    std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>,
-    std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>,
-	std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
-	//std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, IntelMKL>
+	std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
+	,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Native>
+	,std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
+    //,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, Native>
+#ifdef USE_INTEL_MKL
+    ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
+    ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>
+	,std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
+	//,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, IntelMKL>
+#endif
 > MyTypes;
 
 INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixMatrixMultiplicationTest, MyTypes);

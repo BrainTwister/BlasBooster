@@ -115,6 +115,7 @@
 			<resource resourceType="PROJECT" workspacePath="/blasbooster_core"/>
 		</configuration>
 		<configuration configurationName="Release"/>
+		<configuration configurationName="Debug"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">

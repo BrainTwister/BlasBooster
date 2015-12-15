@@ -16,6 +16,10 @@ list(APPEND MKL_LIBRARIES
 )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(MKL DEFAULT_MSG MKL_LIBRARIES)
+find_package_handle_standard_args(MKL DEFAULT_MSG
+  MKL_INTEL_LP64_LIBRARY
+  MKL_CORE_LIBRARY
+  MKL_GNU_THREAD_LIBRARY
+)
 
 mark_as_advanced(MKL_LIBRARIES)
