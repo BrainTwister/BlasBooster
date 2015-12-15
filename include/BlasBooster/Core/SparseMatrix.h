@@ -152,6 +152,7 @@ private:
     template <class M1, class T1, class P1, class M2, class T2, class P2, class M3, class T3, class P3, class Interface>
     friend struct MultiplicationFunctor;
 
+#if 0
     friend class boost::serialization::access;
 
     template <class Archive>
@@ -160,6 +161,7 @@ private:
         ar & boost::serialization::base_object<dimension>(*this);
         ar & boost::serialization::base_object<storage>(*this);
     }
+#endif
 
 }; // class SparseMatrix
 

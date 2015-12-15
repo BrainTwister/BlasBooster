@@ -2,6 +2,8 @@
 #define SCOPEDTIMER_H_
 
 #include <chrono>
+#include <iomanip>
+#include <iostream>
 #include <string>
 
 class ScopedTimer

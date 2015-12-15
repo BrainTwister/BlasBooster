@@ -36,7 +36,8 @@ std::istream& operator >> (std::istream& is, Matrix<Dense,T,P>& matrix)
 {
     boost::property_tree::ptree tree;
     boost::property_tree::read_xml(is, tree);
-    MatrixFileSettings settings(tree);
+    //MatrixFileSettings settings(tree);
+    MatrixFileSettings settings;
 	matrix.resize(settings.nbRows, settings.nbColumns);
 
 	// Some dimension checks

@@ -15,11 +15,11 @@ namespace BenchmarkAction {
 template <class Interface>
 struct MatrixMatrixMultiplication
 {
-	Action_MatrixMatrixMultiplication()
+	MatrixMatrixMultiplication()
 	 : settings_(), ptrA_(), ptrB_(), ptrC_()
 	{}
 
-	Action_MatrixMatrixMultiplication( const Action_MatrixMatrixMultiplicationSettings& settings )
+	MatrixMatrixMultiplication(Action_MatrixMatrixMultiplicationSettings const& settings)
 	 : settings_(settings), ptrA_(), ptrB_(), ptrC_()
 	{}
 
