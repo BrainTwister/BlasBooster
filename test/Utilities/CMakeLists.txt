@@ -15,6 +15,7 @@ add_executable(
     
 target_link_libraries(
     ${TestName}
+    ${Boost_LIBRARIES}
     ${GTEST_BOTH_LIBRARIES}
     -pthread
 )

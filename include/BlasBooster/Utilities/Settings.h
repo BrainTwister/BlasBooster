@@ -2,14 +2,15 @@
 #define BLASBOOSTER_UTILITIES_SETTINGS_H_
 
 #include <boost/preprocessor/arithmetic/sub.hpp>
-#include <boost/preprocessor/punctuation/comma_if.hpp>
-#include <boost/preprocessor/logical/not.hpp>
 #include <boost/preprocessor/cat.hpp>
-#include <boost/preprocessor/tuple/elem.hpp>
+#include <boost/preprocessor/control/if.hpp>
+#include <boost/preprocessor/logical/not.hpp>
+#include <boost/preprocessor/punctuation/comma_if.hpp>
 #include <boost/preprocessor/seq/for_each_i.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/seq/size.hpp>
 #include <boost/preprocessor/stringize.hpp>
+#include <boost/preprocessor/tuple/elem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/nvp.hpp>
@@ -61,6 +62,13 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 #define PRINT_COPY_ARGUMENTS(SEQ) \
     BOOST_PP_SEQ_FOR_EACH_I(MACRO_SINGLE_COPY_ARGUMENTS, BOOST_PP_SEQ_SIZE(SEQ), SEQ)
 
+// List of arguments for comparison
+#define MACRO_SINGLE_COMPARE_ARGUMENTS(r, size, i, elem) \
+    BOOST_PP_TUPLE_ELEM(3,1,elem) == other. BOOST_PP_TUPLE_ELEM(3,1,elem) BOOST_PP_IF(BOOST_PP_SUB(BOOST_PP_SUB(size,i),1),&&,)
+
+#define PRINT_COMPARE_ARGUMENTS(SEQ) \
+    BOOST_PP_SEQ_FOR_EACH_I(MACRO_SINGLE_COMPARE_ARGUMENTS, BOOST_PP_SEQ_SIZE(SEQ), SEQ)
+
 // List of class members
 #define MACRO_SINGLE_MEMBER(r,data,elem) \
     BOOST_PP_TUPLE_ELEM(3,0,elem) BOOST_PP_TUPLE_ELEM(3,1,elem);
@@ -103,6 +111,16 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         Name(boost::property_tree::ptree const& tree) \
          : PRINT_CLASS_MEMBERS_LOAD(Members) \
         {} \
+\
+        bool operator == (Name const& other) const \
+        { \
+        	return PRINT_COMPARE_ARGUMENTS(Members); \
+        } \
+\
+        bool operator != (Name const& other) const \
+        { \
+        	return !operator == (other); \
+        } \
 \
         PRINT_CLASS_MEMBERS(Members) \
 \

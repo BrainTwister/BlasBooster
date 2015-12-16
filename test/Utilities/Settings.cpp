@@ -7,7 +7,10 @@
 // TERMS OF THE COPYRIGHT NOTICE
 
 #include "BlasBooster/Utilities/Settings.h"
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
 #include "gtest/gtest.h"
+#include <iostream>
 
 BLASBOOSTER_SETTINGS(Settings, \
     ((int, i1, 0)) \
@@ -49,4 +52,28 @@ TEST(SettingsTest, ptree_construction)
 
 	EXPECT_EQ(42, settings.i1);
 	EXPECT_EQ(2.3, settings.d1);
+}
+
+TEST(SettingsTest, compare)
+{
+	Settings s1(42, 2.3);
+	Settings s2(s1);
+	Settings s3;
+
+	EXPECT_EQ(s1, s2);
+	EXPECT_NE(s1, s3);
+}
+
+TEST(SettingsTest, serialization)
+{
+	Settings s1(42, 2.3);
+    std::stringstream ss;
+    boost::archive::binary_oarchive oar(ss);
+    oar << s1;
+
+	Settings s2;
+    boost::archive::binary_iarchive iar(ss);
+    iar >> s2;
+
+	EXPECT_EQ(s1, s2);
 }
