@@ -13,7 +13,10 @@
 #include <boost/preprocessor/tuple/elem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
+//#include <boost/serialization/export.hpp>
 #include <boost/serialization/nvp.hpp>
+#include <iostream>
 #include <type_traits>
 
 template <class T, class Enable = void>
@@ -38,13 +41,25 @@ struct GenericLoader<std::vector<T>>
 };
 
 template <class T>
-struct GenericLoader<std::shared_ptr<T>>
+struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<std::is_fundamental<T>::value>::type>
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
-		std::shared_ptr<T> ptr(new T);
-		*ptr = pt.get<T>(key);
-		return ptr;
+		return std::shared_ptr<T>(new T(pt.get<T>(key)));
+	}
+};
+
+template <class T>
+struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSetting>::type>
+{
+	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
+	{
+//		std::cout << "1: " << pt.get<std::string>(key) << std::endl;
+//		if (pt.count(key) != 1) throw std::runtime_error("More than one key found for " + key + ".");
+//		boost::property_tree::ptree child = pt.get_child(key);
+//		if (child.size() != 1) throw std::runtime_error("More than one child found for pointer.");
+//		std::cout << "2: " << child.get<std::string>() << std::endl;
+		return std::shared_ptr<T>();
 	}
 };
 
@@ -73,7 +88,8 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 
 // List of arguments of parameter constructor
 #define MACRO_SINGLE_CONSTRUCTOR_ARGUMENT(r,size,i,elem) \
-    BOOST_PP_TUPLE_ELEM(3,0,elem) BOOST_PP_TUPLE_ELEM(3,1,elem) BOOST_PP_COMMA_IF(BOOST_PP_SUB(BOOST_PP_SUB(size,i),1))
+    BOOST_PP_TUPLE_ELEM(3,0,elem) BOOST_PP_TUPLE_ELEM(3,1,elem) = BOOST_PP_TUPLE_ELEM(3,2,elem) \
+	BOOST_PP_COMMA_IF(BOOST_PP_SUB(BOOST_PP_SUB(size,i),1))
 
 #define PRINT_CONSTRUCTOR_ARGUMENTS(SEQ) \
     BOOST_PP_SEQ_FOR_EACH_I(MACRO_SINGLE_CONSTRUCTOR_ARGUMENT,BOOST_PP_SEQ_SIZE(SEQ),SEQ)
@@ -116,13 +132,9 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
     BOOST_PP_SEQ_FOR_EACH(MACRO_SINGLE_MEMBER_SERIALIZATION,,SEQ)
 
 // Class definition
-#define BLASBOOSTER_SETTINGS(Name,Members) \
+#define BLASBOOSTER_SETTINGS(Name, Members) \
     struct Name \
     { \
-        Name() noexcept \
-         : PRINT_INITIALIZE_DEFAULT(Members) \
-        {} \
-\
         Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
          : PRINT_INITIALIZE_ARGUMENTS(Members) \
         {} \
@@ -135,12 +147,14 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
          : PRINT_CLASS_MEMBERS_LOAD(Members) \
         {} \
 \
-        bool operator == (Name const& other) const \
+	    virtual ~Name() {}; \
+\
+        virtual bool operator == (Name const& other) const \
         { \
         	return PRINT_COMPARE_ARGUMENTS(Members); \
         } \
 \
-        bool operator != (Name const& other) const \
+        virtual bool operator != (Name const& other) const \
         { \
         	return !operator == (other); \
         } \
@@ -148,6 +162,10 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         PRINT_CLASS_MEMBERS(Members) \
 \
 	    static const bool IsSetting = true; \
+	    static const bool IsBaseSetting = false; \
+    };
+
+#if 0
 \
     private:\
 \
@@ -158,7 +176,114 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         { \
             PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
         } \
-    };
+    }; \
+\
+    BOOST_CLASS_EXPORT(Name);
+#endif
 // end macro BLASBOOSTER_SETTINGS
+
+// Base class definition
+#define BLASBOOSTER_SETTINGS_BASE(Name, Members) \
+    struct Name \
+    { \
+        Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
+         : PRINT_INITIALIZE_ARGUMENTS(Members) \
+        {} \
+\
+        Name(Name const& other) noexcept \
+         : PRINT_COPY_ARGUMENTS(Members) \
+        {} \
+\
+        Name(boost::property_tree::ptree const& tree) \
+         : PRINT_CLASS_MEMBERS_LOAD(Members) \
+        {} \
+\
+	    virtual ~Name() {}; \
+\
+        virtual bool operator == (Name const& other) const \
+        { \
+        	return PRINT_COMPARE_ARGUMENTS(Members); \
+        } \
+\
+        virtual bool operator != (Name const& other) const \
+        { \
+        	return !operator == (other); \
+        } \
+\
+        PRINT_CLASS_MEMBERS(Members) \
+\
+	    static const bool IsSetting = true; \
+	    static const bool IsBaseSetting = true; \
+    };
+
+#if 0
+\
+    private:\
+\
+        friend class boost::serialization::access; \
+\
+        template <class Archive> \
+        void serialize(Archive & ar, const unsigned int version) \
+        { \
+            PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
+        } \
+    }; \
+\
+    BOOST_CLASS_EXPORT(Name);
+#endif
+// end macro BLASBOOSTER_SETTINGS_BASE
+
+// Derived class definition
+#define BLASBOOSTER_SETTINGS_DERIVED(Name, Base, Members) \
+    struct Name : Base \
+    { \
+        Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
+         : PRINT_INITIALIZE_ARGUMENTS(Members) \
+        {} \
+\
+        Name(Name const& other) noexcept \
+         : PRINT_COPY_ARGUMENTS(Members) \
+        {} \
+\
+        Name(boost::property_tree::ptree const& tree) \
+         : PRINT_CLASS_MEMBERS_LOAD(Members) \
+        {} \
+\
+        virtual ~Name() {}; \
+\
+        virtual bool operator == (Name const& other) const \
+        { \
+        	return Base::operator == (other) \
+                && PRINT_COMPARE_ARGUMENTS(Members); \
+        } \
+\
+        virtual bool operator != (Name const& other) const \
+        { \
+        	return !operator == (other); \
+        } \
+\
+        PRINT_CLASS_MEMBERS(Members) \
+\
+	    static const bool IsSetting = true; \
+	    static const bool IsBaseSetting = false; \
+    };
+
+#if 0
+\
+    private:\
+\
+        friend class boost::serialization::access; \
+\
+        template <class Archive> \
+        void serialize(Archive & ar, const unsigned int version) \
+        { \
+        	boost::serialization::base_object<Base>(*this); \
+            PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
+        } \
+    }; \
+\
+    BOOST_CLASS_EXPORT_GUID(Name, BOOST_PP_STRINGIZE(Name));
+#endif
+// end macro BLASBOOSTER_SETTINGS_DERIVED
 
 #endif // BLASBOOSTER_UTILITIES_SETTINGS_H_
