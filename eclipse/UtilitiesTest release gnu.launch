@@ -18,7 +18,7 @@
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
 <booleanAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN" value="true"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_STOP_AT_MAIN_SYMBOL" value="main"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_ARGUMENTS" value="--gtest_color=no&#10;--gtest_filter=SettingsTest.*"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_ARGUMENTS" value="--gtest_color=no&#10;--gtest_filter=Settings*.*"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="build_release_gnu/bin/UtilitiesTest"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="blasbooster_core"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>

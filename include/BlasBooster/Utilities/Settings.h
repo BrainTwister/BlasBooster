@@ -19,18 +19,41 @@
 template <class T, class Enable = void>
 struct GenericLoader
 {
-    T operator () (boost::property_tree::ptree const& tree, std::string const& name, T def) const
+    T operator () (boost::property_tree::ptree const& pt, std::string const& key, T def) const
 	{
-    	return tree.get<T>(name, def);
+    	return pt.get<T>(key, def);
+	}
+};
+
+template <class T>
+struct GenericLoader<std::vector<T>>
+{
+	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
+	{
+		std::vector<T> r;
+		for (auto& item : pt.get_child(key))
+			r.push_back(item.second.get_value<T>());
+		return r;
+	}
+};
+
+template <class T>
+struct GenericLoader<std::shared_ptr<T>>
+{
+	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
+	{
+		std::shared_ptr<T> ptr(new T);
+		*ptr = pt.get<T>(key);
+		return ptr;
 	}
 };
 
 template <class T>
 struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 {
-    T operator () (boost::property_tree::ptree const& tree, std::string const& name, T def) const
+    T operator () (boost::property_tree::ptree const& pt, std::string const& name, T def) const
 	{
-        return T(tree.get_child(name));
+        return T(pt.get_child(name));
 	}
 };
 
