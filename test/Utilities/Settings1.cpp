@@ -59,6 +59,42 @@ TEST(Settings1Test, ptree_construction)
 	EXPECT_EQ(2.3, settings.d);
 }
 
+TEST(Settings1Test, construct_by_json)
+{
+    std::stringstream ss("{\"i\": 42, \"d\": 3.8, \"s\": \"bar\"}");
+    boost::property_tree::ptree pt;
+    read_json(ss, pt);
+    Settings settings(pt);
+
+	EXPECT_EQ(42, settings.i);
+	EXPECT_EQ(3.8, settings.d);
+	EXPECT_EQ("bar", settings.s);
+}
+
+TEST(Settings1Test, construct_by_json_unordered)
+{
+    std::stringstream ss("{\"s\": \"bar\", \"i\": 42, \"d\": 3.8}");
+    boost::property_tree::ptree pt;
+    read_json(ss, pt);
+    Settings settings(pt);
+
+	EXPECT_EQ(42, settings.i);
+	EXPECT_EQ(3.8, settings.d);
+	EXPECT_EQ("bar", settings.s);
+}
+
+TEST(Settings1Test, construct_by_json_with_default)
+{
+    std::stringstream ss("{\"i\": 42}");
+    boost::property_tree::ptree pt;
+    read_json(ss, pt);
+    Settings settings(pt);
+
+	EXPECT_EQ(42, settings.i);
+	EXPECT_EQ(0.0, settings.d);
+	EXPECT_EQ("foo", settings.s);
+}
+
 TEST(Settings1Test, compare)
 {
 	Settings s1(42, 2.3);

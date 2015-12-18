@@ -21,21 +21,21 @@ namespace BlasBooster {
 /// Global type for all thresholds
 typedef double ThresholdType;
 
-BLASBOOSTER_SETTINGS( ThresholdSettings,\
-    (( ThresholdType, significanceThresholdSinglePrecision, std::numeric_limits<float>::epsilon() ))\
-    (( ThresholdType, significanceThresholdDoublePrecision, std::numeric_limits<double>::epsilon() ))\
-    (( ThresholdType, occupationThresholdMatrixSparseFloatSinglePrecision, 0.0 ))\
-    (( ThresholdType, occupationThresholdMatrixSparseFloatDoublePrecision, 0.2 ))\
-    (( ThresholdType, occupationThresholdMatrixDenseFloatSinglePrecision, 0.0 ))\
-    (( ThresholdType, occupationThresholdMatrixDenseFloatDoublePrecision, 1.0 ))\
-    (( ThresholdType, occupationThresholdMatrixSparseDoubleSinglePrecision, 0.2 ))\
-    (( ThresholdType, occupationThresholdMatrixSparseDoubleDoublePrecision, 0.2 ))\
-    (( ThresholdType, occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision, 0.2 ))\
-    (( ThresholdType, occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision, 0.4 ))\
-    (( ThresholdType, occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision, 0.2 ))\
-    (( ThresholdType, occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision, 1.0 ))\
-    (( ThresholdType, occupationThresholdMatrixDenseDoubleSinglePrecision, 1.0 ))\
-    (( ThresholdType, occupationThresholdMatrixDenseDoubleDoublePrecision, 1.0 ))\
+BLASBOOSTER_SETTINGS( ThresholdSettings, \
+    ((ThresholdType, significanceThresholdSinglePrecision, std::numeric_limits<float>::epsilon())) \
+    ((ThresholdType, significanceThresholdDoublePrecision, std::numeric_limits<double>::epsilon())) \
+    ((ThresholdType, occupationThresholdMatrixSparseFloatSinglePrecision, 0.0)) \
+    ((ThresholdType, occupationThresholdMatrixSparseFloatDoublePrecision, 0.2)) \
+    ((ThresholdType, occupationThresholdMatrixDenseFloatSinglePrecision, 0.0)) \
+    ((ThresholdType, occupationThresholdMatrixDenseFloatDoublePrecision, 1.0)) \
+    ((ThresholdType, occupationThresholdMatrixSparseDoubleSinglePrecision, 0.2)) \
+    ((ThresholdType, occupationThresholdMatrixSparseDoubleDoublePrecision, 0.2)) \
+    ((ThresholdType, occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision, 0.2)) \
+    ((ThresholdType, occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision, 0.4)) \
+    ((ThresholdType, occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision, 0.2)) \
+    ((ThresholdType, occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision, 1.0)) \
+    ((ThresholdType, occupationThresholdMatrixDenseDoubleSinglePrecision, 1.0)) \
+    ((ThresholdType, occupationThresholdMatrixDenseDoubleDoublePrecision, 1.0)) \
 )
 
 template <class T>

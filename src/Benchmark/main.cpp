@@ -1,27 +1,31 @@
+#include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/ArgumentParser.h"
 #include "BrainTwister/BenchmarkManager.h"
+#include <chrono>
 #include <iostream>
 #include <vector>
 
 using namespace BlasBooster;
 namespace bt = BrainTwister;
 
-#if 0
-BLASBOOSTER_SETTINGS(Action,\
-    ((std::vector<MatrixSet>, matrix_set_list, std::vector<MatrixSet>()))\
-	((MatrixType, matrix_type, MatrixType::dense))((int, nbThreads, 1))\
-	((ThresholdSettings, thresholdSettings, ThresholdSettings()))\
+BLASBOOSTER_SETTINGS(ActionBase, \
+	((ThresholdSettings, threshold_settings, ThresholdSettings())) \
 )
 
-BLASBOOSTER_SETTINGS(Settings,\
-    ((bt::BenchmarkManager::Settings, benchmark_manager_settings, bt::BenchmarkManager::Settings()))\
-	((std::vector<ActionBase>, actions, std::vector<Action>()))\
+BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
+    ((size_t, min_replications, 3)) \
+    ((size_t, min_execution_time_in_seconds, 1)) \
+    ((double, spike_detection, 0.1)) \
 )
-#endif
+
+BLASBOOSTER_SETTINGS(Settings, \
+    ((BenchmarkManagerSettings, benchmark_manager_settings, BenchmarkManagerSettings())) \
+	((std::vector<ActionBase>, actions, std::vector<ActionBase>())) \
+)
 
 int main(int argc, char* argv[])
 {

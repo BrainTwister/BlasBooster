@@ -35,13 +35,27 @@ struct GenericLoader
 };
 
 template <class T>
-struct GenericLoader<std::vector<T>>
+struct GenericLoader<std::vector<T>, typename std::enable_if<std::is_fundamental<T>::value>::type>
 {
 	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
 	{
+		if (pt.count(key) == 0) return def;
+
 		std::vector<T> r;
-		for (auto& item : pt.get_child(key))
-			r.push_back(item.second.get_value<T>());
+		for (auto const& item : pt.get_child(key)) r.push_back(item.second.get_value<T>());
+		return r;
+	}
+};
+
+template <class T>
+struct GenericLoader<std::vector<T>, typename std::enable_if<T::IsSetting>::type>
+{
+	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
+	{
+		if (pt.count(key) == 0) return def;
+
+		std::vector<T> r;
+		for (auto const& item : pt.get_child(key)) r.push_back(T(item.second));
 		return r;
 	}
 };

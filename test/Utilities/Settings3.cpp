@@ -16,31 +16,42 @@
 
 // Test nested structures
 
-BLASBOOSTER_SETTINGS(Settings, \
-    ((int, i1, 0)) \
-	((double, d1, 0.0)) \
+BLASBOOSTER_SETTINGS(A, \
+    ((int, i, 0)) \
+	((double, d, 0.0)) \
 )
 
-BLASBOOSTER_SETTINGS(Settings3, \
-	((int, i1, 0)) \
-	((Settings, s1, Settings())) \
+BLASBOOSTER_SETTINGS(B, \
+	((int, i, 0)) \
+	((A, a, A())) \
 )
 
-TEST(Settings3Test, default)
+BLASBOOSTER_SETTINGS(C, \
+	((std::vector<A>, v, std::vector<A>())) \
+)
+
+TEST(Settings3Test, B_default)
 {
-	Settings3 settings;
+	B b;
 
-	EXPECT_EQ(0, settings.i1);
-	EXPECT_EQ(Settings(), settings.s1);
+	EXPECT_EQ(0, b.i);
+	EXPECT_EQ(A(), b.a);
 }
 
-TEST(Settings3Test, construct_by_json)
+TEST(Settings3Test, B_construct_by_json)
 {
-    std::stringstream ss("{\"i1\": 42, \"s1\": {\"i1\": 33, \"d1\": 3.8}}");
+    std::stringstream ss("{\"i\": 42, \"a\": {\"i\": 33, \"d\": 3.8}}");
     boost::property_tree::ptree pt;
     read_json(ss, pt);
-    Settings3 settings(pt);
+    B b(pt);
 
-	EXPECT_EQ(42, settings.i1);
-	EXPECT_EQ((Settings(33, 3.8)), settings.s1);
+	EXPECT_EQ(42, b.i);
+	EXPECT_EQ((A(33, 3.8)), b.a);
+}
+
+TEST(Settings3Test, C_default)
+{
+	C c;
+
+	EXPECT_EQ(std::vector<A>(), c.v);
 }
