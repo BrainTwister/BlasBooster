@@ -19,6 +19,12 @@
 #include <iostream>
 #include <type_traits>
 
+template <class Base>
+struct PolymorphicLoader
+{
+    std::shared_ptr<Base> operator () (boost::property_tree::ptree const& pt) const;
+};
+
 template <class T, class Enable = void>
 struct GenericLoader
 {
@@ -57,13 +63,7 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSettin
 		if (pt.count(key) != 1) throw std::runtime_error("More or less than one key found for " + key + ".");
 		boost::property_tree::ptree child = pt.get_child(key);
 		if (child.size() != 1) throw std::runtime_error("More or less than one child found for pointer.");
-
-
-		if (child.front().first == "SettingsDerived1")
-		return std::shared_ptr<T>(new SettingsDerived1(child.front().second));
-
-		throw std::runtime_error("Derived class type " + child.front().first + " not found.");
-		return std::shared_ptr<T>();
+        return PolymorphicLoader<T>()(child);
 	}
 };
 
@@ -289,5 +289,17 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
     BOOST_CLASS_EXPORT_GUID(Name, BOOST_PP_STRINGIZE(Name));
 #endif
 // end macro BLASBOOSTER_SETTINGS_DERIVED
+
+// Register for polymorphic classes
+#define BLASBOOSTER_SETTINGS_REGISTER(Base, DerivedList) \
+    template <> \
+    std::shared_ptr<SettingsBase> PolymorphicLoader<SettingsBase>::operator()(boost::property_tree::ptree const& pt) const \
+    { \
+        if (pt.front().first == "SettingsDerived1") \
+        return std::shared_ptr<SettingsBase>(new SettingsDerived1(pt.front().second)); \
+        throw std::runtime_error("Derived class type " + pt.front().first + " not found."); \
+        return std::shared_ptr<SettingsBase>(); \
+    }
+// end macro BLASBOOSTER_SETTINGS_REGISTER
 
 #endif // BLASBOOSTER_UTILITIES_SETTINGS_H_

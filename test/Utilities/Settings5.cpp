@@ -28,6 +28,11 @@ BLASBOOSTER_SETTINGS_DERIVED(SettingsDerived2, SettingsBase, \
 	((std::string, s3, "bar")) \
 )
 
+BLASBOOSTER_SETTINGS_REGISTER(SettingsBase, \
+	(SettingsDerived1) \
+	(SettingsDerived2) \
+)
+
 BLASBOOSTER_SETTINGS(Settings5, \
 	((std::shared_ptr<SettingsBase>, ptr_base, std::shared_ptr<SettingsBase>())) \
 )
