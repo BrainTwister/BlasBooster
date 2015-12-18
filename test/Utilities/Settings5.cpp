@@ -34,30 +34,43 @@ BLASBOOSTER_SETTINGS_REGISTER(SettingsBase, \
 )
 
 BLASBOOSTER_SETTINGS(Settings5, \
-	((std::shared_ptr<SettingsBase>, ptr_base, std::shared_ptr<SettingsBase>())) \
+	((std::shared_ptr<SettingsBase>, p1, std::shared_ptr<SettingsBase>())) \
+	((std::shared_ptr<SettingsBase>, p2, std::shared_ptr<SettingsDerived1>())) \
 )
 
 TEST(Settings5Test, default)
 {
 	Settings5 settings;
 
-	EXPECT_EQ(std::shared_ptr<SettingsBase>(), settings.ptr_base);
+	EXPECT_EQ(std::shared_ptr<SettingsBase>(), settings.p1);
+	EXPECT_EQ(std::shared_ptr<SettingsDerived1>(), settings.p2);
 }
 
 TEST(Settings5Test, parameter_constructor)
 {
-	std::shared_ptr<SettingsBase> ptr_base{new SettingsDerived1{4}};
-	Settings5 settings(ptr_base);
+	std::shared_ptr<SettingsBase> p1{new SettingsDerived1{4}};
+	Settings5 settings(p1);
 
-	EXPECT_EQ(4, std::dynamic_pointer_cast<SettingsDerived1>(settings.ptr_base)->i);
+	EXPECT_EQ(4, std::dynamic_pointer_cast<SettingsDerived1>(settings.p1)->i);
 }
 
 TEST(Settings5Test, construct_by_json)
 {
-    std::stringstream ss("{\"ptr_base\": {\"SettingsDerived1\": {\"i\": 42}}}");
+    std::stringstream ss("{\"p1\": {\"SettingsDerived1\": {\"i\": 42}}}");
     boost::property_tree::ptree pt;
     read_json(ss, pt);
     Settings5 settings(pt);
 
-	EXPECT_EQ(42, std::dynamic_pointer_cast<SettingsDerived1>(settings.ptr_base)->i);
+	EXPECT_EQ(42, std::dynamic_pointer_cast<SettingsDerived1>(settings.p1)->i);
+}
+
+TEST(Settings5Test, construct_by_json_2)
+{
+    std::stringstream ss("{\"p1\": {\"SettingsDerived1\": {\"i\": 42}}, \"p2\": {\"SettingsDerived2\": {\"d\": 3.9}}}");
+    boost::property_tree::ptree pt;
+    read_json(ss, pt);
+    Settings5 settings(pt);
+
+	EXPECT_EQ(42, std::dynamic_pointer_cast<SettingsDerived1>(settings.p1)->i);
+	EXPECT_EQ(3.9, std::dynamic_pointer_cast<SettingsDerived2>(settings.p2)->d);
 }

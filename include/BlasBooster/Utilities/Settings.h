@@ -60,7 +60,9 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSettin
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
-		if (pt.count(key) != 1) throw std::runtime_error("More or less than one key found for " + key + ".");
+		if (pt.count(key) == 0) return def;
+		else if (pt.count(key) > 1) throw std::runtime_error("More than one key found for " + key + ".");
+
 		boost::property_tree::ptree child = pt.get_child(key);
 		if (child.size() != 1) throw std::runtime_error("More or less than one child found for pointer.");
         return PolymorphicLoader<T>()(child);
@@ -290,15 +292,22 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 #endif
 // end macro BLASBOOSTER_SETTINGS_DERIVED
 
+// List of derived classes for switch
+#define MACRO_SINGLE_CASE_OF_DERIVED_CLASSES(r, Base, Derived) \
+    if (pt.front().first == BOOST_PP_STRINGIZE(Derived)) return std::shared_ptr<Base>(new Derived(pt.front().second)); \
+    else
+
+#define PRINT_CASE_LIST_OF_DERIVED_CLASSES(Base, DerivedList) \
+	BOOST_PP_SEQ_FOR_EACH(MACRO_SINGLE_CASE_OF_DERIVED_CLASSES, Base, DerivedList)
+
 // Register for polymorphic classes
 #define BLASBOOSTER_SETTINGS_REGISTER(Base, DerivedList) \
     template <> \
     std::shared_ptr<SettingsBase> PolymorphicLoader<SettingsBase>::operator()(boost::property_tree::ptree const& pt) const \
     { \
-        if (pt.front().first == "SettingsDerived1") \
-        return std::shared_ptr<SettingsBase>(new SettingsDerived1(pt.front().second)); \
-        throw std::runtime_error("Derived class type " + pt.front().first + " not found."); \
-        return std::shared_ptr<SettingsBase>(); \
+	    PRINT_CASE_LIST_OF_DERIVED_CLASSES(Base, DerivedList) \
+        throw std::runtime_error("Derived class " + pt.front().first + " not registered for " + BOOST_PP_STRINGIZE(Base) + "."); \
+        return std::shared_ptr<Base>(); \
     }
 // end macro BLASBOOSTER_SETTINGS_REGISTER
 
