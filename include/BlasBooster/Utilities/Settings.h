@@ -54,11 +54,15 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSettin
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
-//		std::cout << "1: " << pt.get<std::string>(key) << std::endl;
-//		if (pt.count(key) != 1) throw std::runtime_error("More than one key found for " + key + ".");
-//		boost::property_tree::ptree child = pt.get_child(key);
-//		if (child.size() != 1) throw std::runtime_error("More than one child found for pointer.");
-//		std::cout << "2: " << child.get<std::string>() << std::endl;
+		if (pt.count(key) != 1) throw std::runtime_error("More or less than one key found for " + key + ".");
+		boost::property_tree::ptree child = pt.get_child(key);
+		if (child.size() != 1) throw std::runtime_error("More or less than one child found for pointer.");
+
+
+		if (child.front().first == "SettingsDerived1")
+		return std::shared_ptr<T>(new SettingsDerived1(child.front().second));
+
+		throw std::runtime_error("Derived class type " + child.front().first + " not found.");
 		return std::shared_ptr<T>();
 	}
 };
