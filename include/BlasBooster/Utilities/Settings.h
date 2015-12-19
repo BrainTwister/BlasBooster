@@ -1,6 +1,7 @@
 #ifndef BLASBOOSTER_UTILITIES_SETTINGS_H_
 #define BLASBOOSTER_UTILITIES_SETTINGS_H_
 
+#include "BlasBooster/Utilities/Filesystem.h"
 #include <boost/preprocessor/arithmetic/sub.hpp>
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/control/if.hpp>
@@ -11,13 +12,51 @@
 #include <boost/preprocessor/seq/size.hpp>
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
 //#include <boost/serialization/export.hpp>
 #include <boost/serialization/nvp.hpp>
+#include <fstream>
 #include <iostream>
 #include <type_traits>
+
+namespace BlasBooster {
+namespace SettingsDetails {
+
+template <class T>
+struct is_setting
+{
+  private:
+    typedef char no;
+    struct yes { no m[2]; };
+
+    static T* make();
+    template<typename U>
+    static yes check(U*, typename U::is_setting* = 0);
+    static no check(...);
+
+  public:
+    static bool const value = sizeof(check(make())) == sizeof(yes);
+};
+
+template <class T>
+struct is_base_setting
+{
+  private:
+    typedef char no;
+    struct yes { no m[2]; };
+
+    static T* make();
+    template<typename U>
+    static yes check(U*, typename U::is_base_setting* = 0);
+    static no check(...);
+
+  public:
+    static bool const value = sizeof(check(make())) == sizeof(yes);
+};
 
 template <class Base>
 struct PolymorphicLoader
@@ -35,7 +74,7 @@ struct GenericLoader
 };
 
 template <class T>
-struct GenericLoader<std::vector<T>, typename std::enable_if<std::is_fundamental<T>::value>::type>
+struct GenericLoader<std::vector<T>, typename std::enable_if<!is_setting<T>::value>::type>
 {
 	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
 	{
@@ -48,7 +87,7 @@ struct GenericLoader<std::vector<T>, typename std::enable_if<std::is_fundamental
 };
 
 template <class T>
-struct GenericLoader<std::vector<T>, typename std::enable_if<T::IsSetting>::type>
+struct GenericLoader<std::vector<T>, typename std::enable_if<is_setting<T>::value>::type>
 {
 	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
 	{
@@ -61,7 +100,7 @@ struct GenericLoader<std::vector<T>, typename std::enable_if<T::IsSetting>::type
 };
 
 template <class T>
-struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<std::is_fundamental<T>::value>::type>
+struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<!is_base_setting<T>::value>::type>
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
@@ -70,7 +109,7 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<std::is_fundame
 };
 
 template <class T>
-struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSetting>::type>
+struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<is_base_setting<T>::value>::type>
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
@@ -84,13 +123,31 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<T::IsBaseSettin
 };
 
 template <class T>
-struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
+struct GenericLoader<T, typename std::enable_if<is_setting<T>::value>::type>
 {
     T operator () (boost::property_tree::ptree const& pt, std::string const& name, T def) const
 	{
         return T(pt.get_child(name));
 	}
 };
+
+struct FileLoader
+{
+	boost::property_tree::ptree operator () (filesystem::path const& path) const
+	{
+		if (!exists(path)) throw std::runtime_error("File " + path.string() + " not found.");
+		std::ifstream ifs(path.string());
+		if (!ifs) throw std::runtime_error("Error opening file " + path.string());
+		boost::property_tree::ptree tree;
+		if (path.extension() == ".xml") read_xml(ifs, tree);
+		else if (path.extension() == ".json") read_json(ifs, tree);
+		else throw std::runtime_error("File type " + path.extension().string() + " not known.");
+		return tree;
+	}
+};
+
+} // namespace SettingsDetails
+} // namespace BlasBooster
 
 // Initialization list of default constructor
 #define MACRO_SINGLE_INITIALIZE_DEFAULT(r,size,i,elem) \
@@ -137,7 +194,7 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 
 // List of arguments for loading by boost property tree
 #define MACRO_SINGLE_MEMBER_LOAD(r, size, i, elem) \
-    BOOST_PP_TUPLE_ELEM(3,1,elem)(GenericLoader<BOOST_PP_TUPLE_ELEM(3,0,elem)>()(tree, \
+    BOOST_PP_TUPLE_ELEM(3,1,elem)( ::BlasBooster::SettingsDetails::GenericLoader<BOOST_PP_TUPLE_ELEM(3,0,elem)>()(tree, \
     BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(3,1,elem)), BOOST_PP_TUPLE_ELEM(3,2,elem))) \
 	BOOST_PP_COMMA_IF(BOOST_PP_SUB(BOOST_PP_SUB(size,i),1))
 
@@ -155,6 +212,8 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 #define BLASBOOSTER_SETTINGS(Name, Members) \
     struct Name \
     { \
+	    typedef bool is_setting; \
+\
         Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
          : PRINT_INITIALIZE_ARGUMENTS(Members) \
         {} \
@@ -166,6 +225,10 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         Name(boost::property_tree::ptree const& tree) \
          : PRINT_CLASS_MEMBERS_LOAD(Members) \
         {} \
+\
+		Name(filesystem::path const& path) \
+		 : Name( ::BlasBooster::SettingsDetails::FileLoader()(path)) \
+		{} \
 \
 	    virtual ~Name() {}; \
 \
@@ -180,12 +243,12 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         } \
 \
         PRINT_CLASS_MEMBERS(Members) \
-\
-	    static const bool IsSetting = true; \
-	    static const bool IsBaseSetting = false; \
     };
 
 #if 0
+    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
+    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::false_type {};
+
 \
     private:\
 \
@@ -206,6 +269,9 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 #define BLASBOOSTER_SETTINGS_BASE(Name, Members) \
     struct Name \
     { \
+        typedef bool is_setting; \
+        typedef bool is_base_setting; \
+\
         Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
          : PRINT_INITIALIZE_ARGUMENTS(Members) \
         {} \
@@ -231,12 +297,11 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         } \
 \
         PRINT_CLASS_MEMBERS(Members) \
-\
-	    static const bool IsSetting = true; \
-	    static const bool IsBaseSetting = true; \
     };
 
 #if 0
+    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
+    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::true_type {};
 \
     private:\
 \
@@ -257,6 +322,8 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 #define BLASBOOSTER_SETTINGS_DERIVED(Name, Base, Members) \
     struct Name : Base \
     { \
+        typedef bool is_setting; \
+\
         Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
          : PRINT_INITIALIZE_ARGUMENTS(Members) \
         {} \
@@ -283,12 +350,12 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
         } \
 \
         PRINT_CLASS_MEMBERS(Members) \
-\
-	    static const bool IsSetting = true; \
-	    static const bool IsBaseSetting = false; \
-    };
+    }; \
 
 #if 0
+    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
+    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::false_type {};
+
 \
     private:\
 \
@@ -316,13 +383,15 @@ struct GenericLoader<T, typename std::enable_if<T::IsSetting>::type>
 
 // Register for polymorphic classes
 #define BLASBOOSTER_SETTINGS_REGISTER(Base, DerivedList) \
+	namespace BlasBooster { \
+    namespace SettingsDetails { \
     template <> \
-    std::shared_ptr<SettingsBase> PolymorphicLoader<SettingsBase>::operator()(boost::property_tree::ptree const& pt) const \
+    std::shared_ptr<Base> PolymorphicLoader<Base>::operator()(boost::property_tree::ptree const& pt) const \
     { \
 	    PRINT_CASE_LIST_OF_DERIVED_CLASSES(Base, DerivedList) \
         throw std::runtime_error("Derived class " + pt.front().first + " not registered for " + BOOST_PP_STRINGIZE(Base) + "."); \
         return std::shared_ptr<Base>(); \
-    }
+    }}}
 // end macro BLASBOOSTER_SETTINGS_REGISTER
 
 #endif // BLASBOOSTER_UTILITIES_SETTINGS_H_

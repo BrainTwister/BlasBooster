@@ -28,7 +28,7 @@ TEST(Settings1Test, default)
 	EXPECT_EQ(0, settings.i);
 	EXPECT_EQ(0.0, settings.d);
 	EXPECT_EQ("foo", settings.s);
-	EXPECT_TRUE(Settings::IsSetting);
+	EXPECT_TRUE(BlasBooster::SettingsDetails::is_setting<Settings>::value);
 }
 
 TEST(Settings1Test, parameter_construction)

@@ -12,14 +12,31 @@
 using namespace BlasBooster;
 namespace bt = BrainTwister;
 
-BLASBOOSTER_SETTINGS(ActionBase, \
-	((ThresholdSettings, threshold_settings, ThresholdSettings())) \
-)
-
 BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
     ((size_t, min_replications, 3)) \
     ((size_t, min_execution_time_in_seconds, 1)) \
     ((double, spike_detection, 0.1)) \
+)
+
+BLASBOOSTER_SETTINGS_BASE(ActionBase, \
+	((ThresholdSettings, threshold_settings, ThresholdSettings())) \
+)
+
+BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionBase, \
+	((std::vector<size_t>, sizes, std::vector<size_t>())) \
+	((std::vector<double>, occupations, std::vector<double>())) \
+    ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
+)
+
+BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionBase, \
+	((std::vector<size_t>, sizes, std::vector<size_t>())) \
+	((std::vector<double>, occupations, std::vector<double>())) \
+    ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
+)
+
+BLASBOOSTER_SETTINGS_REGISTER(ActionBase, \
+	(MatrixMatrixAddition) \
+	(MatrixMatrixMultiplication) \
 )
 
 BLASBOOSTER_SETTINGS(Settings, \
@@ -38,13 +55,17 @@ int main(int argc, char* argv[])
              {"output", "o", bt::Value<filesystem::path>("output.xml"), "Output file containing the benchmark results."}}
         );
 
-//        const Settings settings(arg.get<filesystem::path>("input"));
-//        const bt::BenchmarkManager benchmark_manager(settings.benchmark_manager_settings);
-//
-//        for (auto const& action : settings.actions)
-//        {
-//            benchmark_manager.benchIt(action);
-//        }
+        const Settings settings(arg.get<filesystem::path>("input"));
+        const bt::BenchmarkManager benchmark_manager(bt::BenchmarkManager::Settings(
+        	settings.benchmark_manager_settings.min_replications,
+			std::chrono::seconds(settings.benchmark_manager_settings.min_execution_time_in_seconds),
+        	settings.benchmark_manager_settings.spike_detection
+		));
+
+        for (auto const& action : settings.actions)
+        {
+            //benchmark_manager.benchIt(action);
+        }
     }
     catch (BlasBoosterException const& e)
     {

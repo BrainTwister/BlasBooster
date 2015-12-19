@@ -5,7 +5,7 @@ namespace BlasBooster {
 
 /// Primary template
 template <class BlasInterfaceType, class BlasFunctionType>
-class BlasInterface;
+struct BlasInterface;
 
 } // namespace BlasBooster
 

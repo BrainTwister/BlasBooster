@@ -46,10 +46,17 @@ public:
      */
     struct Settings
     {
-    	Settings() {};
-        size_t minReplications = 3;
-        clock::duration minExecutionTime = std::chrono::seconds(1);
-        double spikeDetection = 0.1;
+    	Settings(size_t minReplications = 3,
+    			 clock::duration minExecutionTime = std::chrono::seconds(1),
+				 double spikeDetection = 0.1)
+    	 : minReplications(minReplications),
+		   minExecutionTime(minExecutionTime),
+		   spikeDetection(spikeDetection)
+    	{};
+
+        size_t minReplications;
+        clock::duration minExecutionTime;
+        double spikeDetection;
     };
 
     struct Result
