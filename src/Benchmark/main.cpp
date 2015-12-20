@@ -41,7 +41,7 @@ BLASBOOSTER_SETTINGS_REGISTER(ActionBase, \
 
 BLASBOOSTER_SETTINGS(Settings, \
     ((BenchmarkManagerSettings, benchmark_manager_settings, BenchmarkManagerSettings())) \
-	((std::vector<ActionBase>, actions, std::vector<ActionBase>())) \
+	((std::vector<std::shared_ptr<ActionBase>>, actions, std::vector<std::shared_ptr<ActionBase>>())) \
 )
 
 int main(int argc, char* argv[])
@@ -65,6 +65,7 @@ int main(int argc, char* argv[])
         for (auto const& action : settings.actions)
         {
             //benchmark_manager.benchIt(action);
+        	//for (auto const& interface : action->interfaces) std::cout << interface << std::endl;
         }
     }
     catch (BlasBoosterException const& e)

@@ -64,6 +64,7 @@ struct PolymorphicLoader
     std::shared_ptr<Base> operator () (boost::property_tree::ptree const& pt) const;
 };
 
+/// Primary template for fundamental types
 template <class T, class Enable = void>
 struct GenericLoader
 {
@@ -71,30 +72,38 @@ struct GenericLoader
 	{
     	return pt.get<T>(key, def);
 	}
+
+    T operator () (boost::property_tree::ptree const& pt) const
+	{
+    	return pt.get_value<T>();
+	}
 };
 
+/// Specialization for nested settings
 template <class T>
-struct GenericLoader<std::vector<T>, typename std::enable_if<!is_setting<T>::value>::type>
+struct GenericLoader<T, typename std::enable_if<is_setting<T>::value>::type>
 {
-	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
+    T operator () (boost::property_tree::ptree const& pt, std::string const& key, T def) const
 	{
 		if (pt.count(key) == 0) return def;
+        return T(pt.get_child(key));
+	}
 
-		std::vector<T> r;
-		for (auto const& item : pt.get_child(key)) r.push_back(item.second.get_value<T>());
-		return r;
+    T operator () (boost::property_tree::ptree const& pt) const
+	{
+        return T(pt.front().second);
 	}
 };
 
 template <class T>
-struct GenericLoader<std::vector<T>, typename std::enable_if<is_setting<T>::value>::type>
+struct GenericLoader<std::vector<T>>
 {
 	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
 	{
 		if (pt.count(key) == 0) return def;
 
 		std::vector<T> r;
-		for (auto const& item : pt.get_child(key)) r.push_back(T(item.second));
+		for (auto const& item : pt.get_child(key)) r.push_back(GenericLoader<T>()(item.second));
 		return r;
 	}
 };
@@ -104,7 +113,17 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<!is_base_settin
 {
 	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::shared_ptr<T> def) const
 	{
+		if (pt.count(key) == 0) return def;
+		else if (pt.count(key) > 1) throw std::runtime_error("More than one key found for " + key + ".");
+
 		return std::shared_ptr<T>(new T(pt.get<T>(key)));
+	}
+
+	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt) const
+	{
+		if (pt.size() != 1) throw std::runtime_error("More or less than one child for implicit tree node.");
+
+		return std::shared_ptr<T>(new T(pt.get_value<T>()));
 	}
 };
 
@@ -117,17 +136,15 @@ struct GenericLoader<std::shared_ptr<T>, typename std::enable_if<is_base_setting
 		else if (pt.count(key) > 1) throw std::runtime_error("More than one key found for " + key + ".");
 
 		boost::property_tree::ptree child = pt.get_child(key);
-		if (child.size() != 1) throw std::runtime_error("More or less than one child found for pointer.");
+		if (child.size() != 1) throw std::runtime_error("More or less than one child found for pointer (key = " + key + ").");
         return PolymorphicLoader<T>()(child);
 	}
-};
 
-template <class T>
-struct GenericLoader<T, typename std::enable_if<is_setting<T>::value>::type>
-{
-    T operator () (boost::property_tree::ptree const& pt, std::string const& name, T def) const
+	std::shared_ptr<T> operator () (boost::property_tree::ptree const& pt) const
 	{
-        return T(pt.get_child(name));
+		if (pt.size() != 1) throw std::runtime_error("More or less than one child for implicit tree node.");
+
+        return PolymorphicLoader<T>()(pt);
 	}
 };
 
@@ -375,11 +392,16 @@ struct FileLoader
 
 // List of derived classes for switch
 #define MACRO_SINGLE_CASE_OF_DERIVED_CLASSES(r, Base, Derived) \
-    if (pt.front().first == BOOST_PP_STRINGIZE(Derived)) return std::shared_ptr<Base>(new Derived(pt.front().second)); \
+    if (pt.front().first == BOOST_PP_STRINGIZE(Derived)) { \
+        std::cout << BOOST_PP_STRINGIZE(Derived) << std::endl; \
+        return std::shared_ptr<Base>(new Derived(pt.front().second)); \
+    } \
     else
+// end macro MACRO_SINGLE_CASE_OF_DERIVED_CLASSES
 
 #define PRINT_CASE_LIST_OF_DERIVED_CLASSES(Base, DerivedList) \
 	BOOST_PP_SEQ_FOR_EACH(MACRO_SINGLE_CASE_OF_DERIVED_CLASSES, Base, DerivedList)
+// end macro PRINT_CASE_LIST_OF_DERIVED_CLASSES
 
 // Register for polymorphic classes
 #define BLASBOOSTER_SETTINGS_REGISTER(Base, DerivedList) \
