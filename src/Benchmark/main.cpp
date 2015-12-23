@@ -18,30 +18,30 @@ BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
     ((double, spike_detection, 0.1)) \
 )
 
-BLASBOOSTER_SETTINGS_BASE(ActionBase, \
+BLASBOOSTER_SETTINGS_BASE(ActionSettingsBase, \
 	((ThresholdSettings, threshold_settings, ThresholdSettings())) \
 )
 
-BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionBase, \
+BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
 )
 
-BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionBase, \
+BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
 )
 
-BLASBOOSTER_SETTINGS_REGISTER(ActionBase, \
+BLASBOOSTER_SETTINGS_REGISTER(ActionSettingsBase, \
 	(MatrixMatrixAddition) \
 	(MatrixMatrixMultiplication) \
 )
 
 BLASBOOSTER_SETTINGS(Settings, \
     ((BenchmarkManagerSettings, benchmark_manager_settings, BenchmarkManagerSettings())) \
-	((std::vector<std::shared_ptr<ActionBase>>, actions, std::vector<std::shared_ptr<ActionBase>>())) \
+	((std::vector<std::shared_ptr<ActionSettingsBase>>, actions, std::vector<std::shared_ptr<ActionSettingsBase>>())) \
 )
 
 int main(int argc, char* argv[])
@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
 
         for (auto const& action : settings.actions)
         {
+        	//action->instantiate();
             //benchmark_manager.benchIt(action);
         	//for (auto const& interface : action->interfaces) std::cout << interface << std::endl;
         }

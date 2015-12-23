@@ -10,7 +10,7 @@
 #define SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_
 
 namespace BlasBooster {
-namespace BenchmarkAction {
+namespace Benchmark {
 
 template <class Interface>
 struct MatrixMatrixMultiplication
@@ -31,7 +31,7 @@ struct MatrixMatrixMultiplication
 
 };
 
-} // namespace BenchmarkAction
+} // namespace Benchmark
 } // namespace BlasBooster
 
 #endif /* SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_ */
