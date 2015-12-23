@@ -1,5 +1,5 @@
-#ifndef BLASBOOSTER_UTILITIES_SETTINGS_H_
-#define BLASBOOSTER_UTILITIES_SETTINGS_H_
+#ifndef BLASBOOSTER_UTILITIES_SERIALIZE_H_
+#define BLASBOOSTER_UTILITIES_SERIALIZE_H_
 
 #include "BlasBooster/Utilities/Filesystem.h"
 #include <boost/preprocessor/arithmetic/sub.hpp>
@@ -225,177 +225,15 @@ struct FileLoader
 #define PRINT_CLASS_MEMBERS_SERIALIZATION(SEQ) \
     BOOST_PP_SEQ_FOR_EACH(MACRO_SINGLE_MEMBER_SERIALIZATION,,SEQ)
 
-// Class definition
-#define BLASBOOSTER_SETTINGS(Name, Members) \
-    struct Name \
-    { \
+// Add serialize functionality to a class
+#define BLASBOOSTER_SERIALIZE(Name, Members) \
+\
 	    typedef bool is_setting; \
 \
-        Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
-         : PRINT_INITIALIZE_ARGUMENTS(Members) \
-        {} \
-\
-        Name(Name const& other) noexcept \
-         : PRINT_COPY_ARGUMENTS(Members) \
-        {} \
-\
         Name(boost::property_tree::ptree const& tree) \
          : PRINT_CLASS_MEMBERS_LOAD(Members) \
-        {} \
-\
-		Name(filesystem::path const& path) \
-		 : Name( ::BlasBooster::SettingsDetails::FileLoader()(path)) \
-		{} \
-\
-	    virtual ~Name() {}; \
-\
-        virtual bool operator == (Name const& other) const \
-        { \
-        	return PRINT_COMPARE_ARGUMENTS(Members); \
-        } \
-\
-        virtual bool operator != (Name const& other) const \
-        { \
-        	return !operator == (other); \
-        } \
-\
-        PRINT_CLASS_MEMBERS(Members) \
-    };
-
-#if 0
-    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
-    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::false_type {};
-
-\
-    private:\
-\
-        friend class boost::serialization::access; \
-\
-        template <class Archive> \
-        void serialize(Archive & ar, const unsigned int version) \
-        { \
-            PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
-        } \
-    }; \
-\
-    BOOST_CLASS_EXPORT(Name);
-#endif
-// end macro BLASBOOSTER_SETTINGS
-
-// Base class definition
-#define BLASBOOSTER_SETTINGS_BASE(Name, Members, Supplements) \
-    struct Name \
-    { \
-        typedef bool is_setting; \
-        typedef bool is_base_setting; \
-\
-        Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
-         : PRINT_INITIALIZE_ARGUMENTS(Members) \
-        {} \
-\
-        Name(Name const& other) noexcept \
-         : PRINT_COPY_ARGUMENTS(Members) \
-        {} \
-\
-        Name(boost::property_tree::ptree const& tree) \
-         : PRINT_CLASS_MEMBERS_LOAD(Members) \
-        {} \
-\
-	    virtual ~Name() {}; \
-\
-        virtual bool operator == (Name const& other) const \
-        { \
-        	return PRINT_COMPARE_ARGUMENTS(Members); \
-        } \
-\
-        virtual bool operator != (Name const& other) const \
-        { \
-        	return !operator == (other); \
-        } \
-\
-        PRINT_CLASS_MEMBERS(Members) \
-\
-        Supplements \
-\
-    };
-
-#if 0
-    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
-    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::true_type {};
-\
-    private:\
-\
-        friend class boost::serialization::access; \
-\
-        template <class Archive> \
-        void serialize(Archive & ar, const unsigned int version) \
-        { \
-            PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
-        } \
-    }; \
-\
-    BOOST_CLASS_EXPORT(Name);
-#endif
-// end macro BLASBOOSTER_SETTINGS_BASE
-
-// Derived class definition
-#define BLASBOOSTER_SETTINGS_DERIVED(Name, Base, Members, Supplements) \
-    struct Name : Base \
-    { \
-        typedef bool is_setting; \
-\
-        Name(PRINT_CONSTRUCTOR_ARGUMENTS(Members)) noexcept \
-         : PRINT_INITIALIZE_ARGUMENTS(Members) \
-        {} \
-\
-        Name(Name const& other) noexcept \
-         : PRINT_COPY_ARGUMENTS(Members) \
-        {} \
-\
-        Name(boost::property_tree::ptree const& tree) \
-         : PRINT_CLASS_MEMBERS_LOAD(Members) \
-        {} \
-\
-        virtual ~Name() {}; \
-\
-        virtual bool operator == (Base const& other) const \
-        { \
-        	if (!Base::operator == (other)) return false; \
-        	return true; \
-            /** return PRINT_COMPARE_ARGUMENTS(Members); **/ \
-        } \
-\
-        virtual bool operator != (Base const& other) const \
-        { \
-        	return !operator == (other); \
-        } \
-\
-        PRINT_CLASS_MEMBERS(Members) \
-\
-		Supplements \
-\
-    }; \
-
-#if 0
-    template <> struct BlasBooster::SettingsDetails::is_setting<Name> : std::true_type {}; \
-    template <> struct BlasBooster::SettingsDetails::is_base_setting<Name> : std::false_type {};
-
-\
-    private:\
-\
-        friend class boost::serialization::access; \
-\
-        template <class Archive> \
-        void serialize(Archive & ar, const unsigned int version) \
-        { \
-        	boost::serialization::base_object<Base>(*this); \
-            PRINT_CLASS_MEMBERS_SERIALIZATION(Members) \
-        } \
-    }; \
-\
-    BOOST_CLASS_EXPORT_GUID(Name, BOOST_PP_STRINGIZE(Name));
-#endif
-// end macro BLASBOOSTER_SETTINGS_DERIVED
+        {}
+// end macro BLASBOOSTER_SERIALIZE
 
 // List of derived classes for switch
 #define MACRO_SINGLE_CASE_OF_DERIVED_CLASSES(r, Base, Derived) \
@@ -423,4 +261,4 @@ struct FileLoader
     }}}
 // end macro BLASBOOSTER_SETTINGS_REGISTER
 
-#endif // BLASBOOSTER_UTILITIES_SETTINGS_H_
+#endif // BLASBOOSTER_UTILITIES_SERIALIZE_H_

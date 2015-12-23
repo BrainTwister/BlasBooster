@@ -1,0 +1,25 @@
+{
+  "benchmark_manager_settings": {
+    "min_replications": 3,
+    "min_execution_time": 1,
+    "spike_detection": 0.1
+  },
+  "actions": [
+    {"MatrixMatrixMultiplication": {
+      "sizes": [100, 200, 400, 800, 1600, 3200],
+      "occupations": [1.0, 0.5, 0.1, 0.01],
+      "interfaces": [
+        "IntelMKL",
+        "OpenBLAS"
+      ]
+    }},
+    {"MatrixMatrixAddition": {
+      "sizes": [100, 200, 400, 800, 1600, 3200],
+      "occupations": [1.0, 0.5, 0.1, 0.01],
+      "interfaces": [
+        "IntelMKL",
+        "OpenBLAS"
+      ]
+    }}
+  ]
+}

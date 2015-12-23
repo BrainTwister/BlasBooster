@@ -19,20 +19,33 @@ BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
 )
 
 BLASBOOSTER_SETTINGS_BASE(ActionSettingsBase, \
-	((ThresholdSettings, threshold_settings, ThresholdSettings())) \
+	((ThresholdSettings, threshold_settings, ThresholdSettings())), \
+	virtual void execute() const = 0; \
 )
 
 BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
-    ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
+    ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
+	virtual void execute() const; \
 )
+
+void MatrixMatrixAddition::execute() const
+{
+	std::cout << "Here we are: MatrixMatrixAddition" << std::endl;
+}
 
 BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
-    ((std::vector<std::string>, interfaces, std::vector<std::string>())) \
+    ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
+	virtual void execute() const; \
 )
+
+void MatrixMatrixMultiplication::execute() const
+{
+	std::cout << "Here we are: MatrixMatrixMultiplication" << std::endl;
+}
 
 BLASBOOSTER_SETTINGS_REGISTER(ActionSettingsBase, \
 	(MatrixMatrixAddition) \
@@ -64,7 +77,7 @@ int main(int argc, char* argv[])
 
         for (auto const& action : settings.actions)
         {
-        	//action->instantiate();
+        	action->execute();
             //benchmark_manager.benchIt(action);
         	//for (auto const& interface : action->interfaces) std::cout << interface << std::endl;
         }

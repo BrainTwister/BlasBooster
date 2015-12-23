@@ -15,17 +15,17 @@
 
 // Test polymorphism
 BLASBOOSTER_SETTINGS_BASE(SettingsBase, \
-	((std::string, s1, "base")) \
+	((std::string, s1, "base")), \
 )
 
 BLASBOOSTER_SETTINGS_DERIVED(SettingsDerived1, SettingsBase, \
 	((int, i, 4)) \
-	((std::string, s2, "foo")) \
+	((std::string, s2, "foo")), \
 )
 
 BLASBOOSTER_SETTINGS_DERIVED(SettingsDerived2, SettingsBase, \
 	((double, d, 2.3)) \
-	((std::string, s3, "bar")) \
+	((std::string, s3, "bar")), \
 )
 
 BLASBOOSTER_SETTINGS_REGISTER(SettingsBase, \

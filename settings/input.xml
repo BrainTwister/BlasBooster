@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<benchmark_settings>
+  <min_replications>3</min_replications>
+  <min_execution_time>1</min_execution_time>
+  <spikeDetection>0.1</spikeDetection>
+</benchmark_settings>
+<actions>
+  <item>
+    <type>MatrixMatrixMultiplication</type>
+    <sizes>100,200,400,800,1600,3200</sizes>
+    <occupations>1.0, 0.5, 0.1, 0.01</occupations>
+    <interfaces>
+      <item>IntelMKL</item>
+      <item>OpenBLAS</item>
+    </interfaces>
+  </item>
+</actions>
