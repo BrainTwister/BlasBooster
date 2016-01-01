@@ -1,3 +1,4 @@
+#include "ActionSettingsBase.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/Filesystem.h"
@@ -5,51 +6,26 @@
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/ArgumentParser.h"
 #include "BrainTwister/BenchmarkManager.h"
+#include "MatrixMatrixAddition.h"
+#include "MatrixMatrixMultiplication.h"
+#include "PolymorphicAction.h"
 #include <chrono>
 #include <iostream>
 #include <vector>
 
 using namespace BlasBooster;
+using namespace BlasBooster::Benchmark;
 namespace bt = BrainTwister;
 
 BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
     ((size_t, min_replications, 3)) \
-    ((size_t, min_execution_time_in_seconds, 1)) \
+    ((size_t, min_execution_time_in_milliseconds, 1000)) \
     ((double, spike_detection, 0.1)) \
 )
 
-BLASBOOSTER_SETTINGS_BASE(ActionSettingsBase, \
-	((ThresholdSettings, threshold_settings, ThresholdSettings())), \
-	virtual void execute() const = 0; \
-)
-
-BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionSettingsBase, \
-	((std::vector<size_t>, sizes, std::vector<size_t>())) \
-	((std::vector<double>, occupations, std::vector<double>())) \
-    ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	virtual void execute() const; \
-)
-
-void MatrixMatrixAddition::execute() const
-{
-	std::cout << "Here we are: MatrixMatrixAddition" << std::endl;
-}
-
-BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
-	((std::vector<size_t>, sizes, std::vector<size_t>())) \
-	((std::vector<double>, occupations, std::vector<double>())) \
-    ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	virtual void execute() const; \
-)
-
-void MatrixMatrixMultiplication::execute() const
-{
-	std::cout << "Here we are: MatrixMatrixMultiplication" << std::endl;
-}
-
 BLASBOOSTER_SETTINGS_REGISTER(ActionSettingsBase, \
-	(MatrixMatrixAddition) \
 	(MatrixMatrixMultiplication) \
+	(MatrixMatrixAddition) \
 )
 
 BLASBOOSTER_SETTINGS(Settings, \
@@ -71,15 +47,20 @@ int main(int argc, char* argv[])
         const Settings settings(arg.get<filesystem::path>("input"));
         const bt::BenchmarkManager benchmark_manager(bt::BenchmarkManager::Settings(
         	settings.benchmark_manager_settings.min_replications,
-			std::chrono::seconds(settings.benchmark_manager_settings.min_execution_time_in_seconds),
+			std::chrono::milliseconds(settings.benchmark_manager_settings.min_execution_time_in_milliseconds),
         	settings.benchmark_manager_settings.spike_detection
 		));
 
-        for (auto const& action : settings.actions)
+        for (auto const& action_settings : settings.actions)
         {
-        	action->execute();
-            //benchmark_manager.benchIt(action);
-        	//for (auto const& interface : action->interfaces) std::cout << interface << std::endl;
+        	for (auto const& ptr_action : action_settings->get_actions())
+        	{
+                bt::BenchmarkManager::Result result = benchmark_manager.benchIt(Benchmark::PolymorphicAction(ptr_action));
+        	    std::cout << ptr_action->name() << " "
+      	    		      << result.nbReplications << " "
+      	    		      << result.num_spikes << " "
+        	    		  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
+        	}
         }
     }
     catch (BlasBoosterException const& e)
@@ -101,5 +82,5 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::cout << "\n BlasBooster successfully finished. Have a nice day.\n" << std::endl;
+    std::cout << "\nBlasBooster successfully finished. Have a nice day.\n" << std::endl;
 }

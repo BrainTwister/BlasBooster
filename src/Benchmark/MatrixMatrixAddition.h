@@ -6,8 +6,8 @@
 // ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
 // TERMS OF THE COPYRIGHT NOTICE
 
-#ifndef SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_
-#define SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_
+#ifndef SRC_BENCHMARK_MATRIXMATRIXADDITION_H_
+#define SRC_BENCHMARK_MATRIXMATRIXADDITION_H_
 
 #include "ActionBase.h"
 #include "ActionSettingsBase.h"
@@ -18,7 +18,7 @@
 namespace BlasBooster {
 namespace Benchmark {
 
-BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
+BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
@@ -26,29 +26,29 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 )
 
 template <class Interface>
-struct MatrixMatrixMultiplicationAction : public ActionBase
+struct MatrixMatrixAdditionAction : public ActionBase
 {
-	~MatrixMatrixMultiplicationAction() {};
+	~MatrixMatrixAdditionAction() {};
 
-	std::string name() const { return "MatrixMatrixMultiplication"; }
+	std::string name() const { return "MatrixMatrixAddition"; }
 
 	void initialize() const {}
 
 	void execute() const {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::microseconds(10));
 	}
 
 	void check() const {}
 };
 
-std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() const
+std::vector<Benchmark::PtrActionBase> MatrixMatrixAddition::get_actions() const
 {
 	std::vector<Benchmark::PtrActionBase> result;
-	result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<IntelMKL>>());
+	result.push_back(std::make_shared<MatrixMatrixAdditionAction<IntelMKL>>());
 	return result;
 }
 
 } // namespace Benchmark
 } // namespace BlasBooster
 
-#endif /* SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_ */
+#endif /* SRC_BENCHMARK_MATRIXMATRIXADDITION_H_ */

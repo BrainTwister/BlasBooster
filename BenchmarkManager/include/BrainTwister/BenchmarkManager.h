@@ -121,6 +121,7 @@ private:
     {
         std::chrono::time_point<clock> start = clock::now();
         action.execute();
+        std::cout << std::chrono::duration_cast<std::chrono::microseconds>(clock::now() - start).count() << std::endl;
         return clock::now() - start;
     }
 

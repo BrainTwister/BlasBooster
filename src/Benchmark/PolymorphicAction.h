@@ -9,39 +9,38 @@
 #ifndef SRC_BENCHMARK_POLYMORPHICACTION_H_
 #define SRC_BENCHMARK_POLYMORPHICACTION_H_
 
+#include "ActionBase.h"
+
 namespace BlasBooster {
 namespace Benchmark {
 
-/// Abstract base for polymorphic benchmark object
-struct ActionBase
-{
-	virtual ~ActionBase();
-	virtual void initialize() = 0;
-	virtual void execute() = 0;
-	virtual void check() = 0;
-};
-
 /// Provide a general benchmark action object by ...
-template <class Base>
 struct PolymorphicAction
 {
-	PolymorphicAction(std::shared_ptr<Base> ptr_base)
+	PolymorphicAction(PtrActionBase ptr_base)
 	 : ptr_base(ptr_base)
 	{}
 
-	void initialize() {
+	std::string name() const {
+		return ptr_base->name();
+	}
+
+	void initialize() const {
 		ptr_base->initialize();
 	}
 
-	void execute() {
+	void execute() const {
 		ptr_base->execute();
 	}
 
-	void check() {
+	void check() const {
 		ptr_base->check();
 	}
 
-	std::shared_ptr<Base> ptr_base;
+private:
+
+	PtrActionBase ptr_base;
+
 };
 
 } // namespace Benchmark
