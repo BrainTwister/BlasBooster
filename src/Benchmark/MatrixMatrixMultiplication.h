@@ -12,6 +12,9 @@
 #include "ActionBase.h"
 #include "ActionSettingsBase.h"
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
+#include "BlasBooster/Core/DynamicMatrix.h"
+#include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include <thread>
 
@@ -19,6 +22,7 @@ namespace BlasBooster {
 namespace Benchmark {
 
 BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
+	((std::vector<std::string>, matrix_types, std::vector<std::string>())) \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
@@ -28,23 +32,38 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 template <class Interface>
 struct MatrixMatrixMultiplicationAction : public ActionBase
 {
-	~MatrixMatrixMultiplicationAction() {};
+	MatrixMatrixMultiplicationAction(DynamicMatrix dynA, DynamicMatrix dynB)
+	 : dynA(dynA), dynB(dynB)
+	{}
+
+	~MatrixMatrixMultiplicationAction()	{}
 
 	std::string name() const { return "MatrixMatrixMultiplication"; }
 
 	void initialize() const {}
 
 	void execute() const {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		DynamicMatrix dynC = (dynA * dynB).template execute<Interface>();
 	}
 
 	void check() const {}
+
+	DynamicMatrix dynA;
+	DynamicMatrix dynB;
 };
 
 std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() const
 {
 	std::vector<Benchmark::PtrActionBase> result;
-	result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<IntelMKL>>());
+	for (auto const& matrix_A : matrix_types)
+	{
+		for (auto const& size : sizes)
+		{
+			DynamicMatrix dynA;
+			DynamicMatrix dynB;
+			result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
+		}
+	}
 	return result;
 }
 

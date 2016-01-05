@@ -13,8 +13,8 @@ add_executable(
 target_link_libraries(
     Benchmark
     ArgumentParser
-    ${EXTERNAL_BLAS_LIBRARIES}
     ${Boost_LIBRARIES}
+    ${EXTERNAL_BLAS_LIBRARIES}
 )
 
 install(TARGETS Benchmark RUNTIME DESTINATION bin)

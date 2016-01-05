@@ -6,19 +6,21 @@
   },
   "actions": [
     {"MatrixMatrixMultiplication": {
+      "matrix_types": ["Matrix<Dense,double>", "Matrix<Dense,float>"],
       "sizes": [100, 200, 400, 800, 1600, 3200],
-      "occupations": [1.0, 0.5, 0.1, 0.01],
+      "occupations": [1.0],
       "interfaces": [
         "IntelMKL",
         "OpenBLAS"
       ]
     }},
-    {"MatrixMatrixAddition": {
+    {"MatrixMatrixMultiplication": {
+      "matrix_types": ["Matrix<Dense,double>", "Matrix<Dense,float>"],
       "sizes": [100, 200, 400, 800, 1600, 3200],
       "occupations": [1.0, 0.5, 0.1, 0.01],
       "interfaces": [
         "IntelMKL",
-        "OpenBLAS"
+        "Native"
       ]
     }}
   ]
