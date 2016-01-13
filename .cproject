@@ -70,7 +70,7 @@
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.447432351.1261003776." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.672160919" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.base.1887419093" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/blasbooster_core}/build_debug_gnu" id="cdt.managedbuild.target.gnu.builder.base.399600020" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="false" superClass="cdt.managedbuild.target.gnu.builder.base"/>
+							<builder buildPath="${workspace_loc:/blasbooster_core}/build_debug_gnu" id="cdt.managedbuild.target.gnu.builder.base.399600020" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.target.gnu.builder.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1948154374" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.814453228" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.865556255" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
@@ -215,9 +215,12 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="release clang">
+		<configuration configurationName="debug gnu"/>
+		<configuration configurationName="release clang"/>
+		<configuration configurationName="release gnu">
 			<resource resourceType="PROJECT" workspacePath="/blasbooster_core"/>
 		</configuration>
+		<configuration configurationName="debug clang"/>
 		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/blasbooster_core"/>
 		</configuration>

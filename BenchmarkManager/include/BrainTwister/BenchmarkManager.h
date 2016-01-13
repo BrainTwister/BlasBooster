@@ -121,9 +121,7 @@ private:
     {
         std::chrono::time_point<clock> start = clock::now();
         action.execute();
-        clock::duration duration = clock::now() - start;
-        std::cout << std::chrono::duration_cast<std::chrono::microseconds>(duration).count() << std::endl;
-        return duration;
+        return clock::now() - start;
     }
 
     /// General settings for the benchmark execution

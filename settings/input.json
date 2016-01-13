@@ -6,7 +6,7 @@
   },
   "actions": [
     {"MatrixMatrixMultiplication": {
-      "matrix_types": ["Matrix<Dense,double>", "Matrix<Dense,float>"],
+      "matrix_types": [{"A": "Matrix<Dense, double>", "B": "Matrix<Dense, double>"}],
       "sizes": [100, 200, 400, 800, 1600, 3200],
       "occupations": [1.0],
       "interfaces": [
@@ -15,7 +15,7 @@
       ]
     }},
     {"MatrixMatrixMultiplication": {
-      "matrix_types": ["Matrix<Dense,double>", "Matrix<Dense,float>"],
+      "matrix_types": [{"A": "Matrix<Sparse, double>", "B": "Matrix<Sparse, double>"}],
       "sizes": [100, 200, 400, 800, 1600, 3200],
       "occupations": [1.0, 0.5, 0.1, 0.01],
       "interfaces": [

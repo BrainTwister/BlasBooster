@@ -21,8 +21,14 @@
 namespace BlasBooster {
 namespace Benchmark {
 
+BLASBOOSTER_SETTINGS(MatrixSet, \
+    ((std::string, A, "test")) \
+    ((std::string, B, "")) \
+    ((std::string, C, "")) \
+)
+
 BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
-	((std::vector<std::string>, matrix_types, std::vector<std::string>())) \
+	((std::vector<MatrixSet>, matrix_types, std::vector<MatrixSet>())) \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
@@ -55,12 +61,20 @@ struct MatrixMatrixMultiplicationAction : public ActionBase
 std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() const
 {
 	std::vector<Benchmark::PtrActionBase> result;
-	for (auto const& matrix_A : matrix_types)
+	for (auto const& matrix_set : matrix_types)
 	{
 		for (auto const& size : sizes)
 		{
-			DynamicMatrix dynA;
-			DynamicMatrix dynB;
+  	        DynamicMatrix dynA;
+		    if (matrix_set.A == "Matrix<Dense, double>") dynA = std::make_shared<Matrix<Dense, double>>(size, size);
+		    else if (matrix_set.A == "Matrix<Sparse, double>") dynA = std::make_shared<Matrix<Sparse, double>>(size, size);
+		    else throw std::runtime_error("Unknown type for matrix_set.A " + matrix_set.A);
+
+  	        DynamicMatrix dynB;
+		    if (matrix_set.B == "Matrix<Dense, double>") dynB = std::make_shared<Matrix<Dense, double>>(size, size);
+		    else if (matrix_set.B == "Matrix<Sparse, double>") dynB = std::make_shared<Matrix<Sparse, double>>(size, size);
+		    else throw std::runtime_error("Unknown type for matrix_set.B " + matrix_set.B);
+
 			result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
 		}
 	}
