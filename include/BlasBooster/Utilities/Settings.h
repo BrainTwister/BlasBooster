@@ -20,7 +20,6 @@
 //#include <boost/serialization/export.hpp>
 #include <boost/serialization/nvp.hpp>
 #include <fstream>
-#include <iostream>
 #include <type_traits>
 
 namespace BlasBooster {
@@ -91,8 +90,7 @@ struct GenericLoader<T, typename std::enable_if<is_setting<T>::value>::type>
 
     T operator () (boost::property_tree::ptree const& pt) const
 	{
-		std::cout << "here" << std::endl;
-        return T(pt.front().second);
+        return T(pt);
 	}
 };
 
@@ -101,14 +99,9 @@ struct GenericLoader<std::vector<T>>
 {
 	std::vector<T> operator () (boost::property_tree::ptree const& pt, std::string const& key, std::vector<T> def) const
 	{
-		std::cout << "key = " << key << std::endl;
 		if (pt.count(key) == 0) return def;
 		std::vector<T> r;
-		int i = 0;
-		for (auto const& item : pt.get_child(key)) {
-			std::cout << i++ << item.second.get_value<std::string>() << std::endl;
-			r.push_back(GenericLoader<T>()(item.second));
-		}
+		for (auto const& item : pt.get_child(key)) r.push_back(GenericLoader<T>()(item.second));
 		return r;
 	}
 };
@@ -405,7 +398,6 @@ struct FileLoader
 // List of derived classes for switch
 #define MACRO_SINGLE_CASE_OF_DERIVED_CLASSES(r, Base, Derived) \
     if (pt.front().first == BOOST_PP_STRINGIZE(Derived)) { \
-        std::cout << BOOST_PP_STRINGIZE(Derived) << std::endl; \
         return std::make_shared<Derived>(pt.front().second); \
     } \
     else
