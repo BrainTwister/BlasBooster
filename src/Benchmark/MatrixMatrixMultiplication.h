@@ -14,6 +14,7 @@
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DynamicMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include <thread>
@@ -65,17 +66,25 @@ std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() 
 	{
 		for (auto const& size : sizes)
 		{
-  	        DynamicMatrix dynA;
-		    if (matrix_set.A == "Matrix<Dense, double>") dynA = std::make_shared<Matrix<Dense, double>>(size, size);
-		    else if (matrix_set.A == "Matrix<Sparse, double>") dynA = std::make_shared<Matrix<Sparse, double>>(size, size);
-		    else throw std::runtime_error("Unknown type for matrix_set.A " + matrix_set.A);
+			for (auto const& occupation : occupations)
+			{
+				for (auto const& interface : interfaces)
+				{
+					DynamicMatrix dynA;
+					if (matrix_set.A == "Matrix<Dense, double>") dynA = std::make_shared<Matrix<Dense, double>>(size, size);
+					else if (matrix_set.A == "Matrix<Sparse, double>") dynA = std::make_shared<Matrix<Sparse, double>>(size, size);
+					else throw std::runtime_error("Unknown type for matrix_set.A " + matrix_set.A);
 
-  	        DynamicMatrix dynB;
-		    if (matrix_set.B == "Matrix<Dense, double>") dynB = std::make_shared<Matrix<Dense, double>>(size, size);
-		    else if (matrix_set.B == "Matrix<Sparse, double>") dynB = std::make_shared<Matrix<Sparse, double>>(size, size);
-		    else throw std::runtime_error("Unknown type for matrix_set.B " + matrix_set.B);
+					DynamicMatrix dynB;
+					if (matrix_set.B == "Matrix<Dense, double>") dynB = std::make_shared<Matrix<Dense, double>>(size, size);
+					else if (matrix_set.B == "Matrix<Sparse, double>") dynB = std::make_shared<Matrix<Sparse, double>>(size, size);
+					else throw std::runtime_error("Unknown type for matrix_set.B " + matrix_set.B);
 
-			result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
+					if (interface == "TheBestPolicy")
+					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
+					else throw std::runtime_error("Unknown interface " + interface);
+				}
+			}
 		}
 	}
 	return result;
