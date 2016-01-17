@@ -53,14 +53,7 @@ int main(int argc, char* argv[])
 
         for (auto const& action_settings : settings.actions)
         {
-        	for (auto const& ptr_action : action_settings->get_actions())
-        	{
-                bt::BenchmarkManager::Result result = benchmark_manager.benchIt(Benchmark::PolymorphicAction(ptr_action));
-        	    std::cout << ptr_action->name() << " "
-      	    		      << result.nbReplications << " "
-      	    		      << result.num_spikes << " "
-        	    		  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
-        	}
+        	action_settings->benchIt(benchmark_manager);
         }
     }
     catch (BlasBoosterException const& e)

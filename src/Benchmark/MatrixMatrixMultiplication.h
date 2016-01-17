@@ -33,10 +33,10 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	virtual std::vector<Benchmark::PtrActionBase> get_actions() const; \
+	void benchIt(bt::BenchmarkManager const benchmark_manager) const; \
 )
 
-template <class Interface>
+template <class class Interface>
 struct MatrixMatrixMultiplicationAction : public ActionBase
 {
 	MatrixMatrixMultiplicationAction(DynamicMatrix dynA, DynamicMatrix dynB)
@@ -59,7 +59,7 @@ struct MatrixMatrixMultiplicationAction : public ActionBase
 	DynamicMatrix dynB;
 };
 
-std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() const
+void MatrixMatrixMultiplication::benchIt(bt::BenchmarkManager const benchmark_manager) const
 {
 	std::vector<Benchmark::PtrActionBase> result;
 	for (auto const& matrix_set : matrix_types)
@@ -80,14 +80,21 @@ std::vector<Benchmark::PtrActionBase> MatrixMatrixMultiplication::get_actions() 
 					else if (matrix_set.B == "Matrix<Sparse, double>") dynB = std::make_shared<Matrix<Sparse, double>>(size, size);
 					else throw std::runtime_error("Unknown type for matrix_set.B " + matrix_set.B);
 
-					if (interface == "TheBestPolicy")
+					if (interface == "IntelMKL")
+					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<IntelMKL>>(dynA, dynB));
+					else if (interface == "TheBestPolicy")
 					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
 					else throw std::runtime_error("Unknown interface " + interface);
+
+					bt::BenchmarkManager::Result result = benchmark_manager.benchIt(Benchmark::PolymorphicAction(ptr_action));
+					std::cout << ptr_action->name() << " "
+							  << result.nbReplications << " "
+							  << result.num_spikes << " "
+							  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
 				}
 			}
 		}
 	}
-	return result;
 }
 
 } // namespace Benchmark
