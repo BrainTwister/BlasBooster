@@ -23,7 +23,7 @@ namespace BlasBooster {
 namespace Benchmark {
 
 BLASBOOSTER_SETTINGS(MatrixSet, \
-    ((std::string, A, "test")) \
+    ((std::string, A, "")) \
     ((std::string, B, "")) \
     ((std::string, C, "")) \
 )
@@ -36,11 +36,11 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	void benchIt(bt::BenchmarkManager const benchmark_manager) const; \
 )
 
-template <class class Interface>
+template <class MatrixTypeA, class MatrixTypeB, class MatrixTypeC, class Interface>
 struct MatrixMatrixMultiplicationAction : public ActionBase
 {
-	MatrixMatrixMultiplicationAction(DynamicMatrix dynA, DynamicMatrix dynB)
-	 : dynA(dynA), dynB(dynB)
+	MatrixMatrixMultiplicationAction(MatrixTypeA const& A, MatrixTypeB const& B)
+	 : A(A), B(B)
 	{}
 
 	~MatrixMatrixMultiplicationAction()	{}
@@ -50,13 +50,13 @@ struct MatrixMatrixMultiplicationAction : public ActionBase
 	void initialize() const {}
 
 	void execute() const {
-		DynamicMatrix dynC = (dynA * dynB).template execute<Interface>();
+        MatrixTypeC C = (A * B).template execute<Interface>();
 	}
 
 	void check() const {}
 
-	DynamicMatrix dynA;
-	DynamicMatrix dynB;
+	MatrixTypeA const& A;
+	MatrixTypeB const& B;
 };
 
 void MatrixMatrixMultiplication::benchIt(bt::BenchmarkManager const benchmark_manager) const
@@ -86,8 +86,10 @@ void MatrixMatrixMultiplication::benchIt(bt::BenchmarkManager const benchmark_ma
 					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
 					else throw std::runtime_error("Unknown interface " + interface);
 
-					bt::BenchmarkManager::Result result = benchmark_manager.benchIt(Benchmark::PolymorphicAction(ptr_action));
-					std::cout << ptr_action->name() << " "
+                    auto action = exec_if_4dim<DynamicMatrixTypeList, InterfaceTypeList>(matrix_set.A, interface, size, occupation);
+
+					bt::BenchmarkManager::Result result = benchmark_manager.benchIt(action);
+					std::cout << action.name() << " "
 							  << result.nbReplications << " "
 							  << result.num_spikes << " "
 							  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
