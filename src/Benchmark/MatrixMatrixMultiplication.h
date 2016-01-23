@@ -86,7 +86,7 @@ void MatrixMatrixMultiplication::benchIt(bt::BenchmarkManager const benchmark_ma
 					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
 					else throw std::runtime_error("Unknown interface " + interface);
 
-                    auto action = exec_if_4dim<DynamicMatrixTypeList, InterfaceTypeList>(matrix_set.A, interface, size, occupation);
+                    Executor<DynamicMatrixTypeList, InterfaceTypeList, >(matrix_set.A, interface, size, occupation);
 
 					bt::BenchmarkManager::Result result = benchmark_manager.benchIt(action);
 					std::cout << action.name() << " "
