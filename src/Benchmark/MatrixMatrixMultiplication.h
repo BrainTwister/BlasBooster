@@ -33,68 +33,38 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	void benchIt(bt::BenchmarkManager const benchmark_manager) const; \
+	void execute(BrainTwister::BenchmarkManager const& benchmark_manager) const; \
 )
 
 template <class MatrixTypeA, class MatrixTypeB, class MatrixTypeC, class Interface>
-struct MatrixMatrixMultiplicationAction : public ActionBase
+struct MatrixMatrixMultiplicationExecutor
 {
-	MatrixMatrixMultiplicationAction(MatrixTypeA const& A, MatrixTypeB const& B)
-	 : A(A), B(B)
-	{}
+	void operator () (settings, BrainTwister::BenchmarkManager const& bm) const
+	{
+		MatrixMatrixMultiplicationAction action;
 
-	~MatrixMatrixMultiplicationAction()	{}
-
-	std::string name() const { return "MatrixMatrixMultiplication"; }
-
-	void initialize() const {}
-
-	void execute() const {
-        MatrixTypeC C = (A * B).template execute<Interface>();
+		BrainTwister::BenchmarkManager::Result result = bm.benchIt(action);
+		std::cout << action.name() << " "
+				  << result.nbReplications << " "
+				  << result.num_spikes << " "
+				  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
 	}
-
-	void check() const {}
-
-	MatrixTypeA const& A;
-	MatrixTypeB const& B;
 };
 
-void MatrixMatrixMultiplication::benchIt(bt::BenchmarkManager const benchmark_manager) const
+void MatrixMatrixMultiplication::execute(BrainTwister::BenchmarkManager const& bm) const
 {
 	std::vector<Benchmark::PtrActionBase> result;
 	for (auto const& matrix_set : matrix_types)
 	{
-		for (auto const& size : sizes)
+		for (auto const& interface : interfaces)
 		{
-			for (auto const& occupation : occupations)
-			{
-				for (auto const& interface : interfaces)
-				{
-					DynamicMatrix dynA;
-					if (matrix_set.A == "Matrix<Dense, double>") dynA = std::make_shared<Matrix<Dense, double>>(size, size);
-					else if (matrix_set.A == "Matrix<Sparse, double>") dynA = std::make_shared<Matrix<Sparse, double>>(size, size);
-					else throw std::runtime_error("Unknown type for matrix_set.A " + matrix_set.A);
-
-					DynamicMatrix dynB;
-					if (matrix_set.B == "Matrix<Dense, double>") dynB = std::make_shared<Matrix<Dense, double>>(size, size);
-					else if (matrix_set.B == "Matrix<Sparse, double>") dynB = std::make_shared<Matrix<Sparse, double>>(size, size);
-					else throw std::runtime_error("Unknown type for matrix_set.B " + matrix_set.B);
-
-					if (interface == "IntelMKL")
-					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<IntelMKL>>(dynA, dynB));
-					else if (interface == "TheBestPolicy")
-					  result.push_back(std::make_shared<MatrixMatrixMultiplicationAction<TheBestPolicy>>(dynA, dynB));
-					else throw std::runtime_error("Unknown interface " + interface);
-
-                    Executor<DynamicMatrixTypeList, InterfaceTypeList, >(matrix_set.A, interface, size, occupation);
-
-					bt::BenchmarkManager::Result result = benchmark_manager.benchIt(action);
-					std::cout << action.name() << " "
-							  << result.nbReplications << " "
-							  << result.num_spikes << " "
-							  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
-				}
-			}
+//			exec_dyn_4dim<
+//			    DynamicMatrixTypeList,
+//			    DynamicMatrixTypeList,
+//			    DynamicMatrixTypeList,
+//			    InterfaceTypeList,
+//				MatrixMatrixMultiplicationExecutor
+//			>(matrix_set.A, matrix_set.B, matrix_set.C, interface)(*this, bm);
 		}
 	}
 }

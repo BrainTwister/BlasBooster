@@ -15,7 +15,7 @@
 
 using namespace BlasBooster;
 using namespace BlasBooster::Benchmark;
-namespace bt = BrainTwister;
+using namespace BrainTwister;
 
 BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
     ((size_t, min_replications, 3)) \
@@ -39,13 +39,13 @@ int main(int argc, char* argv[])
     {
         std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
-        bt::ArgumentParser arg(argc, argv, version, {},
-            {{"input", "i", bt::Value<filesystem::path>("input.xml"), "Input file defining the benchmark settings."},
-             {"output", "o", bt::Value<filesystem::path>("output.xml"), "Output file containing the benchmark results."}}
+        ArgumentParser arg(argc, argv, version, {},
+            {{"input", "i", Value<filesystem::path>("input.xml"), "Input file defining the benchmark settings."},
+             {"output", "o", Value<filesystem::path>("output.xml"), "Output file containing the benchmark results."}}
         );
 
         const Settings settings(arg.get<filesystem::path>("input"));
-        const bt::BenchmarkManager benchmark_manager(bt::BenchmarkManager::Settings(
+        const BenchmarkManager benchmark_manager(BenchmarkManager::Settings(
         	settings.benchmark_manager_settings.min_replications,
 			std::chrono::milliseconds(settings.benchmark_manager_settings.min_execution_time_in_milliseconds),
         	settings.benchmark_manager_settings.spike_detection
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
         for (auto const& action_settings : settings.actions)
         {
-        	action_settings->benchIt(benchmark_manager);
+        	action_settings->execute(benchmark_manager);
         }
     }
     catch (BlasBoosterException const& e)
