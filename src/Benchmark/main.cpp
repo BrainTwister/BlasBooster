@@ -29,8 +29,9 @@ BLASBOOSTER_SETTINGS_REGISTER(ActionSettingsBase, \
 )
 
 BLASBOOSTER_SETTINGS(Settings, \
-    ((BenchmarkManagerSettings, benchmark_manager_settings, BenchmarkManagerSettings())) \
+    ((BenchmarkManagerSettings, benchmark_settings, BenchmarkManagerSettings())) \
 	((std::vector<std::shared_ptr<ActionSettingsBase>>, actions, std::vector<std::shared_ptr<ActionSettingsBase>>())) \
+	((std::vector<std::string>, output, std::vector<std::string>())) \
 )
 
 int main(int argc, char* argv[])
@@ -40,15 +41,15 @@ int main(int argc, char* argv[])
         std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
         ArgumentParser arg(argc, argv, version, {},
-            {{"input", "i", Value<filesystem::path>("input.xml"), "Input file defining the benchmark settings."},
-             {"output", "o", Value<filesystem::path>("output.xml"), "Output file containing the benchmark results."}}
+            {{"input", "i", Value<filesystem::path>("input.yml"), "Input file defining the benchmark settings."},
+             {"output", "o", Value<filesystem::path>("output.yml"), "Output file containing the benchmark results."}}
         );
 
         const Settings settings(arg.get<filesystem::path>("input"));
         const BenchmarkManager benchmark_manager(BenchmarkManager::Settings(
-        	settings.benchmark_manager_settings.min_replications,
-			std::chrono::milliseconds(settings.benchmark_manager_settings.min_execution_time_in_milliseconds),
-        	settings.benchmark_manager_settings.spike_detection
+        	settings.benchmark_settings.min_replications,
+			std::chrono::milliseconds(settings.benchmark_settings.min_execution_time_in_milliseconds),
+        	settings.benchmark_settings.spike_detection
 		));
 
         for (auto const& action_settings : settings.actions)

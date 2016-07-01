@@ -39,15 +39,15 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 template <class MatrixTypeA, class MatrixTypeB, class MatrixTypeC, class Interface>
 struct MatrixMatrixMultiplicationExecutor
 {
-	void operator () (settings, BrainTwister::BenchmarkManager const& bm) const
+	void operator () (MatrixMatrixMultiplication const& settings, BrainTwister::BenchmarkManager const& bm) const
 	{
-		MatrixMatrixMultiplicationAction action;
-
-		BrainTwister::BenchmarkManager::Result result = bm.benchIt(action);
-		std::cout << action.name() << " "
-				  << result.nbReplications << " "
-				  << result.num_spikes << " "
-				  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
+//		MatrixMatrixMultiplicationAction action;
+//
+//		BrainTwister::BenchmarkManager::Result result = bm.benchIt(action);
+//		std::cout << action.name() << " "
+//				  << result.nbReplications << " "
+//				  << result.num_spikes << " "
+//				  << std::chrono::duration_cast<std::chrono::microseconds>(result.averageTime).count() << " microsec" << std::endl;
 	}
 };
 

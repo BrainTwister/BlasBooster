@@ -1,5 +1,5 @@
 {
-  "benchmark_manager_settings": {
+  "benchmark_settings": {
     "min_replications": 3,
     "min_execution_time_in_milliseconds": 10,
     "spike_detection": 0.1

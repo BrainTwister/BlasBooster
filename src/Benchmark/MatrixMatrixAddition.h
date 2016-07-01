@@ -22,7 +22,7 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixAddition, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	virtual std::vector<Benchmark::PtrActionBase> get_actions() const; \
+	void execute(BrainTwister::BenchmarkManager const& benchmark_manager) const; \
 )
 
 template <class Interface>
@@ -41,11 +41,9 @@ struct MatrixMatrixAdditionAction : public ActionBase
 	void check() const {}
 };
 
-std::vector<Benchmark::PtrActionBase> MatrixMatrixAddition::get_actions() const
+void MatrixMatrixAddition::execute(BrainTwister::BenchmarkManager const& bm) const
 {
-	std::vector<Benchmark::PtrActionBase> result;
-	result.push_back(std::make_shared<MatrixMatrixAdditionAction<IntelMKL>>());
-	return result;
+    // TODO
 }
 
 } // namespace Benchmark
