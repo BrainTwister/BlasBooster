@@ -41,8 +41,7 @@ int main(int argc, char* argv[])
         std::cout << "\nBlasBooster " + version + " --- Benchmark ---\n" << std::endl;
 
         ArgumentParser arg(argc, argv, version, {},
-            {{"input", "i", Value<filesystem::path>("input.yml"), "Input file defining the benchmark settings."},
-             {"output", "o", Value<filesystem::path>("output.yml"), "Output file containing the benchmark results."}}
+            {{"input", "i", Value<filesystem::path>("input.yml"), "Input file (xml, json, or yml) defining the benchmark settings."}}
         );
 
         const Settings settings(arg.get<filesystem::path>("input"));
