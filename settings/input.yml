@@ -15,5 +15,6 @@ actions:
       - IntelMKL
       - OpenBLAS
 
-output:
-  - stdout
+reporters:
+  - StandardReporter
+  - DatabaseReporter

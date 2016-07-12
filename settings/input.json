@@ -18,4 +18,7 @@
       "interfaces": ["IntelMKL", "Native"]
     }}
   ]
+  "reporters": [
+    "StandardReporter"
+  ]
 }

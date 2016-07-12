@@ -9,7 +9,6 @@
 #ifndef SRC_BENCHMARK_ACTIONSETTINGSBASE_H_
 #define SRC_BENCHMARK_ACTIONSETTINGSBASE_H_
 
-#include "ActionBase.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include "BrainTwister/BenchmarkManager.h"

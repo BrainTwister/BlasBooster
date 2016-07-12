@@ -1,17 +1,16 @@
-#include "ActionSettingsBase.h"
-#include "BlasBooster/Core/Threshold.h"
+#include <stddef.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include "BrainTwister/ArgumentParser.h"
+#include "BrainTwister/BenchmarkManager.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/Utilities/Version.h"
-#include "BrainTwister/ArgumentParser.h"
-#include "BrainTwister/BenchmarkManager.h"
-#include "MatrixMatrixAddition.h"
 #include "MatrixMatrixMultiplication.h"
-#include "PolymorphicAction.h"
-#include <chrono>
-#include <iostream>
-#include <vector>
+#include "ReporterBase.h"
+#include "StandardReporter.h"
 
 using namespace BlasBooster;
 using namespace BlasBooster::Benchmark;
@@ -25,13 +24,16 @@ BLASBOOSTER_SETTINGS(BenchmarkManagerSettings, \
 
 BLASBOOSTER_SETTINGS_REGISTER(ActionSettingsBase, \
 	(MatrixMatrixMultiplication) \
-	(MatrixMatrixAddition) \
+)
+
+BLASBOOSTER_SETTINGS_REGISTER(ReporterBase, \
+	(StandardReporter) \
 )
 
 BLASBOOSTER_SETTINGS(Settings, \
     ((BenchmarkManagerSettings, benchmark_settings, BenchmarkManagerSettings())) \
 	((std::vector<std::shared_ptr<ActionSettingsBase>>, actions, std::vector<std::shared_ptr<ActionSettingsBase>>())) \
-	((std::vector<std::string>, output, std::vector<std::string>())) \
+	((std::vector<std::shared_ptr<ReporterBase>>, reporters, std::vector<std::shared_ptr<ReporterBase>>())) \
 )
 
 int main(int argc, char* argv[])

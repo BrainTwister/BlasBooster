@@ -336,6 +336,31 @@ struct FileLoader
 #endif
 // end macro BLASBOOSTER_SETTINGS_BASE
 
+// Base class definition with no members
+// Members must be handled specially, because they can not be empty.
+#define BLASBOOSTER_SETTINGS_BASE_NO_MEMBERS(Name, Supplements) \
+	struct Name \
+	{ \
+		typedef bool is_setting; \
+		typedef bool is_base_setting; \
+\
+		virtual ~Name() {}; \
+\
+		virtual bool operator == (Name const& other) const \
+		{ \
+			return true; \
+		} \
+\
+		virtual bool operator != (Name const& other) const \
+		{ \
+			return false; \
+		} \
+\
+		Supplements \
+\
+	};
+// end macro BLASBOOSTER_SETTINGS_BASE
+
 // Derived class definition
 #define BLASBOOSTER_SETTINGS_DERIVED(Name, Base, Members, Supplements) \
     struct Name : Base \

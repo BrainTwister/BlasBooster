@@ -9,15 +9,13 @@
 #ifndef SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_
 #define SRC_BENCHMARK_MATRIXMATRIXMULTIPLICATION_H_
 
-#include "ActionBase.h"
-#include "ActionSettingsBase.h"
-#include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
-#include "BlasBooster/Core/DynamicMatrix.h"
-#include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Multiplication_IntelMKL.h"
-#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
+#include <boost/filesystem/path.hpp>
+#include <stddef.h>
+#include <string>
+#include <vector>
+#include "BrainTwister/BenchmarkManager.h"
 #include "BlasBooster/Utilities/Settings.h"
-#include <thread>
+#include "ActionSettingsBase.h"
 
 namespace BlasBooster {
 namespace Benchmark {
@@ -53,7 +51,6 @@ struct MatrixMatrixMultiplicationExecutor
 
 void MatrixMatrixMultiplication::execute(BrainTwister::BenchmarkManager const& bm) const
 {
-	std::vector<Benchmark::PtrActionBase> result;
 	for (auto const& matrix_set : matrix_types)
 	{
 		for (auto const& interface : interfaces)
