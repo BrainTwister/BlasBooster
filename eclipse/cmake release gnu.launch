@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/software/compiler/cmake/3.2.3/bin/cmake"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-DCMAKE_BUILD_TYPE=release&#10;-DCMAKE_CXX_COMPILER=/software/compiler/gcc/4.9.2/bin/g++&#10;-DBOOST_ROOT=/software/development_libraries/boost/1.59.0&#10;-DGTEST_ROOT=/software/development_libraries/gtest/1.7.0&#10;.."/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${env_var:CMAKE_HOME}/bin/cmake"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-DCMAKE_BUILD_TYPE=release&#10;-DCMAKE_CXX_COMPILER=g++&#10;-DBOOST_ROOT=/software/development_libraries/boost/1.59.0&#10;-DGTEST_ROOT=/software/development_libraries/gtest/1.7.0&#10;.."/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:blasbooster_core}/build_release_gnu"/>
 </launchConfiguration>
