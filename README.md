@@ -7,6 +7,6 @@ Requirements
 ------------
 
 - cmake (Version >= 2.6.6, http://www.cmake.org)
-- Boost (Version >= 2.52.0, http://www.boost.org)
+- Boost (Version >= 1.52.0, http://www.boost.org)
 - gtest (optional)
 - doxygen (optional)
