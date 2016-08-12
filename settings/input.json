@@ -17,8 +17,10 @@
       "occupations": [1.0, 0.5, 0.1, 0.01],
       "interfaces": ["IntelMKL", "Native"]
     }}
-  ]
+  ],
   "reporters": [
-    "StandardReporter"
+    {"StandardReporter": {
+      "verbosity": 3
+    }}
   ]
 }

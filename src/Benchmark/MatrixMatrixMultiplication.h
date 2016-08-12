@@ -16,6 +16,7 @@
 #include "BrainTwister/BenchmarkManager.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include "ActionSettingsBase.h"
+#include "ReporterManager.h"
 
 namespace BlasBooster {
 namespace Benchmark {
@@ -31,7 +32,7 @@ BLASBOOSTER_SETTINGS_DERIVED(MatrixMatrixMultiplication, ActionSettingsBase, \
 	((std::vector<size_t>, sizes, std::vector<size_t>())) \
 	((std::vector<double>, occupations, std::vector<double>())) \
     ((std::vector<std::string>, interfaces, std::vector<std::string>())), \
-	void execute(BrainTwister::BenchmarkManager const& benchmark_manager) const; \
+	void execute(BrainTwister::BenchmarkManager const& benchmark_manager, ReporterManager const& reporter_manager) const; \
 )
 
 template <class MatrixTypeA, class MatrixTypeB, class MatrixTypeC, class Interface>
@@ -49,12 +50,13 @@ struct MatrixMatrixMultiplicationExecutor
 	}
 };
 
-void MatrixMatrixMultiplication::execute(BrainTwister::BenchmarkManager const& bm) const
+void MatrixMatrixMultiplication::execute(BrainTwister::BenchmarkManager const& bm, ReporterManager const& reporter_manager) const
 {
-	for (auto const& matrix_set : matrix_types)
-	{
-		for (auto const& interface : interfaces)
-		{
+	reporter_manager.log("mult");
+//	for (auto const& matrix_set : matrix_types)
+//	{
+//		for (auto const& interface : interfaces)
+//		{
 //			exec_dyn_4dim<
 //			    DynamicMatrixTypeList,
 //			    DynamicMatrixTypeList,
@@ -62,8 +64,8 @@ void MatrixMatrixMultiplication::execute(BrainTwister::BenchmarkManager const& b
 //			    InterfaceTypeList,
 //				MatrixMatrixMultiplicationExecutor
 //			>(matrix_set.A, matrix_set.B, matrix_set.C, interface)(*this, bm);
-		}
-	}
+//		}
+//	}
 }
 
 } // namespace Benchmark

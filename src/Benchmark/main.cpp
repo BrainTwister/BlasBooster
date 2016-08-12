@@ -10,6 +10,7 @@
 #include "BlasBooster/Utilities/Version.h"
 #include "MatrixMatrixMultiplication.h"
 #include "ReporterBase.h"
+#include "ReporterManager.h"
 #include "StandardReporter.h"
 
 using namespace BlasBooster;
@@ -53,9 +54,11 @@ int main(int argc, char* argv[])
         	settings.benchmark_settings.spike_detection
 		));
 
-        for (auto const& action_settings : settings.actions)
+        ReporterManager reporter_manager(settings.reporters);
+
+        for (auto const& action : settings.actions)
         {
-        	action_settings->execute(benchmark_manager);
+        	action->execute(benchmark_manager, reporter_manager);
         }
     }
     catch (BlasBoosterException const& e)

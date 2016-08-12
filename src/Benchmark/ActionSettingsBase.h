@@ -12,13 +12,14 @@
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/Settings.h"
 #include "BrainTwister/BenchmarkManager.h"
+#include "ReporterManager.h"
 
 namespace BlasBooster {
 namespace Benchmark {
 
 BLASBOOSTER_SETTINGS_BASE(ActionSettingsBase, \
 	((ThresholdSettings, threshold_settings, ThresholdSettings())), \
-	virtual void execute(BrainTwister::BenchmarkManager const& benchmark_manager) const = 0; \
+	virtual void execute(BrainTwister::BenchmarkManager const& benchmark_manager, ReporterManager const& reporter_manager) const = 0; \
 )
 
 } // namespace Benchmark
