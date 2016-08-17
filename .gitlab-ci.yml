@@ -1,0 +1,6 @@
+my_project:
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
