@@ -1,6 +1,15 @@
-my_project:
+test:gcc-4.9:
+  image: nercury/cmake-cpp:gcc-4.9
   script:
     - mkdir build
     - cd build
     - cmake ..
-    - make
+    - make test
+    
+test:gcc-6.1:
+  image: nercury/cmake-cpp:gcc-6.1
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make test
