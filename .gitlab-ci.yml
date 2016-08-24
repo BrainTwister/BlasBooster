@@ -5,7 +5,6 @@ test:gcc-4.9:
     - cd build
     - cmake ..
     - make -j
-    - make test
     
 test:gcc-6.1:
   image: nercury/cmake-cpp:gcc-6.1
@@ -14,4 +13,3 @@ test:gcc-6.1:
     - cd build
     - cmake ..
     - make -j
-    - make test
