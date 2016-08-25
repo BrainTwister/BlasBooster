@@ -1,4 +1,10 @@
-test:gcc-4.9:
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:gcc-4.9:
+  stage: build
   image: nercury/cmake-cpp:gcc-4.9
   script:
     - mkdir build
@@ -6,10 +12,22 @@ test:gcc-4.9:
     - cmake ..
     - make -j
     
-test:gcc-6.1:
+build_job:gcc-6.1:
+  stage: build
   image: nercury/cmake-cpp:gcc-6.1
   script:
     - mkdir build
     - cd build
     - cmake ..
     - make -j
+    
+test_job:
+  stage: test
+  script:
+    - make test
+
+deploy_job:
+  stage: deploy
+  script:
+    - make deploy
+  when: manual
