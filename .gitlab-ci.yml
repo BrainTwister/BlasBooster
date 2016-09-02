@@ -14,7 +14,7 @@ build_job:gcc-4.9:
     
 build_job:gcc-6.1:
   stage: build
-  image: nercury/cmake-cpp:gcc-6.1
+  image: nercury/cmake-cpp:gcc-4.9
   script:
     - mkdir build
     - cd build
