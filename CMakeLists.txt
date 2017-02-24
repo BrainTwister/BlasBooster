@@ -26,7 +26,8 @@ endif()
 
 message("CMake build type: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic-errors")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic-errors")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -99,11 +100,7 @@ endif(OPENBLAS_FOUND)
 #find_package(Eigen3)
 #find_package(MTL4)
 
-add_subdirectory(ArgumentParser)
-add_subdirectory(BenchmarkManager)
-add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
-add_subdirectory(src/Tools)
 
 # Google C++ unit test framework
 find_package(GTest)
