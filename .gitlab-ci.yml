@@ -5,7 +5,7 @@ stages:
 
 build:gcc-4.9:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-4.9-gtest-1.8.0
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-gcc-4.9-tools-1
   script:
     - mkdir build
     - cd build
@@ -14,7 +14,7 @@ build:gcc-4.9:
     
 build:gcc-6:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-6-gtest-1.8.0
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-gcc-6-tools-1
   script:
     - mkdir build
     - cd build
@@ -23,7 +23,7 @@ build:gcc-6:
     
 build:clang-3.9:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-clang-3.9-gtest-1.8.0
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-clang-3.9-tools-1
   script:
     - mkdir build
     - cd build
