@@ -3,40 +3,49 @@ stages:
   - test
   - deploy
 
-build_job:gcc-4.9:
+build:gcc-4.9:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-gcc-4.9
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-4.9-gtest-1.8.0
   script:
     - mkdir build
     - cd build
     - cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++ ..
     - make -j
     
-build_job:gcc-6:
+build:gcc-6:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-gcc-6
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-6-gtest-1.8.0
   script:
     - mkdir build
     - cd build
     - cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++ ..
     - make -j
     
-build_job:clang-3.9:
+build:clang-3.9:
   stage: build
-  image: bernddoser/docker-devel-cpp:ubuntu-16.04-clang-3.9
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-clang-3.9-gtest-1.8.0
   script:
     - mkdir build
     - cd build
     - cmake -DCMAKE_CXX_COMPILER=/usr/bin/clang++ ..
     - make -j
     
-test_job:
+test:gcc-4.9:
   stage: test
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-4.9-gtest-1.8.0
+  dependencies:
+    - build:gcc-4.9
   script:
+    - cd build
     - make test
 
-deploy_job:
+deploy:gcc-4.9:
   stage: deploy
+  image: bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.7.2-gcc-4.9-gtest-1.8.0
   script:
-    - make deploy
+    - cd build
+    - make package
+  artifacts:
+    paths:
+      - BlasBooster-*-Linux.tar.gz
   when: manual
