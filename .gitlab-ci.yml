@@ -38,6 +38,9 @@ test:gcc-4.9:
   script:
     - cd build
     - make test
+  cache:
+    paths:
+      - build
   artifacts:
     paths:
       - build
