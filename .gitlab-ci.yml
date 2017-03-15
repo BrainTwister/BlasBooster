@@ -38,6 +38,9 @@ test:gcc-4.9:
   script:
     - cd build
     - make test
+  artifacts:
+    paths:
+      - build
 
 deploy:gcc-4.9:
   stage: deploy
