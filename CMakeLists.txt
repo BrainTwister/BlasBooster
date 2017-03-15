@@ -40,11 +40,11 @@ message("Use ${CPP_ISO_STANDARD} ISO standard")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_ISO_STANDARD}")
 
 # Use OpenMP
-if(${CMAKE_CXX_COMPILER} MATCHES "clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp=libomp")
-else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
-endif()
+#if(${CMAKE_CXX_COMPILER} MATCHES "clang")
+#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp=libomp")
+#else()
+#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+#endif()
 
 if(${CMAKE_CXX_COMPILER} MATCHES "icpc")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__GXX_EXPERIMENTAL_CXX0X__ -DNO_INITIALIZER_LIST_SUPPORTED")
