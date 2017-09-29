@@ -9,12 +9,6 @@ include_directories(
 add_executable(
     ${TestName}
     main.cpp
-    #Serialize.cpp
-    Settings1.cpp
-    Settings2.cpp
-    Settings3.cpp
-    Settings4.cpp
-    Settings5.cpp
     TypeList.cpp
 )
     

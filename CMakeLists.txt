@@ -26,6 +26,10 @@ endif()
 
 message("CMake build type: ${CMAKE_BUILD_TYPE}")
 
+# conan.io
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic-errors")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -73,7 +77,7 @@ configure_file (
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost COMPONENTS filesystem serialization system REQUIRED)
+find_package(Boost)
 if(Boost_FOUND)
     add_definitions(-DUSE_BOOST -DHAVE_SHARED_POINTER -DBOOST_DATE_TIME_POSIX_TIME_STD_CONFIG -DBOOST_SYSTEM_NO_DEPRECATED)
 endif(Boost_FOUND)

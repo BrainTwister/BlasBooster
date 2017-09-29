@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${env_var:CMAKE_HOME}/bin/cmake"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-G &quot;Eclipse CDT4 - Unix Makefiles&quot;&#10;-DCMAKE_BUILD_TYPE=release&#10;-DCMAKE_CXX_COMPILER=g++-5&#10;-DGTEST_ROOT=/opt/googletest&#10;../../git/blasbooster_core"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:blasbooster_core.release_gnu-5}"/>
-</launchConfiguration>
