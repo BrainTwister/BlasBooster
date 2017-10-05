@@ -11,7 +11,7 @@
 
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
-#include "BlasBooster/Utilities/Settings.h"
+#include "BrainTwister/Settings.h"
 #include <iostream>
 #include <fstream>
 // tmp
@@ -20,7 +20,7 @@
 
 namespace BlasBooster {
 
-BLASBOOSTER_SETTINGS( MatrixFileSettings,\
+BRAINTWISTER_SETTINGS( MatrixFileSettings,\
 	(( size_t, nbRows, 0 ))\
 	(( size_t, nbColumns, 0 ))\
 	(( size_t, rowLeadingDimension, 0 ))\

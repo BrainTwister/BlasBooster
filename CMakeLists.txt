@@ -30,8 +30,7 @@ message("CMake build type: ${CMAKE_BUILD_TYPE}")
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic-errors")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -84,6 +83,8 @@ endif(Boost_FOUND)
 
 # List for external BLAS interfaces
 set(EXTERNAL_BLAS_LIBRARIES "")
+
+find_package(CppSettings)
 
 # Intel math kernel library (MKL)
 find_package(MKL)

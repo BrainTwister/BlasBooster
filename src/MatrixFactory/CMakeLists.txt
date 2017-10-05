@@ -1,6 +1,7 @@
 include_directories(
-    ${PROJECT_SOURCE_DIR}/include
     ${Boost_INCLUDE_DIRS}
+    ${CPPSETTINGS_INCLUDE_DIR}
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 add_library(

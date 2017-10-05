@@ -11,9 +11,9 @@
 
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
-#include "BlasBooster/Utilities/Settings.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
+#include "BrainTwister/Settings.h"
 #include <limits>
 
 namespace BlasBooster {
@@ -21,7 +21,7 @@ namespace BlasBooster {
 /// Global type for all thresholds
 typedef double ThresholdType;
 
-BLASBOOSTER_SETTINGS( ThresholdSettings, \
+BRAINTWISTER_SETTINGS( ThresholdSettings, \
     ((ThresholdType, significanceThresholdSinglePrecision, std::numeric_limits<float>::epsilon())) \
     ((ThresholdType, significanceThresholdDoublePrecision, std::numeric_limits<double>::epsilon())) \
     ((ThresholdType, occupationThresholdMatrixSparseFloatSinglePrecision, 0.0)) \

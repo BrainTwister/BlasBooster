@@ -1,9 +1,10 @@
 set(TestName CoreTest)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/include
-    ${GTEST_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS}
+    ${CPPSETTINGS_INCLUDE_DIR}
+    ${GTEST_INCLUDE_DIR}
+    ${PROJECT_SOURCE_DIR}/include
 )
 
 add_executable(
