@@ -8,11 +8,9 @@ fi
 CONAN_DIR="conan$SUFFIX"
 BUILD_DIR="build$SUFFIX"
 
-if [ ! -d "$CONAN_DIR" ]; then
-  mkdir $CONAN_DIR
-  conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
-fi
+mkdir i-p $CONAN_DIR
 export CONAN_USER_HOME=$PWD/$CONAN_DIR
+conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
 
 rm -fr $BUILD_DIR
 mkdir -p $BUILD_DIR
