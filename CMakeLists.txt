@@ -84,7 +84,7 @@ endif(Boost_FOUND)
 # List for external BLAS interfaces
 set(EXTERNAL_BLAS_LIBRARIES "")
 
-find_package(CppSettings)
+find_package(CppSettings REQUIRED)
 
 # Intel math kernel library (MKL)
 find_package(MKL)
