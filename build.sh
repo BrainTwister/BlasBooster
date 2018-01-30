@@ -11,6 +11,7 @@ BUILD_DIR="build$SUFFIX"
 mkdir i-p $CONAN_DIR
 export CONAN_USER_HOME=$PWD/$CONAN_DIR
 conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
+conan remote add bernddoser https://api.bintray.com/conan/bernddoser/conan --insert
 
 rm -fr $BUILD_DIR
 mkdir -p $BUILD_DIR

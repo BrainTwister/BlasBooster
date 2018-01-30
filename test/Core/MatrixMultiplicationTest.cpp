@@ -8,6 +8,7 @@
 
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Core/Multiplication_OpenBLAS.h"
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/MatrixIO.h"
@@ -60,11 +61,15 @@ typedef ::testing::Types<
 	,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Native>
 	,std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
     //,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, Native>
-#ifdef USE_INTEL_MKL
+#ifdef WITH_INTELMKL
     ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
     ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>
 	,std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
 	//,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, IntelMKL>
+#endif
+#ifdef WITH_OPENBLAS
+    ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, OpenBLAS>
+    ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, OpenBLAS>
 #endif
 > MyTypes;
 
