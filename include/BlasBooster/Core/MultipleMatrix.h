@@ -98,7 +98,7 @@ struct MultipleMatrix
         return 0.0;
     }
 
-    bool isNormLargerThan(double value) const
+    bool isNormLargerThan(double /*value*/) const
     {
         // TODO
         BLASBOOSTER_CORE_FAILURE("not implemented yet");

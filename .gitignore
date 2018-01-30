@@ -1,4 +1,4 @@
-/build_*
-/compile_*
 .project
 .cproject
+.settings/
+/build/

@@ -34,7 +34,7 @@ struct MatrixFillerFunctor
 template <class M, class T, class P>
 struct MatrixFillerFunctor<NoFiller,M,T,P>
 {
-    void operator () (Matrix<M,T,P>& matrix) { /* do nothing */ }
+    void operator () (Matrix<M,T,P>& /*matrix*/) { /* do nothing */ }
 };
 
 template <class M, class T, class P>

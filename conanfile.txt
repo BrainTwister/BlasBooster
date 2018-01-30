@@ -1,6 +1,7 @@
 [requires]
 Boost/1.64.0@conan/stable
 gtest/1.8.0@lasote/stable
+openblas/0.2.20@conan/stable
 
 [generators]
 cmake

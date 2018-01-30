@@ -19,6 +19,7 @@
 #include "BlasBooster/Utilities/exec_dyn_2dim.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
+#include <functional>
 #include <memory>
 #include <stdexcept>
 #include <string>
