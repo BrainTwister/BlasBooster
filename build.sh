@@ -7,14 +7,16 @@ fi
 
 CONAN_DIR="conan$SUFFIX"
 BUILD_DIR="build$SUFFIX"
-
-mkdir i-p $CONAN_DIR
 export CONAN_USER_HOME=$PWD/$CONAN_DIR
-conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
-conan remote add bernddoser https://api.bintray.com/conan/bernddoser/conan --insert
+
+if [ ! -d "$CONAN_DIR" ]; then
+  mkdir $CONAN_DIR
+  conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
+  conan remote add bernddoser https://api.bintray.com/conan/bernddoser/conan --insert
+fi
 
 rm -fr $BUILD_DIR
-mkdir -p $BUILD_DIR
+mkdir $BUILD_DIR
 cd $BUILD_DIR
 
 conan install .. --build=missing -s compiler.libcxx=libstdc++11
