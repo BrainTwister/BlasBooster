@@ -2,10 +2,6 @@
 
 pipeline {
 
-  agent {
-    label 'docker'
-  }
-
   options {
     timeout(time: 1, unit: 'HOURS')
   }
@@ -17,7 +13,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.9-gcc-5-conan-0.29.1'
+              image 'braintwister/ubuntu-16.04-cmake-3.11-gcc-5-conan-1.3'
             }
           }
           steps {
@@ -38,7 +34,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.9-gcc-7-conan-0.29.1'
+              image 'braintwister/ubuntu-16.04-cmake-3.11-gcc-7-conan-1.3'
             }
           }
           steps {
@@ -55,22 +51,22 @@ pipeline {
             }
           }
         }
-        stage('clang-4.0') {
+        stage('clang-6') {
           agent {
             docker {
               reuseNode true
-              image 'bernddoser/docker-devel-cpp:ubuntu-16.04-clang-4.0-conan-0.26.1'
+              image 'braintwister/ubuntu-16.04-cmake-3.11-clang-6-conan-1.3'
             }
           }
           steps {
-            sh './build.sh clang-4.0'
+            sh './build.sh clang-6'
           }
           post {
             always {
               step([
                 $class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false,
                 defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '',
-                parserConfigurations: [[parserName: 'Clang (LLVM based)', pattern: 'build-clang-4.0/make.out']],
+                parserConfigurations: [[parserName: 'Clang (LLVM based)', pattern: 'build-clang-6/make.out']],
                 unHealthy: ''
               ])
             }
@@ -84,7 +80,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.9-gcc-5-conan-0.29.1'
+              image 'braintwister/ubuntu-16.04-cmake-3.11-gcc-5-conan-1.3'
             }
           }
           steps {
@@ -100,22 +96,22 @@ pipeline {
             }
           }
         }
-        stage('clang-4.0') {
+        stage('clang-6') {
           agent {
             docker {
               reuseNode true
-              image 'bernddoser/docker-devel-cpp:ubuntu-16.04-clang-4.0-conan-0.26.1'
+              image 'braintwister/ubuntu-16.04-cmake-3.11-gcc-5-conan-1.3'
             }
           }
           steps {
-            sh 'cd build-clang-4.0 && make test'
+            sh 'cd build-clang-6 && make test'
           }
           post {
             always {
               step([
                 $class: 'XUnitBuilder',
                 thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
-                tools: [[$class: 'GoogleTestType', pattern: 'build-clang-4.0/Testing/*.xml']]
+                tools: [[$class: 'GoogleTestType', pattern: 'build-clang-6/Testing/*.xml']]
               ])
             }
           }
@@ -126,7 +122,7 @@ pipeline {
       agent {
         docker {
           reuseNode true
-          image 'bernddoser/docker-devel-cpp:ubuntu-16.04-cmake-3.9-gcc-5-conan-0.29.1'
+          image 'braintwister/ubuntu-16.04-cmake-3.11-gcc-5-conan-1.3'
         }
       }
       steps {
@@ -134,7 +130,7 @@ pipeline {
       }
       post {
         success {
-          archiveArtifacts artifacts: "build*/cpp-settings*", fingerprint: true
+          archiveArtifacts artifacts: "build*/BlasBooster*", fingerprint: true
         }
       }
     }
