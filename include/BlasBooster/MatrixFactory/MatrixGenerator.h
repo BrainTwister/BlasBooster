@@ -2,7 +2,7 @@
 #define MATRIXGENERATOR_H_
 
 #include "BlasBooster/MatrixFactory/MatrixFactory.h"
-#include "BrainTwister/Settings.h"
+#include "BrainTwister/Record.h"
 
 namespace BlasBooster {
 
@@ -10,7 +10,7 @@ class MatrixGenerator : public MatrixFactory
 {
 public:
 
-	BRAINTWISTER_SETTINGS( Settings,\
+	BRAINTWISTER_RECORD( Settings,\
 		(( unsigned int, seed, 0 ))\
 	    (( double, occupation, 1.0 ))\
 	    (( double, minValue, 0.0 ))\

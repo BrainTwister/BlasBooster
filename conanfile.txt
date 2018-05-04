@@ -1,7 +1,7 @@
 [requires]
-Boost/1.64.0@conan/stable
-cpp-settings/0.2@bernddoser/testing
-gtest/1.8.0@lasote/stable
+boost_preprocessor/1.66.0@bincrafters/stable
+gtest/1.8.0@bincrafters/stable
+record/1.0@braintwister/testing
 openblas/0.2.20@conan/stable
 
 [generators]
