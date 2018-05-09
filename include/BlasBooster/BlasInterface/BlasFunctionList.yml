@@ -1,0 +1,2206 @@
+functions_without_zdot:
+
+ - return_value: float
+   name: scabs1
+   argument_list:
+    - const std::complex<float>
+
+ - return_value: float
+   name: sasum
+   argument_list:
+    - const int
+    - const float
+    - const int
+
+ - return_value: void
+   name: saxpy
+   argument_list:
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: saxpby
+   argument_list:
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: saxpyi
+   argument_list:
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+
+ - return_value: float
+   name: scasum
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+
+ - return_value: float
+   name: scnrm2
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+
+ - return_value: void
+   name: scopy
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: float
+   name: sdot
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - const float
+    - const int
+
+ - return_value: float
+   name: sdoti
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - const float
+
+ - return_value: float
+   name: sdsdot
+   argument_list:
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+
+ - return_value: void
+   name: sgthr
+   argument_list:
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sgthrz
+   argument_list:
+    - const int
+    - float
+    - float
+    - const int
+
+ - return_value: float
+   name: snrm2
+   argument_list:
+    - const int
+    - const float
+    - const int
+
+ - return_value: void
+   name: srot
+   argument_list:
+    - const int
+    - float
+    - const int
+    - float
+    - const int
+    - const float
+    - const float
+
+ - return_value: void
+   name: srotg
+   argument_list:
+    - float
+    - float
+    - float
+    - float
+
+ - return_value: void
+   name: sroti
+   argument_list:
+    - const int
+    - float
+    - const int
+    - float
+    - const float
+    - const float
+
+ - return_value: void
+   name: srotm
+   argument_list:
+    - const int
+    - float
+    - const int
+    - float
+    - const int
+    - const float
+
+ - return_value: void
+   name: srotmg
+   argument_list:
+    - float
+    - float
+    - float
+    - const float
+    - float
+
+ - return_value: void
+   name: sscal
+   argument_list:
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: ssctr
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - float
+
+ - return_value: void
+   name: sswap
+   argument_list:
+    - const int
+    - float
+    - const int
+    - float
+    - const int
+
+ - return_value: int
+   name: isamax
+   argument_list:
+    - const int
+    - const float
+    - const int
+
+ - return_value: int
+   name: isamin
+   argument_list:
+    - const int
+    - const float
+    - const int
+
+ - return_value: void
+   name: caxpy
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: caxpby
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: caxpyi
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: ccopy
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgthr
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgthrz
+   argument_list:
+    - const int
+    - std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: crotg
+   argument_list:
+    - std::complex<float>
+    - const std::complex<float>
+    - float
+    - std::complex<float>
+
+ - return_value: void
+   name: cscal
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: csctr
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: csrot
+   argument_list:
+    - const int
+    - std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+    - const float
+    - const float
+
+ - return_value: void
+   name: csscal
+   argument_list:
+    - const int
+    - const float
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cswap
+   argument_list:
+    - const int
+    - std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: int
+   name: icamax
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+
+ - return_value: int
+   name: icamin
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+
+ - return_value: double
+   name: dcabs1
+   argument_list:
+    - const std::complex<double>
+
+ - return_value: double
+   name: dasum
+   argument_list:
+    - const int
+    - const double
+    - const int
+
+ - return_value: void
+   name: daxpy
+   argument_list:
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: daxpby
+   argument_list:
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: daxpyi
+   argument_list:
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+
+ - return_value: void
+   name: dcopy
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: double
+   name: ddot
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - const double
+    - const int
+
+ - return_value: double
+   name: dsdot
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - const float
+    - const int
+
+ - return_value: double
+   name: ddoti
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - const double
+
+ - return_value: void
+   name: dgthr
+   argument_list:
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dgthrz
+   argument_list:
+    - const int
+    - double
+    - double
+    - const int
+
+ - return_value: double
+   name: dnrm2
+   argument_list:
+    - const int
+    - const double
+    - const int
+
+ - return_value: void
+   name: drot
+   argument_list:
+    - const int
+    - double
+    - const int
+    - double
+    - const int
+    - const double
+    - const double
+
+ - return_value: void
+   name: drotg
+   argument_list:
+    - double
+    - double
+    - double
+    - double
+
+ - return_value: void
+   name: droti
+   argument_list:
+    - const int
+    - double
+    - const int
+    - double
+    - const double
+    - const double
+
+ - return_value: void
+   name: drotm
+   argument_list:
+    - const int
+    - double
+    - const int
+    - double
+    - const int
+    - const double
+
+ - return_value: void
+   name: drotmg
+   argument_list:
+    - double
+    - double
+    - double
+    - const double
+    - double
+
+ - return_value: void
+   name: dscal
+   argument_list:
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dsctr
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - double
+
+ - return_value: void
+   name: dswap
+   argument_list:
+    - const int
+    - double
+    - const int
+    - double
+    - const int
+
+ - return_value: double
+   name: dzasum
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+
+ - return_value: double
+   name: dznrm2
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+
+ - return_value: int
+   name: idamax
+   argument_list:
+    - const int
+    - const double
+    - const int
+
+ - return_value: int
+   name: idamin
+   argument_list:
+    - const int
+    - const double
+    - const int
+
+ - return_value: void
+   name: zaxpy
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zaxpby
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zaxpyi
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: zcopy
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zdrot
+   argument_list:
+    - const int
+    - std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+    - const double
+    - const double
+
+ - return_value: void
+   name: zdscal
+   argument_list:
+    - const int
+    - const double
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgthr
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgthrz
+   argument_list:
+    - const int
+    - std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zrotg
+   argument_list:
+    - std::complex<double>
+    - const std::complex<double>
+    - double
+    - std::complex<double>
+
+ - return_value: void
+   name: zscal
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zsctr
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: zswap
+   argument_list:
+    - const int
+    - std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: int
+   name: izamax
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+
+ - return_value: int
+   name: izamin
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+
+ - return_value: void
+   name: sgbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sger
+   argument_list:
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: ssbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sspmv
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sspr
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+
+ - return_value: void
+   name: sspr2
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - float
+
+ - return_value: void
+   name: ssymv
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: ssyr
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: ssyr2
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: stbmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: stbsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: stpmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: stpsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: strmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: strsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: sgem2vu
+   argument_list:
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: cgbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgerc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgeru
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: chbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: chemv
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cher
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cher2
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: chpmv
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: chpr
+   argument_list:
+    - const char
+    - const int
+    - const float
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: chpr2
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: ctbmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctbsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctpmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctpsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctrmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctrsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgem2vc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: scgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const float
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: dgbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dger
+   argument_list:
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dsbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dspmv
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dspr
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+
+ - return_value: void
+   name: dspr2
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - double
+
+ - return_value: void
+   name: dsymv
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dsyr
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dsyr2
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dtbmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dtbsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dtpmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dtpsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dtrmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dtrsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dgem2vu
+   argument_list:
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: zgbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgerc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgeru
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zhbmv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zhemv
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zher
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zher2
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zhpmv
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zhpr
+   argument_list:
+    - const char
+    - const int
+    - const double
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: zhpr2
+   argument_list:
+    - const char
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: ztbmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztbsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztpmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztpsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztrmv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztrsv
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgem2vc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: dzgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const double
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: sgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: ssymm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: ssyr2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: ssyrk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: strmm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: strsm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: cgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: scgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<float>
+    - const float
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgemm3m
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: chemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cher2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const float
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cherk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const float
+    - const std::complex<float>
+    - const int
+    - const float
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: csymm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: csyr2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: csyrk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctrmm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: ctrsm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: dgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dsymm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dsyr2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dsyrk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dtrmm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: dtrsm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: zgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: dzgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<double>
+    - const double
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgemm3m
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zhemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zher2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const double
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zherk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const double
+    - const std::complex<double>
+    - const int
+    - const double
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zsymm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zsyr2k
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zsyrk
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztrmm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: ztrsm
+   argument_list:
+    - const char
+    - const char
+    - const char
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+functions_zdot_with_return:
+
+ - return_value: std::complex<float>
+   name: cdotc
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+ 
+ - return_value: std::complex<float>
+   name: cdotu
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+ 
+ - return_value: std::complex<double>
+   name: zdotc
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+ 
+ - return_value: std::complex<double>
+   name: zdotu
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+
+functions_zdot_no_return:
+ 
+ - return_value: void
+   name: cdotc
+   argument_list:
+    - std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+ 
+ - return_value: void
+   name: cdotu
+   argument_list:
+    - std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+ 
+ - return_value: void
+   name: zdotc
+   argument_list:
+    - std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+ 
+ - return_value: void
+   name: zdotu
+   argument_list:
+    - std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
