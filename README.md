@@ -1,17 +1,11 @@
-BlasBoosterCore
-===============
+BlasBooster
+===========
 
-Copyright 2013-2017 BrainTwister - All rights reserved.
+BLAS library combining dense and sparse algorithms
 
-Requirements
-------------
+Copyright (C) 2013-2018 Bernd Doser <bernd.doser@braintwister.eu>
 
-- cmake (Version >= 2.6.6, http://www.cmake.org)
-- Boost (Version >= 1.52.0, http://www.boost.org)
-- gtest (optional)
-- doxygen (optional)
+All rights reserved.
 
-Generate eclipse project
-------------------------
-
-cmake -G "Eclipse CDT4 - Unix Makefiles" <source directory>
+BlasBooster is free software made available under the [GPL-3.0 License](https://opensource.org/licenses/GPL-3.0).
+For details see [LICENSE.md](LICENSE.md) file.
