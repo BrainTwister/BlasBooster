@@ -1,5 +1,7 @@
 #pragma once
 
+#include <complex>
+
 extern "C" {
 
 scabs1_(const std::complex<float>);

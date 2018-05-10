@@ -1,5 +1,5 @@
-#include "../../../include/BlasBooster/BlasInterface/Blas.h.pre"
-#include "../../../include/BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h.pre"
+#include "BlasBooster/BlasInterface/Blas.h"
+#include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 
 extern "C" void openblas_set_num_threads(int nbThreads);
 

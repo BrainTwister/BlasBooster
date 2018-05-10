@@ -1,5 +1,7 @@
 #pragma once
 
+#include <complex>
+
 extern "C" {
 
 {% for function in functions_without_zdot %}
