@@ -1,5 +1,4 @@
-#ifndef BLASINTERFACE_H_
-#define BLASINTERFACE_H_
+#pragma once
 
 namespace BlasBooster {
 
@@ -8,5 +7,3 @@ template <class BlasInterfaceType, class BlasFunctionType>
 struct BlasInterface;
 
 } // namespace BlasBooster
-
-#endif /* BLASINTERFACE_H_ */

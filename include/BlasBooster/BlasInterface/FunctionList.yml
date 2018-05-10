@@ -2204,3 +2204,45 @@ functions_zdot_no_return:
     - const int
     - const std::complex<double>
     - const int
+
+functions_spblas:
+
+ - return_value: void
+   name: dcsrmm
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const double
+    - const char
+    - const double
+    - const int
+    - const int
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dcsrmultcsr
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const int
+    - double
+    - int
+    - int
+    - double
+    - int
+    - int
+    - double
+    - int
+    - int
+    - const int
+    - int

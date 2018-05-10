@@ -16,7 +16,7 @@ void openblas_set_num_threads(int nbThreads)
     {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const
 {
-    return ::{{ function.name }}(
+    return ::{{ function.name }}_(
         {%- for argument in function.argument_list -%}
             v{{loop.index0}}{{ ", " if not loop.last }}
         {%- endfor %});

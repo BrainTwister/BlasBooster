@@ -1,0 +1,36 @@
+#pragma once
+
+#include "BlasInterface.h"
+#include <string>
+
+namespace BlasBooster {
+
+struct OpenBLAS {};
+
+{% for function in functions_without_zdot %}
+struct {{ function.name }}
+{
+    static std::string name() { return "{{ function.name }}"; }
+};
+
+{% endfor -%}
+
+void openblas_set_num_threads(int nbThreads);
+
+{% for function in functions_without_zdot %}
+{{ function.return_value }} BlasInterface <OpenBlas, {{ function.name }}>::operator() (
+    {%+ for argument in function.argument_list -%}
+    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+    {%- endfor %}) const;
+
+{% endfor -%}
+
+{% for function in functions_zdot_with_return %}
+{{ function.return_value }} BlasInterface <OpenBlas, {{ function.name }}>::operator() (
+    {%+ for argument in function.argument_list -%}
+    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+    {%- endfor %}) const;
+
+{% endfor -%}
+
+} // namespace BlasBooster

@@ -1,8 +1,9 @@
-#include "BlasBooster/BlasInterface/Blas.h"
 #include "BlasBooster/BlasInterface/BlasBoosterMacroCreateBlasFunctionDefinitionForInterface.h"
-#include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/BlasInterface/SpBlas.h"
 #include <boost/preprocessor/facilities/empty.hpp>
+
+#include "../../../include/BlasBooster/BlasInterface/Blas.h.pre"
+#include "../../../include/BlasBooster/BlasInterface/BlasInterface_IntelMKL.h.pre"
 
 // The upper case name must be used, since the lower case one is only a macro defined in mkl_service.h
 // and results in a seg-fault.

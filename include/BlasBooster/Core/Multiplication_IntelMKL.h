@@ -9,13 +9,13 @@
 #ifndef BLASBOOSTER_CORE_MULTIPLICATION_INTELMKL_H_
 #define BLASBOOSTER_CORE_MULTIPLICATION_INTELMKL_H_
 
-#include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include <algorithm>
 #include <iostream>
+#include "../BlasInterface/BlasInterface_IntelMKL.h.pre"
 
 namespace BlasBooster {
 
