@@ -1,11 +1,7 @@
 [requires]
-boost_preprocessor/1.66.0@bincrafters/stable
 gtest/1.8.0@bincrafters/stable
 record/1.0@braintwister/testing
 openblas/0.2.20@conan/stable
 
 [generators]
 cmake
-
-[options]
-Boost:header_only=True

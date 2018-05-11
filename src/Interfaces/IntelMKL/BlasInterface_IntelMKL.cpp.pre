@@ -1,4 +1,4 @@
-#include "BlasBooster/BlasInterface/Blas.h.pre"
+#include "BlasBooster/BlasInterface/Blas.h"
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 
 // The upper case name must be used, since the lower case one is
@@ -15,7 +15,7 @@ void mkl_set_num_threads(int nbThreads)
 {% for function in functions_without_zdot %}
 {{ function.return_value }} BlasInterface <IntelMKL, {{ function.name }}>::operator() (
     {%+ for argument in function.argument_list -%}
-    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+    {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const
 {
     return ::{{ function.name }}_(
@@ -29,7 +29,7 @@ void mkl_set_num_threads(int nbThreads)
 {% for function in functions_spblas %}
 {{ function.return_value }} BlasInterface <IntelMKL, {{ function.name }}>::operator() (
     {%+ for argument in function.argument_list -%}
-    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+    {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const
 {
     return ::mkl_{{ function.name }}_(
@@ -44,7 +44,7 @@ std::complex<float> BlasInterface<IntelMKL, cdotc>::operator() (
 	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
 {
 	std::complex<float> result;
-	::cdotc(&result,v1,v2,v3,v4,v5);
+	::cdotc_(&result,v1,v2,v3,v4,v5);
 	return result;
 }
 
@@ -52,7 +52,7 @@ std::complex<float> BlasInterface<IntelMKL, cdotu>::operator() (
 	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
 {
 	std::complex<float> result;
-	::cdotu(&result,v1,v2,v3,v4,v5);
+	::cdotu_(&result,v1,v2,v3,v4,v5);
 	return result;
 }
 
@@ -60,7 +60,7 @@ std::complex<double> BlasInterface<IntelMKL, zdotc>::operator() (
 	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
 {
 	std::complex<double> result;
-	::zdotc(&result,v1,v2,v3,v4,v5);
+	::zdotc_(&result,v1,v2,v3,v4,v5);
 	return result;
 }
 
@@ -68,7 +68,7 @@ std::complex<double> BlasInterface<IntelMKL, zdotu>::operator() (
 	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
 {
 	std::complex<double> result;
-	::zdotu(&result,v1,v2,v3,v4,v5);
+	::zdotu_(&result,v1,v2,v3,v4,v5);
 	return result;
 }
 

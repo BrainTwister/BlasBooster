@@ -11,9 +11,9 @@ void openblas_set_num_threads(int nbThreads)
 }
 
 {% for function in functions_without_zdot %}
-{{ function.return_value }} BlasInterface <OpenBlas, {{ function.name }}>::operator() (
+{{ function.return_value }} BlasInterface <OpenBLAS, {{ function.name }}>::operator() (
     {%+ for argument in function.argument_list -%}
-    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+    {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const
 {
     return ::{{ function.name }}_(
@@ -25,34 +25,34 @@ void openblas_set_num_threads(int nbThreads)
 {% endfor -%}
 
 std::complex<float> BlasInterface < OpenBLAS, cdotc >::operator() (
-    const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
+    const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5) const
 {
     std::complex<float> result;
-    ::cdotc(&result,v1,v2,v3,v4,v5);
+    ::cdotc_(&result,v1,v2,v3,v4,v5);
     return result;
 }
 
 std::complex<float> BlasInterface < OpenBLAS, cdotu >::operator() (
-    const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
+    const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5) const
 {
     std::complex<float> result;
-    ::cdotu(&result,v1,v2,v3,v4,v5);
+    ::cdotu_(&result,v1,v2,v3,v4,v5);
     return result;
 }
 
 std::complex<double> BlasInterface < OpenBLAS, zdotc >::operator() (
-    const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
+    const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5) const
 {
     std::complex<double> result;
-    ::zdotc(&result,v1,v2,v3,v4,v5);
+    ::zdotc_(&result,v1,v2,v3,v4,v5);
     return result;
 }
 
 std::complex<double> BlasInterface < OpenBLAS, zdotu >::operator() (
-    const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
+    const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5) const
 {
     std::complex<double> result;
-    ::zdotu(&result,v1,v2,v3,v4,v5);
+    ::zdotu_(&result,v1,v2,v3,v4,v5);
     return result;
 }
 

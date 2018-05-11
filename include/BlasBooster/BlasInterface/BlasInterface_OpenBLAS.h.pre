@@ -1,35 +1,35 @@
 #pragma once
 
 #include "BlasInterface.h"
-#include <string>
+#include "FunctionTypes.h"
 
 namespace BlasBooster {
 
 struct OpenBLAS {};
 
+void OpenBLAS_set_num_threads(int nbThreads);
+
 {% for function in functions_without_zdot %}
-struct {{ function.name }}
+template <>
+struct BlasInterface <OpenBLAS, {{ function.name }}>
 {
-    static std::string name() { return "{{ function.name }}"; }
+    {{ function.return_value }} operator() (
+    {%- for argument in function.argument_list -%}
+    {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
+    {%- endfor %}) const;
 };
 
 {% endfor -%}
 
-void openblas_set_num_threads(int nbThreads);
-
-{% for function in functions_without_zdot %}
-{{ function.return_value }} BlasInterface <OpenBlas, {{ function.name }}>::operator() (
-    {%+ for argument in function.argument_list -%}
-    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
-    {%- endfor %}) const;
-
-{% endfor -%}
-
 {% for function in functions_zdot_with_return %}
-{{ function.return_value }} BlasInterface <OpenBlas, {{ function.name }}>::operator() (
-    {%+ for argument in function.argument_list -%}
-    {{ argument }} v{{loop.index0}}{{ ", " if not loop.last }}
+template <>
+struct BlasInterface <OpenBLAS, {{ function.name }}>
+{
+    {{ function.return_value }} operator() (
+    {%- for argument in function.argument_list -%}
+    {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const;
+};
 
 {% endfor -%}
 

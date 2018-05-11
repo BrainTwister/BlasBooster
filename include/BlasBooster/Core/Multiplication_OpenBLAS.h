@@ -9,10 +9,10 @@
 #ifndef BLASBOOSTER_CORE_MULTIPLICATION_OPENBLAS_H_
 #define BLASBOOSTER_CORE_MULTIPLICATION_OPENBLAS_H_
 
+#include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include <iostream>
-#include "../BlasInterface/BlasInterface_OpenBLAS.h.pre"
 
 namespace BlasBooster {
 

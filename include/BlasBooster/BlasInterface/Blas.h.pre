@@ -5,16 +5,16 @@
 extern "C" {
 
 {% for function in functions_without_zdot %}
-{{ function.name }}_(
+{{ function.return_value }} {{ function.name }}_(
     {%- for argument in function.argument_list -%}
-    {{ argument }}{{ ", " if not loop.last }}
+    {{ argument }}*{{ ", " if not loop.last }}
     {%- endfor %});
 {% endfor %}
 
 {% for function in functions_zdot_no_return %}
-{{ function.name }}_(
+{{ function.return_value }} {{ function.name }}_(
     {%- for argument in function.argument_list -%}
-    {{ argument }}{{ ", " if not loop.last }}
+    {{ argument }}*{{ ", " if not loop.last }}
     {%- endfor %});
 {% endfor %}
 

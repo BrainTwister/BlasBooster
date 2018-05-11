@@ -1,1480 +1,1128 @@
 #pragma once
 
 #include "BlasInterface.h"
-#include <string>
+#include "FunctionTypes.h"
 
 namespace BlasBooster {
 
 struct OpenBLAS {};
 
-struct scabs1
+void OpenBLAS_set_num_threads(int nbThreads);
+
+template <>
+struct BlasInterface <OpenBLAS, scabs1>
 {
-    static std::string name() { return "scabs1"; }
+    float operator() (const std::complex<float>* v0) const;
 };
 
-struct sasum
+template <>
+struct BlasInterface <OpenBLAS, sasum>
 {
-    static std::string name() { return "sasum"; }
+    float operator() (const int* v0, const float* v1, const int* v2) const;
 };
 
-struct saxpy
+template <>
+struct BlasInterface <OpenBLAS, saxpy>
 {
-    static std::string name() { return "saxpy"; }
+    void operator() (const int* v0, const float* v1, const float* v2, const int* v3, float* v4, const int* v5) const;
 };
 
-struct saxpby
+template <>
+struct BlasInterface <OpenBLAS, saxpby>
 {
-    static std::string name() { return "saxpby"; }
+    void operator() (const int* v0, const float* v1, const float* v2, const int* v3, const float* v4, float* v5, const int* v6) const;
 };
 
-struct saxpyi
+template <>
+struct BlasInterface <OpenBLAS, saxpyi>
 {
-    static std::string name() { return "saxpyi"; }
+    void operator() (const int* v0, const float* v1, const float* v2, const int* v3, float* v4) const;
 };
 
-struct scasum
+template <>
+struct BlasInterface <OpenBLAS, scasum>
 {
-    static std::string name() { return "scasum"; }
+    float operator() (const int* v0, const std::complex<float>* v1, const int* v2) const;
 };
 
-struct scnrm2
+template <>
+struct BlasInterface <OpenBLAS, scnrm2>
 {
-    static std::string name() { return "scnrm2"; }
+    float operator() (const int* v0, const std::complex<float>* v1, const int* v2) const;
 };
 
-struct scopy
+template <>
+struct BlasInterface <OpenBLAS, scopy>
 {
-    static std::string name() { return "scopy"; }
+    void operator() (const int* v0, const float* v1, const int* v2, float* v3, const int* v4) const;
 };
 
-struct sdot
+template <>
+struct BlasInterface <OpenBLAS, sdot>
 {
-    static std::string name() { return "sdot"; }
+    float operator() (const int* v0, const float* v1, const int* v2, const float* v3, const int* v4) const;
 };
 
-struct sdoti
+template <>
+struct BlasInterface <OpenBLAS, sdoti>
 {
-    static std::string name() { return "sdoti"; }
+    float operator() (const int* v0, const float* v1, const int* v2, const float* v3) const;
 };
 
-struct sdsdot
+template <>
+struct BlasInterface <OpenBLAS, sdsdot>
 {
-    static std::string name() { return "sdsdot"; }
+    float operator() (const int* v0, const float* v1, const float* v2, const int* v3, const float* v4, const int* v5) const;
 };
 
-struct sgthr
+template <>
+struct BlasInterface <OpenBLAS, sgthr>
 {
-    static std::string name() { return "sgthr"; }
+    void operator() (const int* v0, const float* v1, float* v2, const int* v3) const;
 };
 
-struct sgthrz
+template <>
+struct BlasInterface <OpenBLAS, sgthrz>
 {
-    static std::string name() { return "sgthrz"; }
+    void operator() (const int* v0, float* v1, float* v2, const int* v3) const;
 };
 
-struct snrm2
+template <>
+struct BlasInterface <OpenBLAS, snrm2>
 {
-    static std::string name() { return "snrm2"; }
+    float operator() (const int* v0, const float* v1, const int* v2) const;
 };
 
-struct srot
+template <>
+struct BlasInterface <OpenBLAS, srot>
 {
-    static std::string name() { return "srot"; }
+    void operator() (const int* v0, float* v1, const int* v2, float* v3, const int* v4, const float* v5, const float* v6) const;
 };
 
-struct srotg
+template <>
+struct BlasInterface <OpenBLAS, srotg>
 {
-    static std::string name() { return "srotg"; }
+    void operator() (float* v0, float* v1, float* v2, float* v3) const;
 };
 
-struct sroti
+template <>
+struct BlasInterface <OpenBLAS, sroti>
 {
-    static std::string name() { return "sroti"; }
+    void operator() (const int* v0, float* v1, const int* v2, float* v3, const float* v4, const float* v5) const;
 };
 
-struct srotm
+template <>
+struct BlasInterface <OpenBLAS, srotm>
 {
-    static std::string name() { return "srotm"; }
+    void operator() (const int* v0, float* v1, const int* v2, float* v3, const int* v4, const float* v5) const;
 };
 
-struct srotmg
+template <>
+struct BlasInterface <OpenBLAS, srotmg>
 {
-    static std::string name() { return "srotmg"; }
+    void operator() (float* v0, float* v1, float* v2, const float* v3, float* v4) const;
 };
 
-struct sscal
+template <>
+struct BlasInterface <OpenBLAS, sscal>
 {
-    static std::string name() { return "sscal"; }
+    void operator() (const int* v0, const float* v1, float* v2, const int* v3) const;
 };
 
-struct ssctr
+template <>
+struct BlasInterface <OpenBLAS, ssctr>
 {
-    static std::string name() { return "ssctr"; }
+    void operator() (const int* v0, const float* v1, const int* v2, float* v3) const;
 };
 
-struct sswap
+template <>
+struct BlasInterface <OpenBLAS, sswap>
 {
-    static std::string name() { return "sswap"; }
+    void operator() (const int* v0, float* v1, const int* v2, float* v3, const int* v4) const;
 };
 
-struct isamax
+template <>
+struct BlasInterface <OpenBLAS, isamax>
 {
-    static std::string name() { return "isamax"; }
+    int operator() (const int* v0, const float* v1, const int* v2) const;
 };
 
-struct isamin
+template <>
+struct BlasInterface <OpenBLAS, isamin>
 {
-    static std::string name() { return "isamin"; }
+    int operator() (const int* v0, const float* v1, const int* v2) const;
 };
 
-struct caxpy
+template <>
+struct BlasInterface <OpenBLAS, caxpy>
 {
-    static std::string name() { return "caxpy"; }
+    void operator() (const int* v0, const std::complex<float>* v1, const std::complex<float>* v2, const int* v3, std::complex<float>* v4, const int* v5) const;
 };
 
-struct caxpby
+template <>
+struct BlasInterface <OpenBLAS, caxpby>
 {
-    static std::string name() { return "caxpby"; }
+    void operator() (const int* v0, const std::complex<float>* v1, const std::complex<float>* v2, const int* v3, const std::complex<float>* v4, std::complex<float>* v5, const int* v6) const;
 };
 
-struct caxpyi
+template <>
+struct BlasInterface <OpenBLAS, caxpyi>
 {
-    static std::string name() { return "caxpyi"; }
+    void operator() (const int* v0, const std::complex<float>* v1, const std::complex<float>* v2, const int* v3, std::complex<float>* v4) const;
 };
 
-struct ccopy
+template <>
+struct BlasInterface <OpenBLAS, ccopy>
 {
-    static std::string name() { return "ccopy"; }
+    void operator() (const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3, const int* v4) const;
 };
 
-struct cgthr
+template <>
+struct BlasInterface <OpenBLAS, cgthr>
 {
-    static std::string name() { return "cgthr"; }
+    void operator() (const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
 };
 
-struct cgthrz
+template <>
+struct BlasInterface <OpenBLAS, cgthrz>
 {
-    static std::string name() { return "cgthrz"; }
+    void operator() (const int* v0, std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
 };
 
-struct crotg
+template <>
+struct BlasInterface <OpenBLAS, crotg>
 {
-    static std::string name() { return "crotg"; }
+    void operator() (std::complex<float>* v0, const std::complex<float>* v1, float* v2, std::complex<float>* v3) const;
 };
 
-struct cscal
+template <>
+struct BlasInterface <OpenBLAS, cscal>
 {
-    static std::string name() { return "cscal"; }
+    void operator() (const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
 };
 
-struct csctr
+template <>
+struct BlasInterface <OpenBLAS, csctr>
 {
-    static std::string name() { return "csctr"; }
+    void operator() (const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3) const;
 };
 
-struct csrot
+template <>
+struct BlasInterface <OpenBLAS, csrot>
 {
-    static std::string name() { return "csrot"; }
+    void operator() (const int* v0, std::complex<float>* v1, const int* v2, std::complex<float>* v3, const int* v4, const float* v5, const float* v6) const;
 };
 
-struct csscal
+template <>
+struct BlasInterface <OpenBLAS, csscal>
 {
-    static std::string name() { return "csscal"; }
+    void operator() (const int* v0, const float* v1, std::complex<float>* v2, const int* v3) const;
 };
 
-struct cswap
+template <>
+struct BlasInterface <OpenBLAS, cswap>
 {
-    static std::string name() { return "cswap"; }
+    void operator() (const int* v0, std::complex<float>* v1, const int* v2, std::complex<float>* v3, const int* v4) const;
 };
 
-struct icamax
+template <>
+struct BlasInterface <OpenBLAS, icamax>
 {
-    static std::string name() { return "icamax"; }
+    int operator() (const int* v0, const std::complex<float>* v1, const int* v2) const;
 };
 
-struct icamin
+template <>
+struct BlasInterface <OpenBLAS, icamin>
 {
-    static std::string name() { return "icamin"; }
+    int operator() (const int* v0, const std::complex<float>* v1, const int* v2) const;
 };
 
-struct dcabs1
+template <>
+struct BlasInterface <OpenBLAS, dcabs1>
 {
-    static std::string name() { return "dcabs1"; }
+    double operator() (const std::complex<double>* v0) const;
 };
 
-struct dasum
+template <>
+struct BlasInterface <OpenBLAS, dasum>
 {
-    static std::string name() { return "dasum"; }
+    double operator() (const int* v0, const double* v1, const int* v2) const;
 };
 
-struct daxpy
+template <>
+struct BlasInterface <OpenBLAS, daxpy>
 {
-    static std::string name() { return "daxpy"; }
+    void operator() (const int* v0, const double* v1, const double* v2, const int* v3, double* v4, const int* v5) const;
 };
 
-struct daxpby
+template <>
+struct BlasInterface <OpenBLAS, daxpby>
 {
-    static std::string name() { return "daxpby"; }
+    void operator() (const int* v0, const double* v1, const double* v2, const int* v3, const double* v4, double* v5, const int* v6) const;
 };
 
-struct daxpyi
+template <>
+struct BlasInterface <OpenBLAS, daxpyi>
 {
-    static std::string name() { return "daxpyi"; }
+    void operator() (const int* v0, const double* v1, const double* v2, const int* v3, double* v4) const;
 };
 
-struct dcopy
+template <>
+struct BlasInterface <OpenBLAS, dcopy>
 {
-    static std::string name() { return "dcopy"; }
+    void operator() (const int* v0, const double* v1, const int* v2, double* v3, const int* v4) const;
 };
 
-struct ddot
+template <>
+struct BlasInterface <OpenBLAS, ddot>
 {
-    static std::string name() { return "ddot"; }
+    double operator() (const int* v0, const double* v1, const int* v2, const double* v3, const int* v4) const;
 };
 
-struct dsdot
+template <>
+struct BlasInterface <OpenBLAS, dsdot>
 {
-    static std::string name() { return "dsdot"; }
+    double operator() (const int* v0, const float* v1, const int* v2, const float* v3, const int* v4) const;
 };
 
-struct ddoti
+template <>
+struct BlasInterface <OpenBLAS, ddoti>
 {
-    static std::string name() { return "ddoti"; }
+    double operator() (const int* v0, const double* v1, const int* v2, const double* v3) const;
 };
 
-struct dgthr
+template <>
+struct BlasInterface <OpenBLAS, dgthr>
 {
-    static std::string name() { return "dgthr"; }
+    void operator() (const int* v0, const double* v1, double* v2, const int* v3) const;
 };
 
-struct dgthrz
+template <>
+struct BlasInterface <OpenBLAS, dgthrz>
 {
-    static std::string name() { return "dgthrz"; }
+    void operator() (const int* v0, double* v1, double* v2, const int* v3) const;
 };
 
-struct dnrm2
+template <>
+struct BlasInterface <OpenBLAS, dnrm2>
 {
-    static std::string name() { return "dnrm2"; }
+    double operator() (const int* v0, const double* v1, const int* v2) const;
 };
 
-struct drot
+template <>
+struct BlasInterface <OpenBLAS, drot>
 {
-    static std::string name() { return "drot"; }
+    void operator() (const int* v0, double* v1, const int* v2, double* v3, const int* v4, const double* v5, const double* v6) const;
 };
 
-struct drotg
+template <>
+struct BlasInterface <OpenBLAS, drotg>
 {
-    static std::string name() { return "drotg"; }
+    void operator() (double* v0, double* v1, double* v2, double* v3) const;
 };
 
-struct droti
+template <>
+struct BlasInterface <OpenBLAS, droti>
 {
-    static std::string name() { return "droti"; }
+    void operator() (const int* v0, double* v1, const int* v2, double* v3, const double* v4, const double* v5) const;
 };
 
-struct drotm
+template <>
+struct BlasInterface <OpenBLAS, drotm>
 {
-    static std::string name() { return "drotm"; }
+    void operator() (const int* v0, double* v1, const int* v2, double* v3, const int* v4, const double* v5) const;
 };
 
-struct drotmg
+template <>
+struct BlasInterface <OpenBLAS, drotmg>
 {
-    static std::string name() { return "drotmg"; }
+    void operator() (double* v0, double* v1, double* v2, const double* v3, double* v4) const;
 };
 
-struct dscal
+template <>
+struct BlasInterface <OpenBLAS, dscal>
 {
-    static std::string name() { return "dscal"; }
+    void operator() (const int* v0, const double* v1, double* v2, const int* v3) const;
 };
 
-struct dsctr
+template <>
+struct BlasInterface <OpenBLAS, dsctr>
 {
-    static std::string name() { return "dsctr"; }
+    void operator() (const int* v0, const double* v1, const int* v2, double* v3) const;
 };
 
-struct dswap
+template <>
+struct BlasInterface <OpenBLAS, dswap>
 {
-    static std::string name() { return "dswap"; }
+    void operator() (const int* v0, double* v1, const int* v2, double* v3, const int* v4) const;
 };
 
-struct dzasum
+template <>
+struct BlasInterface <OpenBLAS, dzasum>
 {
-    static std::string name() { return "dzasum"; }
+    double operator() (const int* v0, const std::complex<double>* v1, const int* v2) const;
 };
 
-struct dznrm2
+template <>
+struct BlasInterface <OpenBLAS, dznrm2>
 {
-    static std::string name() { return "dznrm2"; }
+    double operator() (const int* v0, const std::complex<double>* v1, const int* v2) const;
 };
 
-struct idamax
+template <>
+struct BlasInterface <OpenBLAS, idamax>
 {
-    static std::string name() { return "idamax"; }
+    int operator() (const int* v0, const double* v1, const int* v2) const;
 };
 
-struct idamin
+template <>
+struct BlasInterface <OpenBLAS, idamin>
 {
-    static std::string name() { return "idamin"; }
+    int operator() (const int* v0, const double* v1, const int* v2) const;
 };
 
-struct zaxpy
+template <>
+struct BlasInterface <OpenBLAS, zaxpy>
 {
-    static std::string name() { return "zaxpy"; }
+    void operator() (const int* v0, const std::complex<double>* v1, const std::complex<double>* v2, const int* v3, std::complex<double>* v4, const int* v5) const;
 };
 
-struct zaxpby
+template <>
+struct BlasInterface <OpenBLAS, zaxpby>
 {
-    static std::string name() { return "zaxpby"; }
+    void operator() (const int* v0, const std::complex<double>* v1, const std::complex<double>* v2, const int* v3, const std::complex<double>* v4, std::complex<double>* v5, const int* v6) const;
 };
 
-struct zaxpyi
+template <>
+struct BlasInterface <OpenBLAS, zaxpyi>
 {
-    static std::string name() { return "zaxpyi"; }
+    void operator() (const int* v0, const std::complex<double>* v1, const std::complex<double>* v2, const int* v3, std::complex<double>* v4) const;
 };
 
-struct zcopy
+template <>
+struct BlasInterface <OpenBLAS, zcopy>
 {
-    static std::string name() { return "zcopy"; }
+    void operator() (const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3, const int* v4) const;
 };
 
-struct zdrot
+template <>
+struct BlasInterface <OpenBLAS, zdrot>
 {
-    static std::string name() { return "zdrot"; }
+    void operator() (const int* v0, std::complex<double>* v1, const int* v2, std::complex<double>* v3, const int* v4, const double* v5, const double* v6) const;
 };
 
-struct zdscal
+template <>
+struct BlasInterface <OpenBLAS, zdscal>
 {
-    static std::string name() { return "zdscal"; }
+    void operator() (const int* v0, const double* v1, std::complex<double>* v2, const int* v3) const;
 };
 
-struct zgthr
+template <>
+struct BlasInterface <OpenBLAS, zgthr>
 {
-    static std::string name() { return "zgthr"; }
+    void operator() (const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
 };
 
-struct zgthrz
+template <>
+struct BlasInterface <OpenBLAS, zgthrz>
 {
-    static std::string name() { return "zgthrz"; }
+    void operator() (const int* v0, std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
 };
 
-struct zrotg
+template <>
+struct BlasInterface <OpenBLAS, zrotg>
 {
-    static std::string name() { return "zrotg"; }
+    void operator() (std::complex<double>* v0, const std::complex<double>* v1, double* v2, std::complex<double>* v3) const;
 };
 
-struct zscal
+template <>
+struct BlasInterface <OpenBLAS, zscal>
 {
-    static std::string name() { return "zscal"; }
+    void operator() (const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
 };
 
-struct zsctr
+template <>
+struct BlasInterface <OpenBLAS, zsctr>
 {
-    static std::string name() { return "zsctr"; }
+    void operator() (const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3) const;
 };
 
-struct zswap
+template <>
+struct BlasInterface <OpenBLAS, zswap>
 {
-    static std::string name() { return "zswap"; }
+    void operator() (const int* v0, std::complex<double>* v1, const int* v2, std::complex<double>* v3, const int* v4) const;
 };
 
-struct izamax
+template <>
+struct BlasInterface <OpenBLAS, izamax>
 {
-    static std::string name() { return "izamax"; }
+    int operator() (const int* v0, const std::complex<double>* v1, const int* v2) const;
 };
 
-struct izamin
+template <>
+struct BlasInterface <OpenBLAS, izamin>
 {
-    static std::string name() { return "izamin"; }
+    int operator() (const int* v0, const std::complex<double>* v1, const int* v2) const;
 };
 
-struct sgbmv
+template <>
+struct BlasInterface <OpenBLAS, sgbmv>
 {
-    static std::string name() { return "sgbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const float* v5, const float* v6, const int* v7, const float* v8, const int* v9, const float* v10, float* v11, const int* v12) const;
 };
 
-struct sgemv
+template <>
+struct BlasInterface <OpenBLAS, sgemv>
 {
-    static std::string name() { return "sgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const float* v3, const float* v4, const int* v5, const float* v6, const int* v7, const float* v8, float* v9, const int* v10) const;
 };
 
-struct sger
+template <>
+struct BlasInterface <OpenBLAS, sger>
 {
-    static std::string name() { return "sger"; }
+    void operator() (const int* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, float* v7, const int* v8) const;
 };
 
-struct ssbmv
+template <>
+struct BlasInterface <OpenBLAS, ssbmv>
 {
-    static std::string name() { return "ssbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const float* v3, const float* v4, const int* v5, const float* v6, const int* v7, const float* v8, float* v9, const int* v10) const;
 };
 
-struct sspmv
+template <>
+struct BlasInterface <OpenBLAS, sspmv>
 {
-    static std::string name() { return "sspmv"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const float* v4, const int* v5, const float* v6, float* v7, const int* v8) const;
 };
 
-struct sspr
+template <>
+struct BlasInterface <OpenBLAS, sspr>
 {
-    static std::string name() { return "sspr"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const int* v4, float* v5) const;
 };
 
-struct sspr2
+template <>
+struct BlasInterface <OpenBLAS, sspr2>
 {
-    static std::string name() { return "sspr2"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, float* v7) const;
 };
 
-struct ssymv
+template <>
+struct BlasInterface <OpenBLAS, ssymv>
 {
-    static std::string name() { return "ssymv"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, const float* v7, float* v8, const int* v9) const;
 };
 
-struct ssyr
+template <>
+struct BlasInterface <OpenBLAS, ssyr>
 {
-    static std::string name() { return "ssyr"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const int* v4, float* v5, const int* v6) const;
 };
 
-struct ssyr2
+template <>
+struct BlasInterface <OpenBLAS, ssyr2>
 {
-    static std::string name() { return "ssyr2"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, float* v7, const int* v8) const;
 };
 
-struct stbmv
+template <>
+struct BlasInterface <OpenBLAS, stbmv>
 {
-    static std::string name() { return "stbmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const float* v5, const int* v6, float* v7, const int* v8) const;
 };
 
-struct stbsv
+template <>
+struct BlasInterface <OpenBLAS, stbsv>
 {
-    static std::string name() { return "stbsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const float* v5, const int* v6, float* v7, const int* v8) const;
 };
 
-struct stpmv
+template <>
+struct BlasInterface <OpenBLAS, stpmv>
 {
-    static std::string name() { return "stpmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const float* v4, float* v5, const int* v6) const;
 };
 
-struct stpsv
+template <>
+struct BlasInterface <OpenBLAS, stpsv>
 {
-    static std::string name() { return "stpsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const float* v4, float* v5, const int* v6) const;
 };
 
-struct strmv
+template <>
+struct BlasInterface <OpenBLAS, strmv>
 {
-    static std::string name() { return "strmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const float* v4, const int* v5, float* v6, const int* v7) const;
 };
 
-struct strsv
+template <>
+struct BlasInterface <OpenBLAS, strsv>
 {
-    static std::string name() { return "strsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const float* v4, const int* v5, float* v6, const int* v7) const;
 };
 
-struct sgem2vu
+template <>
+struct BlasInterface <OpenBLAS, sgem2vu>
 {
-    static std::string name() { return "sgem2vu"; }
+    void operator() (const int* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, const float* v7, const int* v8, const float* v9, float* v10, const int* v11, float* v12, const int* v13) const;
 };
 
-struct cgbmv
+template <>
+struct BlasInterface <OpenBLAS, cgbmv>
 {
-    static std::string name() { return "cgbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
 };
 
-struct cgemv
+template <>
+struct BlasInterface <OpenBLAS, cgemv>
 {
-    static std::string name() { return "cgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<float>* v3, const std::complex<float>* v4, const int* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, std::complex<float>* v9, const int* v10) const;
 };
 
-struct cgerc
+template <>
+struct BlasInterface <OpenBLAS, cgerc>
 {
-    static std::string name() { return "cgerc"; }
+    void operator() (const int* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct cgeru
+template <>
+struct BlasInterface <OpenBLAS, cgeru>
 {
-    static std::string name() { return "cgeru"; }
+    void operator() (const int* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct chbmv
+template <>
+struct BlasInterface <OpenBLAS, chbmv>
 {
-    static std::string name() { return "chbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<float>* v3, const std::complex<float>* v4, const int* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, std::complex<float>* v9, const int* v10) const;
 };
 
-struct chemv
+template <>
+struct BlasInterface <OpenBLAS, chemv>
 {
-    static std::string name() { return "chemv"; }
+    void operator() (const char* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, std::complex<float>* v8, const int* v9) const;
 };
 
-struct cher
+template <>
+struct BlasInterface <OpenBLAS, cher>
 {
-    static std::string name() { return "cher"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const std::complex<float>* v3, const int* v4, std::complex<float>* v5, const int* v6) const;
 };
 
-struct cher2
+template <>
+struct BlasInterface <OpenBLAS, cher2>
 {
-    static std::string name() { return "cher2"; }
+    void operator() (const char* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct chpmv
+template <>
+struct BlasInterface <OpenBLAS, chpmv>
 {
-    static std::string name() { return "chpmv"; }
+    void operator() (const char* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const std::complex<float>* v4, const int* v5, const std::complex<float>* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct chpr
+template <>
+struct BlasInterface <OpenBLAS, chpr>
 {
-    static std::string name() { return "chpr"; }
+    void operator() (const char* v0, const int* v1, const float* v2, const std::complex<float>* v3, const int* v4, std::complex<float>* v5) const;
 };
 
-struct chpr2
+template <>
+struct BlasInterface <OpenBLAS, chpr2>
 {
-    static std::string name() { return "chpr2"; }
+    void operator() (const char* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7) const;
 };
 
-struct ctbmv
+template <>
+struct BlasInterface <OpenBLAS, ctbmv>
 {
-    static std::string name() { return "ctbmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct ctbsv
+template <>
+struct BlasInterface <OpenBLAS, ctbsv>
 {
-    static std::string name() { return "ctbsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const std::complex<float>* v5, const int* v6, std::complex<float>* v7, const int* v8) const;
 };
 
-struct ctpmv
+template <>
+struct BlasInterface <OpenBLAS, ctpmv>
 {
-    static std::string name() { return "ctpmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<float>* v4, std::complex<float>* v5, const int* v6) const;
 };
 
-struct ctpsv
+template <>
+struct BlasInterface <OpenBLAS, ctpsv>
 {
-    static std::string name() { return "ctpsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<float>* v4, std::complex<float>* v5, const int* v6) const;
 };
 
-struct ctrmv
+template <>
+struct BlasInterface <OpenBLAS, ctrmv>
 {
-    static std::string name() { return "ctrmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<float>* v4, const int* v5, std::complex<float>* v6, const int* v7) const;
 };
 
-struct ctrsv
+template <>
+struct BlasInterface <OpenBLAS, ctrsv>
 {
-    static std::string name() { return "ctrsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<float>* v4, const int* v5, std::complex<float>* v6, const int* v7) const;
 };
 
-struct cgem2vc
+template <>
+struct BlasInterface <OpenBLAS, cgem2vc>
 {
-    static std::string name() { return "cgem2vc"; }
+    void operator() (const int* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11, std::complex<float>* v12, const int* v13) const;
 };
 
-struct scgemv
+template <>
+struct BlasInterface <OpenBLAS, scgemv>
 {
-    static std::string name() { return "scgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<float>* v3, const float* v4, const int* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, std::complex<float>* v9, const int* v10) const;
 };
 
-struct dgbmv
+template <>
+struct BlasInterface <OpenBLAS, dgbmv>
 {
-    static std::string name() { return "dgbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const double* v5, const double* v6, const int* v7, const double* v8, const int* v9, const double* v10, double* v11, const int* v12) const;
 };
 
-struct dgemv
+template <>
+struct BlasInterface <OpenBLAS, dgemv>
 {
-    static std::string name() { return "dgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const double* v3, const double* v4, const int* v5, const double* v6, const int* v7, const double* v8, double* v9, const int* v10) const;
 };
 
-struct dger
+template <>
+struct BlasInterface <OpenBLAS, dger>
 {
-    static std::string name() { return "dger"; }
+    void operator() (const int* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, double* v7, const int* v8) const;
 };
 
-struct dsbmv
+template <>
+struct BlasInterface <OpenBLAS, dsbmv>
 {
-    static std::string name() { return "dsbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const double* v3, const double* v4, const int* v5, const double* v6, const int* v7, const double* v8, double* v9, const int* v10) const;
 };
 
-struct dspmv
+template <>
+struct BlasInterface <OpenBLAS, dspmv>
 {
-    static std::string name() { return "dspmv"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const double* v4, const int* v5, const double* v6, double* v7, const int* v8) const;
 };
 
-struct dspr
+template <>
+struct BlasInterface <OpenBLAS, dspr>
 {
-    static std::string name() { return "dspr"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const int* v4, double* v5) const;
 };
 
-struct dspr2
+template <>
+struct BlasInterface <OpenBLAS, dspr2>
 {
-    static std::string name() { return "dspr2"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, double* v7) const;
 };
 
-struct dsymv
+template <>
+struct BlasInterface <OpenBLAS, dsymv>
 {
-    static std::string name() { return "dsymv"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, const double* v7, double* v8, const int* v9) const;
 };
 
-struct dsyr
+template <>
+struct BlasInterface <OpenBLAS, dsyr>
 {
-    static std::string name() { return "dsyr"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const int* v4, double* v5, const int* v6) const;
 };
 
-struct dsyr2
+template <>
+struct BlasInterface <OpenBLAS, dsyr2>
 {
-    static std::string name() { return "dsyr2"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, double* v7, const int* v8) const;
 };
 
-struct dtbmv
+template <>
+struct BlasInterface <OpenBLAS, dtbmv>
 {
-    static std::string name() { return "dtbmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const double* v5, const int* v6, double* v7, const int* v8) const;
 };
 
-struct dtbsv
+template <>
+struct BlasInterface <OpenBLAS, dtbsv>
 {
-    static std::string name() { return "dtbsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const double* v5, const int* v6, double* v7, const int* v8) const;
 };
 
-struct dtpmv
+template <>
+struct BlasInterface <OpenBLAS, dtpmv>
 {
-    static std::string name() { return "dtpmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, double* v5, const int* v6) const;
 };
 
-struct dtpsv
+template <>
+struct BlasInterface <OpenBLAS, dtpsv>
 {
-    static std::string name() { return "dtpsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, double* v5, const int* v6) const;
 };
 
-struct dtrmv
+template <>
+struct BlasInterface <OpenBLAS, dtrmv>
 {
-    static std::string name() { return "dtrmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, const int* v5, double* v6, const int* v7) const;
 };
 
-struct dtrsv
+template <>
+struct BlasInterface <OpenBLAS, dtrsv>
 {
-    static std::string name() { return "dtrsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, const int* v5, double* v6, const int* v7) const;
 };
 
-struct dgem2vu
+template <>
+struct BlasInterface <OpenBLAS, dgem2vu>
 {
-    static std::string name() { return "dgem2vu"; }
+    void operator() (const int* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, const double* v7, const int* v8, const double* v9, double* v10, const int* v11, double* v12, const int* v13) const;
 };
 
-struct zgbmv
+template <>
+struct BlasInterface <OpenBLAS, zgbmv>
 {
-    static std::string name() { return "zgbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
 };
 
-struct zgemv
+template <>
+struct BlasInterface <OpenBLAS, zgemv>
 {
-    static std::string name() { return "zgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<double>* v3, const std::complex<double>* v4, const int* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, std::complex<double>* v9, const int* v10) const;
 };
 
-struct zgerc
+template <>
+struct BlasInterface <OpenBLAS, zgerc>
 {
-    static std::string name() { return "zgerc"; }
+    void operator() (const int* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct zgeru
+template <>
+struct BlasInterface <OpenBLAS, zgeru>
 {
-    static std::string name() { return "zgeru"; }
+    void operator() (const int* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct zhbmv
+template <>
+struct BlasInterface <OpenBLAS, zhbmv>
 {
-    static std::string name() { return "zhbmv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<double>* v3, const std::complex<double>* v4, const int* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, std::complex<double>* v9, const int* v10) const;
 };
 
-struct zhemv
+template <>
+struct BlasInterface <OpenBLAS, zhemv>
 {
-    static std::string name() { return "zhemv"; }
+    void operator() (const char* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, std::complex<double>* v8, const int* v9) const;
 };
 
-struct zher
+template <>
+struct BlasInterface <OpenBLAS, zher>
 {
-    static std::string name() { return "zher"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const std::complex<double>* v3, const int* v4, std::complex<double>* v5, const int* v6) const;
 };
 
-struct zher2
+template <>
+struct BlasInterface <OpenBLAS, zher2>
 {
-    static std::string name() { return "zher2"; }
+    void operator() (const char* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct zhpmv
+template <>
+struct BlasInterface <OpenBLAS, zhpmv>
 {
-    static std::string name() { return "zhpmv"; }
+    void operator() (const char* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const std::complex<double>* v4, const int* v5, const std::complex<double>* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct zhpr
+template <>
+struct BlasInterface <OpenBLAS, zhpr>
 {
-    static std::string name() { return "zhpr"; }
+    void operator() (const char* v0, const int* v1, const double* v2, const std::complex<double>* v3, const int* v4, std::complex<double>* v5) const;
 };
 
-struct zhpr2
+template <>
+struct BlasInterface <OpenBLAS, zhpr2>
 {
-    static std::string name() { return "zhpr2"; }
+    void operator() (const char* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7) const;
 };
 
-struct ztbmv
+template <>
+struct BlasInterface <OpenBLAS, ztbmv>
 {
-    static std::string name() { return "ztbmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct ztbsv
+template <>
+struct BlasInterface <OpenBLAS, ztbsv>
 {
-    static std::string name() { return "ztbsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const int* v4, const std::complex<double>* v5, const int* v6, std::complex<double>* v7, const int* v8) const;
 };
 
-struct ztpmv
+template <>
+struct BlasInterface <OpenBLAS, ztpmv>
 {
-    static std::string name() { return "ztpmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<double>* v4, std::complex<double>* v5, const int* v6) const;
 };
 
-struct ztpsv
+template <>
+struct BlasInterface <OpenBLAS, ztpsv>
 {
-    static std::string name() { return "ztpsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<double>* v4, std::complex<double>* v5, const int* v6) const;
 };
 
-struct ztrmv
+template <>
+struct BlasInterface <OpenBLAS, ztrmv>
 {
-    static std::string name() { return "ztrmv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<double>* v4, const int* v5, std::complex<double>* v6, const int* v7) const;
 };
 
-struct ztrsv
+template <>
+struct BlasInterface <OpenBLAS, ztrsv>
 {
-    static std::string name() { return "ztrsv"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const std::complex<double>* v4, const int* v5, std::complex<double>* v6, const int* v7) const;
 };
 
-struct zgem2vc
+template <>
+struct BlasInterface <OpenBLAS, zgem2vc>
 {
-    static std::string name() { return "zgem2vc"; }
+    void operator() (const int* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11, std::complex<double>* v12, const int* v13) const;
 };
 
-struct dzgemv
+template <>
+struct BlasInterface <OpenBLAS, dzgemv>
 {
-    static std::string name() { return "dzgemv"; }
+    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<double>* v3, const double* v4, const int* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, std::complex<double>* v9, const int* v10) const;
 };
 
-struct sgemm
+template <>
+struct BlasInterface <OpenBLAS, sgemm>
 {
-    static std::string name() { return "sgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const float* v5, const float* v6, const int* v7, const float* v8, const int* v9, const float* v10, float* v11, const int* v12) const;
 };
 
-struct ssymm
+template <>
+struct BlasInterface <OpenBLAS, ssymm>
 {
-    static std::string name() { return "ssymm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const float* v4, const float* v5, const int* v6, const float* v7, const int* v8, const float* v9, float* v10, const int* v11) const;
 };
 
-struct ssyr2k
+template <>
+struct BlasInterface <OpenBLAS, ssyr2k>
 {
-    static std::string name() { return "ssyr2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const float* v4, const float* v5, const int* v6, const float* v7, const int* v8, const float* v9, float* v10, const int* v11) const;
 };
 
-struct ssyrk
+template <>
+struct BlasInterface <OpenBLAS, ssyrk>
 {
-    static std::string name() { return "ssyrk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const float* v4, const float* v5, const int* v6, const float* v7, float* v8, const int* v9) const;
 };
 
-struct strmm
+template <>
+struct BlasInterface <OpenBLAS, strmm>
 {
-    static std::string name() { return "strmm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const float* v6, const float* v7, const int* v8, float* v9, const int* v10) const;
 };
 
-struct strsm
+template <>
+struct BlasInterface <OpenBLAS, strsm>
 {
-    static std::string name() { return "strsm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const float* v6, const float* v7, const int* v8, float* v9, const int* v10) const;
 };
 
-struct cgemm
+template <>
+struct BlasInterface <OpenBLAS, cgemm>
 {
-    static std::string name() { return "cgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
 };
 
-struct scgemm
+template <>
+struct BlasInterface <OpenBLAS, scgemm>
 {
-    static std::string name() { return "scgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const float* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
 };
 
-struct cgemm3m
+template <>
+struct BlasInterface <OpenBLAS, cgemm3m>
 {
-    static std::string name() { return "cgemm3m"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
 };
 
-struct chemm
+template <>
+struct BlasInterface <OpenBLAS, chemm>
 {
-    static std::string name() { return "chemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<float>* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11) const;
 };
 
-struct cher2k
+template <>
+struct BlasInterface <OpenBLAS, cher2k>
 {
-    static std::string name() { return "cher2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<float>* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const float* v9, std::complex<float>* v10, const int* v11) const;
 };
 
-struct cherk
+template <>
+struct BlasInterface <OpenBLAS, cherk>
 {
-    static std::string name() { return "cherk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const float* v4, const std::complex<float>* v5, const int* v6, const float* v7, std::complex<float>* v8, const int* v9) const;
 };
 
-struct csymm
+template <>
+struct BlasInterface <OpenBLAS, csymm>
 {
-    static std::string name() { return "csymm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<float>* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11) const;
 };
 
-struct csyr2k
+template <>
+struct BlasInterface <OpenBLAS, csyr2k>
 {
-    static std::string name() { return "csyr2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<float>* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11) const;
 };
 
-struct csyrk
+template <>
+struct BlasInterface <OpenBLAS, csyrk>
 {
-    static std::string name() { return "csyrk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<float>* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, std::complex<float>* v8, const int* v9) const;
 };
 
-struct ctrmm
+template <>
+struct BlasInterface <OpenBLAS, ctrmm>
 {
-    static std::string name() { return "ctrmm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const std::complex<float>* v6, const std::complex<float>* v7, const int* v8, std::complex<float>* v9, const int* v10) const;
 };
 
-struct ctrsm
+template <>
+struct BlasInterface <OpenBLAS, ctrsm>
 {
-    static std::string name() { return "ctrsm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const std::complex<float>* v6, const std::complex<float>* v7, const int* v8, std::complex<float>* v9, const int* v10) const;
 };
 
-struct dgemm
+template <>
+struct BlasInterface <OpenBLAS, dgemm>
 {
-    static std::string name() { return "dgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const double* v5, const double* v6, const int* v7, const double* v8, const int* v9, const double* v10, double* v11, const int* v12) const;
 };
 
-struct dsymm
+template <>
+struct BlasInterface <OpenBLAS, dsymm>
 {
-    static std::string name() { return "dsymm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const double* v4, const double* v5, const int* v6, const double* v7, const int* v8, const double* v9, double* v10, const int* v11) const;
 };
 
-struct dsyr2k
+template <>
+struct BlasInterface <OpenBLAS, dsyr2k>
 {
-    static std::string name() { return "dsyr2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const double* v4, const double* v5, const int* v6, const double* v7, const int* v8, const double* v9, double* v10, const int* v11) const;
 };
 
-struct dsyrk
+template <>
+struct BlasInterface <OpenBLAS, dsyrk>
 {
-    static std::string name() { return "dsyrk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const double* v4, const double* v5, const int* v6, const double* v7, double* v8, const int* v9) const;
 };
 
-struct dtrmm
+template <>
+struct BlasInterface <OpenBLAS, dtrmm>
 {
-    static std::string name() { return "dtrmm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const double* v6, const double* v7, const int* v8, double* v9, const int* v10) const;
 };
 
-struct dtrsm
+template <>
+struct BlasInterface <OpenBLAS, dtrsm>
 {
-    static std::string name() { return "dtrsm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const double* v6, const double* v7, const int* v8, double* v9, const int* v10) const;
 };
 
-struct zgemm
+template <>
+struct BlasInterface <OpenBLAS, zgemm>
 {
-    static std::string name() { return "zgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
 };
 
-struct dzgemm
+template <>
+struct BlasInterface <OpenBLAS, dzgemm>
 {
-    static std::string name() { return "dzgemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const double* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
 };
 
-struct zgemm3m
+template <>
+struct BlasInterface <OpenBLAS, zgemm3m>
 {
-    static std::string name() { return "zgemm3m"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
 };
 
-struct zhemm
+template <>
+struct BlasInterface <OpenBLAS, zhemm>
 {
-    static std::string name() { return "zhemm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<double>* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11) const;
 };
 
-struct zher2k
+template <>
+struct BlasInterface <OpenBLAS, zher2k>
 {
-    static std::string name() { return "zher2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<double>* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const double* v9, std::complex<double>* v10, const int* v11) const;
 };
 
-struct zherk
+template <>
+struct BlasInterface <OpenBLAS, zherk>
 {
-    static std::string name() { return "zherk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const double* v4, const std::complex<double>* v5, const int* v6, const double* v7, std::complex<double>* v8, const int* v9) const;
 };
 
-struct zsymm
+template <>
+struct BlasInterface <OpenBLAS, zsymm>
 {
-    static std::string name() { return "zsymm"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<double>* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11) const;
 };
 
-struct zsyr2k
+template <>
+struct BlasInterface <OpenBLAS, zsyr2k>
 {
-    static std::string name() { return "zsyr2k"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<double>* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11) const;
 };
 
-struct zsyrk
+template <>
+struct BlasInterface <OpenBLAS, zsyrk>
 {
-    static std::string name() { return "zsyrk"; }
+    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const std::complex<double>* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, std::complex<double>* v8, const int* v9) const;
 };
 
-struct ztrmm
+template <>
+struct BlasInterface <OpenBLAS, ztrmm>
 {
-    static std::string name() { return "ztrmm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const std::complex<double>* v6, const std::complex<double>* v7, const int* v8, std::complex<double>* v9, const int* v10) const;
 };
 
-struct ztrsm
+template <>
+struct BlasInterface <OpenBLAS, ztrsm>
 {
-    static std::string name() { return "ztrsm"; }
+    void operator() (const char* v0, const char* v1, const char* v2, const char* v3, const int* v4, const int* v5, const std::complex<double>* v6, const std::complex<double>* v7, const int* v8, std::complex<double>* v9, const int* v10) const;
 };
-
-void openblas_set_num_threads(int nbThreads);
-
-float BlasInterface <OpenBlas, scabs1>::operator() (
-    const std::complex<float> v0) const;
-
-float BlasInterface <OpenBlas, sasum>::operator() (
-    const int v0, const float v1, const int v2) const;
-
-void BlasInterface <OpenBlas, saxpy>::operator() (
-    const int v0, const float v1, const float v2, const int v3, float v4, const int v5) const;
-
-void BlasInterface <OpenBlas, saxpby>::operator() (
-    const int v0, const float v1, const float v2, const int v3, const float v4, float v5, const int v6) const;
-
-void BlasInterface <OpenBlas, saxpyi>::operator() (
-    const int v0, const float v1, const float v2, const int v3, float v4) const;
-
-float BlasInterface <OpenBlas, scasum>::operator() (
-    const int v0, const std::complex<float> v1, const int v2) const;
-
-float BlasInterface <OpenBlas, scnrm2>::operator() (
-    const int v0, const std::complex<float> v1, const int v2) const;
-
-void BlasInterface <OpenBlas, scopy>::operator() (
-    const int v0, const float v1, const int v2, float v3, const int v4) const;
-
-float BlasInterface <OpenBlas, sdot>::operator() (
-    const int v0, const float v1, const int v2, const float v3, const int v4) const;
-
-float BlasInterface <OpenBlas, sdoti>::operator() (
-    const int v0, const float v1, const int v2, const float v3) const;
-
-float BlasInterface <OpenBlas, sdsdot>::operator() (
-    const int v0, const float v1, const float v2, const int v3, const float v4, const int v5) const;
-
-void BlasInterface <OpenBlas, sgthr>::operator() (
-    const int v0, const float v1, float v2, const int v3) const;
-
-void BlasInterface <OpenBlas, sgthrz>::operator() (
-    const int v0, float v1, float v2, const int v3) const;
-
-float BlasInterface <OpenBlas, snrm2>::operator() (
-    const int v0, const float v1, const int v2) const;
-
-void BlasInterface <OpenBlas, srot>::operator() (
-    const int v0, float v1, const int v2, float v3, const int v4, const float v5, const float v6) const;
-
-void BlasInterface <OpenBlas, srotg>::operator() (
-    float v0, float v1, float v2, float v3) const;
-
-void BlasInterface <OpenBlas, sroti>::operator() (
-    const int v0, float v1, const int v2, float v3, const float v4, const float v5) const;
-
-void BlasInterface <OpenBlas, srotm>::operator() (
-    const int v0, float v1, const int v2, float v3, const int v4, const float v5) const;
-
-void BlasInterface <OpenBlas, srotmg>::operator() (
-    float v0, float v1, float v2, const float v3, float v4) const;
-
-void BlasInterface <OpenBlas, sscal>::operator() (
-    const int v0, const float v1, float v2, const int v3) const;
-
-void BlasInterface <OpenBlas, ssctr>::operator() (
-    const int v0, const float v1, const int v2, float v3) const;
-
-void BlasInterface <OpenBlas, sswap>::operator() (
-    const int v0, float v1, const int v2, float v3, const int v4) const;
-
-int BlasInterface <OpenBlas, isamax>::operator() (
-    const int v0, const float v1, const int v2) const;
-
-int BlasInterface <OpenBlas, isamin>::operator() (
-    const int v0, const float v1, const int v2) const;
-
-void BlasInterface <OpenBlas, caxpy>::operator() (
-    const int v0, const std::complex<float> v1, const std::complex<float> v2, const int v3, std::complex<float> v4, const int v5) const;
-
-void BlasInterface <OpenBlas, caxpby>::operator() (
-    const int v0, const std::complex<float> v1, const std::complex<float> v2, const int v3, const std::complex<float> v4, std::complex<float> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, caxpyi>::operator() (
-    const int v0, const std::complex<float> v1, const std::complex<float> v2, const int v3, std::complex<float> v4) const;
-
-void BlasInterface <OpenBlas, ccopy>::operator() (
-    const int v0, const std::complex<float> v1, const int v2, std::complex<float> v3, const int v4) const;
-
-void BlasInterface <OpenBlas, cgthr>::operator() (
-    const int v0, const std::complex<float> v1, std::complex<float> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, cgthrz>::operator() (
-    const int v0, std::complex<float> v1, std::complex<float> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, crotg>::operator() (
-    std::complex<float> v0, const std::complex<float> v1, float v2, std::complex<float> v3) const;
-
-void BlasInterface <OpenBlas, cscal>::operator() (
-    const int v0, const std::complex<float> v1, std::complex<float> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, csctr>::operator() (
-    const int v0, const std::complex<float> v1, const int v2, std::complex<float> v3) const;
-
-void BlasInterface <OpenBlas, csrot>::operator() (
-    const int v0, std::complex<float> v1, const int v2, std::complex<float> v3, const int v4, const float v5, const float v6) const;
-
-void BlasInterface <OpenBlas, csscal>::operator() (
-    const int v0, const float v1, std::complex<float> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, cswap>::operator() (
-    const int v0, std::complex<float> v1, const int v2, std::complex<float> v3, const int v4) const;
-
-int BlasInterface <OpenBlas, icamax>::operator() (
-    const int v0, const std::complex<float> v1, const int v2) const;
-
-int BlasInterface <OpenBlas, icamin>::operator() (
-    const int v0, const std::complex<float> v1, const int v2) const;
-
-double BlasInterface <OpenBlas, dcabs1>::operator() (
-    const std::complex<double> v0) const;
-
-double BlasInterface <OpenBlas, dasum>::operator() (
-    const int v0, const double v1, const int v2) const;
-
-void BlasInterface <OpenBlas, daxpy>::operator() (
-    const int v0, const double v1, const double v2, const int v3, double v4, const int v5) const;
-
-void BlasInterface <OpenBlas, daxpby>::operator() (
-    const int v0, const double v1, const double v2, const int v3, const double v4, double v5, const int v6) const;
-
-void BlasInterface <OpenBlas, daxpyi>::operator() (
-    const int v0, const double v1, const double v2, const int v3, double v4) const;
-
-void BlasInterface <OpenBlas, dcopy>::operator() (
-    const int v0, const double v1, const int v2, double v3, const int v4) const;
-
-double BlasInterface <OpenBlas, ddot>::operator() (
-    const int v0, const double v1, const int v2, const double v3, const int v4) const;
-
-double BlasInterface <OpenBlas, dsdot>::operator() (
-    const int v0, const float v1, const int v2, const float v3, const int v4) const;
-
-double BlasInterface <OpenBlas, ddoti>::operator() (
-    const int v0, const double v1, const int v2, const double v3) const;
-
-void BlasInterface <OpenBlas, dgthr>::operator() (
-    const int v0, const double v1, double v2, const int v3) const;
-
-void BlasInterface <OpenBlas, dgthrz>::operator() (
-    const int v0, double v1, double v2, const int v3) const;
-
-double BlasInterface <OpenBlas, dnrm2>::operator() (
-    const int v0, const double v1, const int v2) const;
-
-void BlasInterface <OpenBlas, drot>::operator() (
-    const int v0, double v1, const int v2, double v3, const int v4, const double v5, const double v6) const;
-
-void BlasInterface <OpenBlas, drotg>::operator() (
-    double v0, double v1, double v2, double v3) const;
-
-void BlasInterface <OpenBlas, droti>::operator() (
-    const int v0, double v1, const int v2, double v3, const double v4, const double v5) const;
-
-void BlasInterface <OpenBlas, drotm>::operator() (
-    const int v0, double v1, const int v2, double v3, const int v4, const double v5) const;
-
-void BlasInterface <OpenBlas, drotmg>::operator() (
-    double v0, double v1, double v2, const double v3, double v4) const;
-
-void BlasInterface <OpenBlas, dscal>::operator() (
-    const int v0, const double v1, double v2, const int v3) const;
-
-void BlasInterface <OpenBlas, dsctr>::operator() (
-    const int v0, const double v1, const int v2, double v3) const;
-
-void BlasInterface <OpenBlas, dswap>::operator() (
-    const int v0, double v1, const int v2, double v3, const int v4) const;
-
-double BlasInterface <OpenBlas, dzasum>::operator() (
-    const int v0, const std::complex<double> v1, const int v2) const;
-
-double BlasInterface <OpenBlas, dznrm2>::operator() (
-    const int v0, const std::complex<double> v1, const int v2) const;
-
-int BlasInterface <OpenBlas, idamax>::operator() (
-    const int v0, const double v1, const int v2) const;
-
-int BlasInterface <OpenBlas, idamin>::operator() (
-    const int v0, const double v1, const int v2) const;
-
-void BlasInterface <OpenBlas, zaxpy>::operator() (
-    const int v0, const std::complex<double> v1, const std::complex<double> v2, const int v3, std::complex<double> v4, const int v5) const;
-
-void BlasInterface <OpenBlas, zaxpby>::operator() (
-    const int v0, const std::complex<double> v1, const std::complex<double> v2, const int v3, const std::complex<double> v4, std::complex<double> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, zaxpyi>::operator() (
-    const int v0, const std::complex<double> v1, const std::complex<double> v2, const int v3, std::complex<double> v4) const;
-
-void BlasInterface <OpenBlas, zcopy>::operator() (
-    const int v0, const std::complex<double> v1, const int v2, std::complex<double> v3, const int v4) const;
-
-void BlasInterface <OpenBlas, zdrot>::operator() (
-    const int v0, std::complex<double> v1, const int v2, std::complex<double> v3, const int v4, const double v5, const double v6) const;
-
-void BlasInterface <OpenBlas, zdscal>::operator() (
-    const int v0, const double v1, std::complex<double> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, zgthr>::operator() (
-    const int v0, const std::complex<double> v1, std::complex<double> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, zgthrz>::operator() (
-    const int v0, std::complex<double> v1, std::complex<double> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, zrotg>::operator() (
-    std::complex<double> v0, const std::complex<double> v1, double v2, std::complex<double> v3) const;
-
-void BlasInterface <OpenBlas, zscal>::operator() (
-    const int v0, const std::complex<double> v1, std::complex<double> v2, const int v3) const;
-
-void BlasInterface <OpenBlas, zsctr>::operator() (
-    const int v0, const std::complex<double> v1, const int v2, std::complex<double> v3) const;
-
-void BlasInterface <OpenBlas, zswap>::operator() (
-    const int v0, std::complex<double> v1, const int v2, std::complex<double> v3, const int v4) const;
-
-int BlasInterface <OpenBlas, izamax>::operator() (
-    const int v0, const std::complex<double> v1, const int v2) const;
-
-int BlasInterface <OpenBlas, izamin>::operator() (
-    const int v0, const std::complex<double> v1, const int v2) const;
-
-void BlasInterface <OpenBlas, sgbmv>::operator() (
-    const char v0, const int v1, const int v2, const int v3, const int v4, const float v5, const float v6, const int v7, const float v8, const int v9, const float v10, float v11, const int v12) const;
-
-void BlasInterface <OpenBlas, sgemv>::operator() (
-    const char v0, const int v1, const int v2, const float v3, const float v4, const int v5, const float v6, const int v7, const float v8, float v9, const int v10) const;
-
-void BlasInterface <OpenBlas, sger>::operator() (
-    const int v0, const int v1, const float v2, const float v3, const int v4, const float v5, const int v6, float v7, const int v8) const;
-
-void BlasInterface <OpenBlas, ssbmv>::operator() (
-    const char v0, const int v1, const int v2, const float v3, const float v4, const int v5, const float v6, const int v7, const float v8, float v9, const int v10) const;
-
-void BlasInterface <OpenBlas, sspmv>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const float v4, const int v5, const float v6, float v7, const int v8) const;
-
-void BlasInterface <OpenBlas, sspr>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const int v4, float v5) const;
-
-void BlasInterface <OpenBlas, sspr2>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const int v4, const float v5, const int v6, float v7) const;
-
-void BlasInterface <OpenBlas, ssymv>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const int v4, const float v5, const int v6, const float v7, float v8, const int v9) const;
-
-void BlasInterface <OpenBlas, ssyr>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const int v4, float v5, const int v6) const;
-
-void BlasInterface <OpenBlas, ssyr2>::operator() (
-    const char v0, const int v1, const float v2, const float v3, const int v4, const float v5, const int v6, float v7, const int v8) const;
-
-void BlasInterface <OpenBlas, stbmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const float v5, const int v6, float v7, const int v8) const;
-
-void BlasInterface <OpenBlas, stbsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const float v5, const int v6, float v7, const int v8) const;
-
-void BlasInterface <OpenBlas, stpmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const float v4, float v5, const int v6) const;
-
-void BlasInterface <OpenBlas, stpsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const float v4, float v5, const int v6) const;
-
-void BlasInterface <OpenBlas, strmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const float v4, const int v5, float v6, const int v7) const;
-
-void BlasInterface <OpenBlas, strsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const float v4, const int v5, float v6, const int v7) const;
-
-void BlasInterface <OpenBlas, sgem2vu>::operator() (
-    const int v0, const int v1, const float v2, const float v3, const int v4, const float v5, const int v6, const float v7, const int v8, const float v9, float v10, const int v11, float v12, const int v13) const;
-
-void BlasInterface <OpenBlas, cgbmv>::operator() (
-    const char v0, const int v1, const int v2, const int v3, const int v4, const std::complex<float> v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, const int v9, const std::complex<float> v10, std::complex<float> v11, const int v12) const;
 
-void BlasInterface <OpenBlas, cgemv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<float> v3, const std::complex<float> v4, const int v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, std::complex<float> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, cgerc>::operator() (
-    const int v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, cgeru>::operator() (
-    const int v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, chbmv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<float> v3, const std::complex<float> v4, const int v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, std::complex<float> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, chemv>::operator() (
-    const char v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, std::complex<float> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, cher>::operator() (
-    const char v0, const int v1, const float v2, const std::complex<float> v3, const int v4, std::complex<float> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, cher2>::operator() (
-    const char v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, chpmv>::operator() (
-    const char v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const std::complex<float> v4, const int v5, const std::complex<float> v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, chpr>::operator() (
-    const char v0, const int v1, const float v2, const std::complex<float> v3, const int v4, std::complex<float> v5) const;
-
-void BlasInterface <OpenBlas, chpr2>::operator() (
-    const char v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7) const;
-
-void BlasInterface <OpenBlas, ctbmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, ctbsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const std::complex<float> v5, const int v6, std::complex<float> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, ctpmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<float> v4, std::complex<float> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, ctpsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<float> v4, std::complex<float> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, ctrmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<float> v4, const int v5, std::complex<float> v6, const int v7) const;
-
-void BlasInterface <OpenBlas, ctrsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<float> v4, const int v5, std::complex<float> v6, const int v7) const;
-
-void BlasInterface <OpenBlas, cgem2vc>::operator() (
-    const int v0, const int v1, const std::complex<float> v2, const std::complex<float> v3, const int v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, const int v8, const std::complex<float> v9, std::complex<float> v10, const int v11, std::complex<float> v12, const int v13) const;
-
-void BlasInterface <OpenBlas, scgemv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<float> v3, const float v4, const int v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, std::complex<float> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, dgbmv>::operator() (
-    const char v0, const int v1, const int v2, const int v3, const int v4, const double v5, const double v6, const int v7, const double v8, const int v9, const double v10, double v11, const int v12) const;
-
-void BlasInterface <OpenBlas, dgemv>::operator() (
-    const char v0, const int v1, const int v2, const double v3, const double v4, const int v5, const double v6, const int v7, const double v8, double v9, const int v10) const;
-
-void BlasInterface <OpenBlas, dger>::operator() (
-    const int v0, const int v1, const double v2, const double v3, const int v4, const double v5, const int v6, double v7, const int v8) const;
-
-void BlasInterface <OpenBlas, dsbmv>::operator() (
-    const char v0, const int v1, const int v2, const double v3, const double v4, const int v5, const double v6, const int v7, const double v8, double v9, const int v10) const;
-
-void BlasInterface <OpenBlas, dspmv>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const double v4, const int v5, const double v6, double v7, const int v8) const;
-
-void BlasInterface <OpenBlas, dspr>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const int v4, double v5) const;
-
-void BlasInterface <OpenBlas, dspr2>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const int v4, const double v5, const int v6, double v7) const;
-
-void BlasInterface <OpenBlas, dsymv>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const int v4, const double v5, const int v6, const double v7, double v8, const int v9) const;
-
-void BlasInterface <OpenBlas, dsyr>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const int v4, double v5, const int v6) const;
-
-void BlasInterface <OpenBlas, dsyr2>::operator() (
-    const char v0, const int v1, const double v2, const double v3, const int v4, const double v5, const int v6, double v7, const int v8) const;
-
-void BlasInterface <OpenBlas, dtbmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const double v5, const int v6, double v7, const int v8) const;
-
-void BlasInterface <OpenBlas, dtbsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const double v5, const int v6, double v7, const int v8) const;
-
-void BlasInterface <OpenBlas, dtpmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const double v4, double v5, const int v6) const;
-
-void BlasInterface <OpenBlas, dtpsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const double v4, double v5, const int v6) const;
-
-void BlasInterface <OpenBlas, dtrmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const double v4, const int v5, double v6, const int v7) const;
-
-void BlasInterface <OpenBlas, dtrsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const double v4, const int v5, double v6, const int v7) const;
-
-void BlasInterface <OpenBlas, dgem2vu>::operator() (
-    const int v0, const int v1, const double v2, const double v3, const int v4, const double v5, const int v6, const double v7, const int v8, const double v9, double v10, const int v11, double v12, const int v13) const;
-
-void BlasInterface <OpenBlas, zgbmv>::operator() (
-    const char v0, const int v1, const int v2, const int v3, const int v4, const std::complex<double> v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, const int v9, const std::complex<double> v10, std::complex<double> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, zgemv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<double> v3, const std::complex<double> v4, const int v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, std::complex<double> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, zgerc>::operator() (
-    const int v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, zgeru>::operator() (
-    const int v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, zhbmv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<double> v3, const std::complex<double> v4, const int v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, std::complex<double> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, zhemv>::operator() (
-    const char v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, std::complex<double> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, zher>::operator() (
-    const char v0, const int v1, const double v2, const std::complex<double> v3, const int v4, std::complex<double> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, zher2>::operator() (
-    const char v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, zhpmv>::operator() (
-    const char v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const std::complex<double> v4, const int v5, const std::complex<double> v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, zhpr>::operator() (
-    const char v0, const int v1, const double v2, const std::complex<double> v3, const int v4, std::complex<double> v5) const;
-
-void BlasInterface <OpenBlas, zhpr2>::operator() (
-    const char v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7) const;
-
-void BlasInterface <OpenBlas, ztbmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, ztbsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const int v4, const std::complex<double> v5, const int v6, std::complex<double> v7, const int v8) const;
-
-void BlasInterface <OpenBlas, ztpmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<double> v4, std::complex<double> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, ztpsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<double> v4, std::complex<double> v5, const int v6) const;
-
-void BlasInterface <OpenBlas, ztrmv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<double> v4, const int v5, std::complex<double> v6, const int v7) const;
-
-void BlasInterface <OpenBlas, ztrsv>::operator() (
-    const char v0, const char v1, const char v2, const int v3, const std::complex<double> v4, const int v5, std::complex<double> v6, const int v7) const;
-
-void BlasInterface <OpenBlas, zgem2vc>::operator() (
-    const int v0, const int v1, const std::complex<double> v2, const std::complex<double> v3, const int v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, const int v8, const std::complex<double> v9, std::complex<double> v10, const int v11, std::complex<double> v12, const int v13) const;
-
-void BlasInterface <OpenBlas, dzgemv>::operator() (
-    const char v0, const int v1, const int v2, const std::complex<double> v3, const double v4, const int v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, std::complex<double> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, sgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const float v5, const float v6, const int v7, const float v8, const int v9, const float v10, float v11, const int v12) const;
-
-void BlasInterface <OpenBlas, ssymm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const float v4, const float v5, const int v6, const float v7, const int v8, const float v9, float v10, const int v11) const;
-
-void BlasInterface <OpenBlas, ssyr2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const float v4, const float v5, const int v6, const float v7, const int v8, const float v9, float v10, const int v11) const;
-
-void BlasInterface <OpenBlas, ssyrk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const float v4, const float v5, const int v6, const float v7, float v8, const int v9) const;
-
-void BlasInterface <OpenBlas, strmm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const float v6, const float v7, const int v8, float v9, const int v10) const;
-
-void BlasInterface <OpenBlas, strsm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const float v6, const float v7, const int v8, float v9, const int v10) const;
-
-void BlasInterface <OpenBlas, cgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<float> v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, const int v9, const std::complex<float> v10, std::complex<float> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, scgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<float> v5, const float v6, const int v7, const std::complex<float> v8, const int v9, const std::complex<float> v10, std::complex<float> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, cgemm3m>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<float> v5, const std::complex<float> v6, const int v7, const std::complex<float> v8, const int v9, const std::complex<float> v10, std::complex<float> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, chemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<float> v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, const int v8, const std::complex<float> v9, std::complex<float> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, cher2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<float> v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, const int v8, const float v9, std::complex<float> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, cherk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const float v4, const std::complex<float> v5, const int v6, const float v7, std::complex<float> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, csymm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<float> v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, const int v8, const std::complex<float> v9, std::complex<float> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, csyr2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<float> v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, const int v8, const std::complex<float> v9, std::complex<float> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, csyrk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<float> v4, const std::complex<float> v5, const int v6, const std::complex<float> v7, std::complex<float> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, ctrmm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const std::complex<float> v6, const std::complex<float> v7, const int v8, std::complex<float> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, ctrsm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const std::complex<float> v6, const std::complex<float> v7, const int v8, std::complex<float> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, dgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const double v5, const double v6, const int v7, const double v8, const int v9, const double v10, double v11, const int v12) const;
-
-void BlasInterface <OpenBlas, dsymm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const double v4, const double v5, const int v6, const double v7, const int v8, const double v9, double v10, const int v11) const;
-
-void BlasInterface <OpenBlas, dsyr2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const double v4, const double v5, const int v6, const double v7, const int v8, const double v9, double v10, const int v11) const;
-
-void BlasInterface <OpenBlas, dsyrk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const double v4, const double v5, const int v6, const double v7, double v8, const int v9) const;
-
-void BlasInterface <OpenBlas, dtrmm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const double v6, const double v7, const int v8, double v9, const int v10) const;
-
-void BlasInterface <OpenBlas, dtrsm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const double v6, const double v7, const int v8, double v9, const int v10) const;
-
-void BlasInterface <OpenBlas, zgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<double> v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, const int v9, const std::complex<double> v10, std::complex<double> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, dzgemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<double> v5, const double v6, const int v7, const std::complex<double> v8, const int v9, const std::complex<double> v10, std::complex<double> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, zgemm3m>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const int v4, const std::complex<double> v5, const std::complex<double> v6, const int v7, const std::complex<double> v8, const int v9, const std::complex<double> v10, std::complex<double> v11, const int v12) const;
-
-void BlasInterface <OpenBlas, zhemm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<double> v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, const int v8, const std::complex<double> v9, std::complex<double> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, zher2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<double> v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, const int v8, const double v9, std::complex<double> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, zherk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const double v4, const std::complex<double> v5, const int v6, const double v7, std::complex<double> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, zsymm>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<double> v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, const int v8, const std::complex<double> v9, std::complex<double> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, zsyr2k>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<double> v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, const int v8, const std::complex<double> v9, std::complex<double> v10, const int v11) const;
-
-void BlasInterface <OpenBlas, zsyrk>::operator() (
-    const char v0, const char v1, const int v2, const int v3, const std::complex<double> v4, const std::complex<double> v5, const int v6, const std::complex<double> v7, std::complex<double> v8, const int v9) const;
-
-void BlasInterface <OpenBlas, ztrmm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const std::complex<double> v6, const std::complex<double> v7, const int v8, std::complex<double> v9, const int v10) const;
-
-void BlasInterface <OpenBlas, ztrsm>::operator() (
-    const char v0, const char v1, const char v2, const char v3, const int v4, const int v5, const std::complex<double> v6, const std::complex<double> v7, const int v8, std::complex<double> v9, const int v10) const;
-
-std::complex<float> BlasInterface <OpenBlas, cdotc>::operator() (
-    const int v0, const std::complex<float> v1, const int v2, const std::complex<float> v3, const int v4) const;
+template <>
+struct BlasInterface <OpenBLAS, cdotc>
+{
+    std::complex<float> operator() (const int* v0, const std::complex<float>* v1, const int* v2, const std::complex<float>* v3, const int* v4) const;
+};
 
-std::complex<float> BlasInterface <OpenBlas, cdotu>::operator() (
-    const int v0, const std::complex<float> v1, const int v2, const std::complex<float> v3, const int v4) const;
+template <>
+struct BlasInterface <OpenBLAS, cdotu>
+{
+    std::complex<float> operator() (const int* v0, const std::complex<float>* v1, const int* v2, const std::complex<float>* v3, const int* v4) const;
+};
 
-std::complex<double> BlasInterface <OpenBlas, zdotc>::operator() (
-    const int v0, const std::complex<double> v1, const int v2, const std::complex<double> v3, const int v4) const;
+template <>
+struct BlasInterface <OpenBLAS, zdotc>
+{
+    std::complex<double> operator() (const int* v0, const std::complex<double>* v1, const int* v2, const std::complex<double>* v3, const int* v4) const;
+};
 
-std::complex<double> BlasInterface <OpenBlas, zdotu>::operator() (
-    const int v0, const std::complex<double> v1, const int v2, const std::complex<double> v3, const int v4) const;
+template <>
+struct BlasInterface <OpenBLAS, zdotu>
+{
+    std::complex<double> operator() (const int* v0, const std::complex<double>* v1, const int* v2, const std::complex<double>* v3, const int* v4) const;
+};
 
 } // namespace BlasBooster
