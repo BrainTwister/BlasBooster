@@ -34,12 +34,6 @@ struct BlasInterface <IntelMKL, saxpby>
 };
 
 template <>
-struct BlasInterface <IntelMKL, saxpyi>
-{
-    void operator() (const int* v0, const float* v1, const float* v2, const int* v3, float* v4) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, scasum>
 {
     float operator() (const int* v0, const std::complex<float>* v1, const int* v2) const;
@@ -64,27 +58,9 @@ struct BlasInterface <IntelMKL, sdot>
 };
 
 template <>
-struct BlasInterface <IntelMKL, sdoti>
-{
-    float operator() (const int* v0, const float* v1, const int* v2, const float* v3) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, sdsdot>
 {
     float operator() (const int* v0, const float* v1, const float* v2, const int* v3, const float* v4, const int* v5) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, sgthr>
-{
-    void operator() (const int* v0, const float* v1, float* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, sgthrz>
-{
-    void operator() (const int* v0, float* v1, float* v2, const int* v3) const;
 };
 
 template <>
@@ -106,12 +82,6 @@ struct BlasInterface <IntelMKL, srotg>
 };
 
 template <>
-struct BlasInterface <IntelMKL, sroti>
-{
-    void operator() (const int* v0, float* v1, const int* v2, float* v3, const float* v4, const float* v5) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, srotm>
 {
     void operator() (const int* v0, float* v1, const int* v2, float* v3, const int* v4, const float* v5) const;
@@ -127,12 +97,6 @@ template <>
 struct BlasInterface <IntelMKL, sscal>
 {
     void operator() (const int* v0, const float* v1, float* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, ssctr>
-{
-    void operator() (const int* v0, const float* v1, const int* v2, float* v3) const;
 };
 
 template <>
@@ -166,27 +130,9 @@ struct BlasInterface <IntelMKL, caxpby>
 };
 
 template <>
-struct BlasInterface <IntelMKL, caxpyi>
-{
-    void operator() (const int* v0, const std::complex<float>* v1, const std::complex<float>* v2, const int* v3, std::complex<float>* v4) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, ccopy>
 {
     void operator() (const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3, const int* v4) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, cgthr>
-{
-    void operator() (const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, cgthrz>
-{
-    void operator() (const int* v0, std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
 };
 
 template <>
@@ -199,12 +145,6 @@ template <>
 struct BlasInterface <IntelMKL, cscal>
 {
     void operator() (const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, csctr>
-{
-    void operator() (const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3) const;
 };
 
 template <>
@@ -262,12 +202,6 @@ struct BlasInterface <IntelMKL, daxpby>
 };
 
 template <>
-struct BlasInterface <IntelMKL, daxpyi>
-{
-    void operator() (const int* v0, const double* v1, const double* v2, const int* v3, double* v4) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, dcopy>
 {
     void operator() (const int* v0, const double* v1, const int* v2, double* v3, const int* v4) const;
@@ -283,24 +217,6 @@ template <>
 struct BlasInterface <IntelMKL, dsdot>
 {
     double operator() (const int* v0, const float* v1, const int* v2, const float* v3, const int* v4) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, ddoti>
-{
-    double operator() (const int* v0, const double* v1, const int* v2, const double* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dgthr>
-{
-    void operator() (const int* v0, const double* v1, double* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dgthrz>
-{
-    void operator() (const int* v0, double* v1, double* v2, const int* v3) const;
 };
 
 template <>
@@ -322,12 +238,6 @@ struct BlasInterface <IntelMKL, drotg>
 };
 
 template <>
-struct BlasInterface <IntelMKL, droti>
-{
-    void operator() (const int* v0, double* v1, const int* v2, double* v3, const double* v4, const double* v5) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, drotm>
 {
     void operator() (const int* v0, double* v1, const int* v2, double* v3, const int* v4, const double* v5) const;
@@ -343,12 +253,6 @@ template <>
 struct BlasInterface <IntelMKL, dscal>
 {
     void operator() (const int* v0, const double* v1, double* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dsctr>
-{
-    void operator() (const int* v0, const double* v1, const int* v2, double* v3) const;
 };
 
 template <>
@@ -394,12 +298,6 @@ struct BlasInterface <IntelMKL, zaxpby>
 };
 
 template <>
-struct BlasInterface <IntelMKL, zaxpyi>
-{
-    void operator() (const int* v0, const std::complex<double>* v1, const std::complex<double>* v2, const int* v3, std::complex<double>* v4) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, zcopy>
 {
     void operator() (const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3, const int* v4) const;
@@ -418,18 +316,6 @@ struct BlasInterface <IntelMKL, zdscal>
 };
 
 template <>
-struct BlasInterface <IntelMKL, zgthr>
-{
-    void operator() (const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, zgthrz>
-{
-    void operator() (const int* v0, std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, zrotg>
 {
     void operator() (std::complex<double>* v0, const std::complex<double>* v1, double* v2, std::complex<double>* v3) const;
@@ -439,12 +325,6 @@ template <>
 struct BlasInterface <IntelMKL, zscal>
 {
     void operator() (const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, zsctr>
-{
-    void operator() (const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3) const;
 };
 
 template <>
@@ -562,12 +442,6 @@ struct BlasInterface <IntelMKL, strsv>
 };
 
 template <>
-struct BlasInterface <IntelMKL, sgem2vu>
-{
-    void operator() (const int* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, const float* v7, const int* v8, const float* v9, float* v10, const int* v11, float* v12, const int* v13) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, cgbmv>
 {
     void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
@@ -670,18 +544,6 @@ struct BlasInterface <IntelMKL, ctrsv>
 };
 
 template <>
-struct BlasInterface <IntelMKL, cgem2vc>
-{
-    void operator() (const int* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11, std::complex<float>* v12, const int* v13) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, scgemv>
-{
-    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<float>* v3, const float* v4, const int* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, std::complex<float>* v9, const int* v10) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, dgbmv>
 {
     void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const double* v5, const double* v6, const int* v7, const double* v8, const int* v9, const double* v10, double* v11, const int* v12) const;
@@ -775,12 +637,6 @@ template <>
 struct BlasInterface <IntelMKL, dtrsv>
 {
     void operator() (const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, const int* v5, double* v6, const int* v7) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dgem2vu>
-{
-    void operator() (const int* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, const double* v7, const int* v8, const double* v9, double* v10, const int* v11, double* v12, const int* v13) const;
 };
 
 template <>
@@ -886,18 +742,6 @@ struct BlasInterface <IntelMKL, ztrsv>
 };
 
 template <>
-struct BlasInterface <IntelMKL, zgem2vc>
-{
-    void operator() (const int* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11, std::complex<double>* v12, const int* v13) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dzgemv>
-{
-    void operator() (const char* v0, const int* v1, const int* v2, const std::complex<double>* v3, const double* v4, const int* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, std::complex<double>* v9, const int* v10) const;
-};
-
-template <>
 struct BlasInterface <IntelMKL, sgemm>
 {
     void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const float* v5, const float* v6, const int* v7, const float* v8, const int* v9, const float* v10, float* v11, const int* v12) const;
@@ -937,12 +781,6 @@ template <>
 struct BlasInterface <IntelMKL, cgemm>
 {
     void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, scgemm>
-{
-    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const float* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const;
 };
 
 template <>
@@ -1039,12 +877,6 @@ template <>
 struct BlasInterface <IntelMKL, zgemm>
 {
     void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
-};
-
-template <>
-struct BlasInterface <IntelMKL, dzgemm>
-{
-    void operator() (const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const double* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const;
 };
 
 template <>

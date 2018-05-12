@@ -4,14 +4,14 @@
 
 extern "C" {
 
-{% for function in functions_without_zdot %}
+{% for function in functions_blas %}
 {{ function.return_value }} {{ function.name }}_(
     {%- for argument in function.argument_list -%}
     {{ argument }}*{{ ", " if not loop.last }}
     {%- endfor %});
 {% endfor %}
 
-{% for function in functions_zdot_no_return %}
+{% for function in functions_blas_zdot_no_return %}
 {{ function.return_value }} {{ function.name }}_(
     {%- for argument in function.argument_list -%}
     {{ argument }}*{{ ", " if not loop.last }}

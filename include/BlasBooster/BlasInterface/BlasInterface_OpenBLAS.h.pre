@@ -9,7 +9,7 @@ struct OpenBLAS {};
 
 void OpenBLAS_set_num_threads(int nbThreads);
 
-{% for function in functions_without_zdot %}
+{% for function in functions_blas %}
 template <>
 struct BlasInterface <OpenBLAS, {{ function.name }}>
 {
@@ -21,7 +21,7 @@ struct BlasInterface <OpenBLAS, {{ function.name }}>
 
 {% endfor -%}
 
-{% for function in functions_zdot_with_return %}
+{% for function in functions_blas_zdot %}
 template <>
 struct BlasInterface <OpenBLAS, {{ function.name }}>
 {

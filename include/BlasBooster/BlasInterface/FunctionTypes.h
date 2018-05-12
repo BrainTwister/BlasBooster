@@ -24,11 +24,6 @@ struct saxpby
     static std::string name() { return "saxpby"; }
 };
 
-struct saxpyi
-{
-    static std::string name() { return "saxpyi"; }
-};
-
 struct scasum
 {
     static std::string name() { return "scasum"; }
@@ -49,24 +44,9 @@ struct sdot
     static std::string name() { return "sdot"; }
 };
 
-struct sdoti
-{
-    static std::string name() { return "sdoti"; }
-};
-
 struct sdsdot
 {
     static std::string name() { return "sdsdot"; }
-};
-
-struct sgthr
-{
-    static std::string name() { return "sgthr"; }
-};
-
-struct sgthrz
-{
-    static std::string name() { return "sgthrz"; }
 };
 
 struct snrm2
@@ -84,11 +64,6 @@ struct srotg
     static std::string name() { return "srotg"; }
 };
 
-struct sroti
-{
-    static std::string name() { return "sroti"; }
-};
-
 struct srotm
 {
     static std::string name() { return "srotm"; }
@@ -102,11 +77,6 @@ struct srotmg
 struct sscal
 {
     static std::string name() { return "sscal"; }
-};
-
-struct ssctr
-{
-    static std::string name() { return "ssctr"; }
 };
 
 struct sswap
@@ -134,24 +104,9 @@ struct caxpby
     static std::string name() { return "caxpby"; }
 };
 
-struct caxpyi
-{
-    static std::string name() { return "caxpyi"; }
-};
-
 struct ccopy
 {
     static std::string name() { return "ccopy"; }
-};
-
-struct cgthr
-{
-    static std::string name() { return "cgthr"; }
-};
-
-struct cgthrz
-{
-    static std::string name() { return "cgthrz"; }
 };
 
 struct crotg
@@ -162,11 +117,6 @@ struct crotg
 struct cscal
 {
     static std::string name() { return "cscal"; }
-};
-
-struct csctr
-{
-    static std::string name() { return "csctr"; }
 };
 
 struct csrot
@@ -214,11 +164,6 @@ struct daxpby
     static std::string name() { return "daxpby"; }
 };
 
-struct daxpyi
-{
-    static std::string name() { return "daxpyi"; }
-};
-
 struct dcopy
 {
     static std::string name() { return "dcopy"; }
@@ -232,21 +177,6 @@ struct ddot
 struct dsdot
 {
     static std::string name() { return "dsdot"; }
-};
-
-struct ddoti
-{
-    static std::string name() { return "ddoti"; }
-};
-
-struct dgthr
-{
-    static std::string name() { return "dgthr"; }
-};
-
-struct dgthrz
-{
-    static std::string name() { return "dgthrz"; }
 };
 
 struct dnrm2
@@ -264,11 +194,6 @@ struct drotg
     static std::string name() { return "drotg"; }
 };
 
-struct droti
-{
-    static std::string name() { return "droti"; }
-};
-
 struct drotm
 {
     static std::string name() { return "drotm"; }
@@ -282,11 +207,6 @@ struct drotmg
 struct dscal
 {
     static std::string name() { return "dscal"; }
-};
-
-struct dsctr
-{
-    static std::string name() { return "dsctr"; }
 };
 
 struct dswap
@@ -324,11 +244,6 @@ struct zaxpby
     static std::string name() { return "zaxpby"; }
 };
 
-struct zaxpyi
-{
-    static std::string name() { return "zaxpyi"; }
-};
-
 struct zcopy
 {
     static std::string name() { return "zcopy"; }
@@ -344,16 +259,6 @@ struct zdscal
     static std::string name() { return "zdscal"; }
 };
 
-struct zgthr
-{
-    static std::string name() { return "zgthr"; }
-};
-
-struct zgthrz
-{
-    static std::string name() { return "zgthrz"; }
-};
-
 struct zrotg
 {
     static std::string name() { return "zrotg"; }
@@ -362,11 +267,6 @@ struct zrotg
 struct zscal
 {
     static std::string name() { return "zscal"; }
-};
-
-struct zsctr
-{
-    static std::string name() { return "zsctr"; }
 };
 
 struct zswap
@@ -464,11 +364,6 @@ struct strsv
     static std::string name() { return "strsv"; }
 };
 
-struct sgem2vu
-{
-    static std::string name() { return "sgem2vu"; }
-};
-
 struct cgbmv
 {
     static std::string name() { return "cgbmv"; }
@@ -554,16 +449,6 @@ struct ctrsv
     static std::string name() { return "ctrsv"; }
 };
 
-struct cgem2vc
-{
-    static std::string name() { return "cgem2vc"; }
-};
-
-struct scgemv
-{
-    static std::string name() { return "scgemv"; }
-};
-
 struct dgbmv
 {
     static std::string name() { return "dgbmv"; }
@@ -642,11 +527,6 @@ struct dtrmv
 struct dtrsv
 {
     static std::string name() { return "dtrsv"; }
-};
-
-struct dgem2vu
-{
-    static std::string name() { return "dgem2vu"; }
 };
 
 struct zgbmv
@@ -734,16 +614,6 @@ struct ztrsv
     static std::string name() { return "ztrsv"; }
 };
 
-struct zgem2vc
-{
-    static std::string name() { return "zgem2vc"; }
-};
-
-struct dzgemv
-{
-    static std::string name() { return "dzgemv"; }
-};
-
 struct sgemm
 {
     static std::string name() { return "sgemm"; }
@@ -777,11 +647,6 @@ struct strsm
 struct cgemm
 {
     static std::string name() { return "cgemm"; }
-};
-
-struct scgemm
-{
-    static std::string name() { return "scgemm"; }
 };
 
 struct cgemm3m
@@ -862,11 +727,6 @@ struct dtrsm
 struct zgemm
 {
     static std::string name() { return "zgemm"; }
-};
-
-struct dzgemm
-{
-    static std::string name() { return "dzgemm"; }
 };
 
 struct zgemm3m

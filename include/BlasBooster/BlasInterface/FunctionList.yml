@@ -1,4 +1,4 @@
-functions_without_zdot:
+functions_blas:
 
  - return_value: float
    name: scabs1
@@ -33,15 +33,6 @@ functions_without_zdot:
     - float
     - const int
 
- - return_value: void
-   name: saxpyi
-   argument_list:
-    - const int
-    - const float
-    - const float
-    - const int
-    - float
-
  - return_value: float
    name: scasum
    argument_list:
@@ -75,14 +66,6 @@ functions_without_zdot:
     - const int
 
  - return_value: float
-   name: sdoti
-   argument_list:
-    - const int
-    - const float
-    - const int
-    - const float
-
- - return_value: float
    name: sdsdot
    argument_list:
     - const int
@@ -90,22 +73,6 @@ functions_without_zdot:
     - const float
     - const int
     - const float
-    - const int
-
- - return_value: void
-   name: sgthr
-   argument_list:
-    - const int
-    - const float
-    - float
-    - const int
-
- - return_value: void
-   name: sgthrz
-   argument_list:
-    - const int
-    - float
-    - float
     - const int
 
  - return_value: float
@@ -135,16 +102,6 @@ functions_without_zdot:
     - float
 
  - return_value: void
-   name: sroti
-   argument_list:
-    - const int
-    - float
-    - const int
-    - float
-    - const float
-    - const float
-
- - return_value: void
    name: srotm
    argument_list:
     - const int
@@ -170,14 +127,6 @@ functions_without_zdot:
     - const float
     - float
     - const int
-
- - return_value: void
-   name: ssctr
-   argument_list:
-    - const int
-    - const float
-    - const int
-    - float
 
  - return_value: void
    name: sswap
@@ -224,36 +173,11 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: caxpyi
-   argument_list:
-    - const int
-    - const std::complex<float>
-    - const std::complex<float>
-    - const int
-    - std::complex<float>
-
- - return_value: void
    name: ccopy
    argument_list:
     - const int
     - const std::complex<float>
     - const int
-    - std::complex<float>
-    - const int
-
- - return_value: void
-   name: cgthr
-   argument_list:
-    - const int
-    - const std::complex<float>
-    - std::complex<float>
-    - const int
-
- - return_value: void
-   name: cgthrz
-   argument_list:
-    - const int
-    - std::complex<float>
     - std::complex<float>
     - const int
 
@@ -272,14 +196,6 @@ functions_without_zdot:
     - const std::complex<float>
     - std::complex<float>
     - const int
-
- - return_value: void
-   name: csctr
-   argument_list:
-    - const int
-    - const std::complex<float>
-    - const int
-    - std::complex<float>
 
  - return_value: void
    name: csrot
@@ -357,15 +273,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: daxpyi
-   argument_list:
-    - const int
-    - const double
-    - const double
-    - const int
-    - double
-
- - return_value: void
    name: dcopy
    argument_list:
     - const int
@@ -390,30 +297,6 @@ functions_without_zdot:
     - const float
     - const int
     - const float
-    - const int
-
- - return_value: double
-   name: ddoti
-   argument_list:
-    - const int
-    - const double
-    - const int
-    - const double
-
- - return_value: void
-   name: dgthr
-   argument_list:
-    - const int
-    - const double
-    - double
-    - const int
-
- - return_value: void
-   name: dgthrz
-   argument_list:
-    - const int
-    - double
-    - double
     - const int
 
  - return_value: double
@@ -443,16 +326,6 @@ functions_without_zdot:
     - double
 
  - return_value: void
-   name: droti
-   argument_list:
-    - const int
-    - double
-    - const int
-    - double
-    - const double
-    - const double
-
- - return_value: void
    name: drotm
    argument_list:
     - const int
@@ -478,14 +351,6 @@ functions_without_zdot:
     - const double
     - double
     - const int
-
- - return_value: void
-   name: dsctr
-   argument_list:
-    - const int
-    - const double
-    - const int
-    - double
 
  - return_value: void
    name: dswap
@@ -546,15 +411,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: zaxpyi
-   argument_list:
-    - const int
-    - const std::complex<double>
-    - const std::complex<double>
-    - const int
-    - std::complex<double>
-
- - return_value: void
    name: zcopy
    argument_list:
     - const int
@@ -583,22 +439,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: zgthr
-   argument_list:
-    - const int
-    - const std::complex<double>
-    - std::complex<double>
-    - const int
-
- - return_value: void
-   name: zgthrz
-   argument_list:
-    - const int
-    - std::complex<double>
-    - std::complex<double>
-    - const int
-
- - return_value: void
    name: zrotg
    argument_list:
     - std::complex<double>
@@ -613,14 +453,6 @@ functions_without_zdot:
     - const std::complex<double>
     - std::complex<double>
     - const int
-
- - return_value: void
-   name: zsctr
-   argument_list:
-    - const int
-    - const std::complex<double>
-    - const int
-    - std::complex<double>
 
  - return_value: void
    name: zswap
@@ -851,24 +683,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: sgem2vu
-   argument_list:
-    - const int
-    - const int
-    - const float
-    - const float
-    - const int
-    - const float
-    - const int
-    - const float
-    - const int
-    - const float
-    - float
-    - const int
-    - float
-    - const int
-
- - return_value: void
    name: cgbmv
    argument_list:
     - const char
@@ -1087,39 +901,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: cgem2vc
-   argument_list:
-    - const int
-    - const int
-    - const std::complex<float>
-    - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - std::complex<float>
-    - const int
-    - std::complex<float>
-    - const int
-
- - return_value: void
-   name: scgemv
-   argument_list:
-    - const char
-    - const int
-    - const int
-    - const std::complex<float>
-    - const float
-    - const int
-    - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - std::complex<float>
-    - const int
-
- - return_value: void
    name: dgbmv
    argument_list:
     - const char
@@ -1320,24 +1101,6 @@ functions_without_zdot:
     - const char
     - const int
     - const double
-    - const int
-    - double
-    - const int
-
- - return_value: void
-   name: dgem2vu
-   argument_list:
-    - const int
-    - const int
-    - const double
-    - const double
-    - const int
-    - const double
-    - const int
-    - const double
-    - const int
-    - const double
-    - double
     - const int
     - double
     - const int
@@ -1561,39 +1324,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: zgem2vc
-   argument_list:
-    - const int
-    - const int
-    - const std::complex<double>
-    - const std::complex<double>
-    - const int
-    - const std::complex<double>
-    - const int
-    - const std::complex<double>
-    - const int
-    - const std::complex<double>
-    - std::complex<double>
-    - const int
-    - std::complex<double>
-    - const int
-
- - return_value: void
-   name: dzgemv
-   argument_list:
-    - const char
-    - const int
-    - const int
-    - const std::complex<double>
-    - const double
-    - const int
-    - const std::complex<double>
-    - const int
-    - const std::complex<double>
-    - std::complex<double>
-    - const int
-
- - return_value: void
    name: sgemm
    argument_list:
     - const char
@@ -1696,23 +1426,6 @@ functions_without_zdot:
     - const int
     - const std::complex<float>
     - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - const int
-    - const std::complex<float>
-    - std::complex<float>
-    - const int
-
- - return_value: void
-   name: scgemm
-   argument_list:
-    - const char
-    - const char
-    - const int
-    - const int
-    - const int
-    - const std::complex<float>
-    - const float
     - const int
     - const std::complex<float>
     - const int
@@ -1970,23 +1683,6 @@ functions_without_zdot:
     - const int
 
  - return_value: void
-   name: dzgemm
-   argument_list:
-    - const char
-    - const char
-    - const int
-    - const int
-    - const int
-    - const std::complex<double>
-    - const double
-    - const int
-    - const std::complex<double>
-    - const int
-    - const std::complex<double>
-    - std::complex<double>
-    - const int
-
- - return_value: void
    name: zgemm3m
    argument_list:
     - const char
@@ -2125,7 +1821,7 @@ functions_without_zdot:
     - std::complex<double>
     - const int
 
-functions_zdot_with_return:
+functions_blas_zdot:
 
  - return_value: std::complex<float>
    name: cdotc
@@ -2162,8 +1858,8 @@ functions_zdot_with_return:
     - const int
     - const std::complex<double>
     - const int
-
-functions_zdot_no_return:
+    
+functions_blas_zdot_no_return:
  
  - return_value: void
    name: cdotc
@@ -2203,6 +1899,312 @@ functions_zdot_no_return:
     - const std::complex<double>
     - const int
     - const std::complex<double>
+    - const int
+
+functions_blas_extra:
+
+ - return_value: void
+   name: saxpyi
+   argument_list:
+    - const int
+    - const float
+    - const float
+    - const int
+    - float
+
+ - return_value: float
+   name: sdoti
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - const float
+
+ - return_value: void
+   name: sgthr
+   argument_list:
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: sgthrz
+   argument_list:
+    - const int
+    - float
+    - float
+    - const int
+
+ - return_value: void
+   name: sroti
+   argument_list:
+    - const int
+    - float
+    - const int
+    - float
+    - const float
+    - const float
+
+ - return_value: void
+   name: ssctr
+   argument_list:
+    - const int
+    - const float
+    - const int
+    - float
+
+ - return_value: void
+   name: caxpyi
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: cgthr
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: cgthrz
+   argument_list:
+    - const int
+    - std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: csctr
+   argument_list:
+    - const int
+    - const std::complex<float>
+    - const int
+    - std::complex<float>
+
+ - return_value: void
+   name: daxpyi
+   argument_list:
+    - const int
+    - const double
+    - const double
+    - const int
+    - double
+
+ - return_value: double
+   name: ddoti
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - const double
+
+ - return_value: void
+   name: dgthr
+   argument_list:
+    - const int
+    - const double
+    - double
+    - const int
+
+ - return_value: void
+   name: dgthrz
+   argument_list:
+    - const int
+    - double
+    - double
+    - const int
+
+ - return_value: void
+   name: droti
+   argument_list:
+    - const int
+    - double
+    - const int
+    - double
+    - const double
+    - const double
+
+ - return_value: void
+   name: dsctr
+   argument_list:
+    - const int
+    - const double
+    - const int
+    - double
+
+ - return_value: void
+   name: zaxpyi
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: zgthr
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zgthrz
+   argument_list:
+    - const int
+    - std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: zsctr
+   argument_list:
+    - const int
+    - const std::complex<double>
+    - const int
+    - std::complex<double>
+
+ - return_value: void
+   name: sgem2vu
+   argument_list:
+    - const int
+    - const int
+    - const float
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+    - float
+    - const int
+
+ - return_value: void
+   name: cgem2vc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<float>
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: scgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<float>
+    - const float
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: dgem2vu
+   argument_list:
+    - const int
+    - const int
+    - const double
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - const int
+    - const double
+    - double
+    - const int
+    - double
+    - const int
+
+ - return_value: void
+   name: zgem2vc
+   argument_list:
+    - const int
+    - const int
+    - const std::complex<double>
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: dzgemv
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const std::complex<double>
+    - const double
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
+    - const int
+
+ - return_value: void
+   name: scgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<float>
+    - const float
+    - const int
+    - const std::complex<float>
+    - const int
+    - const std::complex<float>
+    - std::complex<float>
+    - const int
+
+ - return_value: void
+   name: dzgemm
+   argument_list:
+    - const char
+    - const char
+    - const int
+    - const int
+    - const int
+    - const std::complex<double>
+    - const double
+    - const int
+    - const std::complex<double>
+    - const int
+    - const std::complex<double>
+    - std::complex<double>
     - const int
 
 functions_spblas:

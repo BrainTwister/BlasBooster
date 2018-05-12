@@ -36,12 +36,6 @@ void BlasInterface <IntelMKL, saxpby>::operator() (
     return ::saxpby_(v0, v1, v2, v3, v4, v5, v6);
 }
 
-void BlasInterface <IntelMKL, saxpyi>::operator() (
-    const int* v0, const float* v1, const float* v2, const int* v3, float* v4) const
-{
-    return ::saxpyi_(v0, v1, v2, v3, v4);
-}
-
 float BlasInterface <IntelMKL, scasum>::operator() (
     const int* v0, const std::complex<float>* v1, const int* v2) const
 {
@@ -66,28 +60,10 @@ float BlasInterface <IntelMKL, sdot>::operator() (
     return ::sdot_(v0, v1, v2, v3, v4);
 }
 
-float BlasInterface <IntelMKL, sdoti>::operator() (
-    const int* v0, const float* v1, const int* v2, const float* v3) const
-{
-    return ::sdoti_(v0, v1, v2, v3);
-}
-
 float BlasInterface <IntelMKL, sdsdot>::operator() (
     const int* v0, const float* v1, const float* v2, const int* v3, const float* v4, const int* v5) const
 {
     return ::sdsdot_(v0, v1, v2, v3, v4, v5);
-}
-
-void BlasInterface <IntelMKL, sgthr>::operator() (
-    const int* v0, const float* v1, float* v2, const int* v3) const
-{
-    return ::sgthr_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, sgthrz>::operator() (
-    const int* v0, float* v1, float* v2, const int* v3) const
-{
-    return ::sgthrz_(v0, v1, v2, v3);
 }
 
 float BlasInterface <IntelMKL, snrm2>::operator() (
@@ -108,12 +84,6 @@ void BlasInterface <IntelMKL, srotg>::operator() (
     return ::srotg_(v0, v1, v2, v3);
 }
 
-void BlasInterface <IntelMKL, sroti>::operator() (
-    const int* v0, float* v1, const int* v2, float* v3, const float* v4, const float* v5) const
-{
-    return ::sroti_(v0, v1, v2, v3, v4, v5);
-}
-
 void BlasInterface <IntelMKL, srotm>::operator() (
     const int* v0, float* v1, const int* v2, float* v3, const int* v4, const float* v5) const
 {
@@ -130,12 +100,6 @@ void BlasInterface <IntelMKL, sscal>::operator() (
     const int* v0, const float* v1, float* v2, const int* v3) const
 {
     return ::sscal_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, ssctr>::operator() (
-    const int* v0, const float* v1, const int* v2, float* v3) const
-{
-    return ::ssctr_(v0, v1, v2, v3);
 }
 
 void BlasInterface <IntelMKL, sswap>::operator() (
@@ -168,28 +132,10 @@ void BlasInterface <IntelMKL, caxpby>::operator() (
     return ::caxpby_(v0, v1, v2, v3, v4, v5, v6);
 }
 
-void BlasInterface <IntelMKL, caxpyi>::operator() (
-    const int* v0, const std::complex<float>* v1, const std::complex<float>* v2, const int* v3, std::complex<float>* v4) const
-{
-    return ::caxpyi_(v0, v1, v2, v3, v4);
-}
-
 void BlasInterface <IntelMKL, ccopy>::operator() (
     const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3, const int* v4) const
 {
     return ::ccopy_(v0, v1, v2, v3, v4);
-}
-
-void BlasInterface <IntelMKL, cgthr>::operator() (
-    const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const
-{
-    return ::cgthr_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, cgthrz>::operator() (
-    const int* v0, std::complex<float>* v1, std::complex<float>* v2, const int* v3) const
-{
-    return ::cgthrz_(v0, v1, v2, v3);
 }
 
 void BlasInterface <IntelMKL, crotg>::operator() (
@@ -202,12 +148,6 @@ void BlasInterface <IntelMKL, cscal>::operator() (
     const int* v0, const std::complex<float>* v1, std::complex<float>* v2, const int* v3) const
 {
     return ::cscal_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, csctr>::operator() (
-    const int* v0, const std::complex<float>* v1, const int* v2, std::complex<float>* v3) const
-{
-    return ::csctr_(v0, v1, v2, v3);
 }
 
 void BlasInterface <IntelMKL, csrot>::operator() (
@@ -264,12 +204,6 @@ void BlasInterface <IntelMKL, daxpby>::operator() (
     return ::daxpby_(v0, v1, v2, v3, v4, v5, v6);
 }
 
-void BlasInterface <IntelMKL, daxpyi>::operator() (
-    const int* v0, const double* v1, const double* v2, const int* v3, double* v4) const
-{
-    return ::daxpyi_(v0, v1, v2, v3, v4);
-}
-
 void BlasInterface <IntelMKL, dcopy>::operator() (
     const int* v0, const double* v1, const int* v2, double* v3, const int* v4) const
 {
@@ -286,24 +220,6 @@ double BlasInterface <IntelMKL, dsdot>::operator() (
     const int* v0, const float* v1, const int* v2, const float* v3, const int* v4) const
 {
     return ::dsdot_(v0, v1, v2, v3, v4);
-}
-
-double BlasInterface <IntelMKL, ddoti>::operator() (
-    const int* v0, const double* v1, const int* v2, const double* v3) const
-{
-    return ::ddoti_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, dgthr>::operator() (
-    const int* v0, const double* v1, double* v2, const int* v3) const
-{
-    return ::dgthr_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, dgthrz>::operator() (
-    const int* v0, double* v1, double* v2, const int* v3) const
-{
-    return ::dgthrz_(v0, v1, v2, v3);
 }
 
 double BlasInterface <IntelMKL, dnrm2>::operator() (
@@ -324,12 +240,6 @@ void BlasInterface <IntelMKL, drotg>::operator() (
     return ::drotg_(v0, v1, v2, v3);
 }
 
-void BlasInterface <IntelMKL, droti>::operator() (
-    const int* v0, double* v1, const int* v2, double* v3, const double* v4, const double* v5) const
-{
-    return ::droti_(v0, v1, v2, v3, v4, v5);
-}
-
 void BlasInterface <IntelMKL, drotm>::operator() (
     const int* v0, double* v1, const int* v2, double* v3, const int* v4, const double* v5) const
 {
@@ -346,12 +256,6 @@ void BlasInterface <IntelMKL, dscal>::operator() (
     const int* v0, const double* v1, double* v2, const int* v3) const
 {
     return ::dscal_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, dsctr>::operator() (
-    const int* v0, const double* v1, const int* v2, double* v3) const
-{
-    return ::dsctr_(v0, v1, v2, v3);
 }
 
 void BlasInterface <IntelMKL, dswap>::operator() (
@@ -396,12 +300,6 @@ void BlasInterface <IntelMKL, zaxpby>::operator() (
     return ::zaxpby_(v0, v1, v2, v3, v4, v5, v6);
 }
 
-void BlasInterface <IntelMKL, zaxpyi>::operator() (
-    const int* v0, const std::complex<double>* v1, const std::complex<double>* v2, const int* v3, std::complex<double>* v4) const
-{
-    return ::zaxpyi_(v0, v1, v2, v3, v4);
-}
-
 void BlasInterface <IntelMKL, zcopy>::operator() (
     const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3, const int* v4) const
 {
@@ -420,18 +318,6 @@ void BlasInterface <IntelMKL, zdscal>::operator() (
     return ::zdscal_(v0, v1, v2, v3);
 }
 
-void BlasInterface <IntelMKL, zgthr>::operator() (
-    const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const
-{
-    return ::zgthr_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, zgthrz>::operator() (
-    const int* v0, std::complex<double>* v1, std::complex<double>* v2, const int* v3) const
-{
-    return ::zgthrz_(v0, v1, v2, v3);
-}
-
 void BlasInterface <IntelMKL, zrotg>::operator() (
     std::complex<double>* v0, const std::complex<double>* v1, double* v2, std::complex<double>* v3) const
 {
@@ -442,12 +328,6 @@ void BlasInterface <IntelMKL, zscal>::operator() (
     const int* v0, const std::complex<double>* v1, std::complex<double>* v2, const int* v3) const
 {
     return ::zscal_(v0, v1, v2, v3);
-}
-
-void BlasInterface <IntelMKL, zsctr>::operator() (
-    const int* v0, const std::complex<double>* v1, const int* v2, std::complex<double>* v3) const
-{
-    return ::zsctr_(v0, v1, v2, v3);
 }
 
 void BlasInterface <IntelMKL, zswap>::operator() (
@@ -564,12 +444,6 @@ void BlasInterface <IntelMKL, strsv>::operator() (
     return ::strsv_(v0, v1, v2, v3, v4, v5, v6, v7);
 }
 
-void BlasInterface <IntelMKL, sgem2vu>::operator() (
-    const int* v0, const int* v1, const float* v2, const float* v3, const int* v4, const float* v5, const int* v6, const float* v7, const int* v8, const float* v9, float* v10, const int* v11, float* v12, const int* v13) const
-{
-    return ::sgem2vu_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13);
-}
-
 void BlasInterface <IntelMKL, cgbmv>::operator() (
     const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const
 {
@@ -672,18 +546,6 @@ void BlasInterface <IntelMKL, ctrsv>::operator() (
     return ::ctrsv_(v0, v1, v2, v3, v4, v5, v6, v7);
 }
 
-void BlasInterface <IntelMKL, cgem2vc>::operator() (
-    const int* v0, const int* v1, const std::complex<float>* v2, const std::complex<float>* v3, const int* v4, const std::complex<float>* v5, const int* v6, const std::complex<float>* v7, const int* v8, const std::complex<float>* v9, std::complex<float>* v10, const int* v11, std::complex<float>* v12, const int* v13) const
-{
-    return ::cgem2vc_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13);
-}
-
-void BlasInterface <IntelMKL, scgemv>::operator() (
-    const char* v0, const int* v1, const int* v2, const std::complex<float>* v3, const float* v4, const int* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, std::complex<float>* v9, const int* v10) const
-{
-    return ::scgemv_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);
-}
-
 void BlasInterface <IntelMKL, dgbmv>::operator() (
     const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const double* v5, const double* v6, const int* v7, const double* v8, const int* v9, const double* v10, double* v11, const int* v12) const
 {
@@ -778,12 +640,6 @@ void BlasInterface <IntelMKL, dtrsv>::operator() (
     const char* v0, const char* v1, const char* v2, const int* v3, const double* v4, const int* v5, double* v6, const int* v7) const
 {
     return ::dtrsv_(v0, v1, v2, v3, v4, v5, v6, v7);
-}
-
-void BlasInterface <IntelMKL, dgem2vu>::operator() (
-    const int* v0, const int* v1, const double* v2, const double* v3, const int* v4, const double* v5, const int* v6, const double* v7, const int* v8, const double* v9, double* v10, const int* v11, double* v12, const int* v13) const
-{
-    return ::dgem2vu_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13);
 }
 
 void BlasInterface <IntelMKL, zgbmv>::operator() (
@@ -888,18 +744,6 @@ void BlasInterface <IntelMKL, ztrsv>::operator() (
     return ::ztrsv_(v0, v1, v2, v3, v4, v5, v6, v7);
 }
 
-void BlasInterface <IntelMKL, zgem2vc>::operator() (
-    const int* v0, const int* v1, const std::complex<double>* v2, const std::complex<double>* v3, const int* v4, const std::complex<double>* v5, const int* v6, const std::complex<double>* v7, const int* v8, const std::complex<double>* v9, std::complex<double>* v10, const int* v11, std::complex<double>* v12, const int* v13) const
-{
-    return ::zgem2vc_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13);
-}
-
-void BlasInterface <IntelMKL, dzgemv>::operator() (
-    const char* v0, const int* v1, const int* v2, const std::complex<double>* v3, const double* v4, const int* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, std::complex<double>* v9, const int* v10) const
-{
-    return ::dzgemv_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10);
-}
-
 void BlasInterface <IntelMKL, sgemm>::operator() (
     const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const float* v5, const float* v6, const int* v7, const float* v8, const int* v9, const float* v10, float* v11, const int* v12) const
 {
@@ -940,12 +784,6 @@ void BlasInterface <IntelMKL, cgemm>::operator() (
     const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const std::complex<float>* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const
 {
     return ::cgemm_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
-}
-
-void BlasInterface <IntelMKL, scgemm>::operator() (
-    const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<float>* v5, const float* v6, const int* v7, const std::complex<float>* v8, const int* v9, const std::complex<float>* v10, std::complex<float>* v11, const int* v12) const
-{
-    return ::scgemm_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
 }
 
 void BlasInterface <IntelMKL, cgemm3m>::operator() (
@@ -1042,12 +880,6 @@ void BlasInterface <IntelMKL, zgemm>::operator() (
     const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const std::complex<double>* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const
 {
     return ::zgemm_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
-}
-
-void BlasInterface <IntelMKL, dzgemm>::operator() (
-    const char* v0, const char* v1, const int* v2, const int* v3, const int* v4, const std::complex<double>* v5, const double* v6, const int* v7, const std::complex<double>* v8, const int* v9, const std::complex<double>* v10, std::complex<double>* v11, const int* v12) const
-{
-    return ::dzgemm_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12);
 }
 
 void BlasInterface <IntelMKL, zgemm3m>::operator() (

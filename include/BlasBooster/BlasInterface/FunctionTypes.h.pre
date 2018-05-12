@@ -4,14 +4,14 @@
 
 namespace BlasBooster {
 
-{% for function in functions_without_zdot %}
+{% for function in functions_blas %}
 struct {{ function.name }}
 {
     static std::string name() { return "{{ function.name }}"; }
 };
 
 {% endfor -%}
-{% for function in functions_zdot_with_return %}
+{% for function in functions_blas_zdot %}
 struct {{ function.name }}
 {
     static std::string name() { return "{{ function.name }}"; }
