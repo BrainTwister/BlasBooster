@@ -11,6 +11,7 @@ add_library(
 
 target_link_libraries(
     BlasInterface_OpenBLAS
+    ${CONAN_LIBS}
     ${OPENBLAS_LIBRARY}
 )
 

@@ -15,6 +15,7 @@ add_executable(
     
 target_link_libraries(
     ${TestName}
+    ${CONAN_LIBS}
     ${GTEST_BOTH_LIBRARIES}
     -pthread
 )

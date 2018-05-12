@@ -12,6 +12,7 @@ add_library(
 
 target_link_libraries(
     BlasInterface_IntelMKL
+    ${CONAN_LIBS}
     ${MKL_LIBRARIES}
 )
 

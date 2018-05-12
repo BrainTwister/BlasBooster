@@ -26,6 +26,7 @@ add_executable(
 target_link_libraries(
     ${TestName}
     ${Boost_LIBRARIES}
+    ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
     ${GTEST_BOTH_LIBRARIES}
     -pthread
