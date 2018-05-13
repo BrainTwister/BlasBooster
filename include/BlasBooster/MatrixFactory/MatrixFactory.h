@@ -1,5 +1,4 @@
-#ifndef BLASBOOSTER_MATRIXFACTORY_MATRIXFACTORY_H_
-#define BLASBOOSTER_MATRIXFACTORY_MATRIXFACTORY_H_
+#pragma once
 
 #include "BlasBooster/Core/DenseMatrix.h"
 #include <memory>
@@ -30,5 +29,3 @@ protected:
 typedef std::shared_ptr<MatrixFactory> PtrMatrixFactory;
 
 } // namespace BlasBooster
-
-#endif // BLASBOOSTER_MATRIXFACTORY_MATRIXFACTORY_H_

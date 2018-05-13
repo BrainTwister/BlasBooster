@@ -1,13 +1,4 @@
-// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
-// All rights reserved.
-//
-// This file is part of BlasBooster
-//
-// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
-// TERMS OF THE COPYRIGHT NOTICE
-
-#ifndef BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_
-#define BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_
+#pragma once
 
 #include "BlasBooster/Core/BlockedMatrix.h"
 #include "BlasBooster/Core/DenseMatrix.h"
@@ -159,5 +150,3 @@ std::vector<size_t> BlockSizeGenerator::getBlockSizeList(std::vector<T> const& d
 }
 
 } // namespace BlasBooster
-
-#endif // BLASBOOSTER_CORE_BLOCKSIZEGENERATOR_H_

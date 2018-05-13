@@ -1,5 +1,4 @@
-#ifndef DEBUGPRINT_H_
-#define DEBUGPRINT_H_
+#pragma once
 
 #include <iostream>
 
@@ -13,5 +12,3 @@ namespace BlasBooster {
 #endif
 
 } // namespace BlasBooster
-
-#endif /* DEBUGPRINT_H_ */

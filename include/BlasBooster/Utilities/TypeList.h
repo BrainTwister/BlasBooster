@@ -1,5 +1,4 @@
-#ifndef BLASBOOSTER_UTILITIES_TYPELIST_H_
-#define BLASBOOSTER_UTILITIES_TYPELIST_H_
+#pragma once
 
 #include <type_traits>
 
@@ -44,5 +43,3 @@ struct GetType<I, TypeList<Tail, Ts...>>
 {};
 
 } // namespace BlasBooster
-
-#endif // BLASBOOSTER_UTILITIES_TYPELIST_H_

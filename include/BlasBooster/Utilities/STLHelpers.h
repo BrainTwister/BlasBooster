@@ -1,5 +1,4 @@
-#ifndef STLHELPERS_H_
-#define STLHELPERS_H_
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -16,5 +15,3 @@ std::ostream& operator << ( std::ostream& stream, const std::vector<T>& c ) {
 }
 
 } // namespace BlasBooster
-
-#endif /* STLHELPERS_H_ */

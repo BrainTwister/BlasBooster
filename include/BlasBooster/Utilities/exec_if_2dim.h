@@ -1,13 +1,4 @@
-// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
-// All rights reserved.
-//
-// This file is part of BlasBooster
-//
-// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
-// TERMS OF THE COPYRIGHT NOTICE
-
-#ifndef BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_
-#define BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_
+#pragma once
 
 #include "BlasBooster/Core/CoreException.h"
 
@@ -70,5 +61,3 @@ inline typename E::result_type exec_if_2dim(P1 const& p1, P2 const& p2, E const&
 }
 
 } // namespace BlasBooster
-
-#endif // BLASBOOSTER_UTILITIES_EXEC_IF_2DIM_H_

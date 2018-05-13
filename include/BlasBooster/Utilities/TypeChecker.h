@@ -1,5 +1,4 @@
-#ifndef TYPECHECKER_H_
-#define TYPECHECKER_H_
+#pragma once
 
 #include <cstddef>
 
@@ -19,5 +18,3 @@ struct TypeChecker
 };
 
 } // namespace BlasBooster
-
-#endif /* TYPECHECKER_H_ */

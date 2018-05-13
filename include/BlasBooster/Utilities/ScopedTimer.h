@@ -1,5 +1,4 @@
-#ifndef SCOPEDTIMER_H_
-#define SCOPEDTIMER_H_
+#pragma once
 
 #include <chrono>
 #include <iomanip>
@@ -32,5 +31,3 @@ private:
     std::chrono::time_point<clock> start;
 
 };
-
-#endif /* SCOPEDTIMER_H_ */

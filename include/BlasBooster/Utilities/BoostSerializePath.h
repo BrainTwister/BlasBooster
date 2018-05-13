@@ -1,5 +1,4 @@
-#ifndef BOOSTSERIALIZEPATH_H_
-#define BOOSTSERIALIZEPATH_H_
+#pragma once
 
 #include <boost/serialization/nvp.hpp>
 #include <boost/filesystem/path.hpp>
@@ -33,5 +32,3 @@ inline void serialize(Archive & ar, boost::filesystem::path& p, const unsigned i
 
 } // serialization
 } // boost
-
-#endif /* BOOSTSERIALIZEPATH_H_ */

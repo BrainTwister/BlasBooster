@@ -1,5 +1,4 @@
-#ifndef FILESYSTEM_H_
-#define FILESYSTEM_H_
+#pragma once
 
 #if 1
     #include <boost/filesystem.hpp>
@@ -9,4 +8,3 @@
     namespace filesystem = std::filesystem;
 #endif
 
-#endif /* FILESYSTEM_H_ */

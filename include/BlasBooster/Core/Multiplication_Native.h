@@ -1,13 +1,4 @@
-// Copyright (C) 2012-2015, Bernd Doser (service@braintwister.eu)
-// All rights reserved.
-//
-// This file is part of BlasBooster
-//
-// ANY USE OF THIS CODE CONSTITUTES ACCEPTANCE OF THE
-// TERMS OF THE COPYRIGHT NOTICE
-
-#ifndef BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_
-#define BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_
+#pragma once
 
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
@@ -295,5 +286,3 @@ struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename std::enable_if<
 };
 
 } // namespace BlasBooster
-
-#endif // BLASBOOSTER_CORE_MULTIPLICATION_NATIVE_H_

@@ -1,5 +1,4 @@
-#ifndef MATRIXFILEIMPORTER_H_
-#define MATRIXFILEIMPORTER_H_
+#pragma once
 
 #include "BlasBooster/MatrixFactory/MatrixFactory.h"
 #include "BlasBooster/Utilities/Filesystem.h"
@@ -25,5 +24,3 @@ private:
 };
 
 } // namespace BlasBooster
-
-#endif /* MATRIXFILEIMPORTER_H_ */

@@ -1,5 +1,4 @@
-#ifndef STATICDISPATCHER_H_
-#define STATICDISPATCHER_H_
+#pragma once
 
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/empty.hpp>
@@ -54,5 +53,3 @@ public:
 
     }
 };
-
-#endif /* STATICDISPATCHER_H_ */

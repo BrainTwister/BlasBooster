@@ -1,5 +1,4 @@
-#ifndef NOEXCEPT_H_
-#define NOEXCEPT_H_
+#pragma once
 
 namespace BlasBooster {
 
@@ -10,5 +9,3 @@ namespace BlasBooster {
 #endif
 
 } // namespace BlasBooster
-
-#endif /* NOEXCEPT_H_ */

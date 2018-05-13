@@ -1,5 +1,4 @@
-#ifndef EQUALWITHINNUMERICALACCURACY_H_
-#define EQUALWITHINNUMERICALACCURACY_H_
+#pragma once
 
 #include <algorithm>
 #include <complex>
@@ -22,5 +21,3 @@ bool equalWithinNumericalAccuracy(T1 const& v1, T2 const& v2)
 }
 
 } // namespace BlasBooster
-
-#endif /* EQUALWITHINNUMERICALACCURACY_H_ */

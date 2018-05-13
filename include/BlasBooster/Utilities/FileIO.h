@@ -1,5 +1,4 @@
-#ifndef FILEIO_H_
-#define FILEIO_H_
+#pragma once
 
 #include "BlasBoosterException.h"
 #include <boost/archive/binary_iarchive.hpp>
@@ -52,5 +51,3 @@ void writeBinary( T& settings, const std::string& name, const boost::filesystem:
 }
 
 } // namespace BlasBooster
-
-#endif /* FILEIO_H_ */

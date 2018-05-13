@@ -1,5 +1,4 @@
-#ifndef MATRIXGENERATOR_H_
-#define MATRIXGENERATOR_H_
+#pragma once
 
 #include "BlasBooster/MatrixFactory/MatrixFactory.h"
 #include "BrainTwister/Record.h"
@@ -32,5 +31,3 @@ private:
 };
 
 } // namespace BlasBooster
-
-#endif /* MATRIXGENERATOR_H_ */

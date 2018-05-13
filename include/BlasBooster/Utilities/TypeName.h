@@ -1,5 +1,4 @@
-#ifndef TYPENAME_H_
-#define TYPENAME_H_
+#pragma once
 
 #include "wrong_t.h"
 #include <string>
@@ -37,5 +36,3 @@ struct TypeName<int>
 };
 
 } // namespace BlasBooster
-
-#endif /* TYPENAME_H_ */
