@@ -99,6 +99,10 @@ endif(OPENBLAS_FOUND)
 
 add_subdirectory(src/MatrixFactory)
 
+set(PYBIND11_PYTHON_VERSION 3.5)
+find_package(pybind11 REQUIRED)
+add_subdirectory(src/PythonBinding)
+
 # Google C++ unit test framework
 find_package(GTest)
 if(GTEST_FOUND)
