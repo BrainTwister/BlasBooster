@@ -9,7 +9,7 @@
 #include "BlasBooster/Core/MatrixFileIO.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/MatrixMultExp.h"
-//#include "BlasBooster/Core/Multiplication_Native.h"
+#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -635,7 +635,7 @@ template <class T, class P>
 template <class Op1, class Op2>
 Matrix<Dense,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
-	//*this = expression.template execute<Native>();
+	*this = expression.template execute<Native>();
 }
 
 // Construction by file

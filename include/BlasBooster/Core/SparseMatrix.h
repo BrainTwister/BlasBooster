@@ -5,7 +5,7 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/MatrixMultExp.h"
-//#include "BlasBooster/Core/Multiplication_Native.h"
+#include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/NormPolicy.h"
 #include "BlasBooster/Core/OccupationPolicy.h"
 #include "BlasBooster/Core/Parameter.h"
@@ -255,7 +255,7 @@ template <class T, class P>
 template <class Op1, class Op2>
 Matrix<Sparse,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
-    //*this = expression.template execute<Native>();
+    *this = expression.template execute<Native>();
 }
 
 template <class T, class P>
@@ -264,6 +264,7 @@ void Matrix<Sparse,T,P>::resize(typename P::IndexType nbRows, typename P::IndexT
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
+    this->full_size_ = nbRows * nbColumns;
     static_cast<storage*>(this)->resize(nbSignificantElements ? nbSignificantElements : nbRows*nbColumns, nbColumns + 1);
 }
 

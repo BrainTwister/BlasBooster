@@ -4,14 +4,14 @@ project(BlasBooster VERSION 0.2.10 LANGUAGES CXX)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 message("CMake build type: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -fPIC")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_PROFILING "-O3 -pg")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DBLASBOOSTER_DEBUG_MODE")
 
 # C++ ISO standard
-set(CPP_ISO_STANDARD "c++11" CACHE STRING "C++ ISO standard")
+set(CPP_ISO_STANDARD "c++17" CACHE STRING "C++ ISO standard")
 message("Use ${CPP_ISO_STANDARD} ISO standard")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_ISO_STANDARD}")
 
@@ -97,6 +97,7 @@ endif(OPENBLAS_FOUND)
 #find_package(Eigen3)
 #find_package(MTL4)
 
+add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
 
 set(PYBIND11_PYTHON_VERSION 3.5)
