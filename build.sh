@@ -18,6 +18,5 @@ rm -fr $BUILD_DIR
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-conan install .. --build=missing -s compiler.libcxx=libstdc++11
 cmake ..
 make 2>&1 |tee make.out
