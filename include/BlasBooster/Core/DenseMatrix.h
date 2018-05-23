@@ -66,8 +66,8 @@ public: // member functions
     Matrix();
 
     /// Parameter constructor
-    template <class FillerType = NoFiller, class U = T>
-    Matrix(IndexType nbRows, IndexType nbColumns, FillerType filler = FillerType(),
+    template <class Filler = NoFiller, class U = T>
+    Matrix(IndexType nbRows, IndexType nbColumns, Filler const& filler = Filler(),
         typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Parameter constructor for BlockedMatrix
@@ -219,8 +219,8 @@ public: // member functions
     //MatrixBase* clone() const { return new self(*this); }
 
     /// Resize function for non-blocked matrix
-    template <class FillerType = NoFiller, class U = T>
-    void resize(IndexType nbRows, IndexType nbColumns, FillerType filler = FillerType(),
+    template <class Filler = NoFiller, class U = T>
+    void resize(IndexType nbRows, IndexType nbColumns, Filler const& filler = Filler(),
         typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type* = 0);
 
     /// Resize function for BlockedMatrix
@@ -322,13 +322,13 @@ Matrix<Dense,T,P>::Matrix()
 {}
 
 template <class T, class P>
-template <class FillerType, class U>
-Matrix<Dense,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns, FillerType,
+template <class Filler, class U>
+Matrix<Dense,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns, Filler const& filler,
     typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
  : dimension(nbRows,nbColumns),
    storage(nbRows*nbColumns)
 {
-    MatrixFillerFunctor<FillerType,Dense,T,P>()(*this);
+    filler(*this);
 }
 
 template <class T, class P>
@@ -658,14 +658,14 @@ Matrix<Dense,T,P>& Matrix<Dense,T,P>::operator = (T value)
 }
 
 template <class T, class P>
-template <class FillerType, class U>
-void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns, FillerType,
+template <class Filler, class U>
+void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns, Filler const& filler,
     typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
     static_cast<storage*>(this)->resize(nbRows*nbColumns);
-    MatrixFillerFunctor<FillerType,Dense,T,P>()(*this);
+    filler(*this);
 }
 
 template <class T, class P>

@@ -40,8 +40,8 @@ int main(int argc, char* argv[])
             }
         )"}));
 
-        DynamicMatrix F(new Matrix<Dense,double>(1000,1000,FullFiller()));
-        DynamicMatrix Z(new Matrix<Dense,double>(1000,1000,ZeroFiller()));
+        DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(1.e-6)));
+        DynamicMatrix Z(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(0.0)));
 
         BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
         const Matrix<Dense, double> refA{block};

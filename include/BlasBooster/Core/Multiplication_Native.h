@@ -23,7 +23,7 @@ struct GeneralDenseMultiplicationFunctor
     {
         if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
 
-        C.resize(A.getNbRows(),B.getNbColumns(),ZeroFiller());
+        C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         typename Matrix<Dense,T1,P1>::const_iterator iterA;
         typename Matrix<Dense,T2,P2>::const_iterator iterB(B.begin());
@@ -130,7 +130,7 @@ struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense
                 RowCursorB curRowB(B,curColumnB.begin());
 
                 *curColumnC = DynamicMatrix(new Matrix<Dense,double>(
-                    getNbRows(*curColumnA),getNbColumns(*curRowB),ZeroFiller()));
+                    getNbRows(*curColumnA), getNbColumns(*curRowB), AllFiller<double>(0.0)));
 
                 for ( ; curColumnA != endColumnA; ++curColumnA, ++curRowB )
                 {
@@ -209,7 +209,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
         typedef Cursor<ColumnCursorC, Direction::Row> RowCursorC;
 
         // Initialize result matrix
-        C.resize(A.getNbRows(),B.getNbColumns(),ZeroFiller());
+        C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         size_t col(0);
         for (typename Matrix<Sparse,T1,P1>::const_index_iterator iterOffsetACur(A.beginOffset()),
@@ -247,7 +247,7 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
         typedef Cursor<ColumnCursorC, Direction::Row> RowCursorC;
 
         // Initialize result matrix
-        C.resize(A.getNbRows(),B.getNbColumns(),ZeroFiller());
+        C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         size_t col(0);
         typename Matrix<Sparse,T2,P2>::const_index_iterator curOffsetB(B.beginOffset()),

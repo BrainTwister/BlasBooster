@@ -1,64 +1,39 @@
 #pragma once
 
-#include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Matrix.h"
-#include "BlasBooster/Utilities/wrong_t.h"
 
 namespace BlasBooster {
 
-struct NoFiller{};
-struct ZeroFiller{};
-struct FullFiller{};
-struct ContinuousNumberFiller{};
-struct HilbertFiller{};
-struct DiagonalFiller{};
-
-template <class FillerType, class M, class T, class P>
-struct MatrixFillerFunctor
+struct NoFiller
 {
-    void operator () (Matrix<M,T,P>& matrix)
-    {
-        static_assert(wrong_t<M>::value, "Primary template must not be instantiated.");
-    }
+	template <class M, class T, class P>
+    void operator () (Matrix<M,T,P>&) const
+    {}
 };
 
-template <class M, class T, class P>
-struct MatrixFillerFunctor<NoFiller,M,T,P>
+template <class T2>
+struct AllFiller
 {
-    void operator () (Matrix<M,T,P>& /*matrix*/) { /* do nothing */ }
-};
+	AllFiller(T2 value) : value(value) {}
 
-template <class M, class T, class P>
-struct MatrixFillerFunctor<ZeroFiller,M,T,P>
-{
-    void operator () (Matrix<M,T,P>& matrix)
+	template <class M, class T, class P>
+    void operator () (Matrix<M,T,P>& matrix) const
     {
         // TODO: Use range-based for loop
         for (typename Matrix<M,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
             iterCur != iterEnd; ++iterCur)
         {
-            *iterCur = 0.0;
+            *iterCur = value;
         }
     }
+
+    T2 value;
 };
 
-template <class M, class T, class P>
-struct MatrixFillerFunctor<FullFiller,M,T,P>
+struct ContinuousNumberFiller
 {
-    void operator () (Matrix<M,T,P>& matrix)
-    {
-        for (typename Matrix<M,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
-            iterCur != iterEnd; ++iterCur)
-        {
-            *iterCur = 1.0;
-        }
-    }
-};
-
-template <class T, class P>
-struct MatrixFillerFunctor<ContinuousNumberFiller,Dense,T,P>
-{
-    void operator () (Matrix<Dense,T,P>& matrix)
+	template <class T, class P>
+    void operator () (Matrix<Dense,T,P>& matrix) const
     {
         T value(1.0);
         for (typename Matrix<Dense,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
@@ -67,12 +42,9 @@ struct MatrixFillerFunctor<ContinuousNumberFiller,Dense,T,P>
             *iterCur = value;
         }
     }
-};
 
-template <class T, class P>
-struct MatrixFillerFunctor<ContinuousNumberFiller,Sparse,T,P>
-{
-    void operator () (Matrix<Sparse,T,P>& matrix)
+	template <class T, class P>
+    void operator () (Matrix<Sparse,T,P>& matrix) const
     {
         T value(1.0);
         for (typename Matrix<Sparse,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
@@ -99,10 +71,10 @@ struct MatrixFillerFunctor<ContinuousNumberFiller,Sparse,T,P>
     }
 };
 
-template <class T, class P>
-struct MatrixFillerFunctor<HilbertFiller,Dense,T,P>
+struct HilbertFiller
 {
-    void operator () (Matrix<Dense,T,P>& matrix)
+	template <class T, class P>
+    void operator () (Matrix<Dense,T,P>& matrix) const
     {
         T one(1.0), row(1.0), column;
 
@@ -121,10 +93,13 @@ struct MatrixFillerFunctor<HilbertFiller,Dense,T,P>
     }
 };
 
-template <class T, class P>
-struct MatrixFillerFunctor<DiagonalFiller,Dense,T,P>
+template <class T2>
+struct DiagonalFiller
 {
-    void operator () (Matrix<Dense,T,P>& matrix)
+	DiagonalFiller(T2 value) : value(value) {}
+
+	template <class T, class P>
+    void operator () (Matrix<Dense,T,P>& matrix) const
     {
         if (matrix.getNbRows() != matrix.getNbColumns()) throw CoreException("DiagonalFiller: Matrix is not quadratic.");
 
@@ -140,10 +115,11 @@ struct MatrixFillerFunctor<DiagonalFiller,Dense,T,P>
 
         for (size_t i(0); i != matrix.getNbRows(); ++i)
         {
-            //matrix[i][i] = 1.0;
-            matrix(i,i) = 1.0;
+            matrix(i,i) = value;
         }
     }
+
+    T2 value;
 };
 
 } // namespace BlasBooster

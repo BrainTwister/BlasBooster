@@ -11,7 +11,7 @@ using namespace BlasBooster;
 
 TEST(SparseMatrix, SparseDoubleNorm)
 {
-	Matrix<Dense,double> A(5,5,DiagonalFiller());
+	Matrix<Dense,double> A(5, 5, DiagonalFiller<double>(1.0));
 	Matrix<Sparse,double> spA(A);
 
 	EXPECT_DOUBLE_EQ(sqrt(5.0),spA.getNorm());
@@ -20,7 +20,7 @@ TEST(SparseMatrix, SparseDoubleNorm)
 
 TEST(SparseMatrix, SparseFloatNorm)
 {
-	Matrix<Dense,float> A(5,5,DiagonalFiller());
+	Matrix<Dense,float> A(5, 5, DiagonalFiller<double>(1.0));
 	Matrix<Sparse,float> spA(A);
 
 	EXPECT_FLOAT_EQ(sqrt(5.0),spA.getNorm());

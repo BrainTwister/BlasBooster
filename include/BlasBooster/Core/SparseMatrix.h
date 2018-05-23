@@ -63,8 +63,8 @@ public:
 
     /// Parameter constructor
     /// If nbSignificantElements equal zero, storage of size nbRows*nbColumns will be allocated.
-    template <class FillerType = NoFiller>
-    Matrix(IndexType nbRows, IndexType nbColumns, IndexType nbSignificantElements = 0, FillerType filler = FillerType());
+    template <class Filler = NoFiller>
+    Matrix(IndexType nbRows, IndexType nbColumns, IndexType nbSignificantElements = 0, Filler const& filler = Filler());
 
     /// Conversion from SparseMatrix
     template <class T2, class P2, class ValueChecker = AbsoluteValueRangeChecker<T>>
@@ -162,13 +162,13 @@ Matrix<Sparse,T,P>::Matrix()
 {}
 
 template <class T, class P>
-template <class FillerType>
+template <class Filler>
 Matrix<Sparse,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns,
-    typename P::IndexType nbSignificantElements, FillerType)
+    typename P::IndexType nbSignificantElements, Filler const& filler)
  : dimension(nbRows, nbColumns),
    storage(nbSignificantElements ? nbSignificantElements : nbRows*nbColumns, nbColumns + 1)
 {
-    MatrixFillerFunctor<FillerType,Sparse,T,P>()(*this);
+    filler(*this);
 }
 
 // Conversion from SparseMatrix
