@@ -115,20 +115,20 @@ endif(GTEST_FOUND)
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
 
-    set(doxyfile_in ${PROJECT_SOURCE_DIR}/doxygen/Doxyfile.in)
-    set(doxyfile ${PROJECT_BINARY_DIR}/doxygen/Doxyfile)
-    set(doxy_main_page ${PROJECT_SOURCE_DIR}/doxygen/main.doxy)
+    set(doxyfile_in ${PROJECT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(doxyfile ${PROJECT_BINARY_DIR}/docs/Doxyfile)
+    set(doxy_main_page ${PROJECT_SOURCE_DIR}/docs/main.doxy)
 
     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
 
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doxygen
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/docs
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM)
 
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/html DESTINATION share/doc)
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/doxygen/man DESTINATION share/doc)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/html DESTINATION share/doc)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/man DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
 
