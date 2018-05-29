@@ -23,25 +23,6 @@ int main(int argc, char* argv[])
         std::cout << "BlasBooster " + version + " Benchmark" << std::endl;
 
         Threshold threshold;
-//        Threshold threshold(ThresholdSettings(JSON{R"(
-//            {
-//                "significanceThresholdSinglePrecision":                                    1e-5,
-//                "significanceThresholdDoublePrecision":                                    1e-10,
-//                "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
-//                "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
-//                "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
-//                "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
-//                "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.1,
-//                "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.1,
-//                "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.1,
-//                "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.2,
-//                "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.1,
-//                "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
-//                "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
-//                "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
-//            }
-//        )"}));
-
         DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(1e-8)));
         DynamicMatrix Z(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(0.0)));
 
