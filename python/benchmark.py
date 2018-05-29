@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 
 import argparse
+from blasbooster import *
 import numpy as np
 import sys
 import yaml
-
-sys.path.append("../build/Debug/lib")
-from blasbooster import *
 
 parser = argparse.ArgumentParser(description='Generate code using jinja.')
 parser.add_argument('-d', '--data', default='data.yml', help='Data in yaml (default: data.yml)')
@@ -35,4 +33,4 @@ print(C)
 A2 = Matrix(an, am)
 B2 = Matrix(bn, bm)
 
-C2 = matmul(A2, B2)
+#C2 = matmul(A2, B2)
