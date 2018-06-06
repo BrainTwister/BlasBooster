@@ -1,8 +1,6 @@
-#include "ReportManager.h"
+#include "Reporter.h"
 #include "DenseMatrix.h"
 #include "IntelMKL.h"
-#include "Multiplication.h"
-#include <boost/timer/timer.hpp>
 
 using namespace BlasBooster;
 

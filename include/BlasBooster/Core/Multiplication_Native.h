@@ -129,17 +129,16 @@ struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense
                 ColumnCursorA curColumnA(A,curRowA.begin()), endColumnA(A,curRowA.end());
                 RowCursorB curRowB(B,curColumnB.begin());
 
-                *curColumnC = DynamicMatrix(new Matrix<Dense,double>(
-                    getNbRows(*curColumnA), getNbColumns(*curRowB), AllFiller<double>(0.0)));
+                if (curColumnA == endColumnA) continue;
+                *curColumnC = ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
+            	++curColumnA, ++curRowB;
 
-                for ( ; curColumnA != endColumnA; ++curColumnA, ++curRowB )
+                while (curColumnA != endColumnA)
                 {
                     // TODO: Interface must be definable
-                    *curColumnC += ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
+                	*curColumnC = *curColumnC + ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
+                	++curColumnA, ++curRowB;
                 }
-
-                //TODO: ConvertToTheBest
-
             }
         }
     }

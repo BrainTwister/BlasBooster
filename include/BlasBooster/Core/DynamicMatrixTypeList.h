@@ -22,6 +22,7 @@ struct MultipleMatrix;
  * The source matrix will be converted into the first matrix type which match the criteria.
  */
 using DynamicMatrixTypeList = TypeList <
+	Matrix<Zero, float>,
     Matrix<Sparse, float>,
     Matrix<Dense, float>,
     Matrix<Sparse, double>,

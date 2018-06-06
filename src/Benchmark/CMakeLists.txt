@@ -24,3 +24,5 @@ target_link_libraries(
     ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
 )
+
+install(TARGETS benchmark show_pattern RUNTIME DESTINATION bin)

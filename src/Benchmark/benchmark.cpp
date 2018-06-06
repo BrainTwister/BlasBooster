@@ -78,6 +78,8 @@ int main(int argc, char* argv[])
             ptrScopedTimer.reset(new ScopedTimer("blocked multiplication, mult"));
             BlockedDenseMatrix C = (A * B).template execute<TheBestPolicy>();
 
+            std::cout << generateTypeMatrix(C) << std::endl;
+
             Matrix<Dense, double> denseC(C);
             std::cout << "max-norm = " << norm<NormMax>(denseC - refC) << std::endl;
             std::cout << "  2-norm = " << norm<NormTwo>(denseC - refC) << std::endl;

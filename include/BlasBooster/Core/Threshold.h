@@ -15,6 +15,8 @@ typedef double ThresholdType;
 BRAINTWISTER_RECORD( ThresholdSettings, \
     ((ThresholdType, significanceThresholdSinglePrecision, std::numeric_limits<float>::epsilon())) \
     ((ThresholdType, significanceThresholdDoublePrecision, std::numeric_limits<double>::epsilon())) \
+    ((ThresholdType, occupationThresholdMatrixZeroSinglePrecision, 0.0)) \
+    ((ThresholdType, occupationThresholdMatrixZeroDoublePrecision, 0.0)) \
     ((ThresholdType, occupationThresholdMatrixSparseFloatSinglePrecision, 0.0)) \
     ((ThresholdType, occupationThresholdMatrixSparseFloatDoublePrecision, 0.2)) \
     ((ThresholdType, occupationThresholdMatrixDenseFloatSinglePrecision, 0.0)) \
@@ -157,6 +159,18 @@ template <>
 struct OccupationThresholdDistributor<Matrix<Dense,double>,double>
 {
     ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseDoubleDoublePrecision; }
+};
+
+template <class T>
+struct OccupationThresholdDistributor<Matrix<Zero,T>,float>
+{
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixZeroDoublePrecision; }
+};
+
+template <class T>
+struct OccupationThresholdDistributor<Matrix<Zero,T>,double>
+{
+    ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixZeroDoublePrecision; }
 };
 
 } // namespace BlasBooster

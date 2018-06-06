@@ -177,6 +177,10 @@ public: // member functions
         typename std::enable_if<!std::is_same<typename P::orientation, typename P2::orientation>::value>::type* = 0
     );
 
+    /// Conversion from ZeroMatrix
+    template <class T2, class P2>
+    Matrix(Matrix<Zero,T2,P2> const& other);
+
     /// Conversion from MultipleMatrix
     template <class X1, class X2>
     Matrix(MultipleMatrix<X1,X2> const& other);
@@ -618,6 +622,15 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
         }
         ++iterDense;
     }
+}
+
+// Conversion from ZeroMatrix
+template <class T, class P>
+template <class T2, class P2>
+Matrix<Dense,T,P>::Matrix(Matrix<Zero,T2,P2> const& other)
+ : dimension(other.getNbRows(), other.getNbColumns()), storage(other.getNbRows() * other.getNbColumns())
+{
+   AllFiller<T>(0.0)(*this);
 }
 
 // Conversion from MultipleMatrix

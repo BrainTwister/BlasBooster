@@ -297,31 +297,72 @@ struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3>
     }
 };
 
-/// Template specialization for Matrix<M,T1,P1> <Operation> Matrix<Zero,T2,P2>.
-template <class Operation, class M,
+/// Template specialization for Matrix<Dense,T1,P1> <Operation> Matrix<Zero,T2,P2>.
+template <class Operation,
           class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct BinaryOperationFunctor<Operation,M,T1,P1,Zero,T2,P2,M,T3,P3>
+struct BinaryOperationFunctor<Operation,Dense,T1,P1,Zero,T2,P2,Dense,T3,P3>
 {
-    void operator () (Matrix<M,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<M,T3,P3>& C)
+    void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
         // TODO: Operation
         C = A;
     }
 };
 
-/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<M,T2,P2>.
-template <class Operation, class M,
+/// Template specialization for Matrix<Sparse,T1,P1> <Operation> Matrix<Zero,T2,P2>.
+template <class Operation,
           class T1, class P1,
           class T2, class P2,
           class T3, class P3>
-struct BinaryOperationFunctor<Operation,Zero,T1,P1,M,T2,P2,M,T3,P3>
+struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Zero,T2,P2,Sparse,T3,P3>
 {
-    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<M,T2,P2> const& B, Matrix<M,T3,P3>& C)
+    void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    {
+        // TODO: Operation
+        C = A;
+    }
+};
+
+/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Dense,T2,P2>.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2,
+          class T3, class P3>
+struct BinaryOperationFunctor<Operation,Zero,T1,P1,Dense,T2,P2,Dense,T3,P3>
+{
+    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
         // TODO: Operation
         C = B;
+    }
+};
+
+/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Sparse,T2,P2>.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2,
+          class T3, class P3>
+struct BinaryOperationFunctor<Operation,Zero,T1,P1,Sparse,T2,P2,Sparse,T3,P3>
+{
+    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    {
+        // TODO: Operation
+        C = B;
+    }
+};
+
+/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Zero,T2,P2>.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2,
+          class T3, class P3>
+struct BinaryOperationFunctor<Operation,Zero,T1,P1,Zero,T2,P2,Zero,T3,P3>
+{
+    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Zero,T3,P3>& C)
+    {
+        /* nothing to do */
     }
 };
 
@@ -397,13 +438,61 @@ struct BinaryAssignmentOperationFunctor<Operation,Sparse,T1,P1,Dense,T2,P2>
     }
 };
 
-/// Template specialization for Matrix<M1,T1,P1> <Operation> Matrix<Zero,T2,P2>.
+/// Template specialization for Dense, Zero.
 template <class Operation,
-          class M1, class T1, class P1,
+          class T1, class P1,
           class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,M1,T1,P1,Zero,T2,P2>
+struct BinaryAssignmentOperationFunctor<Operation,Dense,T1,P1,Zero,T2,P2>
 {
-    void operator () (Matrix<M1,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
+    void operator () (Matrix<Dense,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
+    {
+        /* nothing to do */
+    }
+};
+
+/// Template specialization for Sparse, Zero.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2>
+struct BinaryAssignmentOperationFunctor<Operation,Sparse,T1,P1,Zero,T2,P2>
+{
+    void operator () (Matrix<Sparse,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
+    {
+        /* nothing to do */
+    }
+};
+
+/// Template specialization for Zero, Dense.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2>
+struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Dense,T2,P2>
+{
+    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Sparse,T2,P2> const& B)
+    {
+    	throw std::runtime_error("Matrix<Zero> += Matrix<Dense>");
+    }
+};
+
+/// Template specialization for Zero, Sparse.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2>
+struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Sparse,T2,P2>
+{
+    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Sparse,T2,P2> const& B)
+    {
+    	throw std::runtime_error("Matrix<Zero> += Matrix<Sparse>");
+    }
+};
+
+/// Template specialization for Zero, Zero.
+template <class Operation,
+          class T1, class P1,
+          class T2, class P2>
+struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Zero,T2,P2>
+{
+    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
     {
         /* nothing to do */
     }
