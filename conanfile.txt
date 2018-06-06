@@ -1,4 +1,5 @@
 [requires]
+benchmark/1.0@braintwister/testing
 boost_filesystem/1.66.0@bincrafters/stable
 boost_serialization/1.66.0@bincrafters/stable
 boost_system/1.66.0@bincrafters/stable
