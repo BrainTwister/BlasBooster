@@ -1,0 +1,12 @@
+#pragma once
+
+extern "C" {
+
+{% for function in functions_spblas %}
+{{ function.return_value }} mkl_{{ function.name }}_(
+    {%- for argument in function.argument_list -%}
+    {{ argument }}*{{ ", " if not loop.last }}
+    {%- endfor %});
+{% endfor %}
+
+} // extern "C"

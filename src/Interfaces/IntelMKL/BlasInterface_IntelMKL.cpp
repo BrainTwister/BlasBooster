@@ -1,4 +1,5 @@
 #include "BlasBooster/BlasInterface/Blas.h"
+#include "BlasBooster/BlasInterface/IntelMKL_SpBlas.h"
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 
 // The upper case name must be used, since the lower case one is
