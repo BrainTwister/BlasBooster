@@ -950,7 +950,7 @@ void BlasInterface <IntelMKL, dcsrmultcsr>::operator() (
 }
 
 std::complex<float> BlasInterface<IntelMKL, cdotc>::operator() (
-	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
+	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 ) const
 {
 	std::complex<float> result;
 	::cdotc_(&result,v1,v2,v3,v4,v5);
@@ -958,7 +958,7 @@ std::complex<float> BlasInterface<IntelMKL, cdotc>::operator() (
 }
 
 std::complex<float> BlasInterface<IntelMKL, cdotu>::operator() (
-	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 )
+	const int *v1, const std::complex<float> *v2, const int *v3, const std::complex<float> *v4, const int *v5 ) const
 {
 	std::complex<float> result;
 	::cdotu_(&result,v1,v2,v3,v4,v5);
@@ -966,7 +966,7 @@ std::complex<float> BlasInterface<IntelMKL, cdotu>::operator() (
 }
 
 std::complex<double> BlasInterface<IntelMKL, zdotc>::operator() (
-	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
+	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 ) const
 {
 	std::complex<double> result;
 	::zdotc_(&result,v1,v2,v3,v4,v5);
@@ -974,7 +974,7 @@ std::complex<double> BlasInterface<IntelMKL, zdotc>::operator() (
 }
 
 std::complex<double> BlasInterface<IntelMKL, zdotu>::operator() (
-	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 )
+	const int *v1, const std::complex<double> *v2, const int *v3, const std::complex<double> *v4, const int *v5 ) const
 {
 	std::complex<double> result;
 	::zdotu_(&result,v1,v2,v3,v4,v5);

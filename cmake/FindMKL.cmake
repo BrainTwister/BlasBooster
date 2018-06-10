@@ -12,7 +12,7 @@ list(APPEND MKL_LIBRARIES
   ${MKL_INTEL_LP64_LIBRARY}
   ${MKL_CORE_LIBRARY}
   ${MKL_GNU_THREAD_LIBRARY}
-  dl pthread m
+  iomp5 dl pthread m
 )
 
 include(FindPackageHandleStandardArgs)

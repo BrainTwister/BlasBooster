@@ -1,0 +1,20 @@
+version: "3"
+services:
+
+  eclipse:
+    image: braintwister/ubuntu-16.04-cmake-3.11-gcc-7-conan-1.4-docker-18.03-eclipse-cpp-4.7.3
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro 
+      - /etc/localtime:/etc/localtime:ro
+      - blasbooster_home:/home/${USER_NAME}
+      - ..:/home/${USER_NAME}/git/${PROJECT}
+    environment:
+      - DISPLAY
+      - USER_ID=${USER_ID}
+      - GROUP_ID=${GROUP_ID}
+      - USER_NAME=${USER_NAME}
+      - GROUP_NAME=${GROUP_NAME}
+    privileged: true
+
+volumes:
+  blasbooster_home:
