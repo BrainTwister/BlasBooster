@@ -17,10 +17,12 @@ int main(int argc, char* argv[])
 
         ScopedTimer scopedTimer("Total time");
 
-        std::cout << "\nBlasBooster " + version + " --- ShowPattern ---\n" << std::endl;
+        std::cout << "\nBlasBooster " + version + " ShowPattern\n" << std::endl;
 
         std::string matrix_file, settings_file, pattern_file;
-        auto cli = Opt(matrix_file, "matrix")
+        bool show_help = true;
+        auto cli = Help(show_help)
+        		 | Opt(matrix_file, "matrix")
                       ["-m"]["--matrix"]
                       ("Matrix filename")
                  | Opt(settings_file, "settings")

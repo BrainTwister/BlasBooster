@@ -26,3 +26,16 @@ target_link_libraries(
 )
 
 install(TARGETS benchmark show_pattern RUNTIME DESTINATION bin)
+
+add_executable(
+    generate_matrix
+    generate_matrix.cpp
+)
+    
+target_link_libraries(
+    generate_matrix
+    ${CONAN_LIBS}
+    ${EXTERNAL_BLAS_LIBRARIES}
+)
+
+install(TARGETS benchmark generate_matrix RUNTIME DESTINATION bin)
