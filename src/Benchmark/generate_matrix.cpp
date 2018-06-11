@@ -20,9 +20,9 @@ int main(int argc, char* argv[])
         BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
         const Matrix<Dense, double> A{block};
 
+        std::cout << A.getSize() << std::endl;
         std::ofstream os("matrix.dat", std::ofstream::binary);
-        auto data = A.getDataPointer();
-        for (size_t i = 0; i != A.getSize(); ++i) os << data[i];
+        os.write(reinterpret_cast<const char*>(A.getDataPointer()), A.getSize()*sizeof(double));
 
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;

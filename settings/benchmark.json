@@ -1,0 +1,29 @@
+{
+    "benchmark":
+    {
+        "min_replications": 1,
+        "max_replications": 100000,
+        "min_execution_time": "00:00:00.100000000",
+        "spike_detection": 0,
+        "spike_detection_factor": 0.1,
+        "warm_up_runs": 0,
+        "verbosity": 0
+    },
+    "threshold":
+    {
+        "significanceThresholdSinglePrecision":                                    1e-5,
+        "significanceThresholdDoublePrecision":                                    1e-10,
+        "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
+        "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
+        "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
+        "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
+        "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.1,
+        "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.1,
+        "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.1,
+        "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.2,
+        "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.1,
+        "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
+        "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
+        "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
+    }
+}

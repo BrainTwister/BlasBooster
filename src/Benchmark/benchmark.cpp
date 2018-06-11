@@ -11,13 +11,19 @@
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
 #include "BlasBooster/Utilities/Version.h"
-#include "BrainTwister/JSON.h"
 #include "BrainTwister/benchmark.h"
+#include "BrainTwister/JSON.h"
+#include "BrainTwister/Record.h"
 #include "clara.hpp"
 #include <iostream>
 #include <memory>
 
 using namespace BlasBooster;
+
+BRAINTWISTER_RECORD(Settings, \
+    ((ThresholdSettings, threshold, ThresholdSettings{})) \
+    ((BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{})) \
+);
 
 int main(int argc, char* argv[])
 {
@@ -25,12 +31,15 @@ int main(int argc, char* argv[])
 
         std::cout << "\nBlasBooster " + version + " Benchmark\n" << std::endl;
 
-        std::string matrix_file;
+        std::string matrix_file, settings_file;
         bool show_help = true;
         auto cli = clara::Help(show_help)
         		 | clara::Opt(matrix_file, "matrix")
                       ["-m"]["--matrix"]
-                      ("Matrix filename");
+                      ("Matrix filename")
+	             | clara::Opt(settings_file, "settings")
+                      ["-s"]["--settings"]
+                      ("Settings filename");
 
         auto r = cli.parse(clara::Args(argc, argv));
         if(!r) {
@@ -38,29 +47,11 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        Threshold threshold;
-        BrainTwister::Benchmark benchmark{JSON{R"(
-            {
-                "min_replications": 1,
-                "max_replications": 100000,
-                "min_execution_time": "00:00:00.100000000",
-                "spike_detection": 0,
-                "spike_detection_factor": 0.1,
-                "warm_up_runs": 0,
-                "verbosity": 0
-            }
-        )"}};
-
-#if 0
-        //DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, DiagonalFiller<double>(1e-8)));
-        DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(1e-8)));
-        DynamicMatrix Z(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(0.0)));
-
-
-        BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
-        const Matrix<Dense, double> refA{block};
-        const Matrix<Dense, double> refB{block};
-#endif
+        std::ifstream ifs{settings_file};
+        std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+        Settings settings{JSON{settings_str}};
+        Threshold threshold{settings.threshold};
+        BrainTwister::Benchmark benchmark{settings.benchmark};
 
         const Matrix<Dense, double> refA(matrix_file);
         const Matrix<Dense, double> refB(matrix_file);
