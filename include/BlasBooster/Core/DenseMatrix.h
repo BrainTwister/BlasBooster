@@ -213,6 +213,8 @@ public: // member functions
     Matrix& operator = (self&& rhs) BLASBOOSTER_NOEXCEPT {
         BLASBOOSTER_DEBUG_PRINT("Matrix: Move assignment operator is called.");
         dimension::operator=(std::forward<dimension>(rhs));
+        leadingDimension::operator=(std::forward<leadingDimension>(rhs));
+        unblockedDimension::operator=(std::forward<unblockedDimension>(rhs));
         storage::operator=(std::forward<storage>(rhs));
         return *this;
     }
@@ -482,6 +484,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
     }
 }
 
+/// Conversion from SubDenseMatrix
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
@@ -506,6 +509,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
     }
 }
 
+/// Conversion from SubDenseMatrix
 template <class T, class P>
 template <class T2, class P2>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other,

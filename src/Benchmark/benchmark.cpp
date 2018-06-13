@@ -141,8 +141,8 @@ int main(int argc, char* argv[])
             std::cout << generateTypeMatrix(C) << std::endl;
 
             Matrix<Dense, double> denseC(C);
-            //std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
-            //std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
+            std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
+            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
         }
 
     } catch ( BlasBoosterException const& e ) {

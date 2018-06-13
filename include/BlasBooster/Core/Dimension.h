@@ -147,6 +147,18 @@ struct UnblockedDimension
      : ubRows_(ubRows), ubColumns_(ubColumns)
     {}
 
+    /// Default copy constructor
+    UnblockedDimension(UnblockedDimension const& other) = default;
+
+    /// Default copy assignment operator
+    UnblockedDimension& operator = (UnblockedDimension const& other) = default;
+
+    /// Default move constructor
+    UnblockedDimension(UnblockedDimension&& other) = default;
+
+    /// Default move assignment
+    UnblockedDimension& operator = (UnblockedDimension&& other) = default;
+
     size_t getUnblockedRows() const { return ubRows_; }
     size_t getUnblockedColumns() const { return ubColumns_; }
 

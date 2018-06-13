@@ -9,18 +9,19 @@ include_directories(
 
 add_executable(
     ${TestName}
-    AbsoluteValueRangeCheckerTest.cpp
+    AbsoluteValueRangeChecker.cpp
     BinaryFunctors.cpp
     main.cpp
-    MatrixConverterTest.cpp
-    MatrixMultiplicationTest.cpp
+    MatrixConverter.cpp
+    MatrixMultiplication.cpp
     MatrixNorm.cpp
     MatrixNorm2.cpp
-    MultipleMatrixTest.cpp
-    SparseMatrixTest.cpp
-    StorageTest.cpp
-    ThresholdTest.cpp
+    MultipleMatrix.cpp
+    SparseMatrix.cpp
+    Storage.cpp
+    Threshold.cpp
     Transposition.cpp
+    ZeroMatrix.cpp
 )
     
 target_link_libraries(

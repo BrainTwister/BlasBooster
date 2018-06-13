@@ -67,19 +67,19 @@ Matrix<Zero,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbC
  : dimension(nbRows,nbColumns)
 {}
 
-/// Default copy constructor
-template <class T, class P>
-void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
-{
-    this->nbRows_ = nbRows;
-    this->nbColumns_ = nbColumns;
-}
-
 /// Conversion from other matrix
 template <class T, class P>
 template <class M2, class T2, class P2>
 Matrix<Zero,T,P>::Matrix(Matrix<M2,T2,P2> const& other)
  : dimension(other.getNbRows(), other.getNbColumns())
 {}
+
+/// Resize function for non-blocked matrix
+template <class T, class P>
+void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+{
+    this->nbRows_ = nbRows;
+    this->nbColumns_ = nbColumns;
+}
 
 } // namespace BlasBooster
