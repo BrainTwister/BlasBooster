@@ -1,37 +1,28 @@
 #pragma once
 
 #include "Matrix.h"
+#include "NullType.h"
 #include <string>
 
 namespace BlasBooster {
 
-template <class T, class P>
-class Matrix<Zero,T,P>
+template <class P>
+class Matrix<Zero,P>
  : public MatrixBase,
    public P::dimension,
    public P::leadingDimension,
-   public P::unblockedDimension,
-   public Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix>,
-   public NormPolicy<Matrix<Zero,T,P>, typename P::NormType>,
-   public OccupationPolicy<Matrix<Zero,T,P>>
+   public P::unblockedDimension
 {
 public: // typedefs
 
-    typedef Matrix<Zero,T,P> self;
+    typedef Matrix<Zero,P> self;
     typedef Zero matrix_type;
-    typedef T value_type;
-    typedef const T const_value_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
     typedef P parameter;
     typedef typename P::dimension dimension;
     typedef typename P::orientation orientation;
     typedef typename P::leadingDimension leadingDimension;
     typedef typename P::unblockedDimension unblockedDimension;
     typedef typename P::IndexType IndexType;
-    typedef Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix> storage;
-    typedef typename storage::iterator iterator;
-    typedef typename storage::const_iterator const_iterator;
 
 public: // member functions
 
@@ -51,32 +42,35 @@ public: // member functions
     /// Resize function for non-blocked matrix
     void resize(IndexType nbRows, IndexType nbColumns);
 
+    size_t getNbRows() const { return dimension::nbRows_; }
+    size_t getNbColumns() const { return dimension::nbColumns_; }
+
     const std::type_info& getTypeInfo() const { return typeid(*this); }
 
     size_t getTypeIndex() const { return typeIndex_; }
 
     static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
-    static const std::string name() { return "Matrix<Zero," + TypeName<T>::value() + ">"; }
+    static const std::string name() { return "Matrix<Zero>"; }
 
 };
 
 /// Default/Parameter constructor
-template <class T, class P>
-Matrix<Zero,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+template <class P>
+Matrix<Zero,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
  : dimension(nbRows,nbColumns)
 {}
 
 /// Conversion from other matrix
-template <class T, class P>
+template <class P>
 template <class M2, class T2, class P2>
-Matrix<Zero,T,P>::Matrix(Matrix<M2,T2,P2> const& other)
+Matrix<Zero,P>::Matrix(Matrix<M2,T2,P2> const& other)
  : dimension(other.getNbRows(), other.getNbColumns())
 {}
 
 /// Resize function for non-blocked matrix
-template <class T, class P>
-void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+template <class P>
+void Matrix<Zero,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;

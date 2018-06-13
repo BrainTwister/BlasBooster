@@ -54,7 +54,7 @@ private:
 };
 
 template <class P, class NormType>
-class NormPolicy<Matrix<Zero,NoType,P>,NormType>
+class NormPolicy<Matrix<Zero,P>,NormType>
 {
 public:
 

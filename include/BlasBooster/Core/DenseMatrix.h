@@ -178,8 +178,8 @@ public: // member functions
     );
 
     /// Conversion from ZeroMatrix
-    template <class T2, class P2>
-    Matrix(Matrix<Zero,T2,P2> const& other);
+    template <class P2>
+    Matrix(Matrix<Zero,P2> const& other);
 
     /// Conversion from MultipleMatrix
     template <class X1, class X2>
@@ -630,8 +630,8 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
 
 // Conversion from ZeroMatrix
 template <class T, class P>
-template <class T2, class P2>
-Matrix<Dense,T,P>::Matrix(Matrix<Zero,T2,P2> const& other)
+template <class P2>
+Matrix<Dense,T,P>::Matrix(Matrix<Zero,P2> const& other)
  : dimension(other.getNbRows(), other.getNbColumns()), storage(other.getNbRows() * other.getNbColumns())
 {
    AllFiller<T>(0.0)(*this);

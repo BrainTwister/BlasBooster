@@ -9,7 +9,11 @@ TEST(ZeroMatrix, convert_from_dense)
 {
 	Matrix<Dense,double> A{{1.0, 2.0}, {3.0, 4.0}};
 	Matrix<Dense,double> DZ{2, 2, AllFiller<double>{0.0}};
-    Matrix<Zero,double> Z{A};
+    Matrix<Zero> Z{A};
+
+	EXPECT_EQ(2UL, Z.getNbRows());
+	EXPECT_EQ(2UL, Z.getNbColumns());
+	EXPECT_EQ(4UL, Z.getSize());
 
 	EXPECT_EQ(2UL, Z.getNbRows());
 

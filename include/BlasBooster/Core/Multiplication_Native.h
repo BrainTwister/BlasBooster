@@ -4,6 +4,7 @@
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
 #include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/ZeroMatrix.h"
 //#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include <type_traits>
 #include <vector>
@@ -271,14 +272,31 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
     }
 };
 
-/// Matrix multiplication specialized for Matrix<M1,T1,P1> * Matrix<M2,T2,P2> if M1 or M2 is Zero
-template <class M1, class T1, class P1,
-          class M2, class T2, class P2,
-          class T3, class P3>
-struct MultiplicationFunctor<M1,T1,P1,M2,T2,P2,typename std::enable_if<
-    std::is_same<M1,Zero>{} or std::is_same<M2,Zero>{}, Zero>::type,T3,P3,Native>
+/// Matrix multiplication specialized for Matrix<M1,T1,P1> * Matrix<Zero,P2>
+template <class M1, class T1, class P1, class P2, class P3>
+struct MultiplicationFunctor<M1,T1,P1,Zero,NullType,P2,Zero,NullType,P3,Native>
 {
-    void operator () (Matrix<M1,T1,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<Zero,T3,P3>& C)
+    void operator () (Matrix<M1,T1,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Zero,P3>& C) const
+    {
+        C.resize(A.getNbRows(),B.getNbColumns());
+    }
+};
+
+/// Matrix multiplication specialized for Matrix<Zero,P1> * Matrix<M2,T2,P2>
+template <class P1, class M2, class T2, class P2, class P3>
+struct MultiplicationFunctor<Zero,NullType,P1,M2,T2,P2,Zero,NullType,P3,Native>
+{
+    void operator () (Matrix<Zero,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<Zero,P3>& C) const
+    {
+        C.resize(A.getNbRows(),B.getNbColumns());
+    }
+};
+
+/// Matrix multiplication specialized for Matrix<Zero,P1> * Matrix<Zero,P2>
+template <class P1, class P2, class P3>
+struct MultiplicationFunctor<Zero,NullType,P1,Zero,NullType,P2,Zero,NullType,P3,Native>
+{
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Zero,P3>& C) const
     {
         C.resize(A.getNbRows(),B.getNbColumns());
     }

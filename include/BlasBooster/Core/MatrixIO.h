@@ -132,10 +132,10 @@ struct MatrixPrintFunctor<Sparse,T,P>
     }
 };
 
-template <class T, class P>
-struct MatrixPrintFunctor<Zero,T,P>
+template <class P>
+struct MatrixPrintFunctor<Zero,P>
 {
-    void operator () (std::ostream& stream, Matrix<Zero,T,P> const& A) const
+    void operator () (std::ostream& stream, Matrix<Zero,P> const& A) const
     {
         stream << A.name() << std::endl
                << "Size = " << A.getSize() << std::endl
@@ -150,10 +150,18 @@ std::ostream& operator << (std::ostream& stream, Matrix<M,T,P> const& A)
     return stream << std::flush;
 }
 
-template <class T1, class T2>
-std::ostream& operator << (std::ostream& stream, MultipleMatrix<T1,T2> const& A)
+template <class X1, class X2>
+std::ostream& operator << (std::ostream& stream, MultipleMatrix<X1,X2> const& A)
 {
     return stream << A.getMatrix1() << A.getMatrix2() << std::flush;
+}
+
+template <class P>
+std::ostream& operator << (std::ostream& stream, Matrix<Zero,P> const& A)
+{
+    return stream << A.name() << std::endl
+                  << "Size = " << A.getSize() << std::endl
+                  << "Dimension = " << A.getNbRows() << " x " << A.getNbColumns() << std::endl;
 }
 
 struct DynamicMatrixPrintFunctor

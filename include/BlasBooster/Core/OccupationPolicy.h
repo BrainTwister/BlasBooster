@@ -60,7 +60,7 @@ private:
 };
 
 template <class P>
-class OccupationPolicy<Matrix<Zero,NoType,P> >
+class OccupationPolicy<Matrix<Zero,P> >
 {
 public:
 

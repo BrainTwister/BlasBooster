@@ -10,9 +10,6 @@ struct Dense{};
 struct Sparse{};
 struct Zero{};
 
-/// Dummy type for Matrix<Zero,NoType,P>
-struct NoType{};
-
 /**
  * \brief Primary template for all matrix types.
  *

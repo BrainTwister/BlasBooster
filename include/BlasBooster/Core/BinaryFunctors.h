@@ -7,6 +7,7 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
+#include "BlasBooster/Core/NullType.h"
 #include "BlasBooster/Utilities/exec_dyn_2dim.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
@@ -297,70 +298,71 @@ struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3>
     }
 };
 
-/// Template specialization for Matrix<Dense,T1,P1> <Operation> Matrix<Zero,T2,P2>.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2,
-          class T3, class P3>
-struct BinaryOperationFunctor<Operation,Dense,T1,P1,Zero,T2,P2,Dense,T3,P3>
+/// Template specialization for Matrix<Dense,T1,P1> <Operation> Matrix<Zero,P2>.
+template <class Operation, class T1, class P1, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Operation,Dense,T1,P1,Zero,NullType,P2,Dense,T3,P3>
 {
-    void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
+    void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-        // TODO: Operation
         C = A;
     }
 };
 
-/// Template specialization for Matrix<Sparse,T1,P1> <Operation> Matrix<Zero,T2,P2>.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2,
-          class T3, class P3>
-struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Zero,T2,P2,Sparse,T3,P3>
+/// Template specialization for Matrix<Sparse,T1,P1> <Operation> Matrix<Zero,P2>.
+template <class Operation, class T1, class P1, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Zero,NullType,P2,Sparse,T3,P3>
 {
-    void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Sparse,T3,P3>& C)
     {
-        // TODO: Operation
         C = A;
     }
 };
 
-/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Dense,T2,P2>.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2,
-          class T3, class P3>
-struct BinaryOperationFunctor<Operation,Zero,T1,P1,Dense,T2,P2,Dense,T3,P3>
+/// Template specialization for Matrix<Zero,P1> + Matrix<Dense,T2,P2>.
+template <class P1, class T2, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Plus,Zero,NullType,P1,Dense,T2,P2,Dense,T3,P3>
 {
-    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-        // TODO: Operation
         C = B;
     }
 };
 
-/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Sparse,T2,P2>.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2,
-          class T3, class P3>
-struct BinaryOperationFunctor<Operation,Zero,T1,P1,Sparse,T2,P2,Sparse,T3,P3>
+/// Template specialization for Matrix<Zero,P1> - Matrix<Dense,T2,P2>.
+template <class P1, class T2, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Minus,Zero,NullType,P1,Dense,T2,P2,Dense,T3,P3>
 {
-    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-        // TODO: Operation
+        C = -B;
+    }
+};
+
+/// Template specialization for Matrix<Zero,P1> + Matrix<Sparse,T2,P2>.
+template <class P1, class T2, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Plus,Zero,NullType,P1,Sparse,T2,P2,Sparse,T3,P3>
+{
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    {
         C = B;
     }
 };
 
-/// Template specialization for Matrix<Zero,T1,P1> <Operation> Matrix<Zero,T2,P2>.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2,
-          class T3, class P3>
-struct BinaryOperationFunctor<Operation,Zero,T1,P1,Zero,T2,P2,Zero,T3,P3>
+/// Template specialization for Matrix<Zero,P1> + Matrix<Sparse,T2,P2>.
+template <class P1, class T2, class P2, class T3, class P3>
+struct BinaryOperationFunctor<Minus,Zero,NullType,P1,Sparse,T2,P2,Sparse,T3,P3>
 {
-    void operator () (Matrix<Zero,T1,P1> const& A, Matrix<Zero,T2,P2> const& B, Matrix<Zero,T3,P3>& C)
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
+    {
+        C = -B;
+    }
+};
+
+/// Template specialization for Matrix<Zero,P1> <Operation> Matrix<Zero,P2>.
+template <class Operation, class P1, class P2, class P3>
+struct BinaryOperationFunctor<Operation,Zero,NullType,P1,Zero,NullType,P2,Zero,NullType,P3>
+{
+    void operator () (Matrix<Zero,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Zero,P3>& C)
     {
         /* nothing to do */
     }
@@ -507,19 +509,8 @@ Dense operator - (Dense, Dense);
 Dense operator - (Dense, Sparse);
 Dense operator - (Sparse, Dense);
 Sparse operator - (Sparse, Sparse);
-Dense operator + (Dense, Zero);
-Dense operator + (Zero, Dense);
-Sparse operator + (Sparse, Zero);
-Sparse operator + (Zero, Sparse);
-Zero operator + (Zero, Zero);
-Dense operator - (Dense, Zero);
-Dense operator - (Zero, Dense);
-Sparse operator - (Sparse, Zero);
-Sparse operator - (Zero, Sparse);
-Zero operator - (Zero, Zero);
 
-template <class M1, class T1,
-          class M2, class T2, class P>
+template <class M1, class T1, class M2, class T2, class P>
 inline auto operator + (Matrix<M1,T1,P> const& A, Matrix<M2,T2,P> const& B)
     -> Matrix<decltype(M1() + M2()),decltype(T1() + T2()),P>
 {
@@ -656,6 +647,134 @@ inline MultipleMatrix<X1,X2>& operator -= (MultipleMatrix<X1,X2>& A, MultipleMat
     A.getMatrix2() -= B.getMatrix1();
     A.getMatrix1() -= B.getMatrix2();
     A.getMatrix2() -= B.getMatrix2();
+    return A;
+}
+
+/// Operator for Matrix + Zero
+template <class M, class T, class P>
+Matrix<M,T,P> operator + (Matrix<M,T,P> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<M,T,P>(A);
+}
+
+/// Operator for Zero + Matrix
+template <class M, class T, class P>
+Matrix<M,T,P> operator + (Matrix<Zero,P> const& A, Matrix<M,T,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<M,T,P>(B);
+}
+
+/// Operator for Zero + Zero
+template <class P>
+Matrix<Zero,P> operator + (Matrix<Zero,P> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<Zero,P>(A);
+}
+
+/// Operator for Matrix += Zero
+template <class M, class T, class P>
+Matrix<M,T,P>& operator += (Matrix<M,T,P>& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return A;
+}
+
+/// Operator for Matrix - Zero
+template <class M, class T, class P>
+Matrix<M,T,P> operator - (Matrix<M,T,P> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<M,T,P>(A);
+}
+
+/// Operator for Zero - Matrix
+template <class M, class T, class P>
+Matrix<M,T,P> operator - (Matrix<Zero,P> const& A, Matrix<M,T,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<M,T,P>(-B);
+}
+
+/// Operator for Zero - Zero
+template <class P>
+Matrix<Zero,P> operator - (Matrix<Zero,P> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return Matrix<Zero,P>(A);
+}
+
+/// Operator for Matrix -= Zero
+template <class M, class T, class P>
+Matrix<M,T,P>& operator -= (Matrix<M,T,P>& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return A;
+}
+/// Operator for MultipleMatrix + Zero
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2> operator + (MultipleMatrix<X1,X2> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return MultipleMatrix<X1,X2>(A);
+}
+
+/// Operator for Zero + Matrix
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2> operator + (Matrix<Zero,P> const& A, MultipleMatrix<X1,X2> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return MultipleMatrix<X1,X2>(B);
+}
+
+/// Operator for Matrix += Zero
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2>& operator += (MultipleMatrix<X1,X2>& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return A;
+}
+
+/// Operator for Matrix - Zero
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2> operator - (MultipleMatrix<X1,X2> const& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    return MultipleMatrix<X1,X2>(A);
+}
+
+/// Operator for Zero - Matrix
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2> operator - (Matrix<Zero,P> const& A, MultipleMatrix<X1,X2> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
+    MultipleMatrix<X1,X2> result(B);
+    //-result.getMatrix1();
+    //-result.getMatrix2();
+    return result;
+}
+
+/// Operator for Matrix -= Zero
+template <class X1, class X2, class P>
+MultipleMatrix<X1,X2>& operator -= (MultipleMatrix<X1,X2>& A, Matrix<Zero,P> const& B)
+{
+	assert(A.getNbRows() == B.getNbRows());
+	assert(A.getNbColumns() == B.getNbColumns());
     return A;
 }
 
