@@ -1,11 +1,12 @@
 #pragma once
 
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Utilities/TypeList.h"
 
 namespace BlasBooster {
 
 /// Forward declaration
-template <class M, class T, class P>
+template <typename...>
 struct Matrix;
 
 /// Forward declaration

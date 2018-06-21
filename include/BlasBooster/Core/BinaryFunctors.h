@@ -7,7 +7,7 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixBase.h"
 #include "BlasBooster/Core/MultipleMatrix.h"
-#include "BlasBooster/Core/NullType.h"
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Utilities/exec_dyn_2dim.h"
 #include "BlasBooster/Utilities/TypeList.h"
 #include "BlasBooster/Utilities/wrong_t.h"
@@ -17,9 +17,6 @@
 #include <type_traits>
 
 namespace BlasBooster {
-
-struct Plus {};
-struct Minus {};
 
 /// Binary operation functor
 template <class Operation>
@@ -158,8 +155,8 @@ struct BinaryOperationFunctor<Operation,Dense,T1,P1,Dense,T2,P2,Dense,T3,P3>
         typedef typename ConstMatrixB::const_iterator ConstIteratorB;
         typedef typename MatrixC::iterator IteratorC;
 
-        if (A.getNbRows() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-        if (A.getNbColumns() != B.getNbColumns()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
 
         C.resize(A.getNbRows(),A.getNbColumns());
 
@@ -182,8 +179,8 @@ struct BinaryOperationFunctor<Operation,Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
     {
-        if (A.getNbRows() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-        if (A.getNbColumns() != B.getNbColumns()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
 
         typename Matrix<Sparse,T1,P1>::const_iterator iterValueACur;
         typename Matrix<Sparse,T1,P1>::const_index_iterator iterKeyACur, iterKeyAEnd;
@@ -259,8 +256,8 @@ struct BinaryOperationFunctor<Operation,Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3>
 {
     void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-        if (A.getNbRows() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-        if (A.getNbColumns() != B.getNbColumns()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
 
         typename Matrix<Sparse,T2,P2>::const_iterator iterValueBCur;
         typename Matrix<Sparse,T2,P2>::const_index_iterator iterKeyBCur, iterKeyBEnd;
@@ -411,8 +408,8 @@ struct BinaryAssignmentOperationFunctor<Operation,Dense,T1,P1,Sparse,T2,P2>
 {
     void operator () (Matrix<Dense,T1,P1>& A, Matrix<Sparse,T2,P2> const& B)
     {
-        if (A.getNbRows() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-        if (A.getNbColumns() != B.getNbColumns()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
 
         size_t col(0);
         for (typename Matrix<Sparse,T2,P2>::const_index_iterator iterOffsetCur(B.beginOffset()),
@@ -437,66 +434,6 @@ struct BinaryAssignmentOperationFunctor<Operation,Sparse,T1,P1,Dense,T2,P2>
     void operator () (Matrix<Sparse,T1,P1>& A, Matrix<Dense,T2,P2> const& B)
     {
         throw std::runtime_error("5 not yet implemented.");
-    }
-};
-
-/// Template specialization for Dense, Zero.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,Dense,T1,P1,Zero,T2,P2>
-{
-    void operator () (Matrix<Dense,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
-    {
-        /* nothing to do */
-    }
-};
-
-/// Template specialization for Sparse, Zero.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,Sparse,T1,P1,Zero,T2,P2>
-{
-    void operator () (Matrix<Sparse,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
-    {
-        /* nothing to do */
-    }
-};
-
-/// Template specialization for Zero, Dense.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Dense,T2,P2>
-{
-    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Sparse,T2,P2> const& B)
-    {
-    	throw std::runtime_error("Matrix<Zero> += Matrix<Dense>");
-    }
-};
-
-/// Template specialization for Zero, Sparse.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Sparse,T2,P2>
-{
-    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Sparse,T2,P2> const& B)
-    {
-    	throw std::runtime_error("Matrix<Zero> += Matrix<Sparse>");
-    }
-};
-
-/// Template specialization for Zero, Zero.
-template <class Operation,
-          class T1, class P1,
-          class T2, class P2>
-struct BinaryAssignmentOperationFunctor<Operation,Zero,T1,P1,Zero,T2,P2>
-{
-    void operator () (Matrix<Zero,T1,P1>& A, Matrix<Zero,T2,P2> const& B)
-    {
-        /* nothing to do */
     }
 };
 

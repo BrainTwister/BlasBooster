@@ -3,6 +3,7 @@
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/ZeroMatrix.h"
 //#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"

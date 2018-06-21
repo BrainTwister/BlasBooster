@@ -2,6 +2,7 @@
 
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/MatrixMultExp.h"
@@ -137,7 +138,7 @@ public:
 
 private:
 
-    template <class M2, class T2, class P2>
+    template <typename...>
     friend struct Matrix;
 
     template <class M1, class T1, class P1, class M2, class T2, class P2, class M3, class T3, class P3, class Interface>

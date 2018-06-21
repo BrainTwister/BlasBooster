@@ -15,6 +15,7 @@
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Storage.h"
 #include "BlasBooster/Core/Transposition.h"
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Utilities/exec_if.h"
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/TypeChecker.h"
@@ -26,6 +27,9 @@
 #include <stdexcept>
 #include <string>
 #include <typeinfo>
+
+#include "EmptyTypes.h"
+#include "EmptyTypes.h"
 
 namespace BlasBooster {
 
@@ -295,7 +299,7 @@ public: // member functions
 
 private:
 
-    template <class M2, class T2, class P2>
+    template <typename...>
     friend struct Matrix;
 
     template <class M1, class T1, class P1, class M2, class T2, class P2, class M3, class T3, class P3, class Interface>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
-#include "NullType.h"
+#include "EmptyTypes.h"
 #include <string>
 
 namespace BlasBooster {
@@ -52,6 +52,11 @@ public: // member functions
     static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
     static const std::string name() { return "Matrix<Zero>"; }
+
+private:
+
+    template <typename...>
+    friend struct Matrix;
 
 };
 

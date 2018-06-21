@@ -1,14 +1,9 @@
 #pragma once
 
-#include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Utilities/wrong_t.h"
 #include <cstddef>
 
 namespace BlasBooster {
-
-struct Dense{};
-struct Sparse{};
-struct Zero{};
 
 /**
  * \brief Primary template for all matrix types.
@@ -18,10 +13,10 @@ struct Zero{};
  * T: DataType, which can be a simple build-in type (double, float, int) or again a matrix
  * P: Parameters, which describes the inner structure of the matrix
  */
-template <class M = Dense, class T = double, class P = Parameter<>>
+template <typename...>
 struct Matrix
 {
-    static_assert(wrong_t<M>::value, "Matrix primary template must not be instantiated.");
+    //static_assert(wrong_t<M>::value, "Matrix primary template must not be instantiated.");
 };
 
 } // namespace BlasBooster
