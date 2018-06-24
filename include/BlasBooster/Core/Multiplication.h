@@ -16,6 +16,10 @@ Zero operator * (Sparse, Zero);
 Zero operator * (Zero, Sparse);
 Zero operator * (Zero, Zero);
 
+NullType operator * (NullType, NullType);
+template <class T> NullType operator * (NullType, T);
+template <class T> NullType operator * (T, NullType);
+
 template <class T> Parameter<T, ColumnMajor> operator * (Parameter<T, ColumnMajor>, Parameter<T, ColumnMajor>);
 template <class T> Parameter<T, ColumnMajor> operator * (Parameter<T, ColumnMajor>, Parameter<T, RowMajor>);
 template <class T> Parameter<T, ColumnMajor> operator * (Parameter<T, RowMajor>, Parameter<T, ColumnMajor>);

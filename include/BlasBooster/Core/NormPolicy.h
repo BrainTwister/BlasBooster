@@ -53,25 +53,4 @@ private:
 
 };
 
-template <class P, class NormType>
-class NormPolicy<Matrix<Zero,NoType,P>,NormType>
-{
-public:
-
-    double getNorm() const
-    {
-        return 0.0;
-    }
-
-    bool isNormLargerThan(double value) const
-    {
-        return 0.0 > value;
-    }
-
-    bool isNormSmallerThan(double value) const
-    {
-        return 0.0 < value;
-    }
-};
-
 } // namespace BlasBooster

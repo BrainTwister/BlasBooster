@@ -2,6 +2,7 @@
 
 #include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
 #include "BlasBooster/Core/Cursor.h"
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/MatrixFiller.h"
 #include "BlasBooster/Core/MatrixMultExp.h"

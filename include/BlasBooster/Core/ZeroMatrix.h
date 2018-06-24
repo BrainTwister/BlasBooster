@@ -1,37 +1,32 @@
 #pragma once
 
-#include "Matrix.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/EmptyTypes.h"
+#include "BlasBooster/Core/NormPolicy.h"
+#include "BlasBooster/Core/OccupationPolicy.h"
 #include <string>
 
 namespace BlasBooster {
 
-template <class T, class P>
-class Matrix<Zero,T,P>
+template <class P>
+class Matrix<Zero,NullType,P>
  : public MatrixBase,
    public P::dimension,
    public P::leadingDimension,
    public P::unblockedDimension,
-   public Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix>,
-   public NormPolicy<Matrix<Zero,T,P>, typename P::NormType>,
-   public OccupationPolicy<Matrix<Zero,T,P>>
+   public NormPolicy<Matrix<Zero,NullType,P>, typename P::NormType>,
+   public OccupationPolicy<Matrix<Zero,NullType,P>>
 {
 public: // typedefs
 
-    typedef Matrix<Zero,T,P> self;
+    typedef Matrix<Zero,NullType,P> self;
     typedef Zero matrix_type;
-    typedef T value_type;
-    typedef const T const_value_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
     typedef P parameter;
     typedef typename P::dimension dimension;
     typedef typename P::orientation orientation;
     typedef typename P::leadingDimension leadingDimension;
     typedef typename P::unblockedDimension unblockedDimension;
     typedef typename P::IndexType IndexType;
-    typedef Storage<T,P::onStack,P::isFixed,P::dimension::size,P::isSubMatrix> storage;
-    typedef typename storage::iterator iterator;
-    typedef typename storage::const_iterator const_iterator;
 
 public: // member functions
 
@@ -51,35 +46,90 @@ public: // member functions
     /// Resize function for non-blocked matrix
     void resize(IndexType nbRows, IndexType nbColumns);
 
+    size_t getNbRows() const { return dimension::nbRows_; }
+    size_t getNbColumns() const { return dimension::nbColumns_; }
+
     const std::type_info& getTypeInfo() const { return typeid(*this); }
 
     size_t getTypeIndex() const { return typeIndex_; }
 
     static const size_t typeIndex_ = GetIndex<self, DynamicMatrixTypeList>::value;
 
-    static const std::string name() { return "Matrix<Zero," + TypeName<T>::value() + ">"; }
+    static const std::string name() { return "Matrix<Zero>"; }
+
+private:
+
+    template <class M2, class T2, class P2>
+    friend struct Matrix;
 
 };
 
 /// Default/Parameter constructor
-template <class T, class P>
-Matrix<Zero,T,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+template <class P>
+Matrix<Zero,NullType,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
  : dimension(nbRows,nbColumns)
 {}
 
 /// Conversion from other matrix
-template <class T, class P>
+template <class P>
 template <class M2, class T2, class P2>
-Matrix<Zero,T,P>::Matrix(Matrix<M2,T2,P2> const& other)
+Matrix<Zero,NullType,P>::Matrix(Matrix<M2,T2,P2> const& other)
  : dimension(other.getNbRows(), other.getNbColumns())
 {}
 
 /// Resize function for non-blocked matrix
-template <class T, class P>
-void Matrix<Zero,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+template <class P>
+void Matrix<Zero,NullType,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
 }
+
+template <class P, class NormType>
+class NormPolicy<Matrix<Zero,NullType,P>,NormType>
+{
+public:
+
+    double getNorm() const
+    {
+        return 0.0;
+    }
+
+    bool isNormLargerThan(double value) const
+    {
+        return 0.0 > value;
+    }
+
+    bool isNormSmallerThan(double value) const
+    {
+        return 0.0 < value;
+    }
+};
+
+template <class P>
+class OccupationPolicy<Matrix<Zero,NullType,P> >
+{
+public:
+
+    size_t getNbOfSignificantElements(double threshold = 0.0) const
+    {
+        return 0;
+    }
+
+    double getOccupation(double threshold = 0.0) const
+    {
+        return 0.0;
+    }
+
+    bool isOccupationLargerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 > value;
+    }
+
+    bool isOccupationSmallerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 < value;
+    }
+};
 
 } // namespace BlasBooster

@@ -103,12 +103,12 @@ struct ConversionFunctor<M1,T1,P1,MultipleMatrix<X1,X2> >
 };
 
 /// Functor converting Matrix<M1,T1,P1> into Matrix<Zero>
-template <class M1, class T1, class P1, class T2, class P2>
-struct ConversionFunctor<M1,T1,P1,Matrix<Zero,T2,P2> >
+template <class M1, class T1, class P1, class P2>
+struct ConversionFunctor<M1,T1,P1,Matrix<Zero,P2>>
 {
     DynamicMatrix operator () (Matrix<M1,T1,P1> const& matrix, Threshold const& threshold) const
     {
-        return DynamicMatrix(new Matrix<Zero,T2,P2>(matrix));
+        return DynamicMatrix(new Matrix<Zero,P2>(matrix));
     }
 };
 

@@ -161,14 +161,14 @@ struct OccupationThresholdDistributor<Matrix<Dense,double>,double>
     ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixDenseDoubleDoublePrecision; }
 };
 
-template <class T>
-struct OccupationThresholdDistributor<Matrix<Zero,T>,float>
+template <>
+struct OccupationThresholdDistributor<Matrix<Zero>,float>
 {
     ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixZeroDoublePrecision; }
 };
 
-template <class T>
-struct OccupationThresholdDistributor<Matrix<Zero,T>,double>
+template <>
+struct OccupationThresholdDistributor<Matrix<Zero>,double>
 {
     ThresholdType operator () (Threshold const& threshold) const { return threshold.settings.occupationThresholdMatrixZeroDoublePrecision; }
 };

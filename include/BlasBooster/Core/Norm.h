@@ -9,9 +9,19 @@ namespace BlasBooster {
 template <class NormType, class MatrixType>
 struct NormFunctor
 {
-    double operator () (MatrixType const& A)
+    double operator () (MatrixType const& A) const
     {
         static_assert(wrong_t<MatrixType>::value, "Primary template must not be instantiated.");
+        return 0.0;
+    }
+};
+
+/// Specialization for Matrix<Zero>
+template <class P>
+struct NormFunctor<NormTwo, Matrix<Zero,NullType,P>>
+{
+    double operator () (Matrix<Zero,NullType,P> const& m) const
+    {
         return 0.0;
     }
 };
@@ -26,7 +36,7 @@ inline double norm(MatrixType const& m)
 template <class M, class T, class P>
 struct NormFunctor<NormOne, Matrix<M,T,P> >
 {
-    double operator () (Matrix<M,T,P> const& m)
+    double operator () (Matrix<M,T,P> const& m) const
     {
         typedef const Matrix<M,T,P> MatrixType;
 
@@ -43,7 +53,7 @@ struct NormFunctor<NormOne, Matrix<M,T,P> >
 template <class M, class P>
 struct NormFunctor<NormOne,Matrix<M,DynamicMatrix,P> >
 {
-    double operator () (Matrix<M,DynamicMatrix,P> const& m)
+    double operator () (Matrix<M,DynamicMatrix,P> const& m) const
     {
         typedef const Matrix<M,DynamicMatrix,P> MatrixType;
 
@@ -60,7 +70,7 @@ struct NormFunctor<NormOne,Matrix<M,DynamicMatrix,P> >
 template <class X1, class X2>
 struct NormFunctor<NormOne,MultipleMatrix<X1,X2> >
 {
-    double operator () (MultipleMatrix<X1,X2> const& m)
+    double operator () (MultipleMatrix<X1,X2> const& m) const
     {
         //return norm<NormOne>(m.getMatrix1()) + norm<NormOne>(m.getMatrix1());
         return norm<NormOne>(m.getMatrix1() + m.getMatrix1());
@@ -70,7 +80,7 @@ struct NormFunctor<NormOne,MultipleMatrix<X1,X2> >
 template <class M, class T, class P>
 struct NormFunctor<NormTwo, Matrix<M,T,P>>
 {
-    double operator () (Matrix<M,T,P> const& m)
+    double operator () (Matrix<M,T,P> const& m) const
     {
         typedef const Matrix<M,T,P> MatrixType;
 
@@ -87,7 +97,7 @@ struct NormFunctor<NormTwo, Matrix<M,T,P>>
 template <class M, class P>
 struct NormFunctor<NormTwo,Matrix<M,DynamicMatrix,P> >
 {
-    double operator () (Matrix<M,DynamicMatrix,P> const& m)
+    double operator () (Matrix<M,DynamicMatrix,P> const& m) const
     {
         typedef const Matrix<M,DynamicMatrix,P> MatrixType;
 
@@ -104,7 +114,7 @@ struct NormFunctor<NormTwo,Matrix<M,DynamicMatrix,P> >
 template <class X1, class X2>
 struct NormFunctor<NormTwo, MultipleMatrix<X1,X2>>
 {
-    double operator () (MultipleMatrix<X1,X2> const& m)
+    double operator () (MultipleMatrix<X1,X2> const& m) const
     {
         // subadditivity ||A + B|| <= ||A| + ||B|||
         //return std::sqrt(pow(norm<NormTwo>(m.getMatrix1()),2) + pow(norm<NormTwo>(m.getMatrix2()),2));
@@ -115,7 +125,7 @@ struct NormFunctor<NormTwo, MultipleMatrix<X1,X2>>
 template <class M, class T, class P>
 struct NormFunctor<NormMax, Matrix<M,T,P>>
 {
-    double operator () (Matrix<M,T,P> const& m)
+    double operator () (Matrix<M,T,P> const& m) const
     {
         typedef const Matrix<M,T,P> MatrixType;
 
@@ -132,7 +142,7 @@ struct NormFunctor<NormMax, Matrix<M,T,P>>
 template <class M, class P>
 struct NormFunctor<NormMax, Matrix<M,DynamicMatrix,P>>
 {
-    double operator () (Matrix<M,DynamicMatrix,P> const& m)
+    double operator () (Matrix<M,DynamicMatrix,P> const& m) const
     {
         typedef const Matrix<M,DynamicMatrix,P> MatrixType;
 
@@ -149,7 +159,7 @@ struct NormFunctor<NormMax, Matrix<M,DynamicMatrix,P>>
 template <class X1, class X2>
 struct NormFunctor<NormMax, MultipleMatrix<X1,X2>>
 {
-    double operator () (MultipleMatrix<X1,X2> const& m)
+    double operator () (MultipleMatrix<X1,X2> const& m) const
     {
         //return std::max(norm<NormMax>(m.getMatrix1()), norm<NormMax>(m.getMatrix1()));
         return norm<NormMax>(m.getMatrix1() + m.getMatrix2());
@@ -160,7 +170,7 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2>>
 template <class NormType, class T>
 struct DynamicNormFunctor
 {
-	double operator () (DynamicMatrix const& ptrA)
+	double operator () (DynamicMatrix const& ptrA) const
     {
         return NormFunctor<NormType, T>()(*std::static_pointer_cast<T>(ptrA));
     }
@@ -169,7 +179,7 @@ struct DynamicNormFunctor
 template <class NormType>
 struct NormFunctor<NormType, DynamicMatrix>
 {
-    double operator () (DynamicMatrix const& ptrA)
+    double operator () (DynamicMatrix const& ptrA) const
     {
     	return exec_dyn<DynamicMatrixTypeList, DynamicNormFunctor, TypeList<NormType>,
     	    std::function<double(DynamicMatrix const&)>>(ptrA);

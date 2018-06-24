@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Utilities/TypeList.h"
 
 namespace BlasBooster {
@@ -22,7 +23,7 @@ struct MultipleMatrix;
  * The source matrix will be converted into the first matrix type which match the criteria.
  */
 using DynamicMatrixTypeList = TypeList <
-	Matrix<Zero, float>,
+	Matrix<Zero>,
     Matrix<Sparse, float>,
     Matrix<Dense, float>,
     Matrix<Sparse, double>,
