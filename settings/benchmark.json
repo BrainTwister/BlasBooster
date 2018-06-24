@@ -11,8 +11,8 @@
     },
     "threshold":
     {
-        "significanceThresholdSinglePrecision":                                    1e-5,
-        "significanceThresholdDoublePrecision":                                    1e-10,
+        "significanceThresholdSinglePrecision":                                    1e-4,
+        "significanceThresholdDoublePrecision":                                    1e-8,
         "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
         "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
         "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
@@ -25,5 +25,7 @@
         "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
         "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
         "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
-    }
+    },
+    "OpenBLAS_num_threads": 1,
+    "IntelMKL_num_threads": 1
 }

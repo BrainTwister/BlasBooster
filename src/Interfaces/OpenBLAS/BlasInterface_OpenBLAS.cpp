@@ -5,7 +5,7 @@ extern "C" void openblas_set_num_threads(int nbThreads);
 
 namespace BlasBooster {
 
-void openblas_set_num_threads(int nbThreads)
+void OpenBLAS_set_num_threads(int nbThreads)
 {
     ::openblas_set_num_threads(nbThreads);
 }

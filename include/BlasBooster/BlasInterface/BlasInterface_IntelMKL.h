@@ -7,7 +7,7 @@ namespace BlasBooster {
 
 struct IntelMKL {};
 
-void mkl_set_num_threads(int nbThreads);
+void IntelMKL_set_num_threads(int nbThreads);
 
 template <>
 struct BlasInterface <IntelMKL, scabs1>

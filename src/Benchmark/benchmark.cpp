@@ -23,6 +23,8 @@ using namespace BlasBooster;
 BRAINTWISTER_RECORD(Settings, \
     ((ThresholdSettings, threshold, ThresholdSettings{})) \
     ((BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{})) \
+    ((int, OpenBLAS_num_threads, 1)) \
+    ((int, IntelMKL_num_threads, 1)) \
 );
 
 int main(int argc, char* argv[])
@@ -52,6 +54,15 @@ int main(int argc, char* argv[])
         Settings settings{JSON{settings_str}};
         Threshold threshold{settings.threshold};
         BrainTwister::Benchmark benchmark{settings.benchmark};
+
+#ifdef WITH_OPENBLAS
+        std::cout << "Set number of threads for OpenBLAS to " << settings.OpenBLAS_num_threads << std::endl;
+        OpenBLAS_set_num_threads(settings.OpenBLAS_num_threads);
+#endif
+#ifdef WITH_INTELMKL
+        std::cout << "Set number of threads for IntelMKL to " << settings.IntelMKL_num_threads << std::endl;
+        IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
+#endif
 
         const Matrix<Dense, double> refA(matrix_file);
         const Matrix<Dense, double> refB(matrix_file);

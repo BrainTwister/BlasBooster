@@ -8,7 +8,7 @@ extern "C" void MKL_Set_Num_Threads(int nbThreads);
 
 namespace BlasBooster {
 
-void mkl_set_num_threads(int nbThreads)
+void IntelMKL_set_num_threads(int nbThreads)
 {
 	::MKL_Set_Num_Threads(nbThreads);
 }
