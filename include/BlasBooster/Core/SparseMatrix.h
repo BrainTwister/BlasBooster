@@ -138,7 +138,7 @@ public:
 
 private:
 
-    template <typename...>
+    template <class M2, class T2, class P2>
     friend struct Matrix;
 
     template <class M1, class T1, class P1, class M2, class T2, class P2, class M3, class T3, class P3, class Interface>

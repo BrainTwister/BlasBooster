@@ -273,33 +273,36 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
     }
 };
 
-/// Matrix multiplication specialized for Matrix<M1,T1,P1> * Matrix<Zero,P2>
-template <class M1, class T1, class P1, class P2, class P3>
-struct MultiplicationFunctor<M1,T1,P1,Zero,NullType,P2,Zero,NullType,P3,Native>
+/// Matrix multiplication specialized for Matrix<M,T,P> * Matrix<Zero,NullType,P>
+template <class M, class T, class P>
+struct MultiplicationFunctor<M,T,P,Zero,NullType,P,Zero,NullType,P,Native>
 {
-    void operator () (Matrix<M1,T1,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Zero,P3>& C) const
+    void operator () (Matrix<M,T,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-        C.resize(A.getNbRows(),B.getNbColumns());
+    	assert(A.getNbColumns() == B.getNbRows());
+        C.resize(A.getNbRows(), B.getNbColumns());
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Zero,P1> * Matrix<M2,T2,P2>
-template <class P1, class M2, class T2, class P2, class P3>
-struct MultiplicationFunctor<Zero,NullType,P1,M2,T2,P2,Zero,NullType,P3,Native>
+/// Matrix multiplication specialized for Matrix<Zero,NullType,P> * Matrix<M,T,P>
+template <class M, class T, class P>
+struct MultiplicationFunctor<Zero,NullType,P,M,T,P,Zero,NullType,P,Native>
 {
-    void operator () (Matrix<Zero,P1> const& A, Matrix<M2,T2,P2> const& B, Matrix<Zero,P3>& C) const
+    void operator () (Matrix<Zero,NullType,P> const& A, Matrix<M,T,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-        C.resize(A.getNbRows(),B.getNbColumns());
+    	assert(A.getNbColumns() == B.getNbRows());
+        C.resize(A.getNbRows(), B.getNbColumns());
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Zero,P1> * Matrix<Zero,P2>
-template <class P1, class P2, class P3>
-struct MultiplicationFunctor<Zero,NullType,P1,Zero,NullType,P2,Zero,NullType,P3,Native>
+/// Matrix multiplication specialized for Matrix<Zero,NullType,P> * Matrix<Zero,NullType,P>
+template <class P>
+struct MultiplicationFunctor<Zero,NullType,P,Zero,NullType,P,Zero,NullType,P,Native>
 {
-    void operator () (Matrix<Zero,P1> const& A, Matrix<Zero,P2> const& B, Matrix<Zero,P3>& C) const
+    void operator () (Matrix<Zero,NullType,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-        C.resize(A.getNbRows(),B.getNbColumns());
+    	assert(A.getNbColumns() == B.getNbRows());
+        C.resize(A.getNbRows(), B.getNbColumns());
     }
 };
 

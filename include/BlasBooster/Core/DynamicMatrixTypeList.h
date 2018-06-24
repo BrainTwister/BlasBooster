@@ -6,7 +6,7 @@
 namespace BlasBooster {
 
 /// Forward declaration
-template <typename...>
+template <class M, class T, class P>
 struct Matrix;
 
 /// Forward declaration

@@ -59,30 +59,4 @@ private:
 
 };
 
-template <class P>
-class OccupationPolicy<Matrix<Zero,P> >
-{
-public:
-
-    size_t getNbOfSignificantElements(double threshold = 0.0) const
-    {
-        return 0;
-    }
-
-    double getOccupation(double threshold = 0.0) const
-    {
-        return 0.0;
-    }
-
-    bool isOccupationLargerThan(double value, double threshold = 0.0) const
-    {
-        return 0.0 > value;
-    }
-
-    bool isOccupationSmallerThan(double value, double threshold = 0.0) const
-    {
-        return 0.0 < value;
-    }
-};
-
 } // namespace BlasBooster

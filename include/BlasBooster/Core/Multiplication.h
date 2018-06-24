@@ -10,6 +10,15 @@ Dense operator * (Dense, Dense);
 Dense operator * (Dense, Sparse);
 Dense operator * (Sparse, Dense);
 Sparse operator * (Sparse, Sparse);
+Zero operator * (Dense, Zero);
+Zero operator * (Zero, Dense);
+Zero operator * (Sparse, Zero);
+Zero operator * (Zero, Sparse);
+Zero operator * (Zero, Zero);
+
+NullType operator * (NullType, NullType);
+template <class T> NullType operator * (NullType, T);
+template <class T> NullType operator * (T, NullType);
 
 template <class T> Parameter<T, ColumnMajor> operator * (Parameter<T, ColumnMajor>, Parameter<T, ColumnMajor>);
 template <class T> Parameter<T, ColumnMajor> operator * (Parameter<T, ColumnMajor>, Parameter<T, RowMajor>);

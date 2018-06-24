@@ -133,9 +133,9 @@ struct MatrixPrintFunctor<Sparse,T,P>
 };
 
 template <class P>
-struct MatrixPrintFunctor<Zero,P>
+struct MatrixPrintFunctor<Zero,NullType,P>
 {
-    void operator () (std::ostream& stream, Matrix<Zero,P> const& A) const
+    void operator () (std::ostream& stream, Matrix<Zero,NullType,P> const& A) const
     {
         stream << A.name() << std::endl
                << "Size = " << A.getSize() << std::endl

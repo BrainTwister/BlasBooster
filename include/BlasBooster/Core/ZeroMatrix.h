@@ -1,21 +1,25 @@
 #pragma once
 
-#include "Matrix.h"
-#include "EmptyTypes.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/EmptyTypes.h"
+#include "BlasBooster/Core/NormPolicy.h"
+#include "BlasBooster/Core/OccupationPolicy.h"
 #include <string>
 
 namespace BlasBooster {
 
 template <class P>
-class Matrix<Zero,P>
+class Matrix<Zero,NullType,P>
  : public MatrixBase,
    public P::dimension,
    public P::leadingDimension,
-   public P::unblockedDimension
+   public P::unblockedDimension,
+   public NormPolicy<Matrix<Zero,NullType,P>, typename P::NormType>,
+   public OccupationPolicy<Matrix<Zero,NullType,P>>
 {
 public: // typedefs
 
-    typedef Matrix<Zero,P> self;
+    typedef Matrix<Zero,NullType,P> self;
     typedef Zero matrix_type;
     typedef P parameter;
     typedef typename P::dimension dimension;
@@ -55,30 +59,77 @@ public: // member functions
 
 private:
 
-    template <typename...>
+    template <class M2, class T2, class P2>
     friend struct Matrix;
 
 };
 
 /// Default/Parameter constructor
 template <class P>
-Matrix<Zero,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+Matrix<Zero,NullType,P>::Matrix(typename P::IndexType nbRows, typename P::IndexType nbColumns)
  : dimension(nbRows,nbColumns)
 {}
 
 /// Conversion from other matrix
 template <class P>
 template <class M2, class T2, class P2>
-Matrix<Zero,P>::Matrix(Matrix<M2,T2,P2> const& other)
+Matrix<Zero,NullType,P>::Matrix(Matrix<M2,T2,P2> const& other)
  : dimension(other.getNbRows(), other.getNbColumns())
 {}
 
 /// Resize function for non-blocked matrix
 template <class P>
-void Matrix<Zero,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
+void Matrix<Zero,NullType,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns)
 {
     this->nbRows_ = nbRows;
     this->nbColumns_ = nbColumns;
 }
+
+template <class P, class NormType>
+class NormPolicy<Matrix<Zero,NullType,P>,NormType>
+{
+public:
+
+    double getNorm() const
+    {
+        return 0.0;
+    }
+
+    bool isNormLargerThan(double value) const
+    {
+        return 0.0 > value;
+    }
+
+    bool isNormSmallerThan(double value) const
+    {
+        return 0.0 < value;
+    }
+};
+
+template <class P>
+class OccupationPolicy<Matrix<Zero,NullType,P> >
+{
+public:
+
+    size_t getNbOfSignificantElements(double threshold = 0.0) const
+    {
+        return 0;
+    }
+
+    double getOccupation(double threshold = 0.0) const
+    {
+        return 0.0;
+    }
+
+    bool isOccupationLargerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 > value;
+    }
+
+    bool isOccupationSmallerThan(double value, double threshold = 0.0) const
+    {
+        return 0.0 < value;
+    }
+};
 
 } // namespace BlasBooster
