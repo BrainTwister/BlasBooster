@@ -5,11 +5,10 @@
 #include "BlasBooster/Utilities/Filesystem.h"
 #include "BlasBooster/Utilities/ScopedTimer.h"
 #include "BlasBooster/Utilities/Version.h"
-#include "BrainTwister/XML.h"
+#include "BrainTwister/JSON.h"
 #include "clara.hpp"
 
 using namespace BlasBooster;
-using namespace clara;
 
 int main(int argc, char* argv[])
 {
@@ -19,30 +18,35 @@ int main(int argc, char* argv[])
 
         std::cout << "\nBlasBooster " + version + " ShowPattern\n" << std::endl;
 
-        std::string matrix_file, settings_file, pattern_file;
-        bool show_help = true;
-        auto cli = Help(show_help)
-        		 | Opt(matrix_file, "matrix")
-                      ["-m"]["--matrix"]
-                      ("Matrix filename")
-                 | Opt(settings_file, "settings")
-                      ["-s"]["--settings"]
-                      ("Settings filename")
-                 | Opt(pattern_file, "pattern")
-                      ["-p"]["--pattern"]
-                      ("Pattern filename");
+        std::string matrix_file;
+        std::string settings_file = "";
+		std::string pattern_file = "pattern.xpm";
+        bool show_help = false;
+        auto cli = clara::Help(show_help)
+        		 | clara::Arg(matrix_file, "matrix")("Matrix file (*.xml)").required()
+                 | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.xml)")
+                 | clara::Opt(pattern_file, "pattern")["-p"]["--pattern"]("Pattern file (default: pattern.xpm)");
 
-        auto result = cli.parse(Args(argc, argv));
-        if(!result) {
-            std::cerr << "Error in command line: " << result.errorMessage() << std::endl;
+        auto r = cli.parse(clara::Args(argc, argv));
+        if(!r)
+        {
+    	    std::cerr << cli << std::endl;
+            std::cerr << "Error in command line: " << r.errorMessage() << std::endl;
             return 1;
         }
+        if (show_help)
+        {
+    	    std::cerr << cli << std::endl;
+            return 0;
+        }
 
+        std::cout << "matrix_file: " << matrix_file << std::endl;
         const Matrix<Dense, double> matrix(matrix_file);
 
         std::ifstream ifs{settings_file};
         std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-        PatternGenerator{XML{settings_str}}(matrix, pattern_file);
+        std::cout << "pattern_file: " << pattern_file << std::endl;
+        PatternGenerator{JSON{settings_str}}(matrix, pattern_file);
 
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;

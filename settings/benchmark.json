@@ -11,8 +11,8 @@
     },
     "threshold":
     {
-        "significanceThresholdSinglePrecision":                                    1e-4,
-        "significanceThresholdDoublePrecision":                                    1e-8,
+        "significanceThresholdSinglePrecision":                                    1e-5,
+        "significanceThresholdDoublePrecision":                                    1e-10,
         "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
         "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
         "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,

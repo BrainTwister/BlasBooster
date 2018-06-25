@@ -1,0 +1,16 @@
+{
+    "background_index": "k",
+    "background_color": "000000",
+    "palette": [
+		{ "index": "a", "color": "ffff00", "threshold": 1e0  },
+		{ "index": "b", "color": "db2020", "threshold": 1e-1 },
+		{ "index": "c", "color": "dc00dc", "threshold": 1e-2 },
+		{ "index": "d", "color": "800080", "threshold": 1e-3 },
+		{ "index": "e", "color": "3379b2", "threshold": 1e-4 },
+		{ "index": "f", "color": "0000c0", "threshold": 1e-5 },
+		{ "index": "g", "color": "34ad34", "threshold": 1e-6 },
+		{ "index": "h", "color": "008000", "threshold": 1e-7 },
+		{ "index": "i", "color": "b87604", "threshold": 1e-8 },
+		{ "index": "j", "color": "7a4d1d", "threshold": 1e-9 }
+    ]
+}

@@ -34,19 +34,22 @@ int main(int argc, char* argv[])
         std::cout << "\nBlasBooster " + version + " Benchmark\n" << std::endl;
 
         std::string matrix_file, settings_file;
-        bool show_help = true;
+        bool show_help = false;
         auto cli = clara::Help(show_help)
-        		 | clara::Opt(matrix_file, "matrix")
-                      ["-m"]["--matrix"]
-                      ("Matrix filename")
-	             | clara::Opt(settings_file, "settings")
-                      ["-s"]["--settings"]
-                      ("Settings filename");
+        		 | clara::Arg(matrix_file, "matrix")("Matrix file (*.xml)").required()
+	             | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)");
 
         auto r = cli.parse(clara::Args(argc, argv));
-        if(!r) {
+        if(!r)
+        {
+    	    std::cerr << cli << std::endl;
             std::cerr << "Error in command line: " << r.errorMessage() << std::endl;
             return 1;
+        }
+        if (show_help)
+        {
+    	    std::cerr << cli << std::endl;
+            return 0;
         }
 
         std::ifstream ifs{settings_file};
@@ -152,8 +155,13 @@ int main(int argc, char* argv[])
             std::cout << generateTypeMatrix(C) << std::endl;
 
             Matrix<Dense, double> denseC(C);
-            std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
-            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
+            auto diffC = denseC - refC;
+            std::cout << "max-norm = " << std::scientific << norm<NormMax>(diffC) << std::endl;
+            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(diffC) << std::endl;
+
+            std::cout << diffC.getSize() << std::endl;
+            std::ofstream os("diff.dat", std::ofstream::binary);
+            os.write(reinterpret_cast<const char*>(diffC.getDataPointer()), diffC.getSize()*sizeof(double));
         }
 
     } catch ( BlasBoosterException const& e ) {

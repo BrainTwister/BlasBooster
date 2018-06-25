@@ -680,9 +680,8 @@ template <class Filler, class U>
 void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexType nbColumns, Filler const& filler,
     typename std::enable_if<!std::is_same<U, DynamicMatrix>::value>::type*)
 {
-    this->nbRows_ = nbRows;
-    this->nbColumns_ = nbColumns;
-    static_cast<storage*>(this)->resize(nbRows*nbColumns);
+    static_cast<dimension*>(this)->resize(nbRows, nbColumns);
+    static_cast<storage*>(this)->resize(nbRows * nbColumns);
     filler(*this);
 }
 

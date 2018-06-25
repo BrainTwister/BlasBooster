@@ -78,6 +78,13 @@ struct Dimension<VariableSize, OrientationArg>
         return !operator==(rhs);
     }
 
+    void resize(size_t new_nb_rows, size_t new_nb_columns)
+    {
+        nbRows_ = new_nb_rows;
+        nbColumns_ = new_nb_columns;
+        full_size_ = new_nb_rows * new_nb_columns;
+    }
+
     size_t getNbRows() const { return nbRows_; }
     size_t getNbColumns() const { return nbColumns_; }
     size_t getSize() const { return full_size_; }
