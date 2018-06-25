@@ -162,6 +162,16 @@ int main(int argc, char* argv[])
             std::cout << diffC.getSize() << std::endl;
             std::ofstream os("diff.dat", std::ofstream::binary);
             os.write(reinterpret_cast<const char*>(diffC.getDataPointer()), diffC.getSize()*sizeof(double));
+
+            auto type_matrix = generateTypeMatrix(A);
+            Matrix<Dense, double> full(refA.getNbRows(), refA.getNbColumns(), AllFiller<double>(1.0));
+            auto block_matrix = BlockedMatrixGenerator()(full, blockSizeA.first, blockSizeA.second, threshold);
+            BlockedDenseMatrix::iterator curIterA(block_matrix.begin()), endIterA(block_matrix.end());
+            TypeMatrix::const_iterator curIterB(type_matrix.begin());
+            for ( ; curIterA != endIterA; ++curIterA, ++curIterB)
+            {
+                AllFiller<double>(std::pow(10, -1.0 * (*curIterB)))(**curIterA);
+            }
         }
 
     } catch ( BlasBoosterException const& e ) {
