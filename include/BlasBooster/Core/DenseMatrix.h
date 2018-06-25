@@ -739,34 +739,4 @@ size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::Ind
     return row * this->getNbColumns() + column;
 }
 
-template <class T, class P>
-void createHilbert(Matrix<Dense,T,P>& matrix, typename std::enable_if<std::is_arithmetic<T>::value>::type* dummy = 0)
-{
-    T one(1), row(1), column(1);
-
-    typedef Cursor<Matrix<Dense,T,P>, Direction::Row> RowCursor;
-    typedef Cursor<RowCursor, Direction::Column> ColumnCursor;
-    for (RowCursor rowCur(matrix,0), rowEnd(matrix,matrix.getNbRows());
-        rowCur != rowEnd; ++rowCur, row += one)
-    {
-        column = 1.0e0;
-        for (ColumnCursor columnCur(matrix,rowCur.begin()), columnEnd(matrix,rowCur.end());
-            columnCur != columnEnd; ++columnCur, column += one)
-        {
-            *columnCur = one / (row + column - one);
-        }
-    }
-}
-
-template <class T, class P>
-void createNumbered(Matrix<Dense,T,P>& matrix, typename std::enable_if<std::is_arithmetic<T>::value>::type* dummy = 0)
-{
-    T number(1);
-    for (typename Matrix<Dense,T,P>::iterator iterCur(matrix.begin()), iterEnd(matrix.end());
-        iterCur != iterEnd; ++iterCur, ++number)
-    {
-        *iterCur = number;
-    }
-}
-
 } // namespace BlasBooster
