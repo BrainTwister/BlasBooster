@@ -1,16 +1,38 @@
 {
-    "background_index": "k",
-    "background_color": "000000",
-    "palette": [
-		{ "index": "a", "color": "ffff00", "threshold": 1e0  },
-		{ "index": "b", "color": "db2020", "threshold": 1e-1 },
-		{ "index": "c", "color": "dc00dc", "threshold": 1e-2 },
-		{ "index": "d", "color": "800080", "threshold": 1e-3 },
-		{ "index": "e", "color": "3379b2", "threshold": 1e-4 },
-		{ "index": "f", "color": "0000c0", "threshold": 1e-5 },
-		{ "index": "g", "color": "34ad34", "threshold": 1e-6 },
-		{ "index": "h", "color": "008000", "threshold": 1e-7 },
-		{ "index": "i", "color": "b87604", "threshold": 1e-8 },
-		{ "index": "j", "color": "7a4d1d", "threshold": 1e-9 }
-    ]
+    "pattern_generator_settings": {
+        "background_index": "k",
+        "background_color": "000000",
+        "palette": [
+            { "index": "a", "color": "ffff00", "threshold": 1e0  },
+            { "index": "b", "color": "db2020", "threshold": 1e-1 },
+            { "index": "c", "color": "dc00dc", "threshold": 1e-2 },
+            { "index": "d", "color": "800080", "threshold": 1e-3 },
+            { "index": "e", "color": "3379b2", "threshold": 1e-4 },
+            { "index": "f", "color": "0000c0", "threshold": 1e-5 },
+            { "index": "g", "color": "34ad34", "threshold": 1e-6 },
+            { "index": "h", "color": "008000", "threshold": 1e-7 },
+            { "index": "i", "color": "b87604", "threshold": 1e-8 },
+            { "index": "j", "color": "7a4d1d", "threshold": 1e-9 }
+        ]
+    },
+    "blocked_matrix_generator_settings": {
+        "min_block_size": 200,
+        "max_block_size": 1000,
+        "threshold": {
+            "significanceThresholdSinglePrecision":                                    1e-5,
+            "significanceThresholdDoublePrecision":                                    1e-10,
+            "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
+            "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
+            "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
+            "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
+            "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.1,
+            "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.1,
+            "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.1,
+            "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.2,
+            "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.1,
+            "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
+            "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
+            "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
+        }
+    }
 }
