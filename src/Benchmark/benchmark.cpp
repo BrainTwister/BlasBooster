@@ -141,10 +141,6 @@ int main(int argc, char* argv[])
             std::cout << "BlasBooster blocking "
             		  << std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count() << " ms" << std::endl;
 
-            std::cout << generateTypeMatrix(A) << std::endl;
-            std::cout << generateDimensionMatrix(A) << std::endl;
-            //std::cout << generateNormMatrix(A) << std::endl;
-
             BlockedDenseMatrix C;
             auto result3 = benchmark.benchIt([&](){
             	C = (A * B).template execute<TheBestPolicy>();

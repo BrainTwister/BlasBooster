@@ -311,15 +311,21 @@ private:
         ar & boost::serialization::base_object<storage>(*this);
     }
 
-    void checkIfPositionIsAvailable(IndexType row, typename P::IndexType column) const;
+    template <class U = P>
+    size_t getPosition(IndexType row, typename P::IndexType column,
+        typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and !U::isSubMatrix>::type* = 0) const;
 
     template <class U = P>
     size_t getPosition(IndexType row, typename P::IndexType column,
-        typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type* = 0) const;
+        typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and U::isSubMatrix>::type* = 0) const;
 
     template <class U = P>
     size_t getPosition(IndexType row, typename P::IndexType column,
-        typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type* = 0) const;
+        typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and !U::isSubMatrix>::type* = 0) const;
+
+    template <class U = P>
+    size_t getPosition(IndexType row, typename P::IndexType column,
+        typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and U::isSubMatrix>::type* = 0) const;
 
 }; // class DenseMatrix
 
@@ -701,42 +707,54 @@ void Matrix<Dense,T,P>::resize(typename P::IndexType nbRows, typename P::IndexTy
 template <class T, class P>
 T& Matrix<Dense,T,P>::operator () (typename P::IndexType row, typename P::IndexType column)
 {
-    return this->getDataPointer()[getPosition(row,column)];
+    return this->getDataPointer()[getPosition(row, column)];
 }
 
 template <class T, class P>
 const T& Matrix<Dense,T,P>::operator () (typename P::IndexType row, typename P::IndexType column) const
 {
-    return this->getDataPointer()[getPosition(row,column)];
-}
-
-template <class T, class P>
-void Matrix<Dense,T,P>::checkIfPositionIsAvailable(typename P::IndexType row, typename P::IndexType column) const
-{
-    if ( row >= this->getNbRows() ) throw std::runtime_error("row > getNbRows()");
-    if ( column >= this->getNbColumns() ) throw std::runtime_error("column > getNbColumn()");
+    return this->getDataPointer()[getPosition(row, column)];
 }
 
 template <class T, class P>
 template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
-    typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value>::type*) const
+    typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and !U::isSubMatrix>::type*) const
 {
-    #ifdef BLASBOOSTER_DEBUG_MODE
-        checkIfPositionIsAvailable(row,column);
-    #endif
+	assert(row < this->getNbRows());
+	assert(column < this->getNbColumns());
     return row + column * this->getNbRows();
 }
 
 template <class T, class P>
 template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
-    typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value>::type*) const
+    typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and U::isSubMatrix>::type*) const
 {
-    #ifdef BLASBOOSTER_DEBUG_MODE
-        checkIfPositionIsAvailable(row,column);
-    #endif
+	assert(row < this->getNbRows());
+	assert(column < this->getNbColumns());
+    return row + column * this->getLdRows();
+}
+
+template <class T, class P>
+template <class U>
+size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
+    typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and !U::isSubMatrix>::type*) const
+{
+	assert(row < this->getNbRows());
+	assert(column < this->getNbColumns());
     return row * this->getNbColumns() + column;
+}
+
+
+template <class T, class P>
+template <class U>
+size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
+    typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and U::isSubMatrix>::type*) const
+{
+	assert(row < this->getNbRows());
+	assert(column < this->getNbColumns());
+    return row * this->getLdColumns() + column;
 }
 
 } // namespace BlasBooster
