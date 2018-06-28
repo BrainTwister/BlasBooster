@@ -134,8 +134,6 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
         if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
 
         C.resize(A.getNbRows(), B.getNbColumns());
-        std::cout << "A" << A << std::endl;
-        std::cout << "B" << B << std::endl;
 
 	    char n = 'N';
         int request = 1;
@@ -215,7 +213,6 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
         std::transform(C_offset.begin(), C_offset.end(), C.offset_.begin(), [](int value){
             return --value;
         });
-        std::cout << "hey" << C << std::endl;
     }
 };
 

@@ -16,11 +16,9 @@ int main(int argc, char* argv[])
         DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(1e-8)));
         DynamicMatrix Z(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(0.0)));
 
-
         BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
         const Matrix<Dense, double> A{block};
 
-        std::cout << A.getSize() << std::endl;
         std::ofstream os("matrix.dat", std::ofstream::binary);
         os.write(reinterpret_cast<const char*>(A.getDataPointer()), A.getSize()*sizeof(double));
 

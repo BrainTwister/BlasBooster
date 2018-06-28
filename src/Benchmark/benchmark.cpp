@@ -33,11 +33,16 @@ int main(int argc, char* argv[])
 
         std::cout << "\nBlasBooster " + version + " Benchmark\n" << std::endl;
 
-        std::string matrix_file, settings_file;
+        std::string matrix_file_A, matrix_file_B, settings_file;
+        std::string diff_file = "diff.dat";
+        bool write_diff = false;
         bool show_help = false;
         auto cli = clara::Help(show_help)
-        		 | clara::Arg(matrix_file, "matrix")("Matrix file (*.xml)").required()
-	             | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)");
+        		 | clara::Arg(matrix_file_A, "matrix A")("Input file of matrix A (*.xml)").required()
+        		 | clara::Arg(matrix_file_B, "matrix B")("Input file of matrix B (*.xml)").required()
+	             | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
+	             | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
+                 | clara::Opt(diff_file, "diff matrix")["--diff-matrix"]("Output file for difference matrix between reference and block mult (diff.dat)");
 
         auto r = cli.parse(clara::Args(argc, argv));
         if(!r)
@@ -67,8 +72,8 @@ int main(int argc, char* argv[])
         IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
 #endif
 
-        const Matrix<Dense, double> refA(matrix_file);
-        const Matrix<Dense, double> refB(matrix_file);
+        const Matrix<Dense, double> refA(matrix_file_A);
+        const Matrix<Dense, double> refB(matrix_file_B);
         Matrix<Dense, double> refC;
 
         auto result = benchmark.benchIt([&](){
@@ -106,22 +111,22 @@ int main(int argc, char* argv[])
             std::cout << "max-norm = " << std::scientific << norm<NormMax>(C - refC) << std::endl;
             std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(C - refC) << std::endl;
         }
+        {
+            Matrix<Sparse, double> A(refA, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
+            Matrix<Sparse, double> B(refB, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
+            Matrix<Sparse, double> C;
+
+            auto result = benchmark.benchIt([&](){
+                C = (A * B).template execute<IntelMKL>();
+            });
+            std::cout << "IntelMKL dcsrmultcsr "
+            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
+
+            Matrix<Dense, double> denseC(C);
+            std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
+            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
+        }
 #endif
-//        {
-//            Matrix<Sparse, double> A(refA, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
-//            Matrix<Sparse, double> B(refB, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
-//            Matrix<Sparse, double> C;
-//
-//            auto result = benchmark.benchIt([&](){
-//                C = A * B;
-//            });
-//            std::cout << "BlasBooster sparse "
-//            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-//
-//            Matrix<Dense, double> denseC(C);
-//            std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
-//            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
-//        }
         {
         	std::pair<std::vector<size_t>, std::vector<size_t>> blockSizeA, blockSizeB;
 
@@ -148,18 +153,16 @@ int main(int argc, char* argv[])
             std::cout << "BlasBooster block mult "
             		  << std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count() << " ms" << std::endl;
 
-            std::cout << generateTypeMatrix(C) << std::endl;
-
             Matrix<Dense, double> denseC(C);
             auto diffC = denseC - refC;
             std::cout << "max-norm = " << std::scientific << norm<NormMax>(diffC) << std::endl;
             std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(diffC) << std::endl;
 
-            std::cout << diffC.getSize() << std::endl;
-            std::ofstream os("diff.dat", std::ofstream::binary);
-            os.write(reinterpret_cast<const char*>(diffC.getDataPointer()), diffC.getSize()*sizeof(double));
+            if (write_diff) {
+                std::ofstream os(diff_file, std::ofstream::binary);
+                os.write(reinterpret_cast<const char*>(diffC.getDataPointer()), diffC.getSize()*sizeof(double));
+            }
         }
-
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
         std::cout << "Program was aborted." << std::endl;
