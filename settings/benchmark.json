@@ -27,5 +27,12 @@
         "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
     },
     "OpenBLAS_num_threads": 1,
-    "IntelMKL_num_threads": 1
+    "IntelMKL_num_threads": 1,
+    "actions": [
+        "intelmkl_dgemm",
+        "intelmkl_sgemm",
+        "intelmkl_dcsrmultcsr",
+        "openblas_dgemm",
+        "openblas_sgemm",
+        "blasbooster_block",
 }

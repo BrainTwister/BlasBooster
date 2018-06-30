@@ -25,6 +25,7 @@ BRAINTWISTER_RECORD(Settings, \
     ((BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{})) \
     ((int, OpenBLAS_num_threads, 1)) \
     ((int, IntelMKL_num_threads, 1)) \
+    ((std::vector<std::string>, actions, {"intelmkl_dgemm", "intelmkl_sgemm"})) \
 );
 
 int main(int argc, char* argv[])
@@ -82,20 +83,7 @@ int main(int argc, char* argv[])
         std::cout << "OpenBLAS dgemm "
         		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
 
-        {
-            Matrix<Dense, float> A(refA);
-            Matrix<Dense, float> B(refB);
-            Matrix<Dense, float> C;
 
-            auto result = benchmark.benchIt([&](){
-                C = (A * B).template execute<OpenBLAS>();
-            });
-            std::cout << "OpenBLAS sgemm "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-
-            std::cout << "max-norm = " << std::scientific << norm<NormMax>(C - refC) << std::endl;
-            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(C - refC) << std::endl;
-        }
 #ifdef WITH_INTELMKL
         {
             Matrix<Dense, float> A(refA);
