@@ -17,6 +17,8 @@
 #include "clara.hpp"
 #include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
 
 using namespace BlasBooster;
 
@@ -25,7 +27,7 @@ BRAINTWISTER_RECORD(Settings, \
     ((BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{})) \
     ((int, OpenBLAS_num_threads, 1)) \
     ((int, IntelMKL_num_threads, 1)) \
-    ((std::vector<std::string>, actions, {"intelmkl_dgemm", "intelmkl_sgemm"})) \
+    ((std::vector<std::string>, actions, std::vector<std::string>{})) \
 );
 
 int main(int argc, char* argv[])
@@ -45,13 +47,13 @@ int main(int argc, char* argv[])
 	             | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
                  | clara::Opt(diff_file, "diff matrix")["--diff-matrix"]("Output file for difference matrix between reference and block mult (diff.dat)");
 
-        auto r = cli.parse(clara::Args(argc, argv));
-        if(!r)
+        if (auto error = cli.parse(clara::Args(argc, argv)))
         {
     	    std::cerr << cli << std::endl;
-            std::cerr << "Error in command line: " << r.errorMessage() << std::endl;
+            std::cerr << "Error in command line: " << error.errorMessage() << std::endl;
             return 1;
         }
+
         if (show_help)
         {
     	    std::cerr << cli << std::endl;
@@ -75,11 +77,17 @@ int main(int argc, char* argv[])
 
         const Matrix<Dense, double> refA(matrix_file_A);
         const Matrix<Dense, double> refB(matrix_file_B);
-        Matrix<Dense, double> refC;
+
+        auto const& [result, refC] = run_action(settings.actions[0], refA, refB);
+
+        for (auto const& action : settings.actions) {
+
+        }
 
         auto result = benchmark.benchIt([&](){
         	refC = (refA * refB).template execute<OpenBLAS>();
         });
+
         std::cout << "OpenBLAS dgemm "
         		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
 

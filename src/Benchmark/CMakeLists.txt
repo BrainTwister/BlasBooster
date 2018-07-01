@@ -6,6 +6,7 @@ include_directories(
 add_executable(
     benchmark
     benchmark.cpp
+    matrix_matrix_mult.cpp
 )
     
 target_link_libraries(
