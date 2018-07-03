@@ -1,24 +1,30 @@
-#include "BlasBooster/Core/AbsoluteValueRangeChecker.h"
-#include "BlasBooster/Core/BlockedMatrixGenerator.h"
-#include "BlasBooster/Core/BlockSizeGenerator.h"
+#include <chrono>
+#include <iomanip>
+#include <iostream>
+#include <iterator>
+#include <string>
+#include <type_traits>
+
 #include "BlasBooster/Core/DenseMatrix.h"
-#include "BlasBooster/Core/GenerateTypeMatrix.h"
-#include "BlasBooster/Core/MatrixFileIO.h"
-#include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Multiplication_IntelMKL.h"
-#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
-#include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Core/EmptyTypes.h"
+#include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/Norm.h"
+#include "BlasBooster/Core/Parameter.h"
+#include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
-#include "BlasBooster/Utilities/ScopedTimer.h"
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/benchmark.h"
 #include "BrainTwister/JSON.h"
 #include "BrainTwister/Record.h"
 #include "clara.hpp"
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
+#include "matrix_matrix_mult.h"
+
+#ifdef WITH_OPENBLAS
+  #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
+#endif
+#ifdef WITH_INTELMKL
+  #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
+#endif
 
 using namespace BlasBooster;
 
@@ -27,7 +33,7 @@ BRAINTWISTER_RECORD(Settings, \
     ((BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{})) \
     ((int, OpenBLAS_num_threads, 1)) \
     ((int, IntelMKL_num_threads, 1)) \
-    ((std::vector<std::string>, actions, std::vector<std::string>{})) \
+    ((std::vector<std::string>, actions, std::vector<std::string>())) \
 );
 
 int main(int argc, char* argv[])
@@ -75,89 +81,39 @@ int main(int argc, char* argv[])
         IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
 #endif
 
-        const Matrix<Dense, double> refA(matrix_file_A);
-        const Matrix<Dense, double> refB(matrix_file_B);
+        std::cout << std::scientific
+        		  << std::setw(15) << "name"
+				  << std::setw(15) << "time/ms"
+				  << std::setw(15) << "max-norm"
+				  << std::setw(15) << "2-norm\n"
+				  << std::string(60,'-')
+		          << std::endl;
 
-        auto const& [result, refC] = run_action(settings.actions[0], refA, refB);
+        const Matrix<Dense, double> A(matrix_file_A);
+        const Matrix<Dense, double> B(matrix_file_B);
 
-        for (auto const& action : settings.actions) {
+        auto const& [result, refC] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
 
-        }
+        std::cout << std::setw(15) << settings.actions[0]
+        		  << std::setw(15) << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count()
+				  << std::setw(15) << 0.0
+				  << std::setw(15) << 0.0
+                  << std::endl;
 
-        auto result = benchmark.benchIt([&](){
-        	refC = (refA * refB).template execute<OpenBLAS>();
-        });
-
-        std::cout << "OpenBLAS dgemm "
-        		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-
-
-#ifdef WITH_INTELMKL
+        for (auto const& action : settings.actions)
         {
-            Matrix<Dense, float> A(refA);
-            Matrix<Dense, float> B(refB);
-            Matrix<Dense, float> C;
-
-            auto result = benchmark.benchIt([&](){
-                C = (A * B).template execute<IntelMKL>();
-            });
-            std::cout << "IntelMKL sgemm "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-
-            std::cout << "max-norm = " << std::scientific << norm<NormMax>(C - refC) << std::endl;
-            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(C - refC) << std::endl;
-        }
-        {
-            Matrix<Sparse, double> A(refA, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
-            Matrix<Sparse, double> B(refB, AbsoluteValueRangeChecker<ThresholdType>(threshold.getSignificanceThreshold<double>()));
-            Matrix<Sparse, double> C;
-
-            auto result = benchmark.benchIt([&](){
-                C = (A * B).template execute<IntelMKL>();
-            });
-            std::cout << "IntelMKL dcsrmultcsr "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-
-            Matrix<Dense, double> denseC(C);
-            std::cout << "max-norm = " << std::scientific << norm<NormMax>(denseC - refC) << std::endl;
-            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(denseC - refC) << std::endl;
-        }
-#endif
-        {
-        	std::pair<std::vector<size_t>, std::vector<size_t>> blockSizeA, blockSizeB;
-
-            auto result = benchmark.benchIt([&](){
-			    blockSizeA = BlockSizeGenerator(200, 1000)(refA);
-                blockSizeB = BlockSizeGenerator(200, 1000)(refB);
-            });
-            std::cout << "BlasBooster block size "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
-
-            BlockedDenseMatrix A, B;
-
-            auto result2 = benchmark.benchIt([&](){
-                A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);
-                B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
-            });
-            std::cout << "BlasBooster blocking "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count() << " ms" << std::endl;
-
-            BlockedDenseMatrix C;
-            auto result3 = benchmark.benchIt([&](){
-            	C = (A * B).template execute<TheBestPolicy>();
-            });
-            std::cout << "BlasBooster block mult "
-            		  << std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count() << " ms" << std::endl;
-
-            Matrix<Dense, double> denseC(C);
-            auto diffC = denseC - refC;
-            std::cout << "max-norm = " << std::scientific << norm<NormMax>(diffC) << std::endl;
-            std::cout << "  2-norm = " << std::scientific << norm<NormTwo>(diffC) << std::endl;
+            auto const& [result, C] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+            auto diff = C - refC;
 
             if (write_diff) {
-                std::ofstream os(diff_file, std::ofstream::binary);
-                os.write(reinterpret_cast<const char*>(diffC.getDataPointer()), diffC.getSize()*sizeof(double));
-            }
+    			std::ofstream os(diff_file, std::ofstream::binary);
+    			os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
+    		}
+            std::cout << std::setw(15) << action
+            		  << std::setw(15) << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count()
+					  << std::setw(15) << norm<NormMax>(diff)
+					  << std::setw(15) << norm<NormTwo>(diff)
+                      << std::endl;
         }
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
