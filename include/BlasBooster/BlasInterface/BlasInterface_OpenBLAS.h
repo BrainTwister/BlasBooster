@@ -2,7 +2,6 @@
 
 #include "BlasInterface.h"
 #include "FunctionTypes.h"
-#include <complex>
 
 namespace BlasBooster {
 

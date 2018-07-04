@@ -804,4 +804,14 @@ struct dcsrmultcsr
     static std::string name() { return "dcsrmultcsr"; }
 };
 
+struct scsrmm
+{
+    static std::string name() { return "scsrmm"; }
+};
+
+struct scsrmultcsr
+{
+    static std::string name() { return "scsrmultcsr"; }
+};
+
 } // namespace BlasBooster

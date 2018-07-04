@@ -2,7 +2,6 @@
 
 #include "BlasInterface.h"
 #include "FunctionTypes.h"
-#include <complex>
 
 namespace BlasBooster {
 
@@ -968,6 +967,18 @@ template <>
 struct BlasInterface <IntelMKL, dcsrmultcsr>
 {
     void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const int* v5, double* v6, int* v7, int* v8, double* v9, int* v10, int* v11, double* v12, int* v13, int* v14, const int* v15, int* v16) const;
+};
+
+template <>
+struct BlasInterface <IntelMKL, scsrmm>
+{
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const float* v4, const char* v5, const float* v6, const int* v7, const int* v8, const int* v9, const float* v10, const int* v11, const float* v12, float* v13, const int* v14) const;
+};
+
+template <>
+struct BlasInterface <IntelMKL, scsrmultcsr>
+{
+    void operator() (const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const int* v5, float* v6, int* v7, int* v8, float* v9, int* v10, int* v11, float* v12, int* v13, int* v14, const int* v15, int* v16) const;
 };
 
 } // namespace BlasBooster

@@ -1,12 +1,12 @@
 {
     "benchmark":
     {
-        "min_replications": 1,
+        "min_replications": 3,
         "max_replications": 100000,
-        "min_execution_time": "00:00:00.100000000",
-        "spike_detection": 0,
+        "min_execution_time": "00:00:05.000000000",
+        "spike_detection": 1,
         "spike_detection_factor": 0.1,
-        "warm_up_runs": 0,
+        "warm_up_runs": 2,
         "verbosity": 0
     },
     "threshold":
@@ -33,7 +33,6 @@
         "intelmkl_sgemm",
         "intelmkl_sgemm",
         "intelmkl_dcsrmultcsr",
-        "intelmkl_scsrmultcsr",
         "openblas_dgemm",
         "openblas_sgemm",
         "blasbooster_block"

@@ -940,13 +940,25 @@ void BlasInterface <IntelMKL, ztrsm>::operator() (
 void BlasInterface <IntelMKL, dcsrmm>::operator() (
     const char* v0, const int* v1, const int* v2, const int* v3, const double* v4, const char* v5, const double* v6, const int* v7, const int* v8, const int* v9, const double* v10, const int* v11, const double* v12, double* v13, const int* v14) const
 {
-    return ::mkl_dcsrmm_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14);
+    return ::mkl_dcsrmm(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14);
 }
 
 void BlasInterface <IntelMKL, dcsrmultcsr>::operator() (
     const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const int* v5, double* v6, int* v7, int* v8, double* v9, int* v10, int* v11, double* v12, int* v13, int* v14, const int* v15, int* v16) const
 {
-    return ::mkl_dcsrmultcsr_(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+    return ::mkl_dcsrmultcsr(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
+}
+
+void BlasInterface <IntelMKL, scsrmm>::operator() (
+    const char* v0, const int* v1, const int* v2, const int* v3, const float* v4, const char* v5, const float* v6, const int* v7, const int* v8, const int* v9, const float* v10, const int* v11, const float* v12, float* v13, const int* v14) const
+{
+    return ::mkl_scsrmm(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14);
+}
+
+void BlasInterface <IntelMKL, scsrmultcsr>::operator() (
+    const char* v0, const int* v1, const int* v2, const int* v3, const int* v4, const int* v5, float* v6, int* v7, int* v8, float* v9, int* v10, int* v11, float* v12, int* v13, int* v14, const int* v15, int* v16) const
+{
+    return ::mkl_scsrmultcsr(v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16);
 }
 
 std::complex<float> BlasInterface<IntelMKL, cdotc>::operator() (

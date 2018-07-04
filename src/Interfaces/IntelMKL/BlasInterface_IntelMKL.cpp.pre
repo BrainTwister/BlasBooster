@@ -33,7 +33,7 @@ void IntelMKL_set_num_threads(int nbThreads)
     {{ argument }}* v{{loop.index0}}{{ ", " if not loop.last }}
     {%- endfor %}) const
 {
-    return ::mkl_{{ function.name }}_(
+    return ::mkl_{{ function.name }}(
         {%- for argument in function.argument_list -%}
             v{{loop.index0}}{{ ", " if not loop.last }}
         {%- endfor %});

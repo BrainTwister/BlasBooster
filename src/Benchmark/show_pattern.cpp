@@ -48,11 +48,11 @@ int main(int argc, char* argv[])
 				 | clara::Opt(pattern_type, "type")["-t"]["--pattern-type"]("Type of pattern (elements or type-blocks)")
 		         | clara::Opt(border_width, "width")["-w"]["--border_width"]("Number of points for the border (default: 0)");
 
-        auto r = cli.parse(clara::Args(argc, argv));
-        if(!r)
+        auto cli_result = cli.parse(clara::Args(argc, argv));
+        if(!cli_result)
         {
     	    std::cerr << cli << std::endl;
-            std::cerr << "Error in command line: " << r.errorMessage() << std::endl;
+            std::cerr << "Error in command line: " << cli_result.errorMessage() << std::endl;
             return 1;
         }
         if (show_help)

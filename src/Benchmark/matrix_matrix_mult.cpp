@@ -70,6 +70,32 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         C = C2;
         time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
     }
+    else if (action == "intelmkl_dcsrmultcsr")
+    {
+        Matrix<Sparse, double> A(refA);
+        Matrix<Sparse, double> B(refB);
+        Matrix<Sparse, double> C2;
+
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<IntelMKL>();
+        });
+
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else if (action == "intelmkl_scsrmultcsr")
+    {
+        Matrix<Sparse, float> A(refA);
+        Matrix<Sparse, float> B(refB);
+        Matrix<Sparse, float> C2;
+
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<IntelMKL>();
+        });
+
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
     else
 #endif
     if (action == "blasbooster_block")

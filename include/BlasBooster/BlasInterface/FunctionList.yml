@@ -2248,3 +2248,43 @@ functions_spblas:
     - int
     - const int
     - int
+
+ - return_value: void
+   name: scsrmm
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const float
+    - const char
+    - const float
+    - const int
+    - const int
+    - const int
+    - const float
+    - const int
+    - const float
+    - float
+    - const int
+
+ - return_value: void
+   name: scsrmultcsr
+   argument_list:
+    - const char
+    - const int
+    - const int
+    - const int
+    - const int
+    - const int
+    - float
+    - int
+    - int
+    - float
+    - int
+    - int
+    - float
+    - int
+    - int
+    - const int
+    - int

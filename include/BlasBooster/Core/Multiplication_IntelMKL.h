@@ -1,12 +1,14 @@
 #pragma once
 
+#include <algorithm>
+#include <iostream>
+#include <type_traits>
+
 #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/SparseMatrix.h"
-#include <algorithm>
-#include <iostream>
 
 namespace BlasBooster {
 
@@ -125,12 +127,14 @@ struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,Intel
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Sparse,double> via extern SPBLAS dcsrmultcsr
-template <class P>
-struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,IntelMKL>
+/// Matrix multiplication specialized for Matrix<Sparse,T> * Matrix<Sparse,T>
+template <class T, class P>
+struct MultiplicationFunctor<Sparse,T,P,Sparse,T,P,Sparse,T,P,IntelMKL>
 {
-    void operator () (Matrix<Sparse,double,P> const& A, Matrix<Sparse,double,P> const& B, Matrix<Sparse,double,P>& C)
+    void operator () (Matrix<Sparse,T,P> const& A, Matrix<Sparse,T,P> const& B, Matrix<Sparse,T,P>& C)
     {
+    	typedef typename std::conditional<std::is_same<T, double>::value, dcsrmultcsr, scsrmultcsr>::type FuncType;
+
         if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
 
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -163,20 +167,20 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
         std::vector<int> C_key(C.key_.size());
         std::vector<int> C_offset(C.offset_.size());
 
-		BlasInterface<IntelMKL, dcsrmultcsr>()(
+		BlasInterface<IntelMKL, FuncType>()(
 			&n,
 			&request,
 			&sort,
 			reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             reinterpret_cast<const int*>(&B.nbColumns_),
-			const_cast<double*>(A.value_.getDataPointer()),
+			const_cast<T*>(A.value_.getDataPointer()),
 			&A_key[0],
 			&A_offset[0],
-			const_cast<double*>(B.value_.getDataPointer()),
+			const_cast<T*>(B.value_.getDataPointer()),
 			&B_key[0],
 			&B_offset[0],
-			const_cast<double*>(C.value_.getDataPointer()),
+			const_cast<T*>(C.value_.getDataPointer()),
 			&C_key[0],
 			&C_offset[0],
 			reinterpret_cast<const int*>(C.value_.size()),
@@ -185,20 +189,20 @@ struct MultiplicationFunctor<Sparse,double,P,Sparse,double,P,Sparse,double,P,Int
         assert(info == 0);
 
         request = 2;
-		BlasInterface<IntelMKL, dcsrmultcsr>()(
+		BlasInterface<IntelMKL, FuncType>()(
 			&n,
 			&request,
 			&sort,
 			reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
-			const_cast<double*>(A.value_.getDataPointer()),
+			const_cast<T*>(A.value_.getDataPointer()),
 			&A_key[0],
 			&A_offset[0],
-			const_cast<double*>(B.value_.getDataPointer()),
+			const_cast<T*>(B.value_.getDataPointer()),
 			&B_key[0],
 			&B_offset[0],
-			const_cast<double*>(C.value_.getDataPointer()),
+			const_cast<T*>(C.value_.getDataPointer()),
 			&C_key[0],
 			&C_offset[0],
 			reinterpret_cast<const int*>(C.value_.size()),
