@@ -12,6 +12,7 @@
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
+#include "BlasBooster/Utilities/range.h"
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/benchmark.h"
 #include "BrainTwister/JSON.h"
@@ -47,30 +48,31 @@ int main(int argc, char* argv[])
         bool write_diff = false;
         bool show_help = false;
         auto cli = clara::Help(show_help)
-        		 | clara::Arg(matrix_file_A, "matrix A")("Input file of matrix A (*.xml)").required()
-        		 | clara::Arg(matrix_file_B, "matrix B")("Input file of matrix B (*.xml)").required()
-	             | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
-	             | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
+                 | clara::Arg(matrix_file_A, "matrix A")("Input file of matrix A (*.xml)").required()
+                 | clara::Arg(matrix_file_B, "matrix B")("Input file of matrix B (*.xml)").required()
+                 | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
+                 | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
                  | clara::Opt(diff_file, "diff matrix")["--diff-matrix"]("Output file for difference matrix between reference and block mult (diff.dat)");
 
-        if (auto error = cli.parse(clara::Args(argc, argv)))
+        auto cli_result = cli.parse(clara::Args(argc, argv));
+        if (!cli_result)
         {
-    	    std::cerr << cli << std::endl;
-            std::cerr << "Error in command line: " << error.errorMessage() << std::endl;
+            std::cerr << cli << std::endl;
+            std::cerr << "Error in command line: " << cli_result.errorMessage() << std::endl;
             return 1;
         }
 
         if (show_help)
         {
-    	    std::cerr << cli << std::endl;
+            std::cerr << cli << std::endl;
             return 0;
         }
 
         std::ifstream ifs{settings_file};
         std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-        Settings settings{JSON{settings_str}};
-        Threshold threshold{settings.threshold};
-        BrainTwister::Benchmark benchmark{settings.benchmark};
+        const Settings settings{JSON{settings_str}};
+        const Threshold threshold{settings.threshold};
+        const BrainTwister::Benchmark benchmark{settings.benchmark};
 
 #ifdef WITH_OPENBLAS
         std::cout << "Set number of threads for OpenBLAS to " << settings.OpenBLAS_num_threads << std::endl;
@@ -81,38 +83,53 @@ int main(int argc, char* argv[])
         IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
 #endif
 
-        std::cout << std::scientific
-        		  << std::setw(15) << "name"
-				  << std::setw(15) << "time/ms"
-				  << std::setw(15) << "max-norm"
-				  << std::setw(15) << "2-norm\n"
-				  << std::string(60,'-')
-		          << std::endl;
+        std::cout << std::scientific << "\n"
+                  << std::setw(25) << std::left << "name"
+                  << std::setw(15) << "time/ms"
+                  << std::setw(15) << "max-norm"
+                  << std::setw(15) << "2-norm"
+				  << std::setw(15) << "details" << "\n"
+                  << std::string(120,'-')
+                  << std::endl;
 
         const Matrix<Dense, double> A(matrix_file_A);
         const Matrix<Dense, double> B(matrix_file_B);
 
-        auto const& [result, refC] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+        std::cout << std::setw(25) << std::left << settings.actions[0] << std::flush;
 
-        std::cout << std::setw(15) << settings.actions[0]
-        		  << std::setw(15) << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count()
-				  << std::setw(15) << 0.0
-				  << std::setw(15) << 0.0
+        // C++17
+        //auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+        auto const& rv1 = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+        auto const& refC = std::get<0>(rv1);
+        auto const& time = std::get<1>(rv1);
+        auto const& details = std::get<2>(rv1);
+
+        std::cout << std::setw(15) << time
+                  << std::setw(15) << 0.0
+                  << std::setw(15) << 0.0
+                  << std::setw(50) << details
                   << std::endl;
 
-        for (auto const& action : settings.actions)
+        for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
         {
-            auto const& [result, C] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-            auto diff = C - refC;
+            std::cout << std::setw(25) << action << std::flush;
+
+            // C++17
+            //auto const& [C, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+            auto const& rv2 = matrix_matrix_mult(action, benchmark, threshold, A, B);
+            auto const& C = std::get<0>(rv2);
+            auto const& time = std::get<1>(rv2);
+            auto const& details = std::get<2>(rv2);
+            auto const diff = C - refC;
 
             if (write_diff) {
-    			std::ofstream os(diff_file, std::ofstream::binary);
-    			os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
-    		}
-            std::cout << std::setw(15) << action
-            		  << std::setw(15) << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count()
-					  << std::setw(15) << norm<NormMax>(diff)
-					  << std::setw(15) << norm<NormTwo>(diff)
+                std::ofstream os(diff_file, std::ofstream::binary);
+                os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
+            }
+            std::cout << std::setw(15) << time
+                      << std::setw(15) << norm<NormMax>(diff)
+                      << std::setw(15) << norm<NormTwo>(diff)
+                      << std::setw(50) << details
                       << std::endl;
         }
     } catch ( BlasBoosterException const& e ) {

@@ -31,8 +31,8 @@
     "actions": [
         "intelmkl_dgemm",
         "intelmkl_sgemm",
-        "intelmkl_dcsrmultcsr",
         "openblas_dgemm",
         "openblas_sgemm",
-        "blasbooster_block",
+        "blasbooster_block"
+    ]
 }

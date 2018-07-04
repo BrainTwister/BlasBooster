@@ -1,0 +1,54 @@
+{
+    "pattern_generator_settings": {
+        "background_index": "*",
+        "background_color": "ffffff",
+        "palette": [
+            { "index": "a", "color": "ff0000", "threshold": 1e0   },
+            { "index": "b", "color": "ff0a0a", "threshold": 1e-1  },
+            { "index": "c", "color": "ff1414", "threshold": 1e-2  },
+            { "index": "d", "color": "ff1e1e", "threshold": 1e-3  },
+            { "index": "e", "color": "ff2828", "threshold": 1e-4  },
+            { "index": "f", "color": "ff3232", "threshold": 1e-5  },
+            { "index": "g", "color": "ff3c3c", "threshold": 1e-6  },
+            { "index": "h", "color": "ff4646", "threshold": 1e-7  },
+            { "index": "i", "color": "ff5050", "threshold": 1e-8  },
+            { "index": "j", "color": "ff5a5a", "threshold": 1e-9  },
+            { "index": "k", "color": "ff6464", "threshold": 1e-10 },
+            { "index": "l", "color": "ff6e6e", "threshold": 1e-11 },
+            { "index": "m", "color": "ff7878", "threshold": 1e-12 },
+            { "index": "n", "color": "ff8282", "threshold": 1e-13 },
+            { "index": "o", "color": "ff8c8c", "threshold": 1e-14 },
+            { "index": "p", "color": "ff9696", "threshold": 1e-15 },
+            { "index": "q", "color": "ffa0a0", "threshold": 1e-16 },
+            { "index": "r", "color": "ffaaaa", "threshold": 1e-17 },
+            { "index": "s", "color": "ffb4b4", "threshold": 1e-18 },
+            { "index": "t", "color": "ffbebe", "threshold": 1e-19 },
+            { "index": "u", "color": "ffc8c8", "threshold": 1e-20 },
+            { "index": "v", "color": "ffd2d2", "threshold": 1e-21 },
+            { "index": "w", "color": "ffdcdc", "threshold": 1e-22 },
+            { "index": "x", "color": "ffe6e6", "threshold": 1e-23 },
+            { "index": "y", "color": "fff0f0", "threshold": 1e-24 },
+            { "index": "z", "color": "fffafa", "threshold": 1e-25 }
+        ]
+    },
+    "blocked_matrix_generator_settings": {
+        "min_block_size": 200,
+        "max_block_size": 1000,
+        "threshold": {
+            "significanceThresholdSinglePrecision":                                    1e-5,
+            "significanceThresholdDoublePrecision":                                    1e-10,
+            "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
+            "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
+            "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
+            "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
+            "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.1,
+            "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.1,
+            "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.1,
+            "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.2,
+            "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.1,
+            "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
+            "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
+            "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
+        }
+    }
+}

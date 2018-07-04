@@ -1,8 +1,6 @@
 #include "matrix_matrix_mult.h"
 
-#include <stddef.h>
 #include <chrono>
-#include <iostream>
 #include <stdexcept>
 #include <tuple>
 #include <utility>
@@ -21,81 +19,98 @@
 
 namespace BlasBooster {
 
-std::tuple<BrainTwister::Benchmark::Results, Matrix<Dense,double>>
+std::tuple<Matrix<Dense,double>, size_t, std::string>
 matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& benchmark, Threshold const& threshold,
     Matrix<Dense,double> const& refA, Matrix<Dense,double> const& refB)
 {
+    Matrix<Dense, double> C;
+    size_t time = 0;
+    std::ostringstream details;
+
 #ifdef WITH_OPENBLAS
-	if (action == "openblas_dgemm") {
-		Matrix<Dense, double> C;
-		auto result = benchmark.benchIt([&](){
-			C = (refA * refB).template execute<OpenBLAS>();
-		});
-		return std::make_tuple(result, C);
-	} else if (action == "openblas_sgemm") {
-		Matrix<Dense, float> A(refA);
-		Matrix<Dense, float> B(refB);
-		Matrix<Dense, float> C;
+    if (action == "openblas_dgemm")
+    {
+        auto result = benchmark.benchIt([&](){
+            C = (refA * refB).template execute<OpenBLAS>();
+        });
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else if (action == "openblas_sgemm")
+    {
+        Matrix<Dense, float> A(refA);
+        Matrix<Dense, float> B(refB);
+        Matrix<Dense, float> C2;
 
-		auto result = benchmark.benchIt([&](){
-			C = (A * B).template execute<OpenBLAS>();
-		});
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<OpenBLAS>();
+        });
 
-		return std::make_tuple(result, Matrix<Dense, double>(C));
-
-	} else
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    } else
 #endif
 #ifdef WITH_INTELMKL
-	if (action == "intelmkl_dgemm") {
-		Matrix<Dense, double> C;
-		auto result = benchmark.benchIt([&](){
-			C = (refA * refB).template execute<IntelMKL>();
-		});
-		return std::make_tuple(result, C);
-	} else if (action == "intelmkl_sgemm") {
-		Matrix<Dense, float> A(refA);
-		Matrix<Dense, float> B(refB);
-		Matrix<Dense, float> C;
+    if (action == "intelmkl_dgemm")
+    {
+        auto result = benchmark.benchIt([&](){
+            C = (refA * refB).template execute<IntelMKL>();
+        });
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else if (action == "intelmkl_sgemm")
+    {
+        Matrix<Dense, float> A(refA);
+        Matrix<Dense, float> B(refB);
+        Matrix<Dense, float> C2;
 
-		auto result = benchmark.benchIt([&](){
-			C = (A * B).template execute<IntelMKL>();
-		});
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<IntelMKL>();
+        });
 
-		return std::make_tuple(result, Matrix<Dense, double>(C));
-
-	} else
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else
 #endif
-	if (action == "intelmkl_sgemm") {
-		std::pair<std::vector<size_t>, std::vector<size_t>> blockSizeA, blockSizeB;
+    if (action == "blasbooster_block")
+    {
+        std::pair<std::vector<size_t>, std::vector<size_t>> blockSizeA, blockSizeB;
 
-		auto result = benchmark.benchIt([&](){
-			blockSizeA = BlockSizeGenerator(200, 1000)(refA);
-			blockSizeB = BlockSizeGenerator(200, 1000)(refB);
-		});
-		std::cout << "BlasBooster block size "
-				  << std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count() << " ms" << std::endl;
+        auto result1 = benchmark.benchIt([&](){
+            blockSizeA = BlockSizeGenerator(200, 1000)(refA);
+            blockSizeB = BlockSizeGenerator(200, 1000)(refB);
+        });
+        details << "size: "
+                << std::chrono::duration_cast<std::chrono::milliseconds>(result1.average_time).count();
 
-		BlockedDenseMatrix A, B;
+        BlockedDenseMatrix A, B;
 
-		auto result2 = benchmark.benchIt([&](){
-			A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);
-			B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
-		});
-		std::cout << "BlasBooster blocking "
-				  << std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count() << " ms" << std::endl;
+        auto result2 = benchmark.benchIt([&](){
+            A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);
+            B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
+        });
+        details << ", block "
+                << std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count();
 
-		BlockedDenseMatrix C;
-		auto result3 = benchmark.benchIt([&](){
-			C = (A * B).template execute<TheBestPolicy>();
-		});
-		std::cout << "BlasBooster block mult "
-				  << std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count() << " ms" << std::endl;
+        BlockedDenseMatrix C2;
+        auto result3 = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<TheBestPolicy>();
+        });
+        details << ", mult "
+                << std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count();
 
-		return std::make_tuple(result, Matrix<Dense, double>(C));
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result1.average_time).count()
+             + std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count()
+             + std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count();
 
-	} else {
-		std::runtime_error("Unknown action: " + action);
-	}
+    }
+    else
+    {
+        std::runtime_error(std::string("Unknown action: ") + action);
+    }
+
+    return std::make_tuple(C, time, details.str());
 }
 
 } // namespace BlasBooster
