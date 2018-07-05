@@ -84,18 +84,18 @@ int main(int argc, char* argv[])
 #endif
 
         std::cout << std::scientific << "\n"
-                  << std::setw(25) << std::left << "name"
+                  << std::setw(30) << std::left << "name"
                   << std::setw(15) << "time/ms"
                   << std::setw(15) << "max-norm"
                   << std::setw(15) << "2-norm"
-				  << std::setw(15) << "details" << "\n"
+				  << "details\n"
                   << std::string(120,'-')
                   << std::endl;
 
         const Matrix<Dense, double> A(matrix_file_A);
         const Matrix<Dense, double> B(matrix_file_B);
 
-        std::cout << std::setw(25) << std::left << settings.actions[0] << std::flush;
+        std::cout << std::setw(30) << std::left << settings.actions[0] << std::flush;
 
         // C++17
         //auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 
         for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
         {
-            std::cout << std::setw(25) << action << std::flush;
+            std::cout << std::setw(30) << action << std::flush;
 
             // C++17
             //auto const& [C, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);

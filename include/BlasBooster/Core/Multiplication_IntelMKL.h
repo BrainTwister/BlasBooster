@@ -12,30 +12,31 @@
 
 namespace BlasBooster {
 
-/// Matrix multiplication specialized for Matrix<Dense,double> * Matrix<Dense,double> via extern BLAS dgemm
-template <class P>
-struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelMKL>
+/// Matrix multiplication specialized for Matrix<Dense,T> * Matrix<Dense,T>
+template <class T, class P>
+struct MultiplicationFunctor<Dense,T,P,Dense,T,P,Dense,T,P,IntelMKL>
 {
-    void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
+    void operator () (Matrix<Dense,T,P> const& A, Matrix<Dense,T,P> const& B, Matrix<Dense,T,P>& C)
     {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+    	typedef typename std::conditional<std::is_same<T, double>::value, dgemm, sgemm>::type FuncType;
 
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
         char n = 'N';
-        double alpha = 1.0;
-        double beta = 0.0;
+        T alpha = 1.0;
+        T beta = 0.0;
 
-        BlasInterface<IntelMKL, dgemm>()(
+        BlasInterface<IntelMKL, FuncType>()(
             &n,
             &n,
             reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             &alpha,
-            const_cast<double*>(A.data_),
+            const_cast<T*>(A.data_),
             reinterpret_cast<const int*>(&A.nbRows_),
-            const_cast<double*>(B.data_),
+            const_cast<T*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             &beta,
 	        C.data_,
@@ -44,58 +45,26 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,IntelM
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Dense,float> * Matrix<Dense,float> via extern BLAS sgemm
-template <class P>
-struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>
+/// Matrix multiplication specialized for Matrix<Sparse,T> * Matrix<Dense,T>
+template <class T, class P>
+struct MultiplicationFunctor<Sparse,T,P,Dense,T,P,Dense,T,P,IntelMKL>
 {
-    void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
+    void operator () (Matrix<Sparse,T,P> const& A, Matrix<Dense,T,P> const& B, Matrix<Dense,T,P>& C)
     {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+    	typedef typename std::conditional<std::is_same<T, double>::value, dcsrmm, scsrmm>::type FuncType;
 
-        C.resize(A.getNbRows(), B.getNbColumns());
-
-        char n = 'N';
-        float alpha = 1.0f;
-        float beta = 0.0f;
-
-        BlasInterface<IntelMKL, sgemm>()(
-            &n,
-            &n,
-            reinterpret_cast<const int*>(&A.nbRows_),
-            reinterpret_cast<const int*>(&B.nbColumns_),
-            reinterpret_cast<const int*>(&A.nbColumns_),
-            &alpha,
-            const_cast<float*>(A.data_),
-            reinterpret_cast<const int*>(&A.nbRows_),
-            const_cast<float*>(B.data_),
-            reinterpret_cast<const int*>(&A.nbColumns_),
-            &beta,
-            C.data_,
-            reinterpret_cast<const int*>(&A.nbRows_)
-        );
-    }
-};
-
-/// Matrix multiplication specialized for Matrix<Sparse,double> * Matrix<Dense,double> via extern SPBLAS dcsrmm
-template <class P>
-struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,IntelMKL>
-{
-    void operator () (Matrix<Sparse,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
-    {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-        //std::cout << "Calling MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,IntelMKL>" << std::endl;
-
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
 		char n = 'N';
 		// one-based indexing matdescra[3] = 'F' => B and C must be column-major
 		// zero-based indexing matdescra[3] = 'C' => B and C must be row-major
 		char matdescra[6] = {'G', 'L', 'N', 'F', 'X', 'X'};
-        double alpha = 1.0;
-        double beta = 0.0;
+        T alpha = 1.0;
+        T beta = 0.0;
 
         // TODO: Add parameter for index-base
-        Matrix<Sparse, double, Parameter<size_t, RowMajor>> rmA(A);
+        Matrix<Sparse, T, Parameter<size_t, RowMajor>> rmA(A);
 
         std::vector<int> rmA_key(rmA.key_.size());
         std::transform(rmA.key_.begin(), rmA.key_.end(), rmA_key.begin(), [](size_t value){
@@ -107,18 +76,18 @@ struct MultiplicationFunctor<Sparse,double,P,Dense,double,P,Dense,double,P,Intel
             return ++value;
         });
 
-		BlasInterface<IntelMKL, dcsrmm>()(
+		BlasInterface<IntelMKL, FuncType>()(
 			&n,
             reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
 			&alpha,
 			matdescra,
-			const_cast<double*>(rmA.value_.getDataPointer()),
+			const_cast<T*>(rmA.value_.getDataPointer()),
 			&rmA_key[0],
 			&rmA_offset[0],
 			&rmA_offset[1],
-			const_cast<double*>(B.data_),
+			const_cast<T*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
 			&beta,
 			C.data_,

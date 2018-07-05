@@ -31,11 +31,14 @@
     "actions": [
         "intelmkl_dgemm",
         "intelmkl_sgemm",
-        "intelmkl_sgemm",
+        "intelmkl_dcsrmm",
+        "intelmkl_scsrmm",
         "intelmkl_dcsrmultcsr",
         "intelmkl_scsrmultcsr",
         "openblas_dgemm",
         "openblas_sgemm",
-        "blasbooster_block"
+        "blasbooster_block",
+        "blasbooster_sparse_double",
+        "blasbooster_sparse_float"
     ]
 }

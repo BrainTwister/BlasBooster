@@ -70,6 +70,30 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         C = C2;
         time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
     }
+    else if (action == "intelmkl_dcsrmm")
+    {
+        Matrix<Sparse, double> A(refA);
+        Matrix<Dense, double> B(refB);
+
+        auto result = benchmark.benchIt([&](){
+            C = (A * B).template execute<IntelMKL>();
+        });
+
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else if (action == "intelmkl_scsrmm")
+    {
+        Matrix<Sparse, float> A(refA);
+        Matrix<Dense, float> B(refB);
+        Matrix<Dense, float> C2;
+
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<IntelMKL>();
+        });
+
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
     else if (action == "intelmkl_dcsrmultcsr")
     {
         Matrix<Sparse, double> A(refA);
@@ -130,6 +154,32 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
              + std::chrono::duration_cast<std::chrono::milliseconds>(result2.average_time).count()
              + std::chrono::duration_cast<std::chrono::milliseconds>(result3.average_time).count();
 
+    }
+    else if (action == "blasbooster_sparse_double")
+    {
+        Matrix<Sparse, double> A(refA);
+        Matrix<Sparse, double> B(refB);
+        Matrix<Sparse, double> C2;
+
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<Native>();
+        });
+
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
+    }
+    else if (action == "blasbooster_sparse_float")
+    {
+        Matrix<Sparse, float> A(refA);
+        Matrix<Sparse, float> B(refB);
+        Matrix<Sparse, float> C2;
+
+        auto result = benchmark.benchIt([&](){
+            C2 = (A * B).template execute<Native>();
+        });
+
+        C = C2;
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(result.average_time).count();
     }
     else
     {
