@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
         double value = 1.0;
         bool show_help = false;
         auto cli = clara::Help(show_help)
-                 | clara::Opt(matrix_file, "matrix")("Matrix file (default: matrix.dat)")
+                 | clara::Opt(matrix_file, "matrix")["-m"]["--matrix-file"]("Matrix file (default: matrix.dat)")
                  | clara::Opt(type, "type")["-t"]["--type"]("Type of matrix (default: band)")
                  | clara::Opt(rows, "rows")["-r"]["--rows"]("Number of rows (default: 1000)")
                  | clara::Opt(rows, "cols")["-c"]["--cols"]("Number of colums (default: 1000)")
