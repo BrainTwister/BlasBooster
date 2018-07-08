@@ -37,6 +37,12 @@ BRAINTWISTER_RECORD(Settings, \
     ((std::vector<std::string>, actions, std::vector<std::string>())) \
 );
 
+size_t scale_time(size_t time, std::string time_prefix) {
+    if (time_prefix == "micro") return time /= 1000;
+    if (time_prefix == "milli") return time /= 1000000;
+    return time;
+}
+
 int main(int argc, char* argv[])
 {
     try {
@@ -46,11 +52,13 @@ int main(int argc, char* argv[])
         std::string matrix_file_A, matrix_file_B, settings_file;
         std::string diff_file = "diff.dat";
         bool write_diff = false;
+        std::string time_prefix = "nano";
         bool show_help = false;
         auto cli = clara::Help(show_help)
                  | clara::Arg(matrix_file_A, "matrix A")("Input file of matrix A (*.xml)").required()
                  | clara::Arg(matrix_file_B, "matrix B")("Input file of matrix B (*.xml)").required()
                  | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
+                 | clara::Opt(time_prefix, "time_prefix")["-t"]["--time-prefix"]("Prefix for time listing (default: nano)")
                  | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
                  | clara::Opt(diff_file, "diff matrix")["--diff-matrix"]("Output file for difference matrix between reference and block mult (diff.dat)");
 
@@ -67,6 +75,12 @@ int main(int argc, char* argv[])
             std::cerr << cli << std::endl;
             return 0;
         }
+
+        std::string	 time_prefix_symbol = "n";
+        if (time_prefix == "nano") time_prefix_symbol = "n";
+        else if (time_prefix == "micro") time_prefix_symbol = "u";
+        else if (time_prefix == "milli") time_prefix_symbol = "m";
+        else std::runtime_error(std::string("Unknown option for time_prefix: ") + time_prefix);
 
         std::ifstream ifs{settings_file};
         std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
@@ -85,7 +99,7 @@ int main(int argc, char* argv[])
 
         std::cout << std::scientific << "\n"
                   << std::setw(30) << std::left << "name"
-                  << std::setw(15) << "time/ms"
+                  << std::setw(15) << std::string("time/") + time_prefix_symbol + "s"
                   << std::setw(15) << "max-norm"
                   << std::setw(15) << "2-norm"
 				  << "details\n"
@@ -104,7 +118,7 @@ int main(int argc, char* argv[])
         auto const& time = std::get<1>(rv1);
         auto const& details = std::get<2>(rv1);
 
-        std::cout << std::setw(15) << time
+        std::cout << std::setw(15) << scale_time(time, time_prefix)
                   << std::setw(15) << 0.0
                   << std::setw(15) << 0.0
                   << std::setw(50) << details
@@ -122,15 +136,16 @@ int main(int argc, char* argv[])
             auto const& details = std::get<2>(rv2);
             auto const diff = C - refC;
 
-            if (write_diff) {
-                std::ofstream os(diff_file, std::ofstream::binary);
-                os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
-            }
-            std::cout << std::setw(15) << time
+            std::cout << std::setw(15) << scale_time(time, time_prefix)
                       << std::setw(15) << norm<NormMax>(diff)
                       << std::setw(15) << norm<NormTwo>(diff)
                       << std::setw(50) << details
                       << std::endl;
+
+            if (write_diff) {
+                std::ofstream os(diff_file, std::ofstream::binary);
+                os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
+            }
         }
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
