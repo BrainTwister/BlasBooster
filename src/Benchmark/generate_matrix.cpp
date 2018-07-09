@@ -15,18 +15,18 @@ int main(int argc, char* argv[])
 
         std::string matrix_file = "matrix.dat";
         std::string type = "band";
-        int rows = 1000;
-        int cols = 1000;
-        int band_width = 1;
+        size_t rows = 1000;
+        size_t cols = 1000;
+        size_t band_width = 1;
         double value = 1.0;
         bool show_help = false;
         auto cli = clara::Help(show_help)
                  | clara::Opt(matrix_file, "matrix")["-m"]["--matrix-file"]("Matrix file (default: matrix.dat)")
                  | clara::Opt(type, "type")["-t"]["--type"]("Type of matrix (default: band)")
                  | clara::Opt(rows, "rows")["-r"]["--rows"]("Number of rows (default: 1000)")
-                 | clara::Opt(rows, "cols")["-c"]["--cols"]("Number of colums (default: 1000)")
-                 | clara::Opt(rows, "band_width")["-b"]["--band-width"]("Number of colums (default: 1)")
-                 | clara::Opt(rows, "value")["-v"]["--value"]("Value (default: 1.0)");
+                 | clara::Opt(cols, "cols")["-c"]["--cols"]("Number of colums (default: 1000)")
+                 | clara::Opt(band_width, "band_width")["-b"]["--band-width"]("Number of colums (default: 1)")
+                 | clara::Opt(value, "value")["-v"]["--value"]("Value (default: 1.0)");
 
         auto cli_result = cli.parse(clara::Args(argc, argv));
         if(!cli_result)
@@ -45,8 +45,8 @@ int main(int argc, char* argv[])
 
         if (type == "band") {
             matrix = Matrix<Dense, double>{rows, cols, AllFiller<double>{0.0}};
-            for (int b = 0; b != band_width; ++b) {
-                for (int i = 0; i != rows-b; ++i) {
+            for (size_t b = 0; b != band_width; ++b) {
+                for (size_t i = 0; i != rows-b; ++i) {
                     matrix(i+b,i) = value;
                     matrix(i,i+b) = value;
                 }

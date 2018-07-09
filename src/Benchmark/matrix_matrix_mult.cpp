@@ -131,7 +131,8 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
             blockSizeB = BlockSizeGenerator(200, 1000)(refB);
         });
         details << "size: "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count();
+                << std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count()
+				<< " ns";
 
         BlockedDenseMatrix A, B;
 
@@ -139,15 +140,17 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
             A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);
             B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
         });
-        details << ", block "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result2.average_time).count();
+        details << ", block: "
+                << std::chrono::duration_cast<std::chrono::nanoseconds>(result2.average_time).count()
+				<< " ns";
 
         BlockedDenseMatrix C2;
         auto result3 = benchmark.benchIt([&](){
             C2 = (A * B).template execute<TheBestPolicy>();
         });
-        details << ", mult "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result3.average_time).count();
+        details << ", mult: "
+                << std::chrono::duration_cast<std::chrono::nanoseconds>(result3.average_time).count()
+				<< " ns";
 
         C = C2;
         time = std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count()
