@@ -593,7 +593,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
     typedef typename Matrix<Sparse,T2,P2>::const_index_iterator ConstIndexIterator;
     typedef typename Matrix<Sparse,T2,P2>::const_iterator ConstIterator;
 
-    this->fill(0);
+    this->fill(0.0);
 
     iterator iterDense = this->begin();
     for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
@@ -619,7 +619,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
     typedef typename Matrix<Sparse,T2,P2>::const_index_iterator ConstIndexIterator;
     typedef typename Matrix<Sparse,T2,P2>::const_iterator ConstIterator;
 
-    this->fill(0);
+    this->fill(0.0);
 
     iterator iterDense = this->begin();
     for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
