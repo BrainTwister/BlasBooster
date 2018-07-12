@@ -3,7 +3,7 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <iterator>
 
-template <class T>
+template <typename T>
 class StripedIterator
  : public boost::iterator_facade <
        StripedIterator<T>,
@@ -31,7 +31,7 @@ public:
 
 private:
 
-    template <class T2>
+    template <typename>
     friend class StripedIterator;
 
     friend class boost::iterator_core_access;
