@@ -104,8 +104,7 @@ struct MultiplicationFunctor<Sparse,T,P,Sparse,T,P,Sparse,T,P,IntelMKL>
     {
     	typedef typename std::conditional<std::is_same<T, double>::value, dcsrmultcsr, scsrmultcsr>::type FuncType;
 
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
-
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
 	    char n = 'N';
