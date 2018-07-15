@@ -20,7 +20,5 @@ rm -fr $BUILD_DIR
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-conan remove -f benchmark/1.0@braintwister/testing
-
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make 2>&1 |tee make.out
