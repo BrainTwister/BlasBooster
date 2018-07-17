@@ -12,12 +12,16 @@
         "blasbooster_sparse_double",
         "blasbooster_sparse_float"
     ],
-    "A": "DiagonalBand": {
-      "rows": [1000, 2000, 4000],
-      "band_width": [1, 10, 20, 40, 60, 80, 100, 200, 400],
-      "value": 0.1
+    "matrices":
+    {
+        "A": "DiagonalBand":
+        {
+            "rows": [1000, 2000, 4000],
+            "band_width": [1, 10, 20, 40, 60, 80, 100, 200, 400],
+            "value": 0.1
+        },
+        "B": "EqualTo": "A"
     },
-    "B": "EqualToA",
     "OpenBLAS_num_threads": 1,
     "IntelMKL_num_threads": 1,
     "benchmark":
