@@ -9,6 +9,12 @@ CONAN_DIR="conan$SUFFIX"
 BUILD_DIR="build$SUFFIX"
 export CONAN_USER_HOME=$PWD/$CONAN_DIR
 
+# Remove conan dir if requested in git commit
+if git log -1 | grep '\[purge conan\]'; then
+  echo 'Remove conan directory'
+  rm -rf $CONAN_DIR
+fi
+
 if [ ! -d "$CONAN_DIR" ]; then
   mkdir -p $CONAN_DIR
   conan remote add braintwister https://api.bintray.com/conan/braintwister/conan
