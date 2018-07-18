@@ -8,6 +8,7 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Core/Matrix.h"
+#include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Norm.h"
 #include "BlasBooster/Core/Parameter.h"
 #include "BlasBooster/Core/Threshold.h"
@@ -106,12 +107,10 @@ int main(int argc, char* argv[])
                   << std::string(120,'-')
                   << std::endl;
 
-        for (auto const& matrix_set : settings.matrices)
+        for (auto&& A : settings.matrices.get("A"))
         {
 			std::cout << std::setw(30) << std::left << settings.actions[0] << std::flush;
-
-			auto A = matrix_set.get("A");
-			auto B = matrix_set.get("B");
+			auto&& B = A;
 
 			// C++17
 			//auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);

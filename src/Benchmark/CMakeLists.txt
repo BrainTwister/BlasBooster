@@ -7,6 +7,7 @@ add_executable(
     benchmark
     benchmark.cpp
     matrix_matrix_mult.cpp
+    MatrixProvider.cpp
 )
     
 target_link_libraries(
