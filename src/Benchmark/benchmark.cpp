@@ -33,7 +33,7 @@ using namespace BlasBooster;
 
 BRAINTWISTER_RECORD( Settings, \
     (( std::vector<std::string>, actions, std::vector<std::string>() )) \
-	(( MatrixProvider, matrices, MatrixProvider() )) \
+    (( MatrixProvider, matrices, MatrixProvider() )) \
     (( int, IntelMKL_num_threads, 1 )) \
     (( int, OpenBLAS_num_threads, 1 )) \
     (( ThresholdSettings, threshold, ThresholdSettings{} )) \
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
             return 0;
         }
 
-        std::string	 time_prefix_symbol = "n";
+        std::string time_prefix_symbol = "n";
         if (time_prefix == "nano") time_prefix_symbol = "n";
         else if (time_prefix == "micro") time_prefix_symbol = "u";
         else if (time_prefix == "milli") time_prefix_symbol = "m";
@@ -99,55 +99,61 @@ int main(int argc, char* argv[])
 #endif
 
         std::cout << std::scientific << "\n"
+                  << std::setw(10) << std::left << "matrix"
                   << std::setw(30) << std::left << "name"
                   << std::setw(15) << std::string("time/") + time_prefix_symbol + "s"
                   << std::setw(15) << "max-norm"
                   << std::setw(15) << "2-norm"
-				  << "details\n"
+                  << "details\n"
                   << std::string(120,'-')
                   << std::endl;
 
+        int i = 0;
+        auto&& B_list = settings.matrices.get("B");
         for (auto&& A : settings.matrices.get("A"))
         {
-			std::cout << std::setw(30) << std::left << settings.actions[0] << std::flush;
-			auto&& B = A;
+        	auto&& B = B_list[i];
+            std::cout << std::setw(10) << std::left << i
+            		  << std::setw(30) << std::left << settings.actions[0] << std::flush;
 
-			// C++17
-			//auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-			auto const& rv1 = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-			auto const& refC = std::get<0>(rv1);
-			auto const& time = std::get<1>(rv1);
-			auto const& details = std::get<2>(rv1);
+            // C++17
+            //auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+            auto const& rv1 = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+            auto const& refC = std::get<0>(rv1);
+            auto const& time = std::get<1>(rv1);
+            auto const& details = std::get<2>(rv1);
 
-			std::cout << std::setw(15) << scale_time(time, time_prefix)
-					  << std::setw(15) << 0.0
-					  << std::setw(15) << 0.0
-					  << std::setw(50) << details
-					  << std::endl;
+            std::cout << std::setw(15) << scale_time(time, time_prefix)
+                      << std::setw(15) << 0.0
+                      << std::setw(15) << 0.0
+                      << std::setw(50) << details
+                      << std::endl;
 
-			for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
-			{
-				std::cout << std::setw(30) << action << std::flush;
+            for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
+            {
+                std::cout << std::setw(10) << std::left << i
+                		  << std::setw(30) << std::left << action << std::flush;
 
-				// C++17
-				//auto const& [C, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-				auto const& rv2 = matrix_matrix_mult(action, benchmark, threshold, A, B);
-				auto const& C = std::get<0>(rv2);
-				auto const& time = std::get<1>(rv2);
-				auto const& details = std::get<2>(rv2);
-				auto const diff = C - refC;
+                // C++17
+                //auto const& [C, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+                auto const& rv2 = matrix_matrix_mult(action, benchmark, threshold, A, B);
+                auto const& C = std::get<0>(rv2);
+                auto const& time = std::get<1>(rv2);
+                auto const& details = std::get<2>(rv2);
+                auto const diff = C - refC;
 
-				std::cout << std::setw(15) << scale_time(time, time_prefix)
-						  << std::setw(15) << norm<NormMax>(diff)
-						  << std::setw(15) << norm<NormTwo>(diff)
-						  << std::setw(50) << details
-						  << std::endl;
+                std::cout << std::setw(15) << scale_time(time, time_prefix)
+                          << std::setw(15) << norm<NormMax>(diff)
+                          << std::setw(15) << norm<NormTwo>(diff)
+                          << std::setw(50) << details
+                          << std::endl;
 
-				if (write_diff) {
-					std::ofstream os(diff_file, std::ofstream::binary);
-					os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
-				}
-			}
+                if (write_diff) {
+                    std::ofstream os(diff_file, std::ofstream::binary);
+                    os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
+                }
+            }
+            ++i;
         }
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;

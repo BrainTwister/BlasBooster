@@ -1,9 +1,41 @@
 {
+    "actions":
+    [
+        "intelmkl_dgemm",
+        "intelmkl_sgemm",
+        "intelmkl_dcsrmm",
+        "intelmkl_scsrmm",
+        "intelmkl_dcsrmultcsr",
+        "intelmkl_scsrmultcsr",
+        "openblas_dgemm",
+        "openblas_sgemm",
+        "blasbooster_block",
+        "blasbooster_sparse_double",
+        "blasbooster_sparse_float"
+    ],
+    "matrices":
+    {
+        "A":
+        {
+            "DiagonalBand":
+            {
+                "dimension": [1000, 2000, 4000],
+                "band_width": [1, 10, 20, 40, 60, 80, 100, 200, 400],
+                "value": 0.1
+            }
+        },
+        "B":
+        {
+            "EqualTo": "A"
+        }
+    },
+    "OpenBLAS_num_threads": 1,
+    "IntelMKL_num_threads": 1,
     "benchmark":
     {
-        "min_replications": 3,
+        "min_replications": 5,
         "max_replications": 100000,
-        "min_execution_time": "00:00:05.000000000",
+        "min_execution_time": "00:00:10.000000000",
         "spike_detection": 1,
         "spike_detection_factor": 0.1,
         "warm_up_runs": 2,
@@ -25,16 +57,5 @@
         "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
         "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
         "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
-    },
-    "OpenBLAS_num_threads": 1,
-    "IntelMKL_num_threads": 1,
-    "actions": [
-        "intelmkl_dgemm",
-        "intelmkl_sgemm",
-        "intelmkl_sgemm",
-        "intelmkl_dcsrmultcsr",
-        "openblas_dgemm",
-        "openblas_sgemm",
-        "blasbooster_block"
-    ]
+    }
 }

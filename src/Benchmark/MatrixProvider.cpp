@@ -35,7 +35,10 @@ MatrixProvider::MatrixProvider(ptree const& tree)
                 	}
             	}
             } else if (type_leaf.first == "EqualTo") {
-                //matrix_set[name_leaf.first] = matrix_set[type_leaf.second];
+            	auto&& source = matrix_set.at(type_leaf.second.get_value<std::string>());
+                matrix_set[name_leaf.first].assign(source.begin(), source.end());
+            } else {
+            	std::runtime_error("Unknown matrix_set type.");
             }
         }
     }
