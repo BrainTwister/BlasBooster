@@ -1,42 +1,20 @@
 #include "gtest/gtest.h"
+#include <string>
+#include <vector>
+#include <range/v3/view/indices.hpp>
+#include <range/v3/view/zip.hpp>
 
-template <typename ... Args> struct Tuple {};
-template <typename T1, typename T2> struct Pair {};
-
-template <class ... Args1> struct zip {
-    template <class ... Args2> struct with {
-        typedef Tuple<Pair<Args1, Args2> ... > type;
-    };
-};
-
-typedef zip<short, int>::with<unsigned short, unsigned>::type T1;
-
-template <typename ...> struct inner_unpack {};
-
-template <class T, class ... Args>
-struct inner_unpack<T, Tuple<Args...>>
+TEST(range_v3, zip)
 {
-    typedef Tuple<Pair<T, Args> ... > type;
-};
+	using namespace ranges;
 
-template <typename ...> struct unpack {};
+    std::vector<int> a{9,8,7};
+    std::vector<std::string> b{"a", "b", "c"};
 
-template <typename List, typename ... Args2>
-struct unpack<List, Tuple<Args2...>>
-{
-    typedef Tuple<typename inner_unpack<Args2, List>::type ... > type;
-};
+    std::stringstream ss;
+    for ( auto&& [a,b,c] : view::zip(a, b, view::indices(a.size()))) {
+        ss << a << b << c;
+    }
 
-typedef Tuple<int, short, double> L;
-
-typedef unpack<L, L>::type T2;
-
-TEST(Design, unpackTwoVariadicTemplates)
-{
-	EXPECT_TRUE((std::is_same<T1,
-		Tuple<Pair<short, unsigned short>, Pair<int, unsigned int>>>::value));
-	EXPECT_TRUE((std::is_same<T2,
-		Tuple<Tuple<Pair<int, int>, Pair<int, short>, Pair<int, double> >,
-	    Tuple<Pair<short, int>, Pair<short, short>, Pair<short, double> >,
-		Tuple<Pair<double, int>, Pair<double, short>, Pair<double, double>>>>::value));
+    EXPECT_EQ("9a08b17c2", ss.str());
 }

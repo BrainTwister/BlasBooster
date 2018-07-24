@@ -11,6 +11,7 @@ add_executable(
     ${TestName}
     AbsoluteValueRangeChecker.cpp
     BinaryFunctors.cpp
+    BlockedMatrixMultiplication.cpp
     main.cpp
     MatrixConverter.cpp
     MatrixMultiplication.cpp
