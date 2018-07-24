@@ -10,6 +10,7 @@ add_executable(
     ${TestName}
     DynamicType.cpp
     main.cpp
+    range-v3.cpp
     unpackTwoVariadicTemplates.cpp
 )
     
