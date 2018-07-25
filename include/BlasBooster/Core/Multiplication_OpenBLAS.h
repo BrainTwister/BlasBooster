@@ -13,9 +13,10 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+    	//BRAINTWISTER_OBSERVER("OpenBLAS dgemm");
 
-        C.resize(A.getNbRows(),B.getNbColumns());
+        assert(A.getNbColumns() == B.getNbRows());
+        C.resize(A.getNbRows(), B.getNbColumns());
 
         char transA = 'N';
         char transB = 'N';
@@ -32,8 +33,6 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
         double *pB = const_cast<double*>(B.getDataPointer());
         double *pC = C.getDataPointer();
 
-        //std::cout << "Calling OpenBLAS dgemm " << M << " " << N << " " << K << std::endl;
-
         BlasInterface<OpenBLAS,dgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
 };
@@ -44,8 +43,9 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+        //BRAINTWISTER_OBSERVER("OpenBLAS sgemm");
 
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(),B.getNbColumns());
 
         char transA = 'N';
@@ -62,8 +62,6 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
         float *pA = const_cast<float*>(A.getDataPointer());
         float *pB = const_cast<float*>(B.getDataPointer());
         float *pC = C.getDataPointer();
-
-        //std::cout << "Calling OpenBLAS sgemm " << M << " " << N << " " << K << std::endl;
 
         BlasInterface<OpenBLAS,sgemm>()(&transA,&transB,&M,&N,&K,&alpha,pA,&LDA,pB,&LDB,&beta,pC,&LDC);
     }
