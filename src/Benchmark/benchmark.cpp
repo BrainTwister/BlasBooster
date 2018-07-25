@@ -63,8 +63,7 @@ int main(int argc, char* argv[])
         auto cli = clara::Help(show_help)
                  | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
                  | clara::Opt(time_prefix, "time_prefix")["-t"]["--time-prefix"]("Prefix for time listing (default: nano)")
-                 | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)")
-                 | clara::Opt(diff_file, "diff matrix")["--diff-matrix"]("Output file for difference matrix between reference and block mult (diff.dat)");
+                 | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)");
 
         auto cli_result = cli.parse(clara::Args(argc, argv));
         if (!cli_result)
@@ -143,7 +142,7 @@ int main(int argc, char* argv[])
                           << std::endl;
 
                 if (write_diff) {
-                    std::ofstream os(diff_file, std::ofstream::binary);
+                    std::ofstream os(std::string("diff_") + std::to_string(i) + ".dat", std::ofstream::binary);
                     os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
                 }
             }
