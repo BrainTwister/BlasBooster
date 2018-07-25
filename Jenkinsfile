@@ -13,32 +13,11 @@ pipeline {
   stages {
     stage('Build') {
       parallel {
-        stage('gcc-5') {
-          agent {
-            docker {
-              reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-5-conan-1.5'
-            }
-          }
-          steps {
-            sh './build.sh gcc-5'
-          }
-          post {
-            always {
-              step([
-                $class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false,
-                defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '',
-                parserConfigurations: [[parserName: 'GNU Make + GNU C Compiler (gcc)', pattern: 'build-gcc-5/make.out']],
-                unHealthy: ''
-              ])
-            }
-          }
-        }
         stage('gcc-7') {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-7-conan-1.5'
+              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
             }
           }
           steps {
@@ -59,7 +38,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-clang-6-conan-1.5'
+              image 'braintwister/ubuntu-18.04-cmake-3.12-clang-6-conan-1.6'
             }
           }
           steps {
@@ -80,31 +59,11 @@ pipeline {
     }
     stage('Test') {
       parallel {
-        stage('gcc-5') {
-          agent {
-            docker {
-              reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-5-conan-1.5'
-            }
-          }
-          steps {
-            sh 'cd build-gcc-5 && make test'
-          }
-          post {
-            always {
-              step([
-                $class: 'XUnitBuilder',
-                thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
-                tools: [[$class: 'GoogleTestType', pattern: 'build-gcc-5/Testing/*.xml']]
-              ])
-            }
-          }
-        }
         stage('gcc-7') {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-7-conan-1.5'
+              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
             }
           }
           steps {
@@ -124,7 +83,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-5-conan-1.5'
+              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-5-conan-1.6'
             }
           }
           steps {
@@ -146,11 +105,11 @@ pipeline {
       agent {
         docker {
           reuseNode true
-          image 'braintwister/ubuntu-18.04-cmake-3.11-gcc-5-conan-1.5'
+          image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
         }
       }
       steps {
-        sh 'cd build-gcc-5 && make package'
+        sh 'cd build-gcc-7 && make package'
       }
       post {
         success {
