@@ -12,7 +12,7 @@ TEST(range_v3, zip)
     std::vector<std::string> b{"a", "b", "c"};
 
     std::stringstream ss;
-    for ( auto&& [a,b,c] : view::zip(a, b, view::indices(a.size()))) {
+    for (auto&& [a,b,c] : view::zip(a, b, view::indices(a.size()))) {
         ss << a << b << c;
     }
 

@@ -21,6 +21,8 @@
 #include "clara.hpp"
 #include "matrix_matrix_mult.h"
 #include "MatrixProvider.h"
+#include <range/v3/view/indices.hpp>
+#include <range/v3/view/zip.hpp>
 
 #ifdef WITH_OPENBLAS
   #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
@@ -30,6 +32,7 @@
 #endif
 
 using namespace BlasBooster;
+using namespace ranges;
 
 BRAINTWISTER_RECORD( Settings, \
     (( std::vector<std::string>, actions, std::vector<std::string>() )) \
@@ -108,20 +111,16 @@ int main(int argc, char* argv[])
                   << std::string(120,'-')
                   << std::endl;
 
-        int i = 0;
-        auto&& B_list = settings.matrices.get("B");
-        for (auto&& A : settings.matrices.get("A"))
+        auto&& list_A = settings.matrices.get("A");
+        auto&& list_B = settings.matrices.get("B");
+        if (list_A.size() != list_B.size()) std::runtime_error("Number of matrices A and B not equal");
+
+        for (auto&& [A, B, i] : view::zip(list_A, list_B, view::indices(list_A.size())))
         {
-        	auto&& B = B_list[i];
             std::cout << std::setw(10) << std::left << i
             		  << std::setw(30) << std::left << settings.actions[0] << std::flush;
 
-            // C++17
-            //auto const& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-            auto const& rv1 = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-            auto const& refC = std::get<0>(rv1);
-            auto const& time = std::get<1>(rv1);
-            auto const& details = std::get<2>(rv1);
+            auto&& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
 
             std::cout << std::setw(15) << scale_time(time, time_prefix)
                       << std::setw(15) << 0.0
@@ -134,13 +133,8 @@ int main(int argc, char* argv[])
                 std::cout << std::setw(10) << std::left << i
                 		  << std::setw(30) << std::left << action << std::flush;
 
-                // C++17
-                //auto const& [C, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
-                auto const& rv2 = matrix_matrix_mult(action, benchmark, threshold, A, B);
-                auto const& C = std::get<0>(rv2);
-                auto const& time = std::get<1>(rv2);
-                auto const& details = std::get<2>(rv2);
-                auto const diff = C - refC;
+                auto&& [C, time, details] = matrix_matrix_mult(action, benchmark, threshold, A, B);
+                auto&& diff = C - refC;
 
                 std::cout << std::setw(15) << scale_time(time, time_prefix)
                           << std::setw(15) << norm<NormMax>(diff)
@@ -153,7 +147,6 @@ int main(int argc, char* argv[])
                     os.write(reinterpret_cast<const char*>(diff.getDataPointer()), diff.getSize()*sizeof(double));
                 }
             }
-            ++i;
         }
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
