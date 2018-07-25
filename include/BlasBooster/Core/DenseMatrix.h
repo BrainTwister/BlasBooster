@@ -240,6 +240,10 @@ public: // member functions
         return storage::operator==(rhs) and dimension::operator==(rhs);
     }
 
+    bool operator != (self const& rhs) const {
+        return !operator==(rhs);
+    }
+
     template <class T2, class P2>
     bool equal(Matrix<Dense,T2,P2> const& rhs) const {
         return storage::equal(rhs)

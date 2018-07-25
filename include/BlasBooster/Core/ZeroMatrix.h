@@ -46,6 +46,24 @@ public: // member functions
     /// Resize function for non-blocked matrix
     void resize(IndexType nbRows, IndexType nbColumns);
 
+    bool operator == (self const& rhs) const {
+        return dimension::operator==(rhs);
+    }
+
+    bool operator != (self const& rhs) const {
+        return !operator==(rhs);
+    }
+
+    template <class P2>
+    bool equal(Matrix<Zero,NullType,P2> const& rhs) const {
+        return operator==(rhs);
+    }
+
+    template <class P2>
+    bool notEqual(Matrix<Zero,NullType,P2> const& rhs) const {
+        return !equal(rhs);
+    }
+
     size_t getNbRows() const { return dimension::nbRows_; }
     size_t getNbColumns() const { return dimension::nbColumns_; }
 
