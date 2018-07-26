@@ -36,8 +36,6 @@ protected:
 		    .set_occupationThresholdMatrixDenseDoubleSinglePrecision(1.0)
 		    .set_occupationThresholdMatrixDenseDoubleDoublePrecision(1.0)
 		);
-
-		std::cout << threshold.getSignificanceThreshold<double>() << std::endl;
     }
 
 	Threshold threshold;

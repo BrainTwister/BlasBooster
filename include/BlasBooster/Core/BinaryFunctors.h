@@ -318,7 +318,7 @@ struct BinaryOperationFunctor<Operation,Zero,NullType,P,Zero,NullType,P,Zero,Nul
 {
     void operator () (Matrix<Zero,NullType,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C)
     {
-        /* nothing to do */
+        C = A;
     }
 };
 

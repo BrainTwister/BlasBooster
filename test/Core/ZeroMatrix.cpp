@@ -32,6 +32,7 @@ TEST(ZeroMatrix, addition)
 
 	EXPECT_TRUE(A.equal(A + Z));
 	EXPECT_TRUE(A.equal(Z + A));
+	EXPECT_TRUE(Z.equal(Z + Z));
 }
 
 TEST(ZeroMatrix, multiplication)
@@ -44,4 +45,7 @@ TEST(ZeroMatrix, multiplication)
 
 	auto&& ZA = (Z * A).execute<Native>();
 	EXPECT_TRUE(Z.equal(ZA));
+
+	auto&& ZZ = (Z * Z).execute<Native>();
+	EXPECT_TRUE(Z.equal(ZZ));
 }

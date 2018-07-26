@@ -476,6 +476,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
     storage(transpose(other))
 {}
 
+/// Conversion from SubDenseMatrix
 template <class T, class P>
 template <class T2, class P2, class ValueChecker>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& valueChecker,
@@ -520,7 +521,7 @@ Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other, ValueChecker const& 
     }
 }
 
-/// Conversion from SubDenseMatrix
+/// Conversion from blocked DenseMatrix
 template <class T, class P>
 template <class T2, class P2>
 Matrix<Dense,T,P>::Matrix(Matrix<Dense,T2,P2> const& other,
