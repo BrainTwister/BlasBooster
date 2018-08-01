@@ -3,6 +3,7 @@
 #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
+#include "BlasBooster/Utilities/Tracker.h"
 #include <iostream>
 
 namespace BlasBooster {
@@ -13,7 +14,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	//BRAINTWISTER_OBSERVER("OpenBLAS dgemm");
+    	Tracker tracker("OpenBLAS dgemm");
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -43,7 +44,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
-        //BRAINTWISTER_OBSERVER("OpenBLAS sgemm");
+    	Tracker tracker("OpenBLAS sgemm");
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(),B.getNbColumns());
