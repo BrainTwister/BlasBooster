@@ -6,22 +6,25 @@
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/STLHelpers.h"
+#include <numeric>
 #include <set>
+#include <tuple>
 
 namespace BlasBooster {
 
 template <class T>
-std::vector<size_t> getSortedIndex(std::vector<T> const& v)
+auto sort_indices(std::vector<T> const& v)
 {
-  // initialize original index locations
-  std::vector<size_t> idx(v.size());
-  for (size_t i = 0; i != idx.size(); ++i) idx[i] = i;
+    // initialize original index locations
+    std::vector<size_t> idx(v.size());
+    iota(idx.begin(), idx.end(), 0);
 
-  // sort indexes based on comparing values in v
-  sort(idx.begin(), idx.end(),
-       [&v](size_t i1, size_t i2) {return v[i1] > v[i2];});
+    // sort indexes based on comparing values in v
+    sort(idx.begin(), idx.end(), [&v](size_t i1, size_t i2) {
+  	    return v[i1] > v[i2];
+    });
 
-  return idx;
+    return idx;
 }
 
 /**
@@ -43,9 +46,15 @@ struct BlockSizeGenerator
     }
 
     template <class T, class P>
-    std::pair<std::vector<size_t>, std::vector<size_t> > operator () (Matrix<Dense,T,P> const& matrix) const;
+    std::tuple<std::vector<size_t>, std::vector<size_t>> operator () (Matrix<Dense,T,P> const& matrix) const;
+
+    template <class T, class P>
+    auto matrix_matrix_mult(Matrix<Dense,T,P> const& A, Matrix<Dense,T,P> const& B) const;
 
 private:
+
+    template <class T, class P>
+    auto get_detection_arrays(Matrix<Dense,T,P> const& matrix) const;
 
     template <class T>
     int getExponent(T value) const;
@@ -59,9 +68,8 @@ private:
 };
 
 template <class T, class P>
-std::pair<std::vector<size_t>, std::vector<size_t>> BlockSizeGenerator::operator () (Matrix<Dense,T,P> const& matrix) const
+std::tuple<std::vector<size_t>, std::vector<size_t>> BlockSizeGenerator::operator () (Matrix<Dense,T,P> const& matrix) const
 {
-    size_t i, j;
     size_t nbRows = matrix.getNbRows();
     size_t nbColumns = matrix.getNbColumns();
     size_t nbRowsMinus1 = matrix.getNbRows() - 1;
@@ -76,9 +84,9 @@ std::pair<std::vector<size_t>, std::vector<size_t>> BlockSizeGenerator::operator
     std::vector<T> rowDetection(nbRowsMinus1, 0.0);
     std::vector<T> columnDetection(nbColumnsMinus1, 0.0);
 
-    for (i = 0; i != nbRowsMinus1; ++i)
+    for (size_t i = 0; i != nbRowsMinus1; ++i)
     {
-        for (j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2, ++iter3)
+        for (size_t j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2, ++iter3)
         {
             exp1 = getExponent(*iter1);
             exp2 = getExponent(*iter2);
@@ -92,37 +100,91 @@ std::pair<std::vector<size_t>, std::vector<size_t>> BlockSizeGenerator::operator
         ++iter1, ++iter2, ++iter3;
     }
 
-    for (j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2)
+    for (size_t j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2)
     {
         exp1 = getExponent(*iter1);
         exp2 = getExponent(*iter2);
         columnDetection[j] += std::abs(exp1 - exp2);
     }
 
-    return std::make_pair(getBlockSizeList(rowDetection, nbRows),
-    		              getBlockSizeList(columnDetection, nbColumns));
+    return std::make_pair(getBlockSizeList(rowDetection), getBlockSizeList(columnDetection));
+}
+
+template <class T, class P>
+auto BlockSizeGenerator::matrix_matrix_mult(Matrix<Dense,T,P> const& A, Matrix<Dense,T,P> const& B) const
+{
+	auto&& [row_detect_A, col_detect_A] = get_detection_arrays(A);
+	auto&& [row_detect_B, col_detect_B] = get_detection_arrays(B);
+
+	// zip
+	col_detect_A[i] += row_detect_B[i];
+
+	return std::make_tuple(getBlockSizeList(row_detect_A), getBlockSizeList(col_detect_A), getBlockSizeList(col_detect_B));
+}
+
+template <class T, class P>
+auto BlockSizeGenerator::get_detection_arrays(Matrix<Dense,T,P> const& matrix) const
+{
+    size_t nbRows = matrix.getNbRows();
+    size_t nbColumns = matrix.getNbColumns();
+    size_t nbRowsMinus1 = matrix.getNbRows() - 1;
+    size_t nbColumnsMinus1 = matrix.getNbColumns() - 1;
+
+    // TODO: if only one is larger then maxBlockSize, only this detection matrix must be build
+    if (nbRows <= maxBlockSize_ and nbColumns <= maxBlockSize_) return std::make_pair(std::vector<size_t>(1, nbRows), std::vector<size_t>(1, nbColumns));
+
+    typename Matrix<Dense,T,P>::const_iterator iter1(matrix.begin()), iter2(matrix.begin() + 1), iter3(matrix.begin() + nbColumns);
+    int exp1, exp2, exp3;
+
+    std::vector<T> rowDetection(nbRowsMinus1, 0.0);
+    std::vector<T> columnDetection(nbColumnsMinus1, 0.0);
+
+    for (size_t i = 0; i != nbRowsMinus1; ++i)
+    {
+        for (size_t j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2, ++iter3)
+        {
+            exp1 = getExponent(*iter1);
+            exp2 = getExponent(*iter2);
+            exp3 = getExponent(*iter3);
+            rowDetection[i] += std::abs(exp1 - exp3);
+            columnDetection[j] += std::abs(exp1 - exp2);
+        }
+        exp1 = getExponent(*iter1);
+        exp3 = getExponent(*iter3);
+        rowDetection[i] += std::abs(exp1 - exp3);
+        ++iter1, ++iter2, ++iter3;
+    }
+
+    for (size_t j = 0; j != nbColumnsMinus1; ++j, ++iter1, ++iter2)
+    {
+        exp1 = getExponent(*iter1);
+        exp2 = getExponent(*iter2);
+        columnDetection[j] += std::abs(exp1 - exp2);
+    }
+
+    return std::make_tuple(rowDetection, columnDetection);
 }
 
 template <class T>
 int BlockSizeGenerator::getExponent(T value) const
 {
-    int exponent;
-    if (value != 0.0) frexp(value,&exponent);
-    else exponent = std::numeric_limits<T>::min_exponent;
+	if (value == 0.0) return std::numeric_limits<T>::min_exponent;
+	int exponent;
+    frexp(value, &exponent);
     return exponent;
 }
 
 template <class T>
-std::vector<size_t> BlockSizeGenerator::getBlockSizeList(std::vector<T> const& detectionArray, size_t size) const
+std::vector<size_t> BlockSizeGenerator::getBlockSizeList(std::vector<T> const& detect) const
 {
-    auto sortedIndex = getSortedIndex(detectionArray);
+    auto sorted_indices = sort_indices(detect);
 
-    std::set<size_t> borders{0,size};
+    std::set<size_t> borders{0, detect.size() + 1};
     std::set<size_t> largeBlocks{0};
 
     size_t curIndex, beforeIndex, afterIndex;
-    for (size_t i(0); i != detectionArray.size(); ++i) {
-        curIndex = sortedIndex[i] + 1;
+    for (size_t i(0); i != detect.size(); ++i) {
+        curIndex = sorted_indices[i] + 1;
         beforeIndex = *(std::prev(borders.lower_bound(curIndex)));
         afterIndex = *borders.upper_bound(curIndex);
         if (curIndex - beforeIndex >= minBlockSize_ and afterIndex - curIndex >= minBlockSize_)
