@@ -19,13 +19,25 @@
 
 namespace BlasBooster {
 
-std::tuple<Matrix<Dense,double>, size_t, std::string>
-matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& benchmark, Threshold const& threshold,
-    Matrix<Dense,double> const& refA, Matrix<Dense,double> const& refB)
+std::ostream& operator << (std::ostream& os, Details const& details)
+{
+	for (auto&& [name, time] : details) os << name << ": "
+        << std::chrono::duration_cast<std::chrono::nanoseconds>(time).count();
+	return os;
+}
+
+std::ostream& operator << (std::ostream& os, BrainTwister::myclock::duration const& duration)
+{
+	return os << std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+}
+
+std::tuple<Matrix<Dense, double>, BrainTwister::myclock::duration, Details>
+matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& benchmark,
+    Threshold const& threshold, Matrix<Dense,double> const& refA, Matrix<Dense,double> const& refB)
 {
     Matrix<Dense, double> C;
-    size_t time = 0;
-    std::ostringstream details;
+    BrainTwister::myclock::duration time;
+    Details details;
 
 #ifdef WITH_OPENBLAS
     if (action == "openblas_dgemm")
@@ -33,7 +45,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         auto result = benchmark.benchIt([&](){
             C = (refA * refB).template execute<OpenBLAS>();
         });
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "openblas_sgemm")
     {
@@ -46,7 +58,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     } else
 #endif
 #ifdef WITH_INTELMKL
@@ -55,7 +67,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         auto result = benchmark.benchIt([&](){
             C = (refA * refB).template execute<IntelMKL>();
         });
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "intelmkl_sgemm")
     {
@@ -68,7 +80,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "intelmkl_dcsrmm")
     {
@@ -79,7 +91,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
             C = (A * B).template execute<IntelMKL>();
         });
 
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "intelmkl_scsrmm")
     {
@@ -92,7 +104,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "intelmkl_dcsrmultcsr")
     {
@@ -105,7 +117,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "intelmkl_scsrmultcsr")
     {
@@ -118,7 +130,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else
 #endif
@@ -130,9 +142,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
             std::tie(bs_row_A, bs_col_A) = BlockSizeGenerator(200, 1000)(refA);
             std::tie(bs_row_B, bs_col_B) = BlockSizeGenerator(200, 1000)(refB);
         });
-        details << "size: "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count()
-				<< " ns";
+        details.push_back(std::make_tuple("size", result1.average_time));
 
         BlockedDenseMatrix A, B;
 
@@ -140,23 +150,16 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
             A = BlockedMatrixGenerator()(refA, bs_row_A, bs_col_A, threshold);
             B = BlockedMatrixGenerator()(refB, bs_row_B, bs_col_B, threshold);
         });
-        details << ", block: "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result2.average_time).count()
-				<< " ns";
+        details.push_back(std::make_tuple("block", result2.average_time));
 
         BlockedDenseMatrix C2;
         auto result3 = benchmark.benchIt([&](){
             C2 = (A * B).template execute<TheBestPolicy>();
         });
-        details << ", mult: "
-                << std::chrono::duration_cast<std::chrono::nanoseconds>(result3.average_time).count()
-				<< " ns";
+        details.push_back(std::make_tuple("mult", result3.average_time));
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count()
-             + std::chrono::duration_cast<std::chrono::nanoseconds>(result2.average_time).count()
-             + std::chrono::duration_cast<std::chrono::nanoseconds>(result3.average_time).count();
-
+        time = result1.average_time + result2.average_time + result3.average_time;
     }
     else if (action == "blasbooster_sparse_double")
     {
@@ -169,7 +172,7 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else if (action == "blasbooster_sparse_float")
     {
@@ -182,14 +185,14 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         });
 
         C = C2;
-        time = std::chrono::duration_cast<std::chrono::nanoseconds>(result.average_time).count();
+        time = result.average_time;
     }
     else
     {
         std::runtime_error(std::string("Unknown action: ") + action);
     }
 
-    return std::make_tuple(C, time, details.str());
+    return std::make_tuple(C, time, details);
 }
 
 } // namespace BlasBooster

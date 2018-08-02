@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 
             auto&& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
 
-            std::cout << std::setw(15) << scale_time(time, time_prefix)
+            std::cout << std::setw(15) << time
                       << std::setw(15) << 0.0
                       << std::setw(15) << 0.0
                       << std::setw(50) << details
@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
                 auto&& [C, time, details] = matrix_matrix_mult(action, benchmark, threshold, A, B);
                 auto&& diff = C - refC;
 
-                std::cout << std::setw(15) << scale_time(time, time_prefix)
+                std::cout << std::setw(15) << time
                           << std::setw(15) << norm<NormMax>(diff)
                           << std::setw(15) << norm<NormTwo>(diff)
                           << std::setw(50) << details
