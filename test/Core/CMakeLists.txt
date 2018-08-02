@@ -12,6 +12,7 @@ add_executable(
     AbsoluteValueRangeChecker.cpp
     BinaryFunctors.cpp
     BlockedMatrixMultiplication.cpp
+    BlockSizeGenerator.cpp
     main.cpp
     MatrixConverter.cpp
     MatrixMultiplication.cpp

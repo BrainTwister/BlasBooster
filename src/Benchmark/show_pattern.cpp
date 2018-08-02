@@ -76,11 +76,11 @@ int main(int argc, char* argv[])
 
         } else if (pattern_type == "type-blocks") {
 
-        	auto bset = settings.blocked_matrix_generator_settings;
-            auto block_sizes = BlockSizeGenerator(bset.min_block_size, bset.max_block_size)(matrix);
-            auto block_matrix = BlockedMatrixGenerator()(matrix, block_sizes.first, block_sizes.second, bset.threshold);
-            auto type_matrix = generateTypeMatrix(block_matrix);
-            auto dim_matrix = generateDimensionMatrix(block_matrix);
+        	auto&& bset = settings.blocked_matrix_generator_settings;
+            auto&& [bs_row, bs_col] = BlockSizeGenerator(bset.min_block_size, bset.max_block_size)(matrix);
+            auto&& block_matrix = BlockedMatrixGenerator()(matrix, bs_row, bs_col, bset.threshold);
+            auto&& type_matrix = generateTypeMatrix(block_matrix);
+            auto&& dim_matrix = generateDimensionMatrix(block_matrix);
 
             std::cout << "type matrix: " << type_matrix << std::endl;
             std::cout << "dimension matrix: " << dim_matrix << std::endl;

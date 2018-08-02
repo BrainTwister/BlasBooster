@@ -124,11 +124,11 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
 #endif
     if (action == "blasbooster_block")
     {
-        std::pair<std::vector<size_t>, std::vector<size_t>> blockSizeA, blockSizeB;
+        std::vector<size_t> bs_row_A, bs_col_A, bs_row_B, bs_col_B;
 
         auto result1 = benchmark.benchIt([&](){
-            blockSizeA = BlockSizeGenerator(200, 1000)(refA);
-            blockSizeB = BlockSizeGenerator(200, 1000)(refB);
+            std::tie(bs_row_A, bs_col_A) = BlockSizeGenerator(200, 1000)(refA);
+            std::tie(bs_row_B, bs_col_B) = BlockSizeGenerator(200, 1000)(refB);
         });
         details << "size: "
                 << std::chrono::duration_cast<std::chrono::nanoseconds>(result1.average_time).count()
@@ -137,8 +137,8 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         BlockedDenseMatrix A, B;
 
         auto result2 = benchmark.benchIt([&](){
-            A = BlockedMatrixGenerator()(refA, blockSizeA.first, blockSizeA.second, threshold);
-            B = BlockedMatrixGenerator()(refB, blockSizeB.first, blockSizeB.second, threshold);
+            A = BlockedMatrixGenerator()(refA, bs_row_A, bs_col_A, threshold);
+            B = BlockedMatrixGenerator()(refB, bs_row_B, bs_col_B, threshold);
         });
         details << ", block: "
                 << std::chrono::duration_cast<std::chrono::nanoseconds>(result2.average_time).count()
