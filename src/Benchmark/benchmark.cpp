@@ -94,7 +94,8 @@ int main(int argc, char* argv[])
         IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
 #endif
 
-        std::cout << std::scientific << set_duration_accuracy(duration_digits) << "\n"
+        std::cout << std::scientific
+        		  << set_duration_accuracy(duration_digits) << "\n"
                   << std::setw(10) << std::left << "matrix"
                   << std::setw(30) << std::left << "name"
                   << std::setw(15) << "time/s"
@@ -115,8 +116,7 @@ int main(int argc, char* argv[])
 
             auto&& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
 
-            std::cout << set_duration_accuracy(duration_digits)
-                      << std::setw(15) << time
+            std::cout << std::setw(15) << time
                       << std::setw(15) << 0.0
                       << std::setw(15) << 0.0
                       << details

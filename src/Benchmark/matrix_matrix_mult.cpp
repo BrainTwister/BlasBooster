@@ -27,12 +27,12 @@ std::ostream& operator << (std::ostream& os, duration_accuracy const& duration_a
 
 std::ostream& operator << (std::ostream& os, BrainTwister::myclock::duration const& duration)
 {
-    std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
-	std::stringstream ss;
-	ss << ns / std::chrono::seconds(1) << ".";
-    ns = ns % std::chrono::seconds(1);
-    ss << static_cast<int>(ns.count() / std::pow(10, 9 - duration_accuracy::get(os)));
-    return os << ss.str();
+	auto&& f = os.flags();
+    os << std::fixed
+    		  << std::setprecision(duration_accuracy::get(os))
+    		  << 1.0e-9 * std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+    os.flags(f);
+    return os;
 }
 
 std::ostream& operator << (std::ostream& os, Details const& details)
@@ -146,19 +146,18 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
 #endif
     if (action == "blasbooster_block")
     {
-        std::vector<size_t> bs_row_A, bs_col_A, bs_row_B, bs_col_B;
+        std::vector<size_t> bs_row_A, bs_col_A_row_B, bs_col_B;
 
         auto result1 = benchmark.benchIt([&](){
-            std::tie(bs_row_A, bs_col_A) = BlockSizeGenerator(200, 1000)(refA);
-            std::tie(bs_row_B, bs_col_B) = BlockSizeGenerator(200, 1000)(refB);
+            std::tie(bs_row_A, bs_col_A_row_B, bs_col_B) = BlockSizeGenerator(200, 1000).matrix_matrix_mult(refA, refB);
         });
         details.push_back(std::make_tuple("size", result1.average_time));
 
         BlockedDenseMatrix A, B;
 
         auto result2 = benchmark.benchIt([&](){
-            A = BlockedMatrixGenerator()(refA, bs_row_A, bs_col_A, threshold);
-            B = BlockedMatrixGenerator()(refB, bs_row_B, bs_col_B, threshold);
+            A = BlockedMatrixGenerator()(refA, bs_row_A, bs_col_A_row_B, threshold);
+            B = BlockedMatrixGenerator()(refB, bs_col_A_row_B, bs_col_B, threshold);
         });
         details.push_back(std::make_tuple("block", result2.average_time));
 
