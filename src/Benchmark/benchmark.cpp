@@ -58,11 +58,11 @@ int main(int argc, char* argv[])
         std::string settings_file = "benchmark.json";
         std::string diff_file = "diff.dat";
         bool write_diff = false;
-        std::string time_prefix = "nano";
+        int duration_digits = 3;
         bool show_help = false;
         auto cli = clara::Help(show_help)
                  | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
-                 | clara::Opt(time_prefix, "time_prefix")["-t"]["--time-prefix"]("Prefix for time listing (default: nano)")
+                 | clara::Opt(duration_digits, "duration_digits")["-a"]["--duration_digits"]("Number of digits of time duration (default: 3)")
                  | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)");
 
         auto cli_result = cli.parse(clara::Args(argc, argv));
@@ -79,12 +79,6 @@ int main(int argc, char* argv[])
             return 0;
         }
 
-        std::string time_prefix_symbol = "n";
-        if (time_prefix == "nano") time_prefix_symbol = "n";
-        else if (time_prefix == "micro") time_prefix_symbol = "u";
-        else if (time_prefix == "milli") time_prefix_symbol = "m";
-        else std::runtime_error(std::string("Unknown option for time_prefix: ") + time_prefix);
-
         std::ifstream ifs{settings_file};
         std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
         const Settings settings{JSON{settings_str}};
@@ -100,10 +94,10 @@ int main(int argc, char* argv[])
         IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
 #endif
 
-        std::cout << std::scientific << "\n"
+        std::cout << std::scientific << set_duration_accuracy(duration_digits) << "\n"
                   << std::setw(10) << std::left << "matrix"
                   << std::setw(30) << std::left << "name"
-                  << std::setw(15) << std::string("time/") + time_prefix_symbol + "s"
+                  << std::setw(15) << "time/s"
                   << std::setw(15) << "max-norm"
                   << std::setw(15) << "2-norm"
                   << "details\n"
@@ -121,10 +115,11 @@ int main(int argc, char* argv[])
 
             auto&& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
 
-            std::cout << std::setw(15) << time
+            std::cout << set_duration_accuracy(duration_digits)
+                      << std::setw(15) << time
                       << std::setw(15) << 0.0
                       << std::setw(15) << 0.0
-                      << std::setw(50) << details
+                      << details
                       << std::endl;
 
             for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
@@ -135,10 +130,11 @@ int main(int argc, char* argv[])
                 auto&& [C, time, details] = matrix_matrix_mult(action, benchmark, threshold, A, B);
                 auto&& diff = C - refC;
 
-                std::cout << std::setw(15) << time
+                std::cout << set_duration_accuracy(duration_digits)
+                          << std::setw(15) << time
                           << std::setw(15) << norm<NormMax>(diff)
                           << std::setw(15) << norm<NormTwo>(diff)
-                          << std::setw(50) << details
+                          << details
                           << std::endl;
 
                 if (write_diff) {

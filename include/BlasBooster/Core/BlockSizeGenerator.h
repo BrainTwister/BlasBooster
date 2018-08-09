@@ -82,7 +82,7 @@ std::tuple<std::vector<T>, std::vector<T>> BlockSizeGenerator::get_detection_arr
 {
     Matrix<Dense,T,P> matrix_log(matrix);
     for (auto&& value : matrix_log) {
-        if (value != 0.0) value = std::log10(value);
+        if (value != 0.0) value = std::log10(std::abs(value));
     }
 
     std::vector<T> row_detect(matrix.getNbRows() - 1, 0.0);
@@ -139,7 +139,10 @@ std::vector<size_t> BlockSizeGenerator::get_block_size(std::vector<T> const& det
                 left_idx = *(std::prev(borders.lower_bound(idx)));
                 left = idx - left_idx;
                 right = *borders.upper_bound(idx) - idx;
-                if (left < min_block_size or right < min_block_size) continue;
+                if (left < min_block_size or right < min_block_size) {
+                    equal_indices.erase(j);
+                	continue;
+                }
                 if (std::min(left, right) > largest_min) {
                     largest_min = std::min(left, right);
                     next_j = j;

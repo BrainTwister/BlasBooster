@@ -19,16 +19,26 @@
 
 namespace BlasBooster {
 
-std::ostream& operator << (std::ostream& os, Details const& details)
+std::ostream& operator << (std::ostream& os, duration_accuracy const& duration_accuracy)
 {
-	for (auto&& [name, time] : details) os << name << ": "
-        << std::chrono::duration_cast<std::chrono::nanoseconds>(time).count();
-	return os;
+	duration_accuracy::set(os, duration_accuracy.digits);
+    return os;
 }
 
 std::ostream& operator << (std::ostream& os, BrainTwister::myclock::duration const& duration)
 {
-	return os << std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+    std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+	std::stringstream ss;
+	ss << ns / std::chrono::seconds(1) << ".";
+    ns = ns % std::chrono::seconds(1);
+    ss << static_cast<int>(ns.count() / std::pow(10, 9 - duration_accuracy::get(os)));
+    return os << ss.str();
+}
+
+std::ostream& operator << (std::ostream& os, Details const& details)
+{
+    for (auto&& [name, time] : details) os << name << ": " << time << " s ";
+    return os;
 }
 
 std::tuple<Matrix<Dense, double>, BrainTwister::myclock::duration, Details>
