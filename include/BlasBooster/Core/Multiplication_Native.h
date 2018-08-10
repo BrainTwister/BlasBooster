@@ -1,5 +1,8 @@
 #pragma once
 
+#include <type_traits>
+#include <vector>
+
 #include "BlasBooster/Core/BinaryFunctors.h"
 #include "BlasBooster/Core/CoreException.h"
 #include "BlasBooster/Core/Cursor.h"
@@ -7,8 +10,7 @@
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/ZeroMatrix.h"
 //#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
-#include <type_traits>
-#include <vector>
+#include "BlasBooster/Utilities/Tracker.h"
 
 namespace BlasBooster {
 
@@ -23,8 +25,9 @@ struct GeneralDenseMultiplicationFunctor
 {
     void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-        if (A.getNbColumns() != B.getNbRows()) BLASBOOSTER_CORE_FAILURE("wrong dimension");
+       	[[maybe_unused]] Tracker<TrackerID::Native_GeneralDense> tracker;
 
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         typename Matrix<Dense,T1,P1>::const_iterator iterA;
@@ -154,7 +157,10 @@ struct MultiplicationFunctor<Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3,Native>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
     {
-        C.resize(A.getNbRows(),B.getNbColumns());
+       	[[maybe_unused]] Tracker<TrackerID::Native_sparse> tracker;
+
+        assert(A.getNbColumns() == B.getNbRows());
+        C.resize(A.getNbRows(), B.getNbColumns());
 
         typename Matrix<Sparse,T3,P3>::iterator iterValueCCur(C.begin());
         typename Matrix<Sparse,T3,P3>::index_iterator iterKeyCCur(C.beginKey());
@@ -209,7 +215,9 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
         typedef Cursor<Matrix<Dense,T3,P3>, Direction::Column> ColumnCursorC;
         typedef Cursor<ColumnCursorC, Direction::Row> RowCursorC;
 
-        // Initialize result matrix
+       	[[maybe_unused]] Tracker<TrackerID::Native_sparse_dense> tracker;
+
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         size_t col(0);

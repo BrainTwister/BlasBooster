@@ -9,6 +9,7 @@
 #include "BlasBooster/Core/MatrixIO.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/SparseMatrix.h"
+#include "BlasBooster/Utilities/Tracker.h"
 
 namespace BlasBooster {
 
@@ -18,7 +19,12 @@ struct MultiplicationFunctor<Dense,T,P,Dense,T,P,Dense,T,P,IntelMKL>
 {
     void operator () (Matrix<Dense,T,P> const& A, Matrix<Dense,T,P> const& B, Matrix<Dense,T,P>& C)
     {
-    	typedef typename std::conditional<std::is_same<T, double>::value, dgemm, sgemm>::type FuncType;
+        typedef typename std::conditional<std::is_same<T, double>::value, dgemm, sgemm>::type FuncType;
+
+        [[maybe_unused]] typename std::conditional<std::is_same<T, double>::value,
+            Tracker<TrackerID::IntelMKL_dgemm>,
+            Tracker<TrackerID::IntelMKL_sgemm>
+        >::type tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -39,7 +45,7 @@ struct MultiplicationFunctor<Dense,T,P,Dense,T,P,Dense,T,P,IntelMKL>
             const_cast<T*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             &beta,
-	        C.data_,
+            C.data_,
             reinterpret_cast<const int*>(&A.nbRows_)
         );
     }
@@ -51,15 +57,20 @@ struct MultiplicationFunctor<Sparse,T,P,Dense,T,P,Dense,T,P,IntelMKL>
 {
     void operator () (Matrix<Sparse,T,P> const& A, Matrix<Dense,T,P> const& B, Matrix<Dense,T,P>& C)
     {
-    	typedef typename std::conditional<std::is_same<T, double>::value, dcsrmm, scsrmm>::type FuncType;
+        typedef typename std::conditional<std::is_same<T, double>::value, dcsrmm, scsrmm>::type FuncType;
+
+        [[maybe_unused]] typename std::conditional<std::is_same<T, double>::value,
+            Tracker<TrackerID::IntelMKL_dcsrmm>,
+            Tracker<TrackerID::IntelMKL_scsrmm>
+        >::type tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
-		char n = 'N';
-		// one-based indexing matdescra[3] = 'F' => B and C must be column-major
-		// zero-based indexing matdescra[3] = 'C' => B and C must be row-major
-		char matdescra[6] = {'G', 'L', 'N', 'F', 'X', 'X'};
+        char n = 'N';
+        // one-based indexing matdescra[3] = 'F' => B and C must be column-major
+        // zero-based indexing matdescra[3] = 'C' => B and C must be row-major
+        char matdescra[6] = {'G', 'L', 'N', 'F', 'X', 'X'};
         T alpha = 1.0;
         T beta = 0.0;
 
@@ -76,23 +87,23 @@ struct MultiplicationFunctor<Sparse,T,P,Dense,T,P,Dense,T,P,IntelMKL>
             return ++value;
         });
 
-		BlasInterface<IntelMKL, FuncType>()(
-			&n,
+        BlasInterface<IntelMKL, FuncType>()(
+            &n,
             reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
-			&alpha,
-			matdescra,
-			const_cast<T*>(rmA.value_.getDataPointer()),
-			&rmA_key[0],
-			&rmA_offset[0],
-			&rmA_offset[1],
-			const_cast<T*>(B.data_),
+            &alpha,
+            matdescra,
+            const_cast<T*>(rmA.value_.getDataPointer()),
+            &rmA_key[0],
+            &rmA_offset[0],
+            &rmA_offset[1],
+            const_cast<T*>(B.data_),
             reinterpret_cast<const int*>(&A.nbColumns_),
-			&beta,
-			C.data_,
+            &beta,
+            C.data_,
             reinterpret_cast<const int*>(&A.nbRows_)
-		);
+        );
     }
 };
 
@@ -102,12 +113,17 @@ struct MultiplicationFunctor<Sparse,T,P,Sparse,T,P,Sparse,T,P,IntelMKL>
 {
     void operator () (Matrix<Sparse,T,P> const& A, Matrix<Sparse,T,P> const& B, Matrix<Sparse,T,P>& C)
     {
-    	typedef typename std::conditional<std::is_same<T, double>::value, dcsrmultcsr, scsrmultcsr>::type FuncType;
+        typedef typename std::conditional<std::is_same<T, double>::value, dcsrmultcsr, scsrmultcsr>::type FuncType;
+
+        [[maybe_unused]] typename std::conditional<std::is_same<T, double>::value,
+            Tracker<TrackerID::IntelMKL_dcsrmultcsr>,
+            Tracker<TrackerID::IntelMKL_scsrmultcsr>
+        >::type tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
-	    char n = 'N';
+        char n = 'N';
         int request = 1;
         int sort = 8;
         int info;
@@ -135,47 +151,47 @@ struct MultiplicationFunctor<Sparse,T,P,Sparse,T,P,Sparse,T,P,IntelMKL>
         std::vector<int> C_key(C.key_.size());
         std::vector<int> C_offset(C.offset_.size());
 
-		BlasInterface<IntelMKL, FuncType>()(
-			&n,
-			&request,
-			&sort,
-			reinterpret_cast<const int*>(&A.nbRows_),
+        BlasInterface<IntelMKL, FuncType>()(
+            &n,
+            &request,
+            &sort,
+            reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&A.nbColumns_),
             reinterpret_cast<const int*>(&B.nbColumns_),
-			const_cast<T*>(A.value_.getDataPointer()),
-			&A_key[0],
-			&A_offset[0],
-			const_cast<T*>(B.value_.getDataPointer()),
-			&B_key[0],
-			&B_offset[0],
-			const_cast<T*>(C.value_.getDataPointer()),
-			&C_key[0],
-			&C_offset[0],
-			reinterpret_cast<const int*>(C.value_.size()),
-			&info
-		);
+            const_cast<T*>(A.value_.getDataPointer()),
+            &A_key[0],
+            &A_offset[0],
+            const_cast<T*>(B.value_.getDataPointer()),
+            &B_key[0],
+            &B_offset[0],
+            const_cast<T*>(C.value_.getDataPointer()),
+            &C_key[0],
+            &C_offset[0],
+            reinterpret_cast<const int*>(C.value_.size()),
+            &info
+        );
         assert(info == 0);
 
         request = 2;
-		BlasInterface<IntelMKL, FuncType>()(
-			&n,
-			&request,
-			&sort,
-			reinterpret_cast<const int*>(&A.nbRows_),
+        BlasInterface<IntelMKL, FuncType>()(
+            &n,
+            &request,
+            &sort,
+            reinterpret_cast<const int*>(&A.nbRows_),
             reinterpret_cast<const int*>(&B.nbColumns_),
             reinterpret_cast<const int*>(&A.nbColumns_),
-			const_cast<T*>(A.value_.getDataPointer()),
-			&A_key[0],
-			&A_offset[0],
-			const_cast<T*>(B.value_.getDataPointer()),
-			&B_key[0],
-			&B_offset[0],
-			const_cast<T*>(C.value_.getDataPointer()),
-			&C_key[0],
-			&C_offset[0],
-			reinterpret_cast<const int*>(C.value_.size()),
-			&info
-		);
+            const_cast<T*>(A.value_.getDataPointer()),
+            &A_key[0],
+            &A_offset[0],
+            const_cast<T*>(B.value_.getDataPointer()),
+            &B_key[0],
+            &B_offset[0],
+            const_cast<T*>(C.value_.getDataPointer()),
+            &C_key[0],
+            &C_offset[0],
+            reinterpret_cast<const int*>(C.value_.size()),
+            &info
+        );
         assert(info == 0);
 
         std::transform(C_key.begin(), C_key.end(), C.key_.begin(), [](int value){

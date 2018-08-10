@@ -4,7 +4,6 @@
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Utilities/Tracker.h"
-#include <iostream>
 
 namespace BlasBooster {
 
@@ -44,7 +43,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::OpenBLAS_dgemm> tracker;
+    	[[maybe_unused]] Tracker<TrackerID::OpenBLAS_sgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(),B.getNbColumns());
