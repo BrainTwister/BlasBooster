@@ -37,9 +37,10 @@ private:
     }
 };
 
-inline duration_accuracy
-set_duration_accuracy(int digits)
-{ return {digits}; }
+inline duration_accuracy set_duration_accuracy(int digits)
+{
+    return {digits};
+}
 
 std::ostream& operator << (std::ostream& os, duration_accuracy const& duration_accuracy);
 

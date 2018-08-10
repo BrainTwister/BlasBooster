@@ -39,7 +39,6 @@ MatrixProvider::MatrixProvider(ptree const& tree)
                 matrix_set[name_leaf.first].assign(source.begin(), source.end());
             } else if (type_leaf.first == "File") {
             	auto&& filename = type_leaf.second.get_value<std::string>();
-            	std::cout << filename << std::endl;
                 matrix_set[name_leaf.first].push_back(Matrix<Dense, double>(filename));
             } else {
             	std::runtime_error("Unknown matrix_set type.");

@@ -4,7 +4,7 @@ project(BlasBooster VERSION 0.2.10 LANGUAGES CXX)
 message("${PROJECT_NAME} version ${PROJECT_VERSION}")
 message("CMake build type: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -fPIC -DBLASBOOSTER_USE_TRACKER")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBLASBOOSTER_DEBUG_MODE")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -100,6 +100,7 @@ endif(OPENBLAS_FOUND)
 
 add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
+add_subdirectory(src/Utilities)
 
 set(PYBIND11_PYTHON_VERSION 3.5)
 find_package(pybind11 REQUIRED)

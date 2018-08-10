@@ -31,6 +31,7 @@ target_link_libraries(
     ${Boost_LIBRARIES}
     ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
+    Utilities
     ${GTEST_BOTH_LIBRARIES}
     -pthread
 )

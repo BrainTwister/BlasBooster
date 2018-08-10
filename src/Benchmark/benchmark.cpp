@@ -14,6 +14,7 @@
 #include "BlasBooster/Core/Threshold.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/range.h"
+#include "BlasBooster/Utilities/Tracker.h"
 #include "BlasBooster/Utilities/Version.h"
 #include "BrainTwister/benchmark.h"
 #include "BrainTwister/JSON.h"
@@ -42,12 +43,6 @@ BRAINTWISTER_RECORD( Settings, \
     (( ThresholdSettings, threshold, ThresholdSettings{} )) \
     (( BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{} )) \
 );
-
-size_t scale_time(size_t time, std::string time_prefix) {
-    if (time_prefix == "micro") return time /= 1000;
-    if (time_prefix == "milli") return time /= 1000000;
-    return time;
-}
 
 int main(int argc, char* argv[])
 {
@@ -143,6 +138,11 @@ int main(int argc, char* argv[])
                 }
             }
         }
+
+#ifdef BLASBOOSTER_USE_TRACKER
+        TrackerRegister::print(std::cout << set_duration_accuracy(duration_digits));
+#endif
+
     } catch ( BlasBoosterException const& e ) {
         std::cout << "BlasBooster exception: " << e.what() << std::endl;
         std::cout << "Program was aborted." << std::endl;

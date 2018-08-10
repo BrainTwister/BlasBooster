@@ -14,6 +14,7 @@ target_link_libraries(
     benchmark
     ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
+    Utilities
 )
 
 add_executable(
