@@ -24,6 +24,13 @@ inline TypeMatrix generateTypeMatrix(BlockedDenseMatrix const& matrix)
     return typeMatrix;
 }
 
+inline std::array<size_t, GetSize<DynamicMatrixTypeList>::value> get_type_counting(BlockedDenseMatrix const& matrix)
+{
+    std::array<size_t, GetSize<DynamicMatrixTypeList>::value> type_counting;
+    for (auto&& submatrix : matrix) ++type_counting[submatrix->getTypeIndex()];
+    return type_counting;
+}
+
 inline DimensionMatrix generateDimensionMatrix(BlockedDenseMatrix const& matrix)
 {
     DimensionMatrix dimMatrix(matrix.getNbRows(),matrix.getNbColumns());

@@ -21,3 +21,11 @@ TEST(TypeList, GetType)
 	EXPECT_TRUE((std::is_same<double, GetType<1UL, MyList>::type>::value));
 	EXPECT_TRUE((std::is_same<char,   GetType<2UL, MyList>::type>::value));
 }
+
+TEST(TypeList, GetSize)
+{
+	using MyList = TypeList<int, double, char>;
+
+	EXPECT_EQ(3UL, GetSize<MyList>::value);
+}
+

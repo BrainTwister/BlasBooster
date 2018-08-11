@@ -8,7 +8,7 @@ namespace BlasBooster {
 template <class... T>
 struct TypeList;
 
-/// Return the position of the first match of type T in TypeList L.
+/// Return the position of the first match of type T in TypeList L
 template <class T, class L>
 struct GetIndex;
 
@@ -40,6 +40,20 @@ struct GetType<0, TypeList<Tail, Ts...>>
 template <std::size_t I, class Tail, class... Ts>
 struct GetType<I, TypeList<Tail, Ts...>>
  : GetType<I - 1, TypeList<Ts...>>
+{};
+
+/// Return the size of TypeList L
+template <class L>
+struct GetSize;
+
+template <class Tail, class... Ts>
+struct GetSize<TypeList<Tail, Ts...>>
+ : std::integral_constant<std::size_t, GetSize<TypeList<Ts...>>::value + 1>
+{};
+
+template <>
+struct GetSize<TypeList<>>
+ : std::integral_constant<std::size_t, 0>
 {};
 
 } // namespace BlasBooster
