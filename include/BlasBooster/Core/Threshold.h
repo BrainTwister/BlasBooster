@@ -29,6 +29,8 @@ BRAINTWISTER_RECORD( ThresholdSettings, \
     ((ThresholdType, occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision, 1.0)) \
     ((ThresholdType, occupationThresholdMatrixDenseDoubleSinglePrecision, 1.0)) \
     ((ThresholdType, occupationThresholdMatrixDenseDoubleDoublePrecision, 1.0)) \
+    ((int, min_block_size, 200)) \
+    ((int, max_block_size, 1000)) \
 )
 
 template <class T>
@@ -64,6 +66,10 @@ public:
 
     template <class M, class T>
     ThresholdType getOccupationThreshold() const { return OccupationThresholdDistributor<M,T>()(*this); }
+
+    int get_min_block_size() const { return settings.min_block_size; }
+
+    int get_max_block_size() const { return settings.max_block_size; }
 
 private:
 

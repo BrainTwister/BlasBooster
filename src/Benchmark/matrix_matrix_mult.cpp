@@ -149,7 +149,8 @@ matrix_matrix_mult(std::string const& action, BrainTwister::Benchmark const& ben
         std::vector<size_t> bs_row_A, bs_col_A_row_B, bs_col_B;
 
         auto result1 = benchmark.benchIt([&](){
-            std::tie(bs_row_A, bs_col_A_row_B, bs_col_B) = BlockSizeGenerator(200, 1000).matrix_matrix_mult(refA, refB);
+            std::tie(bs_row_A, bs_col_A_row_B, bs_col_B) =
+                BlockSizeGenerator(threshold.get_min_block_size(), threshold.get_max_block_size()).matrix_matrix_mult(refA, refB);
         });
         details.push_back(std::make_tuple("size", result1.average_time));
 
