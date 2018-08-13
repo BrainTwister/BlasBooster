@@ -1,14 +1,16 @@
 #pragma once
 
+#include <numeric>
+#include <set>
+#include <tuple>
+
 #include "BlasBooster/Core/BlockedMatrix.h"
 #include "BlasBooster/Core/DenseMatrix.h"
 #include "BlasBooster/Core/MatrixConverter.h"
 #include "BlasBooster/Core/SparseMatrix.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/STLHelpers.h"
-#include <numeric>
-#include <set>
-#include <tuple>
+#include "BlasBooster/Utilities/Tracker.h"
 
 namespace BlasBooster {
 
@@ -25,6 +27,28 @@ auto sort_indices(std::vector<T> const& v)
     });
 
     return idx;
+}
+
+template <class T, class P>
+auto get_matrix_log(Matrix<Dense,T,P> const& matrix)
+{
+    Matrix<Dense,T,P> matrix_log(matrix);
+    for (auto&& value : matrix_log) {
+        if (value != 0.0) value = std::log10(std::abs(value));
+    }
+    return matrix_log;
+}
+
+template <class T, class P>
+auto get_matrix_frexp(Matrix<Dense,T,P> const& matrix)
+{
+    Matrix<Dense,T,P> matrix_log(matrix);
+    int exp;
+    for (auto&& value : matrix_log) {
+    	frexp(value, &exp);
+        value = exp;
+    }
+    return matrix_log;
 }
 
 struct BlockSizeGenerator
@@ -80,10 +104,10 @@ std::tuple<std::vector<size_t>, std::vector<size_t>, std::vector<size_t>> BlockS
 template <class T, class P>
 std::tuple<std::vector<T>, std::vector<T>> BlockSizeGenerator::get_detection_arrays(Matrix<Dense,T,P> const& matrix) const
 {
-    Matrix<Dense,T,P> matrix_log(matrix);
-    for (auto&& value : matrix_log) {
-        if (value != 0.0) value = std::log10(std::abs(value));
-    }
+	[[maybe_unused]] Tracker<TrackerID::get_detection_arrays> tracker;
+
+    //auto&& matrix_log = get_matrix_log(matrix);
+    auto&& matrix_log = get_matrix_frexp(matrix);
 
     std::vector<T> row_detect(matrix.getNbRows() - 1, 0.0);
     std::vector<T> col_detect(matrix.getNbColumns() - 1, 0.0);
@@ -113,6 +137,8 @@ std::tuple<std::vector<T>, std::vector<T>> BlockSizeGenerator::get_detection_arr
 template <class T>
 std::vector<size_t> BlockSizeGenerator::get_block_size(std::vector<T> const& detect) const
 {
+	[[maybe_unused]] Tracker<TrackerID::get_block_size> tracker;
+
     auto&& sorted_indices = sort_indices(detect);
     std::set<size_t> borders{0, detect.size() + 1};
     std::set<size_t> large_blocks{0};

@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
         int duration_digits = 3;
         bool show_help = false;
         auto cli = clara::Help(show_help)
-                 | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.json)")
+                 | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (default: benchmark.json)")
                  | clara::Opt(duration_digits, "duration_digits")["-a"]["--duration_digits"]("Number of digits of time duration (default: 3)")
                  | clara::Opt(write_diff)["-d"]["--diff"]("Write difference matrix (default: off)");
 

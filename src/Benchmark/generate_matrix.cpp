@@ -52,11 +52,11 @@ int main(int argc, char* argv[])
                 }
             }
         } else {
-            //DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, DiagonalFiller<double>(1e-8)));
+            DynamicMatrix D(new Matrix<Dense,double>(1000, 1000, DiagonalFiller<double>(0.1)));
             DynamicMatrix F(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(1e-8)));
             DynamicMatrix Z(new Matrix<Dense,double>(1000, 1000, AllFiller<double>(0.0)));
 
-            BlockedDenseMatrix block{{Z,Z,Z,Z},{Z,F,Z,Z},{Z,Z,Z,Z},{Z,Z,Z,Z}};
+            BlockedDenseMatrix block{{D,Z,Z,Z},{Z,F,Z,Z},{Z,Z,D,Z},{Z,Z,Z,D}};
             matrix = Matrix<Dense, double>{block};
         }
 

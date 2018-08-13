@@ -26,6 +26,7 @@ target_link_libraries(
     show_pattern
     ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
+    Utilities
 )
 
 install(TARGETS benchmark show_pattern RUNTIME DESTINATION bin)
@@ -39,6 +40,7 @@ target_link_libraries(
     generate_matrix
     ${CONAN_LIBS}
     ${EXTERNAL_BLAS_LIBRARIES}
+    Utilities
 )
 
 install(TARGETS benchmark generate_matrix RUNTIME DESTINATION bin)

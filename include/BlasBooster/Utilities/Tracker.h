@@ -22,6 +22,8 @@ enum class TrackerID {
 	Native_GeneralDense,
 	Native_sparse,
 	Native_sparse_dense,
+	get_detection_arrays,
+	get_block_size,
     size
 };
 
@@ -42,6 +44,8 @@ enum class TrackerID {
         map("Native_GeneralDense", TrackerID::Native_GeneralDense);
         map("Native_sparse", TrackerID::Native_sparse);
         map("Native_sparse_dense", TrackerID::Native_sparse_dense);
+        map("get_detection_arrays", TrackerID::get_detection_arrays);
+        map("get_block_size", TrackerID::get_block_size);
     }
 
     struct TrackerRegister
