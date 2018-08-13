@@ -23,7 +23,7 @@ TEST(BlockSizeGeneratorTest, Test1)
     auto&& [bs_detect_row, bs_detect_col] = BlockSizeGenerator(2, 5).get_detection_arrays(A);
 
     EXPECT_EQ(0.0, bs_detect_row[0]);
-    EXPECT_EQ(5.0, bs_detect_row[4]);
+    EXPECT_EQ(15.0, bs_detect_row[4]);
 
     auto&& [bs_row, bs_col] = BlockSizeGenerator(2, 5)(A);
 
