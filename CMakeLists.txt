@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(BlasBooster VERSION 0.2.10 LANGUAGES CXX)
 
-message("${PROJECT_NAME} version ${PROJECT_VERSION}")
-message("CMake build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "${PROJECT_NAME} version ${PROJECT_VERSION}")
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -fPIC -DBLASBOOSTER_USE_TRACKER")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBLASBOOSTER_DEBUG_MODE")
@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
 
 # C++ ISO standard
 set(CPP_ISO_STANDARD "c++17" CACHE STRING "C++ ISO standard")
-message("Use ${CPP_ISO_STANDARD} ISO standard")
+message(STATUS "Use ${CPP_ISO_STANDARD} ISO standard")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_ISO_STANDARD}")
 
 # CMake modules

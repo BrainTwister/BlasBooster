@@ -5,9 +5,10 @@ include_directories(
 
 add_executable(
     benchmark
+    ActionProvider.cpp
     benchmark.cpp
-    matrix_matrix_mult.cpp
     MatrixProvider.cpp
+    time.cpp
 )
     
 target_link_libraries(

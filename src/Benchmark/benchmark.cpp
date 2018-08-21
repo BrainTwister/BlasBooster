@@ -20,8 +20,9 @@
 #include "BrainTwister/JSON.h"
 #include "BrainTwister/Record.h"
 #include "clara.hpp"
-#include "matrix_matrix_mult.h"
+#include "ActionProvider.h"
 #include "MatrixProvider.h"
+#include "time.h"
 #include <range/v3/view/indices.hpp>
 #include <range/v3/view/zip.hpp>
 
@@ -36,11 +37,8 @@ using namespace BlasBooster;
 using namespace ranges;
 
 BRAINTWISTER_RECORD( Settings, \
-    (( std::vector<std::string>, actions, std::vector<std::string>() )) \
-    (( MatrixProvider, matrices, MatrixProvider() )) \
-    (( int, IntelMKL_num_threads, 1 )) \
-    (( int, OpenBLAS_num_threads, 1 )) \
-    (( ThresholdSettings, threshold, ThresholdSettings{} )) \
+    (( ActionProvider, actions, ActionProvider{} )) \
+    (( MatrixProvider, matrices, MatrixProvider{} )) \
     (( BrainTwister::Benchmark::Settings, benchmark, BrainTwister::Benchmark::Settings{} )) \
 );
 
@@ -77,17 +75,7 @@ int main(int argc, char* argv[])
         std::ifstream ifs{settings_file};
         std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
         const Settings settings{JSON{settings_str}};
-        const Threshold threshold{settings.threshold};
         const BrainTwister::Benchmark benchmark{settings.benchmark};
-
-#ifdef WITH_OPENBLAS
-        std::cout << "Set number of threads for OpenBLAS to " << settings.OpenBLAS_num_threads << std::endl;
-        OpenBLAS_set_num_threads(settings.OpenBLAS_num_threads);
-#endif
-#ifdef WITH_INTELMKL
-        std::cout << "Set number of threads for IntelMKL to " << settings.IntelMKL_num_threads << std::endl;
-        IntelMKL_set_num_threads(settings.IntelMKL_num_threads);
-#endif
 
         std::cout << std::scientific
         		  << set_duration_accuracy(duration_digits) << "\n"
@@ -100,6 +88,7 @@ int main(int argc, char* argv[])
                   << std::string(120,'-')
                   << std::endl;
 
+        auto&& actions = settings.actions.get();
         auto&& list_A = settings.matrices.get("A");
         auto&& list_B = settings.matrices.get("B");
         if (list_A.size() != list_B.size()) std::runtime_error("Number of matrices A and B not equal");
@@ -107,9 +96,9 @@ int main(int argc, char* argv[])
         for (auto&& [A, B, i] : view::zip(list_A, list_B, view::indices(list_A.size())))
         {
             std::cout << std::setw(10) << std::left << i
-            		  << std::setw(30) << std::left << settings.actions[0] << std::flush;
+            		  << std::setw(30) << std::left << actions[0]->name() << std::flush;
 
-            auto&& [refC, time, details] = matrix_matrix_mult(settings.actions[0], benchmark, threshold, A, B);
+            auto&& [refC, time, details] = actions[0]->execution(A, B, benchmark);
 
             std::cout << std::setw(15) << time
                       << std::setw(15) << 0.0
@@ -117,12 +106,12 @@ int main(int argc, char* argv[])
                       << details
                       << std::endl;
 
-            for (auto&& action : range(settings.actions.begin()+1, settings.actions.end()))
+            for (auto&& action : range(actions.begin()+1, actions.end()))
             {
                 std::cout << std::setw(10) << std::left << i
-                		  << std::setw(30) << std::left << action << std::flush;
+                		  << std::setw(30) << std::left << action->name() << std::flush;
 
-                auto&& [C, time, details] = matrix_matrix_mult(action, benchmark, threshold, A, B);
+                auto&& [C, time, details] = action->execution(A, B, benchmark);
                 auto&& diff = C - refC;
 
                 std::cout << set_duration_accuracy(duration_digits)
