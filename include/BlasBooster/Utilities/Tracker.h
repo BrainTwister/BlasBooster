@@ -22,6 +22,10 @@ enum class TrackerID {
 	Native_GeneralDense,
 	Native_sparse,
 	Native_sparse_dense,
+	Native_dense_sparse,
+	Native_matrix_zero,
+	Native_zero_matrix,
+	Native_zero_zero,
 	get_detection_arrays,
 	get_block_size,
     size
@@ -44,6 +48,10 @@ enum class TrackerID {
         map("Native_GeneralDense", TrackerID::Native_GeneralDense);
         map("Native_sparse", TrackerID::Native_sparse);
         map("Native_sparse_dense", TrackerID::Native_sparse_dense);
+        map("Native_dense_sparse", TrackerID::Native_dense_sparse);
+        map("Native_matrix_zero", TrackerID::Native_matrix_zero);
+        map("Native_zero_matrix", TrackerID::Native_zero_matrix);
+        map("Native_zero_zero", TrackerID::Native_zero_zero);
         map("get_detection_arrays", TrackerID::get_detection_arrays);
         map("get_block_size", TrackerID::get_block_size);
     }

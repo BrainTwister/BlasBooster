@@ -9,10 +9,8 @@
         {
             "number_of_threads": 1
         },
-        "blasbooster_sparse_double":
-        {
-            "number_of_threads": 1
-        },
+        "intelmkl_dgemm": {},
+        "intelmkl_sgemm": {},
         "blasbooster_block":
         {
             "threshold":
@@ -31,8 +29,8 @@
                 "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  0.0,
                 "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
                 "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0,
-                "min_block_size": 50,
-                "max_block_size": 100
+                "min_block_size": 500,
+                "max_block_size": 1000
             }
         }
     },

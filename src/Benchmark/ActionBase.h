@@ -19,7 +19,7 @@ struct ActionBase
 
 	virtual std::string name() const = 0;
 
-    virtual ReturnType execution(
+    virtual ReturnType execute(
     	Matrix<Dense,double> const& refA,
         Matrix<Dense,double> const& refB,
         BrainTwister::Benchmark const& benchmark) const = 0;

@@ -4,12 +4,16 @@
 
 // The upper case name must be used, since the lower case one is
 // only a macro defined in mkl_service.h and results in a seg-fault.
-extern "C" void MKL_Set_Num_Threads(int nbThreads);
+extern "C" {
+    void MKL_Set_Dynamic (int flag);
+    void MKL_Set_Num_Threads(int nbThreads);
+}
 
 namespace BlasBooster {
 
 void IntelMKL_set_num_threads(int nbThreads)
 {
+	::MKL_Set_Dynamic(0);
 	::MKL_Set_Num_Threads(nbThreads);
 }
 

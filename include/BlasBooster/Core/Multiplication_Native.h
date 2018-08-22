@@ -255,7 +255,9 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
         typedef Cursor<Matrix<Dense,T3,P3>, Direction::Column> ColumnCursorC;
         typedef Cursor<ColumnCursorC, Direction::Row> RowCursorC;
 
-        // Initialize result matrix
+       	[[maybe_unused]] Tracker<TrackerID::Native_dense_sparse> tracker;
+
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         size_t col(0);
@@ -287,6 +289,7 @@ struct MultiplicationFunctor<M,T,P,Zero,NullType,P,Zero,NullType,P,Native>
 {
     void operator () (Matrix<M,T,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
+       	[[maybe_unused]] Tracker<TrackerID::Native_matrix_zero> tracker;
     	assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }
@@ -298,6 +301,7 @@ struct MultiplicationFunctor<Zero,NullType,P,M,T,P,Zero,NullType,P,Native>
 {
     void operator () (Matrix<Zero,NullType,P> const& A, Matrix<M,T,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
+       	[[maybe_unused]] Tracker<TrackerID::Native_zero_matrix> tracker;
     	assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }
@@ -309,6 +313,7 @@ struct MultiplicationFunctor<Zero,NullType,P,Zero,NullType,P,Zero,NullType,P,Nat
 {
     void operator () (Matrix<Zero,NullType,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
+       	[[maybe_unused]] Tracker<TrackerID::Native_zero_zero> tracker;
     	assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }

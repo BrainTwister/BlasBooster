@@ -1,38 +1,40 @@
 #pragma once
 
 #include "ActionBase.h"
-#include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
 #include "BlasBooster/Core/MatrixMultExp.h"
 #include "BlasBooster/Core/Multiplication_OpenBLAS.h"
 
 namespace BlasBooster {
 
-struct ActionOpenBlasDgemm : public ActionBase
+struct Action_openblas_sgemm : public ActionBase
 {
 	BRAINTWISTER_RECORD( Settings, \
 	    (( int, number_of_threads, 1 )) \
 	);
 
-    ActionOpenBlasDgemm(ptree const& tree)
+	Action_openblas_sgemm(ptree const& tree)
      : settings(tree)
     {}
 
-	std::string name() const { return "openblas_dgemm"; }
+	std::string name() const { return "openblas_sgemm"; }
 
-    ActionBase::ReturnType execution(
+    ActionBase::ReturnType execute(
     	Matrix<Dense,double> const& refA,
         Matrix<Dense,double> const& refB,
         BrainTwister::Benchmark const& benchmark) const
     {
-		Matrix<Dense, double> C;
-		Details details;
-
         OpenBLAS_set_num_threads(settings.number_of_threads);
 
-		auto result = benchmark.benchIt([&](){
-			C = (refA * refB).template execute<OpenBLAS>();
-		});
-		return std::make_tuple(C, result.average_time, details);
+        Matrix<Dense, float> A(refA);
+        Matrix<Dense, float> B(refB);
+        Matrix<Dense, float> C;
+
+        auto result = benchmark.benchIt([&](){
+            C = (A * B).template execute<OpenBLAS>();
+        });
+
+		Details details;
+		return std::make_tuple(Matrix<Dense, double>(C), result.average_time, details);
     }
 
     Settings settings;

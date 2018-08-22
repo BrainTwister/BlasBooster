@@ -5,13 +5,7 @@
 #include <string>
 #include <type_traits>
 
-#include "BlasBooster/Core/DenseMatrix.h"
-#include "BlasBooster/Core/EmptyTypes.h"
-#include "BlasBooster/Core/Matrix.h"
-#include "BlasBooster/Core/MatrixIO.h"
-#include "BlasBooster/Core/Norm.h"
-#include "BlasBooster/Core/Parameter.h"
-#include "BlasBooster/Core/Threshold.h"
+#include "ActionProvider.h"
 #include "BlasBooster/Utilities/BlasBoosterException.h"
 #include "BlasBooster/Utilities/range.h"
 #include "BlasBooster/Utilities/Tracker.h"
@@ -20,18 +14,10 @@
 #include "BrainTwister/JSON.h"
 #include "BrainTwister/Record.h"
 #include "clara.hpp"
-#include "ActionProvider.h"
 #include "MatrixProvider.h"
 #include "time.h"
 #include <range/v3/view/indices.hpp>
 #include <range/v3/view/zip.hpp>
-
-#ifdef WITH_OPENBLAS
-  #include "BlasBooster/BlasInterface/BlasInterface_OpenBLAS.h"
-#endif
-#ifdef WITH_INTELMKL
-  #include "BlasBooster/BlasInterface/BlasInterface_IntelMKL.h"
-#endif
 
 using namespace BlasBooster;
 using namespace ranges;
@@ -98,7 +84,7 @@ int main(int argc, char* argv[])
             std::cout << std::setw(10) << std::left << i
             		  << std::setw(30) << std::left << actions[0]->name() << std::flush;
 
-            auto&& [refC, time, details] = actions[0]->execution(A, B, benchmark);
+            auto&& [refC, time, details] = actions[0]->execute(A, B, benchmark);
 
             std::cout << std::setw(15) << time
                       << std::setw(15) << 0.0
@@ -111,7 +97,7 @@ int main(int argc, char* argv[])
                 std::cout << std::setw(10) << std::left << i
                 		  << std::setw(30) << std::left << action->name() << std::flush;
 
-                auto&& [C, time, details] = action->execution(A, B, benchmark);
+                auto&& [C, time, details] = action->execute(A, B, benchmark);
                 auto&& diff = C - refC;
 
                 std::cout << set_duration_accuracy(duration_digits)
