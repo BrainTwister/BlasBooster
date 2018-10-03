@@ -5,8 +5,9 @@ boost_serialization/1.66.0@bincrafters/stable
 boost_system/1.66.0@bincrafters/stable
 #catch2/2.2.2@bincrafters/stable
 clara/1.1.1@bincrafters/stable
-range-v3/0.3.6@ericniebler/stable
+eigen/3.3.5@conan/stable
 gtest/1.8.0@bincrafters/stable
+range-v3/0.3.6@ericniebler/stable
 record/1.1@braintwister/testing
 openblas/0.2.20@conan/stable
 pybind11/2.2.2@conan/stable

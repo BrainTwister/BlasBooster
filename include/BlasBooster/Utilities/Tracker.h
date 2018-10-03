@@ -19,6 +19,10 @@ enum class TrackerID {
     IntelMKL_scsrmm,
     IntelMKL_dcsrmultcsr,
     IntelMKL_scsrmultcsr,
+    Eigen_dgemm,
+    Eigen_sgemm,
+    Eigen_sdgemm,
+    Eigen_dsgemm,
 	Native_GeneralDense,
 	Native_sparse,
 	Native_sparse_dense,
@@ -45,6 +49,10 @@ enum class TrackerID {
         map("IntelMKL_scsrmm", TrackerID::IntelMKL_scsrmm);
         map("IntelMKL_dcsrmultcsr", TrackerID::IntelMKL_dcsrmultcsr);
         map("IntelMKL_scsrmultcsr", TrackerID::IntelMKL_scsrmultcsr);
+        map("Eigen_dgemm", TrackerID::Eigen_dgemm);
+        map("Eigen_sgemm", TrackerID::Eigen_sgemm);
+        map("Eigen_sdgemm", TrackerID::Eigen_sdgemm);
+        map("Eigen_dsgemm", TrackerID::Eigen_dsgemm);
         map("Native_GeneralDense", TrackerID::Native_GeneralDense);
         map("Native_sparse", TrackerID::Native_sparse);
         map("Native_sparse_dense", TrackerID::Native_sparse_dense);

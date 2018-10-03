@@ -1,8 +1,9 @@
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/Multiplication.h"
-#include "BlasBooster/Core/Multiplication_OpenBLAS.h"
+#include "BlasBooster/Core/Multiplication_Eigen.h"
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/Multiplication_Native.h"
+#include "BlasBooster/Core/Multiplication_OpenBLAS.h"
 #include "BlasBooster/Core/MatrixIO.h"
 #include "gtest/gtest.h"
 
@@ -63,6 +64,8 @@ typedef ::testing::Types<
     ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, OpenBLAS>
     ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, OpenBLAS>
 #endif
+    ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, EigenI>
+    ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, EigenI>
 > MyTypes;
 
 INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixMatrixMultiplicationTest, MyTypes);

@@ -9,7 +9,6 @@
 #include "BlasBooster/Core/EmptyTypes.h"
 #include "BlasBooster/Core/Matrix.h"
 #include "BlasBooster/Core/ZeroMatrix.h"
-//#include "BlasBooster/Core/Multiplication_TheBestPolicy.h"
 #include "BlasBooster/Utilities/Tracker.h"
 
 namespace BlasBooster {
@@ -34,14 +33,17 @@ struct GeneralDenseMultiplicationFunctor
         typename Matrix<Dense,T2,P2>::const_iterator iterB(B.begin());
         typename Matrix<Dense,T3,P3>::iterator iterC;
 
-        size_t i,j,k;
-        for (j = 0; j != B.getNbColumns(); ++j)
+        size_t nb_B_cols = B.getNbColumns();
+        size_t nb_A_rows = A.getNbRows();
+        size_t nb_B_rows = B.getNbRows();
+        size_t nb_C_rows = C.getNbRows();
+        for (size_t j = 0; j != nb_B_cols; ++j)
         {
             iterA = A.begin();
-            for (k = 0; k != B.getNbRows(); ++k, ++iterB)
+            for (size_t k = 0; k != nb_B_rows; ++k, ++iterB)
             {
-                iterC = C.begin() + j * C.getNbRows();
-                for (i = 0; i != A.getNbRows(); ++i, ++iterA, ++iterC)
+                iterC = C.begin() + j * nb_C_rows;
+                for (size_t i = 0; i != nb_A_rows; ++i, ++iterA, ++iterC)
                 {
                     *iterC += (*iterA) * (*iterB);
                 }

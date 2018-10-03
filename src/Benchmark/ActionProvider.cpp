@@ -14,6 +14,7 @@
 #include "Action_blasbooster_block.h"
 //#include "Action_blasbooster_sparse_double.h"
 //#include "Action_blasbooster_sparse_float.h"
+#include "Action_native_dense.h"
 
 namespace BlasBooster {
 
@@ -50,6 +51,9 @@ ActionProvider::ActionProvider(ptree const& tree)
 #endif
         if (leaf.first == "blasbooster_block") {
     		action_list.push_back(std::make_shared<Action_blasbooster_block>(leaf.second));
+      	} else
+    	if (leaf.first == "native_dense") {
+    		action_list.push_back(std::make_shared<Action_native_dense>(leaf.second));
 //    	} else
 //    	if (leaf.first == "blasbooster_sparse_double") {
 //    		action_list.push_back(std::make_shared<Action_blasbooster_sparse_double>(leaf.second));
