@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
         std::cout << "\nBlasBooster " + version + " ShowPattern\n" << std::endl;
 
         std::string matrix_file;
-        std::string settings_file = "";
+        std::string settings_file;
 		std::string pattern_file = "pattern.xpm";
 		std::string pattern_type = "elements";
         int border_width = 0;
@@ -64,9 +64,12 @@ int main(int argc, char* argv[])
         std::cout << "matrix_file: " << matrix_file << std::endl;
         const Matrix<Dense, double> matrix(matrix_file);
 
-        std::ifstream ifs{settings_file};
-        std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-        Settings settings{JSON{settings_str}};
+        Settings settings;
+        if (!settings_file.empty()) {
+            std::ifstream ifs{settings_file};
+            std::string settings_str((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+            settings = Settings{JSON{settings_str}};
+        }
 
         PatternGenerator pattern_generator{settings.pattern_generator_settings};
 
