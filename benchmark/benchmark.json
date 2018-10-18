@@ -11,6 +11,10 @@
         },
         "intelmkl_dgemm": {},
         "intelmkl_sgemm": {},
+        "eigen_dgemm": {},
+        "eigen_sgemm": {},
+        "eigen_sdgemm": {},
+        "eigen_dsgemm": {},
         "blasbooster_block":
         {
             "threshold":

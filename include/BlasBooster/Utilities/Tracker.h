@@ -23,6 +23,10 @@ enum class TrackerID {
     Eigen_sgemm,
     Eigen_sdgemm,
     Eigen_dsgemm,
+    Blaze_dgemm,
+    Blaze_sgemm,
+    Blaze_sdgemm,
+    Blaze_dsgemm,
 	Native_GeneralDense,
 	Native_sparse,
 	Native_sparse_dense,
@@ -53,6 +57,10 @@ enum class TrackerID {
         map("Eigen_sgemm", TrackerID::Eigen_sgemm);
         map("Eigen_sdgemm", TrackerID::Eigen_sdgemm);
         map("Eigen_dsgemm", TrackerID::Eigen_dsgemm);
+        map("Blaze_dgemm", TrackerID::Blaze_dgemm);
+        map("Blaze_sgemm", TrackerID::Blaze_sgemm);
+        map("Blaze_sdgemm", TrackerID::Blaze_sdgemm);
+        map("Blaze_dsgemm", TrackerID::Blaze_dsgemm);
         map("Native_GeneralDense", TrackerID::Native_GeneralDense);
         map("Native_sparse", TrackerID::Native_sparse);
         map("Native_sparse_dense", TrackerID::Native_sparse_dense);

@@ -27,12 +27,13 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Download conan
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
    message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-   file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.11/conan.cmake"
+   file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.12/conan.cmake"
                  "${CMAKE_BINARY_DIR}/conan.cmake")
 endif()
 
 # Conan setup
 include(${CMAKE_BINARY_DIR}/conan.cmake)
+conan_add_remote(NAME eagle42 URL https://api.bintray.com/conan/eagle42/Blaze)
 conan_cmake_run(CONANFILE conanfile.txt
                 BASIC_SETUP CMAKE_TARGETS
                 BUILD missing)
@@ -100,8 +101,13 @@ if(OPENBLAS_FOUND)
     list(APPEND EXTERNAL_BLAS_LIBRARIES BlasInterface_OpenBLAS)
 endif(OPENBLAS_FOUND)
 
-#find_package(Eigen3)
-#find_package(MTL4)
+# Eigen 
+find_package(Eigen3)
+if(EIGEN3_FOUND)
+    add_definitions(-DWITH_EIGEN)
+endif(EIGEN3_FOUND)
+
+#find_package(blaze REQUIRED)
 
 add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
