@@ -12,6 +12,7 @@
         "intelmkl_dgemm": {},
         "intelmkl_sgemm": {},
         "blaze_dgemm": {},
+        "eigen_dgemm": {},
         "blasbooster_block":
         {
             "threshold":
@@ -39,11 +40,16 @@
     {
         "A":
         {
-            "File": "test_matrix_1.xml"
+            "DiagonalBand":
+            {
+                "dimension": [800],
+                "band_width": [1],
+                "value": 0.1
+            }
         },
         "B":
         {
-            "File": "test_matrix_1.xml"
+            "EqualTo": "A"
         }
     },
     "benchmark":
