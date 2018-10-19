@@ -15,6 +15,10 @@
         "eigen_sgemm": {},
         "eigen_sdgemm": {},
         "eigen_dsgemm": {},
+        "blaze_dgemm": {},
+        "blaze_sgemm": {},
+        "blaze_sdgemm": {},
+        "blaze_dsgemm": {},
         "blasbooster_block":
         {
             "threshold":

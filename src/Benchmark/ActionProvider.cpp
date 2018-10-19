@@ -17,6 +17,12 @@
 //    #include "Action_eigen_sdgemm.h"
 //    #include "Action_eigen_dsgemm.h"
 #endif
+//#ifdef WITH_BLAZE
+    #include "Action_blaze_dgemm.h"
+    #include "Action_blaze_sgemm.h"
+//    #include "Action_eigen_sdgemm.h"
+//    #include "Action_eigen_dsgemm.h"
+//#endif
 #include "Action_blasbooster_block.h"
 //#include "Action_blasbooster_sparse_double.h"
 //#include "Action_blasbooster_sparse_float.h"
@@ -69,6 +75,20 @@ ActionProvider::ActionProvider(ptree const& tree)
 //			action_list.push_back(std::make_shared<Action_eigen_dsgemm>(leaf.second));
 //		} else
 #endif
+//#ifdef WITH_BLAZE
+    	if (leaf.first == "blaze_dgemm") {
+    		action_list.push_back(std::make_shared<Action_blaze_dgemm>(leaf.second));
+    	} else
+    	if (leaf.first == "blaze_sgemm") {
+    		action_list.push_back(std::make_shared<Action_blaze_sgemm>(leaf.second));
+    	} else
+//		if (leaf.first == "eigen_sdgemm") {
+//			action_list.push_back(std::make_shared<Action_eigen_sdgemm>(leaf.second));
+//		} else
+//		if (leaf.first == "eigen_dsgemm") {
+//			action_list.push_back(std::make_shared<Action_eigen_dsgemm>(leaf.second));
+//		} else
+//#endif
         if (leaf.first == "blasbooster_block") {
     		action_list.push_back(std::make_shared<Action_blasbooster_block>(leaf.second));
       	} else
