@@ -25,9 +25,9 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,Blaze>
 //        blaze::CustomMatrix<double, blaze::unaligned, blaze::unpadded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns());
 
 
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> AA(const_cast<double*>(A.getDataPointer()), A.getNbRows(), A.getNbColumns(), 4UL);
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> BB(const_cast<double*>(B.getDataPointer()), B.getNbRows(), B.getNbColumns(), 4UL);
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns(), 4UL);
+        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> AA(const_cast<double*>(A.getDataPointer()), A.getNbRows(), A.getNbColumns(), A.getNbRows());
+        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> BB(const_cast<double*>(B.getDataPointer()), B.getNbRows(), B.getNbColumns(), B.getNbRows());
+        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns(), C.getNbRows());
 
 //        blaze::DynamicMatrix<double, blaze::rowMajor> AA(A.getNbRows(), A.getNbColumns());
 //        blaze::DynamicMatrix<double, blaze::rowMajor> BB(B.getNbRows(), B.getNbColumns());

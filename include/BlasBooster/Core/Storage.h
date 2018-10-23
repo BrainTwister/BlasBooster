@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BlasBooster/Core/CoreException.h"
+#include "BlasBooster/Core/Memory.h"
 #include "BlasBooster/Core/StripedIterator.h"
 #include "BlasBooster/Utilities/DebugPrint.h"
 #include "BlasBooster/Utilities/EqualWithinNumericalAccuracy.h"
@@ -13,14 +14,14 @@
 namespace BlasBooster {
 
 /// Fixed size storage class for dense arrays on stack.
-template <class ElementType, bool OnStack, bool isFixed, size_t Size, bool Strided = false>
+template <class T, bool OnStack, bool isFixed, size_t Size, bool Strided = false>
 class Storage
 {
 public:
 
-    typedef Storage<ElementType,OnStack,isFixed,Size,Strided> self;
-    typedef ElementType* pointer;
-    typedef ElementType const* const_pointer;
+    typedef Storage<T,OnStack,isFixed,Size,Strided> self;
+    typedef T* pointer;
+    typedef T const* const_pointer;
     typedef __gnu_cxx::__normal_iterator<pointer,self> iterator;
     typedef __gnu_cxx::__normal_iterator<const_pointer,self> const_iterator;
 
@@ -49,7 +50,7 @@ public:
 
 #ifndef NO_INITIALIZER_LIST_SUPPORTED
     /// Initializer list constructor
-    Storage(std::initializer_list<ElementType> values)
+    Storage(std::initializer_list<T> values)
      : data_()
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onStack): Initializer list constructor is called.");
@@ -111,7 +112,7 @@ private:
     template <class T2, bool onStack2, bool isFixed2, size_t Size2, bool Strided2>
     friend class Storage;
 
-    ElementType data_[Size];
+    T data_[Size];
 
     static const size_t size_ = Size;
 
@@ -120,28 +121,28 @@ private:
 /**
  * /brief Fixed size storage class for dense arrays on heap.
  */
-template <class ElementType, size_t Size>
-class Storage<ElementType,false,true,Size,false>
+template <class T, size_t Size>
+class Storage<T,false,true,Size,false>
 {
 public:
 
-    typedef Storage<ElementType,false,true,Size,false> self;
-    typedef ElementType* pointer;
-    typedef ElementType const* const_pointer;
+    typedef Storage<T,false,true,Size,false> self;
+    typedef T* pointer;
+    typedef T const* const_pointer;
     typedef __gnu_cxx::__normal_iterator<pointer,self> iterator;
     typedef __gnu_cxx::__normal_iterator<const_pointer,self> const_iterator;
 
     /// Default constructor
     Storage( size_t = 0 )
-     : data_(new ElementType[size_]), ownMemory_(true)
+     : data_(new T[size_]), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (fixed,onHeap): Default constructor is called.");
     }
 
 #ifndef NO_INITIALIZER_LIST_SUPPORTED
     /// Initializer list constructor
-    Storage( std::initializer_list<ElementType> values )
-     : data_(new ElementType[size_]), ownMemory_(true)
+    Storage( std::initializer_list<T> values )
+     : data_(new T[size_]), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (fixed,onHeap): Initializer list constructor is called.");
         if ( values.size() != size_ ) throw std::runtime_error("Storage (fixed,onHeap): values.size() != size_");
@@ -152,7 +153,7 @@ public:
 
     /// Copy constructor
     Storage( const Storage& rhs )
-     : data_(new ElementType[size_]), ownMemory_(true)
+     : data_(new T[size_]), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (fixed,onHeap): Copy constructor is called.");
         std::copy(rhs.begin(),rhs.end(),begin());
@@ -169,7 +170,7 @@ public:
     /// Conversion constructor
     template <class T2, bool onStack2, bool isFixed2, size_t Size2, bool Strided2>
     Storage( const Storage<T2,onStack2,isFixed2,Size2,Strided2>& rhs )
-     : data_(new ElementType[size_]), ownMemory_(true)
+     : data_(new T[size_]), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (fixed,onHeap): Conversion constructor is called.");
         if ( rhs.size_ != size_ ) throw std::runtime_error("Storage (fixed,onHeap): rhs.size_ != size_");
@@ -177,7 +178,7 @@ public:
     }
 
     /// Proxy constructor using external memory
-    Storage( ElementType* ptrExternalData, size_t size )
+    Storage( T* ptrExternalData, size_t size )
      : data_(ptrExternalData), ownMemory_(false)
     {}
 
@@ -278,7 +279,7 @@ protected:
         ownMemory_ = true;
     }
 
-    ElementType* data_;
+    T* data_;
 
     static const size_t size_ = Size;
 
@@ -290,14 +291,14 @@ protected:
 /**
  * /brief Flexible size class for dense arrays on heap.
  */
-template <class ElementType>
-class Storage<ElementType,false,false,0,false>
+template <class T>
+class Storage<T,false,false,0,false>
 {
 public:
 
-    typedef Storage<ElementType,false,false,0,false> self;
-    typedef ElementType* pointer;
-    typedef ElementType const* const_pointer;
+    typedef Storage<T,false,false,0,false> self;
+    typedef T* pointer;
+    typedef T const* const_pointer;
     typedef __gnu_cxx::__normal_iterator<pointer,self> iterator;
     typedef __gnu_cxx::__normal_iterator<const_pointer,self> const_iterator;
 
@@ -309,16 +310,16 @@ public:
     }
 
     /// Parameter constructor
-    Storage( size_t size )
-     : data_(new ElementType[size]), size_(size), ownMemory_(true)
+    Storage(size_t size)
+     : data_(allocate<T>(size)), size_(size), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Parameter constructor is called.");
     }
 
 #ifndef NO_INITIALIZER_LIST_SUPPORTED
     /// Initializer list constructor
-    Storage( std::initializer_list<ElementType> values )
-     : data_(new ElementType[values.size()]), size_(values.size()), ownMemory_(true)
+    Storage(std::initializer_list<T> values)
+     : data_(allocate<T>(values.size())), size_(values.size()), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Initializer list constructor is called.");
         size_t i(0);
@@ -328,10 +329,10 @@ public:
 
     /// Copy constructor
     Storage(Storage const& rhs)
-     : data_(new ElementType[rhs.size_]), size_(rhs.size_), ownMemory_(rhs.ownMemory_)
+     : data_(allocate<T>(rhs.size_)), size_(rhs.size_), ownMemory_(rhs.ownMemory_)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Copy constructor is called.");
-        std::copy(rhs.begin(),rhs.end(),begin());
+        std::copy(rhs.begin(), rhs.end(), begin());
     }
 
     /// Move constructor
@@ -346,27 +347,27 @@ public:
 
     /// Conversion constructor
     template <class T2, bool onStack2, bool isFixed2, size_t Size2, bool Strided2>
-    Storage( const Storage<T2,onStack2,isFixed2,Size2,Strided2>& rhs )
-     : data_(new ElementType[rhs.size_]), size_(rhs.size_), ownMemory_(true)
+    Storage(Storage<T2,onStack2,isFixed2,Size2,Strided2> const& rhs)
+     : data_(allocate<T>(rhs.size_)), size_(rhs.size_), ownMemory_(true)
     {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Conversion constructor is called.");
         std::copy(rhs.begin(),rhs.end(),begin());
     }
 
     /// Proxy constructor using external memory
-    Storage( ElementType* ptrExternalData, size_t size )
+    Storage( T* ptrExternalData, size_t size )
      : data_(ptrExternalData), size_(size), ownMemory_(false)
     {}
 
     ~Storage() {
-        if (ownMemory_ and data_) delete [] data_;
+        if (ownMemory_ and data_) deallocate<T>(data_);
     }
 
     void resize(size_t size) {
         if (size_ == size) return;
         if (!ownMemory_) throw std::runtime_error("resize storage with not own memory.");
-        if (data_) delete [] data_;
-        data_ = new ElementType[size];
+        if (data_) deallocate<T>(data_);
+        data_ = allocate<T>(size);
         size_ = size;
     }
 
@@ -374,9 +375,9 @@ public:
     Storage& operator = ( const self& rhs ) {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Copy assignment is called.");
         if ( this != &rhs ) {
-            if (ownMemory_) delete [] data_;
+            if (ownMemory_) deallocate<T>(data_);
             if (rhs.ownMemory_) {
-                data_ = new ElementType[rhs.size_];
+                data_ = allocate<T>(rhs.size_);
                 std::copy(rhs.begin(),rhs.end(),begin());
             } else {
                 data_ = rhs.data_;
@@ -391,7 +392,7 @@ public:
     Storage& operator = ( self&& rhs ) BLASBOOSTER_NOEXCEPT {
         BLASBOOSTER_DEBUG_PRINT("Storage (onHeap): Move assignment is called.");
         // clear own resources
-        if (ownMemory_) delete [] data_;
+        if (ownMemory_) deallocate<T>(data_);
         // steal other resources
         data_ = rhs.data_;
         size_ = rhs.size_;
@@ -462,7 +463,7 @@ public:
         return data_;
     }
 
-    void fill(ElementType const& value) {
+    void fill(T const& value) {
     	std::fill(data_, data_ + size_, value);
     }
 
@@ -486,12 +487,12 @@ protected:
     void load(Archive & ar, const unsigned int version)
     {
         ar >> size_;
-        data_ = new ElementType[size_];
+        data_ = allocate<T>(size_);
         for ( size_t i(0); i != size_; ++i ) ar >> data_[i];
         ownMemory_ = true;
     }
 
-    ElementType* data_;
+    T* data_;
 
     size_t size_;
 
@@ -502,31 +503,31 @@ protected:
 
 /// Flexible size class for striped arrays on heap
 /// Only available as proxy storage using external memory.
-template <class ElementType>
-class Storage<ElementType,false,false,0,true>
+template <class T>
+class Storage<T,false,false,0,true>
 {
 public:
 
-    typedef Storage<ElementType,false,false,0,true> self;
-    typedef ElementType* pointer;
-    typedef ElementType const* const_pointer;
-    typedef StripedIterator<ElementType> iterator;
-    typedef StripedIterator<const ElementType> const_iterator;
+    typedef Storage<T,false,false,0,true> self;
+    typedef T* pointer;
+    typedef T const* const_pointer;
+    typedef StripedIterator<T> iterator;
+    typedef StripedIterator<const T> const_iterator;
 
     /// Default constructor
     Storage()
      : data_(nullptr), size_(0),
        continuousSize_(0), nbBlocks_(0), separatorSize_(0)
     {
-        BLASBOOSTER_DEBUG_PRINT("Storage<ElementType,false,false,0,true>: Default constructor is called.");
+        BLASBOOSTER_DEBUG_PRINT("Storage<T,false,false,0,true>: Default constructor is called.");
     }
 
     /// Parameter constructor
-    Storage(ElementType* ptrExternalData, size_t continuousSize, size_t nbBlocks, size_t separatorSize)
+    Storage(T* ptrExternalData, size_t continuousSize, size_t nbBlocks, size_t separatorSize)
      : data_(ptrExternalData), size_(continuousSize*nbBlocks),
        continuousSize_(continuousSize), nbBlocks_(nbBlocks), separatorSize_(separatorSize)
     {
-        BLASBOOSTER_DEBUG_PRINT("Storage<ElementType,false,false,0,true>: Parameter constructor is called.");
+        BLASBOOSTER_DEBUG_PRINT("Storage<T,false,false,0,true>: Parameter constructor is called.");
     }
 
     /// Copy constructor
@@ -534,7 +535,7 @@ public:
      : data_(rhs.data_), size_(rhs.size_),
        continuousSize_(rhs.continuousSize_), nbBlocks_(rhs.nbBlocks_), separatorSize_(rhs.separatorSize_)
     {
-        BLASBOOSTER_DEBUG_PRINT("Storage<ElementType,false,false,0,true>: Copy constructor is called.");
+        BLASBOOSTER_DEBUG_PRINT("Storage<T,false,false,0,true>: Copy constructor is called.");
     }
 
     ~Storage() {}
@@ -542,7 +543,7 @@ public:
     /// Copy assignment
     Storage& operator = (Storage const& rhs)
     {
-        BLASBOOSTER_DEBUG_PRINT("Storage<ElementType,false,false,0,true>: Copy assignment is called.");
+        BLASBOOSTER_DEBUG_PRINT("Storage<T,false,false,0,true>: Copy assignment is called.");
         if ( this != &rhs ) {
             data_ = rhs.data_;
             size_ = rhs.size_;
@@ -649,7 +650,7 @@ protected:
         ar & separatorSize_;
     }
 
-    ElementType* data_;
+    T* data_;
 
     size_t size_;
 
