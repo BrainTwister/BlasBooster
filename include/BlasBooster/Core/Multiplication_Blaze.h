@@ -20,18 +20,11 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,Blaze>
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
-//        blaze::CustomMatrix<const double, blaze::unaligned, blaze::unpadded, blaze::columnMajor> AA(A.getDataPointer(), A.getNbRows(), A.getNbColumns());
-//        blaze::CustomMatrix<const double, blaze::unaligned, blaze::unpadded, blaze::columnMajor> BB(B.getDataPointer(), B.getNbRows(), B.getNbColumns());
-//        blaze::CustomMatrix<double, blaze::unaligned, blaze::unpadded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns());
+        using MatrixType = blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor>;
 
-
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> AA(const_cast<double*>(A.getDataPointer()), A.getNbRows(), A.getNbColumns(), A.getNbRows());
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> BB(const_cast<double*>(B.getDataPointer()), B.getNbRows(), B.getNbColumns(), B.getNbRows());
-        blaze::CustomMatrix<double, blaze::aligned, blaze::padded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns(), C.getNbRows());
-
-//        blaze::DynamicMatrix<double, blaze::rowMajor> AA(A.getNbRows(), A.getNbColumns());
-//        blaze::DynamicMatrix<double, blaze::rowMajor> BB(B.getNbRows(), B.getNbColumns());
-//        blaze::DynamicMatrix<double, blaze::rowMajor> CC(C.getNbRows(), C.getNbColumns());
+        MatrixType AA(const_cast<double*>(A.getDataPointer()), A.getNbRows(), A.getNbColumns(), A.getNbRows());
+        MatrixType BB(const_cast<double*>(B.getDataPointer()), B.getNbRows(), B.getNbColumns(), B.getNbRows());
+        MatrixType CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns(), C.getNbRows());
 
         CC = AA * BB;
     }
@@ -48,9 +41,11 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,Blaze>
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
 
-        blaze::CustomMatrix<const float, blaze::unaligned, blaze::unpadded, blaze::columnMajor> AA(A.getDataPointer(), A.getNbRows(), A.getNbColumns());
-        blaze::CustomMatrix<const float, blaze::unaligned, blaze::unpadded, blaze::columnMajor> BB(B.getDataPointer(), B.getNbRows(), B.getNbColumns());
-        blaze::CustomMatrix<float, blaze::unaligned, blaze::unpadded, blaze::columnMajor> CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns());
+        using MatrixType = blaze::CustomMatrix<float, blaze::aligned, blaze::padded, blaze::columnMajor>;
+
+        MatrixType AA(const_cast<float*>(A.getDataPointer()), A.getNbRows(), A.getNbColumns(), A.getNbRows());
+        MatrixType BB(const_cast<float*>(B.getDataPointer()), B.getNbRows(), B.getNbColumns(), B.getNbRows());
+        MatrixType CC(C.getDataPointer(), C.getNbRows(), C.getNbColumns(), C.getNbRows());
 
         CC = AA * BB;
     }
