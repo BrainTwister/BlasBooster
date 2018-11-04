@@ -7,13 +7,15 @@ namespace BlasBooster {
 template <typename T>
 T* allocate(size_t size)
 {
+    //return new T[size];
     return blaze::allocate<T>(size);
 }
 
 template <typename T>
-void deallocate(T* address) noexcept
+void deallocate(T* memory) noexcept
 {
-    blaze::deallocate(address);
+	//delete [] memory;
+    blaze::deallocate(memory);
 }
 
 } // namespce BlasBooster

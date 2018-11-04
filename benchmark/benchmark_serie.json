@@ -9,10 +9,12 @@
         {
             "number_of_threads": 1
         },
-        "intelmkl_dgemm": {},
-        "intelmkl_sgemm": {},
         "blaze_dgemm": {},
+        "blaze_sgemm": {},
+        "blaze_sdgemm": {},
+        "blaze_dsgemm": {},
         "eigen_dgemm": {},
+        "eigen_sgemm": {},
         "blasbooster_block":
         {
             "threshold":
@@ -42,7 +44,7 @@
         {
             "DiagonalBand":
             {
-                "dimension": [800],
+                "dimension": [8000],
                 "band_width": [1],
                 "value": 0.1
             }
