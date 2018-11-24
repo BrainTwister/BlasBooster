@@ -51,7 +51,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,Blaze>
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Dense,float> * Matrix<Dense,double> via Eigen
+/// Matrix multiplication specialized for Matrix<Dense,float> * Matrix<Dense,double> via Blaze
 template <class P>
 struct MultiplicationFunctor<Dense,float,P,Dense,double,P,Dense,double,P,Blaze>
 {
@@ -73,7 +73,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,double,P,Dense,double,P,Blaze>
     }
 };
 
-/// Matrix multiplication specialized for Matrix<Dense,double> * Matrix<Dense,float> via Eigen
+/// Matrix multiplication specialized for Matrix<Dense,double> * Matrix<Dense,float> via Blaze
 template <class P>
 struct MultiplicationFunctor<Dense,double,P,Dense,float,P,Dense,double,P,Blaze>
 {

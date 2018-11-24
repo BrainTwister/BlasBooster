@@ -1,0 +1,56 @@
+{
+    "actions":
+    {
+        "intelmkl_dgemm":
+        {
+            "number_of_threads": 1
+        },
+        "intelmkl_sgemm":
+        {
+            "number_of_threads": 1
+        },
+        "blasbooster_block":
+        {
+            "threshold":
+            {
+                "significanceThresholdSinglePrecision": 1e-5,
+                "significanceThresholdDoublePrecision": 1e-10,
+                "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
+                "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.2,
+                "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
+                "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
+                "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.2,
+                "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.2,
+                "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.0,
+                "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.0,
+                "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.0,
+                "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  0.0,
+                "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
+                "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0,
+                "min_block_size": 500,
+                "max_block_size": 1000
+            }
+        }
+    },
+    "matrices":
+    {
+        "A":
+        {
+            "File": "P_dna16.xml"
+        },
+        "B":
+        {
+            "File": "F_dna16.xml"
+        }
+    },
+    "benchmark":
+    {
+        "min_replications": 1,
+        "max_replications": 0,
+        "min_execution_time": "00:00:00.100000000",
+        "spike_detection": 0,
+        "spike_detection_factor": 0.1,
+        "warm_up_runs": 0,
+        "verbosity": 0
+    }
+}

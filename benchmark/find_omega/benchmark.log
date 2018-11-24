@@ -1,0 +1,389 @@
+nohup: ignoring input
+
+BlasBooster 0.2.10 Benchmark
+
+Set number of threads for OpenBLAS to 1
+Set number of threads for IntelMKL to 1
+
+matrix    name                          time/s         max-norm       2-norm         details
+------------------------------------------------------------------------------------------------------------------------
+0         intelmkl_dgemm                0.036332851    0.000000000e+000.000000000e+00
+0         intelmkl_sgemm                0.019407807    7.078051548e-102.238276429e-08
+0         intelmkl_dcsrmm               0.001965812    0.000000000e+000.000000000e+00
+0         intelmkl_scsrmm               0.002237480    7.078051548e-102.238276429e-08
+0         intelmkl_dcsrmultcsr          0.000954295    0.000000000e+000.000000000e+00
+0         intelmkl_scsrmultcsr          0.000911335    7.078051548e-102.238276429e-08
+0         openblas_dgemm                0.036272987    0.000000000e+000.000000000e+00
+0         openblas_sgemm                0.019255724    7.078051548e-102.238276429e-08
+0         blasbooster_block             0.012211421    0.000000000e+000.000000000e+00size: 0.007666539 s block: 0.003905055 s mult: 0.000639827 s 
+0         blasbooster_sparse_double     0.000341440    0.000000000e+000.000000000e+00
+0         blasbooster_sparse_float      0.000412825    7.078051548e-102.238276429e-08
+1         intelmkl_dgemm                0.036232472    0.000000000e+000.000000000e+00
+1         intelmkl_sgemm                0.019258341    7.390975970e-088.288750046e-06
+1         intelmkl_dcsrmm               0.019613118    1.665334537e-161.171171007e-14
+1         intelmkl_scsrmm               0.020226430    6.914138787e-087.070027444e-06
+1         intelmkl_dcsrmultcsr          0.003727552    1.665334537e-164.093077009e-15
+1         intelmkl_scsrmultcsr          0.003483642    7.390975970e-088.333924313e-06
+1         openblas_dgemm                0.036310542    0.000000000e+000.000000000e+00
+1         openblas_sgemm                0.019255115    7.390975970e-088.288750046e-06
+1         blasbooster_block             0.013981934    2.775557562e-162.413318171e-14size: 0.007739385 s block: 0.004458602 s mult: 0.001783947 s 
+1         blasbooster_sparse_double     0.001320394    2.775557562e-162.437425529e-14
+1         blasbooster_sparse_float      0.001329778    7.390975970e-088.333924313e-06
+2         intelmkl_dgemm                0.036325146    0.000000000e+000.000000000e+00
+2         intelmkl_sgemm                0.019270565    4.553794866e-077.595969086e-05
+2         intelmkl_dcsrmm               0.033801278    2.220446049e-165.184390482e-14
+2         intelmkl_scsrmm               0.038198745    1.525878910e-072.516062132e-05
+2         intelmkl_dcsrmultcsr          0.009696211    2.220446049e-161.265371183e-14
+2         intelmkl_scsrmultcsr          0.009309074    4.553794866e-077.971315128e-05
+2         openblas_dgemm                0.036350003    0.000000000e+000.000000000e+00
+2         openblas_sgemm                0.019263359    4.553794866e-077.595969086e-05
+2         blasbooster_block             0.024500307    2.775557562e-169.604642390e-15size: 0.007744906 s block: 0.004860057 s mult: 0.011895344 s 
+2         blasbooster_sparse_double     0.004050151    3.330669074e-164.416687023e-14
+2         blasbooster_sparse_float      0.003941652    4.553794866e-077.971315128e-05
+3         intelmkl_dgemm                0.036335088    0.000000000e+000.000000000e+00
+3         intelmkl_sgemm                0.019275344    7.772445687e-071.792832550e-04
+3         intelmkl_dcsrmm               0.047680473    2.220446049e-167.479774882e-14
+3         intelmkl_scsrmm               0.054320368    1.907348628e-072.702888326e-05
+3         intelmkl_dcsrmultcsr          0.018718162    2.220446049e-163.024623021e-14
+3         intelmkl_scsrmultcsr          0.018109242    7.772445687e-071.890788862e-04
+3         openblas_dgemm                0.036344183    0.000000000e+000.000000000e+00
+3         openblas_sgemm                0.019262502    7.772445687e-071.792832550e-04
+3         blasbooster_block             0.025297044    2.775557562e-161.985560823e-14size: 0.007741054 s block: 0.004867170 s mult: 0.012688820 s 
+3         blasbooster_sparse_double     0.008354752    3.330669074e-165.908074996e-14
+3         blasbooster_sparse_float      0.008056202    7.772445687e-071.890788862e-04
+4         intelmkl_dgemm                0.036351494    0.000000000e+000.000000000e+00
+4         intelmkl_sgemm                0.019321332    1.158714296e-063.054321210e-04
+4         intelmkl_dcsrmm               0.061067172    2.220446049e-168.830688504e-14
+4         intelmkl_scsrmm               0.071414916    2.002716057e-074.266087556e-05
+4         intelmkl_dcsrmultcsr          0.030617669    2.220446049e-164.795086371e-14
+4         intelmkl_scsrmultcsr          0.029634167    1.158714296e-063.246307554e-04
+4         openblas_dgemm                0.036618972    0.000000000e+000.000000000e+00
+4         openblas_sgemm                0.019337458    1.158714296e-063.054321210e-04
+4         blasbooster_block             0.026621437    2.775557562e-162.914907677e-14size: 0.007793310 s block: 0.004871140 s mult: 0.013956987 s 
+4         blasbooster_sparse_double     0.014804343    3.330669074e-166.938113096e-14
+4         blasbooster_sparse_float      0.014114937    1.158714296e-063.246307554e-04
+5         intelmkl_dgemm                0.036277681    0.000000000e+000.000000000e+00
+5         intelmkl_sgemm                0.019345541    1.540184023e-064.526222942e-04
+5         intelmkl_dcsrmm               0.074720472    2.220446049e-169.679618714e-14
+5         intelmkl_scsrmm               0.086872261    2.288818373e-074.377638131e-05
+5         intelmkl_dcsrmultcsr          0.045127100    2.220446049e-166.447521045e-14
+5         intelmkl_scsrmultcsr          0.043790150    1.540184023e-064.859897161e-04
+5         openblas_dgemm                0.036571651    0.000000000e+000.000000000e+00
+5         openblas_sgemm                0.019327712    1.540184023e-064.526222942e-04
+5         blasbooster_block             0.028048468    2.775557562e-163.772474135e-14size: 0.007775493 s block: 0.004885053 s mult: 0.015387922 s 
+5         blasbooster_sparse_double     0.022506977    3.330669074e-168.081694192e-14
+5         blasbooster_sparse_float      0.021594445    1.540184023e-064.859897161e-04
+6         intelmkl_dgemm                0.036344709    0.000000000e+000.000000000e+00
+6         intelmkl_sgemm                0.019252855    1.802444460e-066.064479933e-04
+6         intelmkl_dcsrmm               0.087998827    7.105427358e-155.363203441e-13
+6         intelmkl_scsrmm               0.103619406    3.528594990e-076.924691993e-05
+6         intelmkl_dcsrmultcsr          0.062164075    8.881784197e-151.059676397e-12
+6         intelmkl_scsrmultcsr          0.060406845    1.802444460e-066.486817243e-04
+6         openblas_dgemm                0.036401629    0.000000000e+000.000000000e+00
+6         openblas_sgemm                0.019251785    1.802444460e-066.064479933e-04
+6         blasbooster_block             0.029922786    2.664535259e-151.577018750e-13size: 0.007768234 s block: 0.004902210 s mult: 0.017252342 s 
+6         blasbooster_sparse_double     0.031231493    8.881784197e-151.060757716e-12
+6         blasbooster_sparse_float      0.029972380    1.802444460e-066.486817243e-04
+7         intelmkl_dgemm                0.036335032    0.000000000e+000.000000000e+00
+7         intelmkl_sgemm                0.019330466    2.183914186e-067.780523917e-04
+7         intelmkl_dcsrmm               0.102326724    1.287858709e-141.333964983e-12
+7         intelmkl_scsrmm               0.118637872    3.528594936e-076.633079951e-05
+7         intelmkl_dcsrmultcsr          0.081444677    1.731947918e-142.954825332e-12
+7         intelmkl_scsrmultcsr          0.079332439    2.183914186e-068.317355814e-04
+7         openblas_dgemm                0.036611479    0.000000000e+000.000000000e+00
+7         openblas_sgemm                0.019309234    2.183914186e-067.780523917e-04
+7         blasbooster_block             0.032217347    3.108624469e-153.089859646e-13size: 0.007801350 s block: 0.004913945 s mult: 0.019502052 s 
+7         blasbooster_sparse_double     0.040157825    1.731947918e-142.955199511e-12
+7         blasbooster_sparse_float      0.039085791    2.183914186e-068.317355814e-04
+8         intelmkl_dgemm                0.036280793    0.000000000e+000.000000000e+00
+8         intelmkl_sgemm                0.019251194    2.565383913e-069.641831294e-04
+8         intelmkl_dcsrmm               0.114470490    1.332267630e-142.179452159e-12
+8         intelmkl_scsrmm               0.134761228    4.959106552e-071.034953278e-04
+8         intelmkl_dcsrmultcsr          0.103021930    2.620126338e-145.329895716e-12
+8         intelmkl_scsrmultcsr          0.100330042    2.565383913e-061.031414428e-03
+8         openblas_dgemm                0.036361791    0.000000000e+000.000000000e+00
+8         openblas_sgemm                0.019263077    2.565383913e-069.641831294e-04
+8         blasbooster_block             0.034838940    3.108624469e-154.392692158e-13size: 0.007781340 s block: 0.004915663 s mult: 0.022141937 s 
+8         blasbooster_sparse_double     0.051044387    2.620126338e-145.330095523e-12
+8         blasbooster_sparse_float      0.049921752    2.565383913e-061.031414428e-03
+9         intelmkl_dgemm                0.036534054    0.000000000e+000.000000000e+00
+9         intelmkl_sgemm                0.019458935    2.946853636e-061.159706903e-03
+9         intelmkl_dcsrmm               0.126689327    1.332267630e-143.036251624e-12
+9         intelmkl_scsrmm               0.149826435    7.057190046e-071.616516126e-04
+9         intelmkl_dcsrmultcsr          0.126635008    3.508304758e-148.068594047e-12
+9         intelmkl_scsrmultcsr          0.123727169    2.946853640e-061.244618219e-03
+9         openblas_dgemm                0.036286656    0.000000000e+000.000000000e+00
+9         openblas_sgemm                0.019239902    2.946853636e-061.159706903e-03
+9         blasbooster_block             0.037789503    3.108624469e-155.624383102e-13size: 0.007782713 s block: 0.004939977 s mult: 0.025066813 s 
+9         blasbooster_sparse_double     0.062872708    3.508304758e-148.068720988e-12
+9         blasbooster_sparse_float      0.061599025    2.946853640e-061.244618219e-03
+10        intelmkl_dgemm                0.036300311    0.000000000e+000.000000000e+00
+10        intelmkl_sgemm                0.019253110    3.299713125e-061.362738615e-03
+10        intelmkl_dcsrmm               0.138962047    1.332267630e-143.897015871e-12
+10        intelmkl_scsrmm               0.164682282    8.773803812e-072.249975630e-04
+10        intelmkl_dcsrmultcsr          0.151709811    4.396483178e-141.110156766e-11
+10        intelmkl_scsrmultcsr          0.148231888    3.328323367e-061.469054873e-03
+10        openblas_dgemm                0.036300952    0.000000000e+000.000000000e+00
+10        openblas_sgemm                0.019255898    3.299713125e-061.362738615e-03
+10        blasbooster_block             0.041402103    3.108624469e-156.800063988e-13size: 0.007777930 s block: 0.004977350 s mult: 0.028646823 s 
+10        blasbooster_sparse_double     0.076345027    4.396483178e-141.110165625e-11
+10        blasbooster_sparse_float      0.074284865    3.328323367e-061.469054873e-03
+11        intelmkl_dgemm                0.280272895    0.000000000e+000.000000000e+00
+11        intelmkl_sgemm                0.150860061    7.078051548e-103.165400882e-08
+11        intelmkl_dcsrmm               0.013270169    0.000000000e+000.000000000e+00
+11        intelmkl_scsrmm               0.009976899    7.078051548e-103.165400882e-08
+11        intelmkl_dcsrmultcsr          0.005979817    0.000000000e+000.000000000e+00
+11        intelmkl_scsrmultcsr          0.006014487    7.078051548e-103.165400882e-08
+11        openblas_dgemm                0.282165769    0.000000000e+000.000000000e+00
+11        openblas_sgemm                0.151041514    7.078051548e-103.165400882e-08
+11        blasbooster_block             0.049869440    0.000000000e+000.000000000e+00size: 0.029934555 s block: 0.016358783 s mult: 0.003576102 s 
+11        blasbooster_sparse_double     0.001325538    0.000000000e+000.000000000e+00
+11        blasbooster_sparse_float      0.001643733    7.078051548e-103.165400882e-08
+12        intelmkl_dgemm                0.279952853    0.000000000e+000.000000000e+00
+12        intelmkl_sgemm                0.151134928    7.390975970e-081.174153562e-05
+12        intelmkl_dcsrmm               0.081065259    1.665334537e-161.669518638e-14
+12        intelmkl_scsrmm               0.082020811    6.914138787e-081.001845957e-05
+12        intelmkl_dcsrmultcsr          0.011562493    1.665334537e-166.252278406e-15
+12        intelmkl_scsrmultcsr          0.011052113    7.390975970e-081.182120770e-05
+12        openblas_dgemm                0.281919408    0.000000000e+000.000000000e+00
+12        openblas_sgemm                0.151184841    7.390975970e-081.174153562e-05
+12        blasbooster_block             0.054128522    2.775557562e-163.473636624e-14size: 0.030054722 s block: 0.018908030 s mult: 0.005165770 s 
+12        blasbooster_sparse_double     0.003471173    2.775557562e-163.486311883e-14
+12        blasbooster_sparse_float      0.003493707    7.390975970e-081.182120770e-05
+13        intelmkl_dgemm                0.279681689    0.000000000e+000.000000000e+00
+13        intelmkl_sgemm                0.150880702    4.553794866e-071.074149709e-04
+13        intelmkl_dcsrmm               0.138071718    2.220446049e-167.324465280e-14
+13        intelmkl_scsrmm               0.154659396    1.525878910e-073.604997475e-05
+13        intelmkl_dcsrmultcsr          0.023684130    2.220446049e-161.932886409e-14
+13        intelmkl_scsrmultcsr          0.022962967    4.553794866e-071.140120854e-04
+13        openblas_dgemm                0.281437101    0.000000000e+000.000000000e+00
+13        openblas_sgemm                0.151022012    4.553794866e-071.074149709e-04
+13        blasbooster_block             0.060484618    3.330669074e-166.371586043e-14size: 0.029984296 s block: 0.019170425 s mult: 0.011329897 s 
+13        blasbooster_sparse_double     0.009227592    3.330669074e-166.407372978e-14
+13        blasbooster_sparse_float      0.008838439    4.553794866e-071.140120854e-04
+14        intelmkl_dgemm                0.279194830    0.000000000e+000.000000000e+00
+14        intelmkl_sgemm                0.150962973    7.772445687e-072.541104439e-04
+14        intelmkl_dcsrmm               0.193919720    2.220446049e-161.050371539e-13
+14        intelmkl_scsrmm               0.219668639    1.907348628e-073.869523303e-05
+14        intelmkl_dcsrmultcsr          0.042300661    2.220446049e-164.620187981e-14
+14        intelmkl_scsrmultcsr          0.040902417    7.772445687e-072.712802368e-04
+14        openblas_dgemm                0.281947916    0.000000000e+000.000000000e+00
+14        openblas_sgemm                0.151383301    7.772445687e-072.541104439e-04
+14        blasbooster_block             0.134357213    2.775557562e-163.131719540e-14size: 0.030049692 s block: 0.021065424 s mult: 0.083242097 s 
+14        blasbooster_sparse_double     0.018929176    3.330669074e-168.706515513e-14
+14        blasbooster_sparse_float      0.017438669    7.772445687e-072.712802368e-04
+15        intelmkl_dgemm                0.279692184    0.000000000e+000.000000000e+00
+15        intelmkl_sgemm                0.151402975    1.158714296e-064.346452311e-04
+15        intelmkl_dcsrmm               0.250495946    2.220446049e-161.238328568e-13
+15        intelmkl_scsrmm               0.290671686    2.002716057e-076.193487270e-05
+15        intelmkl_dcsrmultcsr          0.069259159    2.220446049e-167.324615420e-14
+15        intelmkl_scsrmultcsr          0.066662134    1.158714296e-064.681424397e-04
+15        openblas_dgemm                0.282273744    0.000000000e+000.000000000e+00
+15        openblas_sgemm                0.151079266    1.158714296e-064.346452311e-04
+15        blasbooster_block             0.136071139    3.330669074e-164.429137234e-14size: 0.030060072 s block: 0.021095170 s mult: 0.084915897 s 
+15        blasbooster_sparse_double     0.033646030    3.330669074e-161.036797091e-13
+15        blasbooster_sparse_float      0.030417861    1.158714296e-064.681424397e-04
+16        intelmkl_dgemm                0.279674985    0.000000000e+000.000000000e+00
+16        intelmkl_sgemm                0.151411893    1.540184023e-066.467711698e-04
+16        intelmkl_dcsrmm               0.305577489    2.220446049e-161.355479753e-13
+16        intelmkl_scsrmm               0.354977329    2.288818373e-076.314904785e-05
+16        intelmkl_dcsrmultcsr          0.101486148    2.220446049e-169.848751078e-14
+16        intelmkl_scsrmultcsr          0.098078312    1.540184023e-067.047060406e-04
+16        openblas_dgemm                0.281532454    0.000000000e+000.000000000e+00
+16        openblas_sgemm                0.151464334    1.540184023e-066.467711698e-04
+16        blasbooster_block             0.138568363    3.330669074e-165.527427066e-14size: 0.030114884 s block: 0.021169521 s mult: 0.087283958 s 
+16        blasbooster_sparse_double     0.050587805    3.330669074e-161.222462355e-13
+16        blasbooster_sparse_float      0.046181998    1.540184023e-067.047060406e-04
+17        intelmkl_dgemm                0.279456030    0.000000000e+000.000000000e+00
+17        intelmkl_sgemm                0.151431080    1.802444460e-068.709377042e-04
+17        intelmkl_dcsrmm               0.361982421    7.105427358e-157.666901562e-13
+17        intelmkl_scsrmm               0.425119450    3.528594990e-071.028699188e-04
+17        intelmkl_dcsrmultcsr          0.138411583    8.881784197e-151.618685358e-12
+17        intelmkl_scsrmultcsr          0.134193194    1.802444460e-069.439576713e-04
+17        openblas_dgemm                0.281884847    0.000000000e+000.000000000e+00
+17        openblas_sgemm                0.151527732    1.802444460e-068.709377042e-04
+17        blasbooster_block             0.141404681    5.329070518e-154.630526526e-13size: 0.029641815 s block: 0.021110749 s mult: 0.090652117 s 
+17        blasbooster_sparse_double     0.070671367    8.881784197e-151.620279353e-12
+17        blasbooster_sparse_float      0.064350671    1.802444460e-069.439576713e-04
+18        intelmkl_dgemm                0.279489799    0.000000000e+000.000000000e+00
+18        intelmkl_sgemm                0.150596108    2.183914186e-061.124665762e-03
+18        intelmkl_dcsrmm               0.419812810    1.287858709e-141.895335896e-12
+18        intelmkl_scsrmm               0.488972840    3.528594936e-079.770643951e-05
+18        intelmkl_dcsrmultcsr          0.180229780    1.731947918e-144.515373338e-12
+18        intelmkl_scsrmultcsr          0.175509204    2.183914186e-061.216899596e-03
+18        openblas_dgemm                0.280468118    0.000000000e+000.000000000e+00
+18        openblas_sgemm                0.150733463    2.183914186e-061.124665762e-03
+18        blasbooster_block             0.145614516    5.773159728e-159.480981314e-13size: 0.029686448 s block: 0.021195119 s mult: 0.094732949 s 
+18        blasbooster_sparse_double     0.088750815    1.731947918e-144.515935985e-12
+18        blasbooster_sparse_float      0.084123296    2.183914186e-061.216899596e-03
+19        intelmkl_dgemm                0.279872797    0.000000000e+000.000000000e+00
+19        intelmkl_sgemm                0.150732285    2.565383913e-061.403780678e-03
+19        intelmkl_dcsrmm               0.477143915    1.332267630e-143.104166240e-12
+19        intelmkl_scsrmm               0.557262436    4.959106552e-071.560712032e-04
+19        intelmkl_dcsrmultcsr          0.228308006    2.620126338e-148.153670544e-12
+19        intelmkl_scsrmultcsr          0.222255474    2.565383913e-061.518210875e-03
+19        openblas_dgemm                0.280656298    0.000000000e+000.000000000e+00
+19        openblas_sgemm                0.150666088    2.565383913e-061.403780678e-03
+19        blasbooster_block             0.149966107    5.773159728e-151.315120496e-12size: 0.029685686 s block: 0.020984893 s mult: 0.099295528 s 
+19        blasbooster_sparse_double     0.112828605    2.620126338e-148.153977147e-12
+19        blasbooster_sparse_float      0.108371290    2.565383913e-061.518210875e-03
+20        intelmkl_dgemm                0.279321121    0.000000000e+000.000000000e+00
+20        intelmkl_sgemm                0.150469405    2.946853636e-061.700527587e-03
+20        intelmkl_dcsrmm               0.530206857    1.332267630e-144.332458135e-12
+20        intelmkl_scsrmm               0.619543305    7.057190046e-072.464884580e-04
+20        intelmkl_dcsrmultcsr          0.281442234    3.508304758e-141.237345712e-11
+20        intelmkl_scsrmultcsr          0.275398258    2.946853640e-061.843607779e-03
+20        openblas_dgemm                0.280398300    0.000000000e+000.000000000e+00
+20        openblas_sgemm                0.150512516    2.946853636e-061.700527587e-03
+20        blasbooster_block             0.155279458    5.773159728e-151.630493073e-12size: 0.029722735 s block: 0.021177334 s mult: 0.104379389 s 
+20        blasbooster_sparse_double     0.141326226    3.508304758e-141.237365587e-11
+20        blasbooster_sparse_float      0.133927986    2.946853640e-061.843607779e-03
+21        intelmkl_dgemm                0.280458442    0.000000000e+000.000000000e+00
+21        intelmkl_sgemm                0.150020454    3.328323355e-062.012320863e-03
+21        intelmkl_dcsrmm               0.584740200    1.332267630e-145.567690799e-12
+21        intelmkl_scsrmm               0.686745298    8.773803812e-073.439824573e-04
+21        intelmkl_dcsrmultcsr          0.337682111    4.396483178e-141.708509728e-11
+21        intelmkl_scsrmultcsr          0.333175524    3.328323367e-062.190083473e-03
+21        openblas_dgemm                0.283098424    0.000000000e+000.000000000e+00
+21        openblas_sgemm                0.149794461    3.328323355e-062.012320863e-03
+21        blasbooster_block             0.162100338    5.773159728e-151.913320911e-12size: 0.030450652 s block: 0.021117727 s mult: 0.110531959 s 
+21        blasbooster_sparse_double     0.170976946    4.396483178e-141.708523884e-11
+21        blasbooster_sparse_float      0.163372462    3.328323367e-062.190083473e-03
+22        intelmkl_dgemm                2.255826182    0.000000000e+000.000000000e+00
+22        intelmkl_sgemm                1.190208059    7.078051548e-104.476552857e-08
+22        intelmkl_dcsrmm               0.101776596    0.000000000e+000.000000000e+00
+22        intelmkl_scsrmm               0.061855624    7.078051548e-104.476552857e-08
+22        intelmkl_dcsrmultcsr          0.049746677    0.000000000e+000.000000000e+00
+22        intelmkl_scsrmultcsr          0.049781042    7.078051548e-104.476552857e-08
+22        openblas_dgemm                2.232488270    0.000000000e+000.000000000e+00
+22        openblas_sgemm                1.199907308    7.078051548e-104.476552857e-08
+22        blasbooster_block             0.254537622    0.000000000e+000.000000000e+00size: 0.178862908 s block: 0.060820521 s mult: 0.014854193 s 
+22        blasbooster_sparse_double     0.005365908    0.000000000e+000.000000000e+00
+22        blasbooster_sparse_float      0.006549683    7.078051548e-104.476552857e-08
+23        intelmkl_dgemm                2.234259744    0.000000000e+000.000000000e+00
+23        intelmkl_sgemm                1.192103477    7.390975970e-081.663008359e-05
+23        intelmkl_dcsrmm               0.357616689    1.665334537e-162.370357439e-14
+23        intelmkl_scsrmm               0.352654744    6.914138787e-081.418231364e-05
+23        intelmkl_dcsrmultcsr          0.061869055    1.665334537e-169.152398429e-15
+23        intelmkl_scsrmultcsr          0.060802097    7.390975970e-081.674258838e-05
+23        openblas_dgemm                2.236481884    0.000000000e+000.000000000e+00
+23        openblas_sgemm                1.207443207    7.390975970e-081.663008359e-05
+23        blasbooster_block             0.302455573    2.775557562e-164.932012715e-14size: 0.182220463 s block: 0.068562708 s mult: 0.051672402 s 
+23        blasbooster_sparse_double     0.011062082    2.775557562e-164.957925495e-14
+23        blasbooster_sparse_float      0.011228196    7.390975970e-081.674258838e-05
+24        intelmkl_dgemm                2.242506125    0.000000000e+000.000000000e+00
+24        intelmkl_sgemm                1.203947130    4.553794866e-071.528605070e-04
+24        intelmkl_dcsrmm               0.613273006    2.220446049e-161.035314279e-13
+24        intelmkl_scsrmm               0.640415658    1.525878910e-075.130972919e-05
+24        intelmkl_dcsrmultcsr          0.087409152    2.220446049e-162.829455981e-14
+24        intelmkl_scsrmultcsr          0.085442609    4.553794866e-071.621354183e-04
+24        openblas_dgemm                2.245094336    0.000000000e+000.000000000e+00
+24        openblas_sgemm                1.200342976    4.553794866e-071.528605070e-04
+24        blasbooster_block             0.315062797    3.330669074e-169.113013549e-14size: 0.181666420 s block: 0.069231045 s mult: 0.064165332 s 
+24        blasbooster_sparse_double     0.023813153    3.330669074e-169.173278417e-14
+24        blasbooster_sparse_float      0.023034378    4.553794866e-071.621354183e-04
+25        intelmkl_dgemm                2.244460320    0.000000000e+000.000000000e+00
+25        intelmkl_sgemm                1.209156842    7.772445687e-073.622644779e-04
+25        intelmkl_dcsrmm               0.837638449    2.220446049e-161.480169066e-13
+25        intelmkl_scsrmm               0.903597504    1.907348628e-075.505308453e-05
+25        intelmkl_dcsrmultcsr          0.125424409    2.220446049e-166.763262682e-14
+25        intelmkl_scsrmultcsr          0.122021154    7.772445687e-073.863641421e-04
+25        openblas_dgemm                2.243264819    0.000000000e+000.000000000e+00
+25        openblas_sgemm                1.215037850    7.772445687e-073.622644779e-04
+25        blasbooster_block             0.457151960    4.440892099e-166.921092235e-14size: 0.179239108 s block: 0.072748064 s mult: 0.205164788 s 
+25        blasbooster_sparse_double     0.044228192    3.330669074e-161.255386541e-13
+25        blasbooster_sparse_float      0.041678329    7.772445687e-073.863641421e-04
+26        intelmkl_dgemm                2.233138245    0.000000000e+000.000000000e+00
+26        intelmkl_sgemm                1.198050401    1.158714296e-066.214660433e-04
+26        intelmkl_dcsrmm               1.059233882    2.220446049e-161.743775140e-13
+26        intelmkl_scsrmm               1.193678970    2.002716057e-078.870109787e-05
+26        intelmkl_dcsrmultcsr          0.175891766    2.220446049e-161.072213908e-13
+26        intelmkl_scsrmultcsr          0.171260022    1.158714296e-066.683575218e-04
+26        openblas_dgemm                2.268301976    0.000000000e+000.000000000e+00
+26        openblas_sgemm                1.191546528    1.158714296e-066.214660433e-04
+26        blasbooster_block             0.462853916    4.440892099e-169.998655554e-14size: 0.178468260 s block: 0.072587479 s mult: 0.211798177 s 
+26        blasbooster_sparse_double     0.073068113    3.330669074e-161.504026714e-13
+26        blasbooster_sparse_float      0.069284814    1.158714296e-066.683575218e-04
+27        intelmkl_dgemm                2.234793049    0.000000000e+000.000000000e+00
+27        intelmkl_sgemm                1.198076670    1.540184023e-069.278278329e-04
+27        intelmkl_dcsrmm               1.284499054    2.220446049e-161.907374036e-13
+27        intelmkl_scsrmm               1.460659397    2.288818373e-079.017019248e-05
+27        intelmkl_dcsrmultcsr          0.241084258    2.220446049e-161.441709534e-13
+27        intelmkl_scsrmultcsr          0.238974826    1.540184023e-061.008692125e-03
+27        openblas_dgemm                2.234138966    0.000000000e+000.000000000e+00
+27        openblas_sgemm                1.200515067    1.540184023e-069.278278329e-04
+27        blasbooster_block             0.471674638    4.440892099e-161.242488263e-13size: 0.179308456 s block: 0.072294576 s mult: 0.220071606 s 
+27        blasbooster_sparse_double     0.107546749    3.330669074e-161.782404838e-13
+27        blasbooster_sparse_float      0.102360745    1.540184023e-061.008692125e-03
+28        intelmkl_dgemm                2.269399771    0.000000000e+000.000000000e+00
+28        intelmkl_sgemm                1.190604657    1.802444460e-061.251618249e-03
+28        intelmkl_dcsrmm               1.510692911    7.105427358e-151.096049141e-12
+28        intelmkl_scsrmm               1.746975986    3.528594990e-071.488502225e-04
+28        intelmkl_dcsrmultcsr          0.316586813    8.881784197e-152.370906317e-12
+28        intelmkl_scsrmultcsr          0.308661243    1.802444460e-061.353363328e-03
+28        openblas_dgemm                2.235726706    0.000000000e+000.000000000e+00
+28        openblas_sgemm                1.191376737    1.802444460e-061.251618249e-03
+28        blasbooster_block             0.480865788    8.881784197e-151.221813462e-12size: 0.178494609 s block: 0.072406542 s mult: 0.229964637 s 
+28        blasbooster_sparse_double     0.148161597    8.881784197e-152.373204524e-12
+28        blasbooster_sparse_float      0.141600329    1.802444460e-061.353363328e-03
+29        intelmkl_dgemm                2.283641078    0.000000000e+000.000000000e+00
+29        intelmkl_sgemm                1.190309658    2.183914186e-061.620763080e-03
+29        intelmkl_dcsrmm               1.745013054    1.287858709e-142.727059437e-12
+29        intelmkl_scsrmm               2.017789925    3.528594967e-071.408548723e-04
+29        intelmkl_dcsrmultcsr          0.405549609    1.731947918e-146.619088501e-12
+29        intelmkl_scsrmultcsr          0.395862055    2.183914186e-061.748989917e-03
+29        openblas_dgemm                2.263997928    0.000000000e+000.000000000e+00
+29        openblas_sgemm                1.191230247    2.183914186e-061.620763080e-03
+29        blasbooster_block             0.494953940    1.287858709e-142.770263408e-12size: 0.179510610 s block: 0.072817879 s mult: 0.242625451 s 
+29        blasbooster_sparse_double     0.189900696    1.731947918e-146.619905896e-12
+29        blasbooster_sparse_float      0.183180791    2.183914186e-061.748989917e-03
+30        intelmkl_dgemm                2.232565013    0.000000000e+000.000000000e+00
+30        intelmkl_sgemm                1.205268011    2.565383913e-062.028920016e-03
+30        intelmkl_dcsrmm               1.976084229    1.332267630e-144.483344295e-12
+30        intelmkl_scsrmm               2.292734257    4.959106552e-072.272709741e-04
+30        intelmkl_dcsrmultcsr          0.507972194    2.620126338e-141.195722735e-11
+30        intelmkl_scsrmultcsr          0.494157589    2.565383913e-062.187981110e-03
+30        openblas_dgemm                2.232414832    0.000000000e+000.000000000e+00
+30        openblas_sgemm                1.198357022    2.565383913e-062.028920016e-03
+30        blasbooster_block             0.508045826    1.332267630e-144.010687154e-12size: 0.178930386 s block: 0.073122126 s mult: 0.255993314 s 
+30        blasbooster_sparse_double     0.240970102    2.620126338e-141.195767644e-11
+30        blasbooster_sparse_float      0.233203470    2.565383913e-062.187981110e-03
+31        intelmkl_dgemm                2.233500517    0.000000000e+000.000000000e+00
+31        intelmkl_sgemm                1.202406620    2.946853636e-062.465366430e-03
+31        intelmkl_dcsrmm               2.205948966    1.332267630e-146.269928284e-12
+31        intelmkl_scsrmm               2.554469727    7.057190046e-073.605651011e-04
+31        intelmkl_dcsrmultcsr          0.624257913    3.508304758e-141.816089960e-11
+31        intelmkl_scsrmultcsr          0.606355157    2.946853640e-062.664304770e-03
+31        openblas_dgemm                2.234314135    0.000000000e+000.000000000e+00
+31        openblas_sgemm                1.191622916    2.946853636e-062.465366430e-03
+31        blasbooster_block             0.525403278    1.332267630e-145.019641617e-12size: 0.180754336 s block: 0.072947834 s mult: 0.271701108 s 
+31        blasbooster_sparse_double     0.300031668    3.508304758e-141.816119305e-11
+31        blasbooster_sparse_float      0.290374056    2.946853640e-062.664304770e-03
+32        intelmkl_dgemm                2.235506491    0.000000000e+000.000000000e+00
+32        intelmkl_sgemm                1.209562142    3.328323355e-062.926572346e-03
+32        intelmkl_dcsrmm               2.442001822    1.332267630e-148.067345874e-12
+32        intelmkl_scsrmm               2.836875298    8.773803812e-075.037102204e-04
+32        intelmkl_dcsrmultcsr          0.744841710    4.396483178e-142.510846836e-11
+32        intelmkl_scsrmultcsr          0.728441311    3.328323367e-063.173822997e-03
+32        openblas_dgemm                2.285077965    0.000000000e+000.000000000e+00
+32        openblas_sgemm                1.191696545    3.328323355e-062.926572346e-03
+32        blasbooster_block             0.541854519    1.332267630e-145.824108148e-12size: 0.179354931 s block: 0.073017407 s mult: 0.289482181 s 
+32        blasbooster_sparse_double     0.362720923    4.396483178e-142.510867898e-11
+32        blasbooster_sparse_float      0.352705409    3.328323367e-063.173822997e-03
+
+tracker             count     time
+------------------------------------------------------------
+OpenBLAS_dgemm      17453     583049233981 ns
+OpenBLAS_sgemm      7306      413654292373 ns
+IntelMKL_dgemm      3756      424012027829 ns
+IntelMKL_sgemm      7122      413541168061 ns
+IntelMKL_dcsrmm     23369     426324725870 ns
+IntelMKL_scsrmm     7868      389426241618 ns
+IntelMKL_dcsrmultcsr46815     424909429957 ns
+IntelMKL_scsrmultcsr25145     402746799619 ns
+Native_sparse       262088    803240070539 ns
+get_detection_arrays38066     340203412778 ns
+get_block_size      57099     5394485632 ns
+
+ BlasBooster successfully finished. Have a nice day.
+

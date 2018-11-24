@@ -1,0 +1,61 @@
+{
+    "actions":
+    [
+        "intelmkl_dgemm",
+        "intelmkl_sgemm",
+        "intelmkl_dcsrmm",
+        "intelmkl_scsrmm",
+        "intelmkl_dcsrmultcsr",
+        "intelmkl_scsrmultcsr",
+        "openblas_dgemm",
+        "openblas_sgemm",
+        "blasbooster_block",
+        "blasbooster_sparse_double",
+        "blasbooster_sparse_float"
+    ],
+    "matrices":
+    {
+        "A":
+        {
+            "DiagonalBand":
+            {
+                "dimension": [1000, 2000, 4000],
+                "band_width": [1, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
+                "value": 0.1
+            }
+        },
+        "B":
+        {
+            "EqualTo": "A"
+        }
+    },
+    "OpenBLAS_num_threads": 1,
+    "IntelMKL_num_threads": 1,
+    "benchmark":
+    {
+        "min_replications": 5,
+        "max_replications": 100000,
+        "min_execution_time": "00:00:10.000000000",
+        "spike_detection": 1,
+        "spike_detection_factor": 0.1,
+        "warm_up_runs": 2,
+        "verbosity": 0
+    },
+    "threshold":
+    {
+        "significanceThresholdSinglePrecision":                                    1e-5,
+        "significanceThresholdDoublePrecision":                                    1e-10,
+        "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
+        "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.1,
+        "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
+        "occupationThresholdMatrixDenseFloatDoublePrecision":                      1.0,
+        "occupationThresholdMatrixSparseDoubleSinglePrecision":                    0.1,
+        "occupationThresholdMatrixSparseDoubleDoublePrecision":                    0.1,
+        "occupationThresholdMultipleMatrixSparseDoubleSparseFloatSinglePrecision": 0.1,
+        "occupationThresholdMultipleMatrixSparseDoubleSparseFloatDoublePrecision": 0.2,
+        "occupationThresholdMultipleMatrixDenseFloatSparseDoubleSinglePrecision":  0.1,
+        "occupationThresholdMultipleMatrixDenseFloatSparseDoubleDoublePrecision":  1.0,
+        "occupationThresholdMatrixDenseDoubleSinglePrecision":                     1.0,
+        "occupationThresholdMatrixDenseDoubleDoublePrecision":                     1.0
+    }
+}
