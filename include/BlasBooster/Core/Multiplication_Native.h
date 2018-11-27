@@ -218,7 +218,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
         auto&& iter_A_off = A.beginOffset();
-        auto&& iter_A_off_end = A.endOffset();
+        auto&& iter_A_off_end = A.endOffset() - 1;
 
         auto&& iter_B = B.begin();
         auto&& iter_C = C.begin();
@@ -240,26 +240,6 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
                 }
             }
         }
-
-//        size_t col(0);
-//        for (typename Matrix<Sparse,T1,P1>::const_index_iterator iterOffsetACur(A.beginOffset()),
-//            iterOffsetAEnd(A.endOffset() - 1); iterOffsetACur != iterOffsetAEnd; ++iterOffsetACur, ++col)
-//        {
-//            typename Matrix<Sparse,T1,P1>::const_iterator iterValueACur(A.begin() + *iterOffsetACur);
-//            typename Matrix<Sparse,T1,P1>::const_index_iterator iterKeyACur(A.beginKey() + *iterOffsetACur), iterKeyAEnd(A.beginKey() + *(iterOffsetACur+1));
-//            for ( ; iterKeyACur != iterKeyAEnd; ++iterKeyACur, ++iterValueACur)
-//            {
-//                ColumnCursorB curColumnB(B,0), endColumnB(B,B.getNbColumns());
-//                ColumnCursorC curColumnC(C,0), endColumnC(C,C.getNbColumns());
-//                for ( ; curColumnB != endColumnB; ++curColumnB, ++curColumnC )
-//                {
-//                    RowCursorB curRowB(B,curColumnB.begin() + col);
-//                    RowCursorC curRowC(C,curColumnC.begin() + *iterKeyACur);
-//
-//                    *curRowC += *iterValueACur * *curRowB;
-//                }
-//            }
-//        }
     }
 };
 
