@@ -40,11 +40,11 @@ struct MultiplicationFunctor<Dense,float,P,Dense,double,P,Dense,double,P,TheBest
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	Matrix<Dense,float,P> fC;
-    	MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>()(
+        Matrix<Dense,float,P> fC;
+        MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>()(
             A, Matrix<Dense,float,P>(B), fC);
-    	C = fC;
-	}
+        C = fC;
+    }
 };
 
 template <class P>
@@ -52,11 +52,11 @@ struct MultiplicationFunctor<Dense,double,P,Dense,float,P,Dense,double,P,TheBest
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	Matrix<Dense,float,P> fC;
-    	MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>()(
+        Matrix<Dense,float,P> fC;
+        MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,IntelMKL>()(
             Matrix<Dense,float,P>(A), B, fC);
-    	C = fC;
-	}
+        C = fC;
+    }
 };
 
 template <class P>

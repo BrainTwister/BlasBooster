@@ -150,7 +150,7 @@ private:
 template <class Interface, class T1, class T2>
 struct DynamicMultFunctor
 {
-	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
+    DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
         typedef decltype((T1() * T2()).template execute<Interface>()) ResultType;
 
@@ -175,7 +175,7 @@ public:
     DynamicMatrix execute() const
     {
         return exec_dyn_2dim<DynamicMatrixTypeList, DynamicMultFunctor, TypeList<Interface>,
-        	std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+            std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
     }
 
 private:

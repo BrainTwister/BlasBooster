@@ -170,7 +170,7 @@ struct NormFunctor<NormMax, MultipleMatrix<X1,X2>>
 template <class NormType, class T>
 struct DynamicNormFunctor
 {
-	double operator () (DynamicMatrix const& ptrA) const
+    double operator () (DynamicMatrix const& ptrA) const
     {
         return NormFunctor<NormType, T>()(*std::static_pointer_cast<T>(ptrA));
     }
@@ -181,8 +181,8 @@ struct NormFunctor<NormType, DynamicMatrix>
 {
     double operator () (DynamicMatrix const& ptrA) const
     {
-    	return exec_dyn<DynamicMatrixTypeList, DynamicNormFunctor, TypeList<NormType>,
-    	    std::function<double(DynamicMatrix const&)>>(ptrA);
+        return exec_dyn<DynamicMatrixTypeList, DynamicNormFunctor, TypeList<NormType>,
+            std::function<double(DynamicMatrix const&)>>(ptrA);
     }
 };
 

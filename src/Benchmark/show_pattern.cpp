@@ -37,27 +37,27 @@ int main(int argc, char* argv[])
 
         std::string matrix_file;
         std::string settings_file;
-		std::string pattern_file = "pattern.xpm";
-		std::string pattern_type = "elements";
+        std::string pattern_file = "pattern.xpm";
+        std::string pattern_type = "elements";
         int border_width = 0;
         bool show_help = false;
         auto cli = clara::Help(show_help)
-        		 | clara::Arg(matrix_file, "matrix")("Matrix file (*.xml)").required()
+                 | clara::Arg(matrix_file, "matrix")("Matrix file (*.xml)").required()
                  | clara::Opt(settings_file, "settings")["-s"]["--settings"]("Settings file (*.xml)")
                  | clara::Opt(pattern_file, "pattern")["-p"]["--pattern"]("Pattern file (default: pattern.xpm)")
-				 | clara::Opt(pattern_type, "type")["-t"]["--pattern-type"]("Type of pattern (elements or type-blocks)")
-		         | clara::Opt(border_width, "width")["-w"]["--border_width"]("Number of points for the border (default: 0)");
+                 | clara::Opt(pattern_type, "type")["-t"]["--pattern-type"]("Type of pattern (elements or type-blocks)")
+                 | clara::Opt(border_width, "width")["-w"]["--border_width"]("Number of points for the border (default: 0)");
 
         auto cli_result = cli.parse(clara::Args(argc, argv));
         if(!cli_result)
         {
-    	    std::cerr << cli << std::endl;
+            std::cerr << cli << std::endl;
             std::cerr << "Error in command line: " << cli_result.errorMessage() << std::endl;
             return 1;
         }
         if (show_help)
         {
-    	    std::cerr << cli << std::endl;
+            std::cerr << cli << std::endl;
             return 0;
         }
 
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 
         } else if (pattern_type == "type-blocks") {
 
-        	auto&& bset = settings.blocked_matrix_generator_settings;
+            auto&& bset = settings.blocked_matrix_generator_settings;
             auto&& [bs_row, bs_col] = BlockSizeGenerator(bset.min_block_size, bset.max_block_size)(matrix);
             auto&& block_matrix = BlockedMatrixGenerator()(matrix, bs_row, bs_col, bset.threshold);
             auto&& type_matrix = generateTypeMatrix(block_matrix);
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
             Matrix<Dense, double> type_block_matrix(matrix.getNbRows(), matrix.getNbColumns());
 
             typedef TypeMatrix::parameter P;
-			P::IndexType sub_row_offset(0), sub_row_offset_tmp(0), sub_column_offset(0);
+            P::IndexType sub_row_offset(0), sub_row_offset_tmp(0), sub_column_offset(0);
 
             typedef Cursor<TypeMatrix, Direction::Row> TypeRowCursor;
             typedef Cursor<TypeRowCursor, Direction::Column> TypeColumnCursor;
@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
             for (TypeRowCursor type_row_cur(type_matrix, 0), type_row_end(type_matrix, type_matrix.getNbRows());
                  type_row_cur != type_row_end; ++type_row_cur, ++dim_row_cur)
             {
-            	DimColumnCursor dim_column_cur(dim_matrix, dim_row_cur.begin()), dim_column_end(dim_matrix, dim_row_cur.end());
+                DimColumnCursor dim_column_cur(dim_matrix, dim_row_cur.begin()), dim_column_end(dim_matrix, dim_row_cur.end());
                 for (TypeColumnCursor type_column_cur(type_matrix, type_row_cur.begin()), type_column_end(type_matrix, type_row_cur.end());
                      type_column_cur != type_column_end; ++type_column_cur, ++dim_column_cur)
                 {
@@ -112,8 +112,8 @@ int main(int argc, char* argv[])
                     AllFiller<double>(std::pow(10, -1.0 * (*type_column_cur)))(sub_matrix);
 
                     for (int i = 0; i != border_width; ++i) {
-                    	for (size_t j = 0; j != (*dim_column_cur).first; ++j) sub_matrix(j,i) = 0.0;
-                    	for (size_t j = border_width; j != (*dim_column_cur).second; ++j) sub_matrix(i,j) = 0.0;
+                        for (size_t j = 0; j != (*dim_column_cur).first; ++j) sub_matrix(j,i) = 0.0;
+                        for (size_t j = border_width; j != (*dim_column_cur).second; ++j) sub_matrix(i,j) = 0.0;
                     }
 
                     // TODO: rowOffset is ideally determined one time (all submatrices in a column have the same row size).
@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
             pattern_generator(type_block_matrix, pattern_file);
 
         } else {
-        	throw std::runtime_error("Unkown pattern_type: " + pattern_type);
+            throw std::runtime_error("Unkown pattern_type: " + pattern_type);
         }
 
     } catch ( BlasBoosterException const& e ) {

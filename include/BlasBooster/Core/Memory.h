@@ -14,7 +14,7 @@ T* allocate(size_t size)
 template <typename T>
 void deallocate(T* memory) noexcept
 {
-	//delete [] memory;
+    //delete [] memory;
     blaze::deallocate(memory);
 }
 

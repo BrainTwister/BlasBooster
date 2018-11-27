@@ -10,16 +10,16 @@ namespace BlasBooster {
 
 struct duration_accuracy
 {
-	duration_accuracy(int digits) : digits(digits) {}
+    duration_accuracy(int digits) : digits(digits) {}
 
     static void set(std::ios_base& s, int digits)
     {
-    	flag(s) = digits;
+        flag(s) = digits;
     }
 
     static int get(std::ios_base& s)
     {
-    	return flag(s);
+        return flag(s);
     }
 
     int digits;

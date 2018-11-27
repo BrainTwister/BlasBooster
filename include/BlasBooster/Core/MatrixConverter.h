@@ -141,9 +141,9 @@ struct MatrixConverter
     DynamicMatrix operator () (Matrix<M,T,P> const& matrix, Threshold const& threshold) const
     {
         return exec_if<DynamicMatrixTypeList>(
-        	IsConvertibleChecker<M,T,P>(matrix, threshold),
+            IsConvertibleChecker<M,T,P>(matrix, threshold),
             DynamicConversionFunctor<M,T,P>(matrix, threshold)
-		);
+        );
     }
 };
 

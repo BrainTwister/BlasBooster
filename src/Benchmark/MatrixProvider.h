@@ -13,12 +13,12 @@ namespace BlasBooster {
 
 class MatrixProvider
 {
-	typedef std::vector<Matrix<Dense, double>> MatrixList;
-	typedef std::unordered_map<std::string, MatrixList> MatrixSet;
+    typedef std::vector<Matrix<Dense, double>> MatrixList;
+    typedef std::unordered_map<std::string, MatrixList> MatrixSet;
 
 public:
 
-	typedef bool is_record;
+    typedef bool is_record;
 
     MatrixProvider(ptree const& tree = ptree());
 

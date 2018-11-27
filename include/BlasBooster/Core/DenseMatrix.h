@@ -97,7 +97,7 @@ public: // member functions
     Matrix(Matrix<Dense,T2,P2> const& other, IndexType nbRows, IndexType nbColumns,
         IndexType beginRow = 0, IndexType beginColumn = 0,
         typename std::enable_if<
-		    std::is_same<typename P::orientation, ColumnMajor>::value and
+            std::is_same<typename P::orientation, ColumnMajor>::value and
             std::is_same<typename P2::orientation, ColumnMajor>::value and
             U::isSubMatrix
         >::type* = 0
@@ -199,7 +199,7 @@ public: // member functions
     /// Move constructor
     Matrix(self&& other)
      : dimension(std::move(other)),
-	   storage(std::forward<storage>(other))
+       storage(std::forward<storage>(other))
     {
         BLASBOOSTER_DEBUG_PRINT("Matrix: Move constructor is called.");
     }
@@ -604,11 +604,11 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
     for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
         iterOffsetEnd(other.endOffset() - 1); iterOffsetCur != iterOffsetEnd; ++iterOffsetCur)
     {
-    	ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
+        ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
         for (ConstIndexIterator iterKeyCur(other.beginKey() + *iterOffsetCur),
             iterKeyEnd(other.beginKey() + *(iterOffsetCur + 1)); iterKeyCur != iterKeyEnd; ++iterKeyCur, ++iterValueCur)
         {
-        	iterDense[*iterKeyCur] = *iterValueCur;
+            iterDense[*iterKeyCur] = *iterValueCur;
         }
         iterDense += this->getMajorDimension();
     }
@@ -630,11 +630,11 @@ Matrix<Dense,T,P>::Matrix(Matrix<Sparse,T2,P2> const& other,
     for (ConstIndexIterator iterOffsetCur(other.beginOffset()),
         iterOffsetEnd(other.endOffset() - 1); iterOffsetCur != iterOffsetEnd; ++iterOffsetCur)
     {
-    	ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
+        ConstIterator iterValueCur(other.begin() + *iterOffsetCur);
         for (ConstIndexIterator iterKeyCur(other.beginKey() + *iterOffsetCur),
             iterKeyEnd(other.beginKey() + *(iterOffsetCur + 1)); iterKeyCur != iterKeyEnd; ++iterKeyCur, ++iterValueCur)
         {
-        	iterDense[*iterKeyCur * this->getMajorDimension()] = *iterValueCur;
+            iterDense[*iterKeyCur * this->getMajorDimension()] = *iterValueCur;
         }
         ++iterDense;
     }
@@ -664,16 +664,16 @@ template <class T, class P>
 template <class Op1, class Op2>
 Matrix<Dense,T,P>::Matrix(MatrixMultExp<Op1, Op2> const& expression)
 {
-	*this = expression.template execute<Native>();
+    *this = expression.template execute<Native>();
 }
 
 // Construction by file
 template <class T, class P>
 Matrix<Dense,T,P>::Matrix(filesystem::path const& file)
 {
-	std::ifstream ifs(file.string());
-	if (!ifs) throw BlasBoosterException("Can't open file " + file.string());
-	ifs >> *this;
+    std::ifstream ifs(file.string());
+    if (!ifs) throw BlasBoosterException("Can't open file " + file.string());
+    ifs >> *this;
 }
 
 template <class T, class P>
@@ -726,8 +726,8 @@ template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
     typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and !U::isSubMatrix>::type*) const
 {
-	assert(row < this->getNbRows());
-	assert(column < this->getNbColumns());
+    assert(row < this->getNbRows());
+    assert(column < this->getNbColumns());
     return row + column * this->getNbRows();
 }
 
@@ -736,8 +736,8 @@ template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
     typename std::enable_if<std::is_same<typename U::orientation, ColumnMajor>::value and U::isSubMatrix>::type*) const
 {
-	assert(row < this->getNbRows());
-	assert(column < this->getNbColumns());
+    assert(row < this->getNbRows());
+    assert(column < this->getNbColumns());
     return row + column * this->getLdRows();
 }
 
@@ -746,8 +746,8 @@ template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
     typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and !U::isSubMatrix>::type*) const
 {
-	assert(row < this->getNbRows());
-	assert(column < this->getNbColumns());
+    assert(row < this->getNbRows());
+    assert(column < this->getNbColumns());
     return row * this->getNbColumns() + column;
 }
 
@@ -757,8 +757,8 @@ template <class U>
 size_t Matrix<Dense,T,P>::getPosition(typename P::IndexType row, typename P::IndexType column,
     typename std::enable_if<std::is_same<typename U::orientation, RowMajor>::value and U::isSubMatrix>::type*) const
 {
-	assert(row < this->getNbRows());
-	assert(column < this->getNbColumns());
+    assert(row < this->getNbRows());
+    assert(column < this->getNbColumns());
     return row * this->getLdColumns() + column;
 }
 

@@ -17,16 +17,16 @@ class PatternGenerator
 public:
 
     BRAINTWISTER_RECORD(Color, \
-		((std::string, index, "")) \
-		((std::string, color, "")) \
-		((double, threshold, 0.0)) \
-	);
+        ((std::string, index, "")) \
+        ((std::string, color, "")) \
+        ((double, threshold, 0.0)) \
+    );
 
     BRAINTWISTER_RECORD(Settings, \
         ((std::vector<Color>, palette, std::vector<Color>())) \
-		((std::string, background_index, "")) \
-		((std::string, background_color, "")) \
-	);
+        ((std::string, background_index, "")) \
+        ((std::string, background_color, "")) \
+    );
 
     PatternGenerator(Settings const& settings = Settings())
      : settings(settings)

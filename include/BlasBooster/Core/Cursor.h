@@ -120,7 +120,7 @@ struct GetCursorBaseType {
            (
                std::is_same<Orientation, ColumnMajor>::value and
                (
-            	   std::is_same<OuterDirection, Column>::value or
+                   std::is_same<OuterDirection, Column>::value or
                    std::is_same<OuterDirection, Minor>::value
                )
            ) or

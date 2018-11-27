@@ -6,7 +6,7 @@ namespace BlasBooster {
 
 struct NoFiller
 {
-	template <class M, class T, class P>
+    template <class M, class T, class P>
     void operator () (Matrix<M,T,P>&) const
     {}
 };
@@ -14,9 +14,9 @@ struct NoFiller
 template <class T2>
 struct AllFiller
 {
-	AllFiller(T2 value) : value(value) {}
+    AllFiller(T2 value) : value(value) {}
 
-	template <class M, class T, class P>
+    template <class M, class T, class P>
     void operator () (Matrix<M,T,P>& matrix) const
     {
         // TODO: Use range-based for loop
@@ -32,7 +32,7 @@ struct AllFiller
 
 struct ContinuousNumberFiller
 {
-	template <class T, class P>
+    template <class T, class P>
     void operator () (Matrix<Dense,T,P>& matrix) const
     {
         T value(1.0);
@@ -43,7 +43,7 @@ struct ContinuousNumberFiller
         }
     }
 
-	template <class T, class P>
+    template <class T, class P>
     void operator () (Matrix<Sparse,T,P>& matrix) const
     {
         T value(1.0);
@@ -73,7 +73,7 @@ struct ContinuousNumberFiller
 
 struct HilbertFiller
 {
-	template <class T, class P>
+    template <class T, class P>
     void operator () (Matrix<Dense,T,P>& matrix) const
     {
         T one(1.0), row(1.0), column;
@@ -96,9 +96,9 @@ struct HilbertFiller
 template <class T2>
 struct DiagonalFiller
 {
-	DiagonalFiller(T2 value) : value(value) {}
+    DiagonalFiller(T2 value) : value(value) {}
 
-	template <class T, class P>
+    template <class T, class P>
     void operator () (Matrix<Dense,T,P>& matrix) const
     {
         if (matrix.getNbRows() != matrix.getNbColumns()) throw CoreException("DiagonalFiller: Matrix is not quadratic.");

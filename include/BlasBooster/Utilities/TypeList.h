@@ -34,7 +34,7 @@ struct GetType;
 template <class Tail, class... Ts>
 struct GetType<0, TypeList<Tail, Ts...>>
 {
-	using type = Tail;
+    using type = Tail;
 };
 
 template <std::size_t I, class Tail, class... Ts>

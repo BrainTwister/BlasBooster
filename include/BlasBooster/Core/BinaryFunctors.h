@@ -392,9 +392,9 @@ struct BinaryAssignmentOperationFunctor<Operation,M,T,P,Zero,NullType,P>
 {
     void operator () (Matrix<M,T,P>& A, Matrix<Zero,NullType,P> const& B)
     {
-    	assert(A.getNbRows() == B.getNbRows());
-    	assert(A.getNbColumns() == B.getNbColumns());
-    	/* nothing to do */
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
+        /* nothing to do */
     }
 };
 
@@ -404,7 +404,7 @@ struct BinaryAssignmentOperationFunctor<Operation,Zero,NullType,P,M,T,P>
 {
     void operator () (Matrix<Zero,NullType,P>& A, Matrix<M,T,P> const& B)
     {
-    	throw std::runtime_error("ZeroMatrix can't call binary assignment operator.");
+        throw std::runtime_error("ZeroMatrix can't call binary assignment operator.");
     }
 };
 
@@ -414,9 +414,9 @@ struct BinaryAssignmentOperationFunctor<Operation,Zero,NullType,P,Zero,NullType,
 {
     void operator () (Matrix<Zero,NullType,P>& A, Matrix<Zero,NullType,P> const& B)
     {
-    	assert(A.getNbRows() == B.getNbRows());
-    	assert(A.getNbColumns() == B.getNbColumns());
-    	/* nothing to do */
+        assert(A.getNbRows() == B.getNbRows());
+        assert(A.getNbColumns() == B.getNbColumns());
+        /* nothing to do */
     }
 };
 
@@ -605,8 +605,8 @@ struct DynamicAddFunctor
 /// Operator for DynamicMatrix addition
 inline DynamicMatrix operator + (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, TypeList<>,
-	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+    return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddFunctor, TypeList<>,
+        std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 /// Functor for DynamicMatrix subtraction
@@ -627,15 +627,15 @@ struct DynamicSubFunctor
 /// Operator for DynamicMatrix subtraction
 inline DynamicMatrix operator - (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor, TypeList<>,
-	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+    return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubFunctor, TypeList<>,
+        std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 /// Functor for DynamicMatrix addition assignment
 template <class T1, class T2>
 struct DynamicAddAssignFunctor
 {
-	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
+    DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
         *(std::static_pointer_cast<T1>(ptrA)) += *(std::static_pointer_cast<T2>(ptrB));
         return ptrA;
@@ -645,15 +645,15 @@ struct DynamicAddAssignFunctor
 /// Operator for DynamicMatrix addition assignment
 inline DynamicMatrix operator += (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor, TypeList<>,
-	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+    return exec_dyn_2dim<DynamicMatrixTypeList, DynamicAddAssignFunctor, TypeList<>,
+        std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 /// Functor for DynamicMatrix subtraction assignment
 template <class T1, class T2>
 struct DynamicSubAssignFunctor
 {
-	DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
+    DynamicMatrix operator () (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB) const
     {
         *(std::static_pointer_cast<T1>(ptrA)) -= *(std::static_pointer_cast<T2>(ptrB));
         return ptrA;
@@ -663,8 +663,8 @@ struct DynamicSubAssignFunctor
 /// Operator for DynamicMatrix subtraction assignment
 inline DynamicMatrix operator -= (DynamicMatrix const& ptrA, DynamicMatrix const& ptrB)
 {
-	return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubAssignFunctor, TypeList<>,
-	    std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
+    return exec_dyn_2dim<DynamicMatrixTypeList, DynamicSubAssignFunctor, TypeList<>,
+        std::function<DynamicMatrix(DynamicMatrix const&, DynamicMatrix const&)>>(ptrA, ptrB);
 }
 
 } // namespace BlasBooster

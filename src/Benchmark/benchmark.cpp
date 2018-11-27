@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
         const BrainTwister::Benchmark benchmark{settings.benchmark};
 
         std::cout << std::scientific
-        		  << set_duration_accuracy(duration_digits) << "\n"
+                  << set_duration_accuracy(duration_digits) << "\n"
                   << std::setw(10) << std::left << "matrix"
                   << std::setw(30) << std::left << "name"
                   << std::setw(15) << "time/s"
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
         for (auto&& [A, B, i] : view::zip(list_A, list_B, view::indices(list_A.size())))
         {
             std::cout << std::setw(10) << std::left << i
-            		  << std::setw(30) << std::left << actions[0]->name() << std::flush;
+                      << std::setw(30) << std::left << actions[0]->name() << std::flush;
 
             auto&& [refC, time, details] = actions[0]->execute(A, B, benchmark);
 
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
             for (auto&& action : range(actions.begin()+1, actions.end()))
             {
                 std::cout << std::setw(10) << std::left << i
-                		  << std::setw(30) << std::left << action->name() << std::flush;
+                          << std::setw(30) << std::left << action->name() << std::flush;
 
                 auto&& [C, time, details] = action->execute(A, B, benchmark);
                 auto&& diff = C - refC;

@@ -13,7 +13,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,OpenBL
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::OpenBLAS_dgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::OpenBLAS_dgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -43,7 +43,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,OpenBLAS>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::OpenBLAS_sgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::OpenBLAS_sgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(),B.getNbColumns());

@@ -34,19 +34,19 @@ ActionProvider::ActionProvider(ptree const& tree)
 {
     for (auto&& leaf : tree) {
 #ifdef WITH_OPENBLAS
-    	if (leaf.first == "openblas_dgemm") {
-    		action_list.push_back(std::make_shared<Action_openblas_dgemm>(leaf.second));
-    	} else
-    	if (leaf.first == "openblas_sgemm") {
-    		action_list.push_back(std::make_shared<Action_openblas_sgemm>(leaf.second));
-    	} else
+        if (leaf.first == "openblas_dgemm") {
+            action_list.push_back(std::make_shared<Action_openblas_dgemm>(leaf.second));
+        } else
+        if (leaf.first == "openblas_sgemm") {
+            action_list.push_back(std::make_shared<Action_openblas_sgemm>(leaf.second));
+        } else
 #endif
 #ifdef WITH_INTELMKL
         if (leaf.first == "intelmkl_dgemm") {
-    		action_list.push_back(std::make_shared<Action_intelmkl_dgemm>(leaf.second));
-    	} else
-    	if (leaf.first == "intelmkl_sgemm") {
-    		action_list.push_back(std::make_shared<Action_intelmkl_sgemm>(leaf.second));
+            action_list.push_back(std::make_shared<Action_intelmkl_dgemm>(leaf.second));
+        } else
+        if (leaf.first == "intelmkl_sgemm") {
+            action_list.push_back(std::make_shared<Action_intelmkl_sgemm>(leaf.second));
 //    	} else
 //    	if (leaf.first == "intelmkl_dcsrmm") {
 //    		action_list.push_back(std::make_shared<Action_intelmkl_dcsrmm>(leaf.second));
@@ -59,15 +59,15 @@ ActionProvider::ActionProvider(ptree const& tree)
 //    	} else
 //    	if (leaf.first == "intelmkl_scsrmultcsr") {
 //    		action_list.push_back(std::make_shared<Action_intelmkl_scsrmultcsr>(leaf.second));
-    	} else
+        } else
 #endif
 #ifdef WITH_EIGEN
-    	if (leaf.first == "eigen_dgemm") {
-    		action_list.push_back(std::make_shared<Action_eigen_dgemm>(leaf.second));
-    	} else
-    	if (leaf.first == "eigen_sgemm") {
-    		action_list.push_back(std::make_shared<Action_eigen_sgemm>(leaf.second));
-    	} else
+        if (leaf.first == "eigen_dgemm") {
+            action_list.push_back(std::make_shared<Action_eigen_dgemm>(leaf.second));
+        } else
+        if (leaf.first == "eigen_sgemm") {
+            action_list.push_back(std::make_shared<Action_eigen_sgemm>(leaf.second));
+        } else
 //		if (leaf.first == "eigen_sdgemm") {
 //			action_list.push_back(std::make_shared<Action_eigen_sdgemm>(leaf.second));
 //		} else
@@ -76,31 +76,31 @@ ActionProvider::ActionProvider(ptree const& tree)
 //		} else
 #endif
 //#ifdef WITH_BLAZE
-    	if (leaf.first == "blaze_dgemm") {
-    		action_list.push_back(std::make_shared<Action_blaze_dgemm>(leaf.second));
-    	} else
-    	if (leaf.first == "blaze_sgemm") {
-    		action_list.push_back(std::make_shared<Action_blaze_sgemm>(leaf.second));
-    	} else
-		if (leaf.first == "blaze_sdgemm") {
-			action_list.push_back(std::make_shared<Action_blaze_sdgemm>(leaf.second));
-		} else
-		if (leaf.first == "blaze_dsgemm") {
-			action_list.push_back(std::make_shared<Action_blaze_dsgemm>(leaf.second));
-		} else
+        if (leaf.first == "blaze_dgemm") {
+            action_list.push_back(std::make_shared<Action_blaze_dgemm>(leaf.second));
+        } else
+        if (leaf.first == "blaze_sgemm") {
+            action_list.push_back(std::make_shared<Action_blaze_sgemm>(leaf.second));
+        } else
+        if (leaf.first == "blaze_sdgemm") {
+            action_list.push_back(std::make_shared<Action_blaze_sdgemm>(leaf.second));
+        } else
+        if (leaf.first == "blaze_dsgemm") {
+            action_list.push_back(std::make_shared<Action_blaze_dsgemm>(leaf.second));
+        } else
 //#endif
         if (leaf.first == "blasbooster_block") {
-    		action_list.push_back(std::make_shared<Action_blasbooster_block>(leaf.second));
-      	} else
-    	if (leaf.first == "native_dense") {
-    		action_list.push_back(std::make_shared<Action_native_dense>(leaf.second));
+            action_list.push_back(std::make_shared<Action_blasbooster_block>(leaf.second));
+        } else
+        if (leaf.first == "native_dense") {
+            action_list.push_back(std::make_shared<Action_native_dense>(leaf.second));
 //    	} else
 //    	if (leaf.first == "blasbooster_sparse_double") {
 //    		action_list.push_back(std::make_shared<Action_blasbooster_sparse_double>(leaf.second));
 //    	} else
 //    	if (leaf.first == "blasbooster_sparse_float") {
 //    		action_list.push_back(std::make_shared<Action_blasbooster_sparse_float>(leaf.second));
-    	} else {
+        } else {
             std::runtime_error(std::string("Unknown action: ") + leaf.first);
         }
     }

@@ -8,7 +8,7 @@ struct DynFuncGenerator;
 template <class FunctionType, template <class ...> class Executor, class ...ExecutorExtraArgs, class ...Args>
 struct DynFuncGenerator<FunctionType, Executor, TypeList<ExecutorExtraArgs...>, TypeList<Args...>>
 {
-	static std::array<FunctionType, sizeof...(Args)> dynFunc;
+    static std::array<FunctionType, sizeof...(Args)> dynFunc;
 };
 
 template <class FunctionType, template <class ...> class Executor, class ...ExecutorExtraArgs, class ...Args>

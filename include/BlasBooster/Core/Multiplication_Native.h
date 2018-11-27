@@ -24,7 +24,7 @@ struct GeneralDenseMultiplicationFunctor
 {
     void operator () (Matrix<Dense,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_GeneralDense> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Native_GeneralDense> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
@@ -138,13 +138,13 @@ struct MultiplicationFunctor<Dense,DynamicMatrix,P1,Dense,DynamicMatrix,P2,Dense
 
                 if (curColumnA == endColumnA) continue;
                 *curColumnC = ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
-            	++curColumnA, ++curRowB;
+                ++curColumnA, ++curRowB;
 
                 while (curColumnA != endColumnA)
                 {
                     // TODO: Interface must be definable
-                	*curColumnC = *curColumnC + ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
-                	++curColumnA, ++curRowB;
+                    *curColumnC = *curColumnC + ((*curColumnA) * (*curRowB)).template execute<TheBestPolicy>();
+                    ++curColumnA, ++curRowB;
                 }
             }
         }
@@ -159,7 +159,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Sparse,T2,P2,Sparse,T3,P3,Native>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Sparse,T2,P2> const& B, Matrix<Sparse,T3,P3>& C)
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_sparse> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Native_sparse> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -212,7 +212,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
 {
     void operator () (Matrix<Sparse,T1,P1> const& A, Matrix<Dense,T2,P2> const& B, Matrix<Dense,T3,P3>& C)
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_sparse_dense> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Native_sparse_dense> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
@@ -236,7 +236,7 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
 
                 for (size_t i = 0; i != B.getNbColumns(); ++i, iter_B += B.getNbRows(), iter_C += C.getNbRows())
                 {
-                	*iter_C += (*iter_A_val) * (*iter_B);
+                    *iter_C += (*iter_A_val) * (*iter_B);
                 }
             }
         }
@@ -256,7 +256,7 @@ struct MultiplicationFunctor<Dense,T1,P1,Sparse,T2,P2,Dense,T3,P3,Native>
         typedef Cursor<Matrix<Dense,T3,P3>, Direction::Column> ColumnCursorC;
         typedef Cursor<ColumnCursorC, Direction::Row> RowCursorC;
 
-       	[[maybe_unused]] Tracker<TrackerID::Native_dense_sparse> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Native_dense_sparse> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
@@ -290,8 +290,8 @@ struct MultiplicationFunctor<M,T,P,Zero,NullType,P,Zero,NullType,P,Native>
 {
     void operator () (Matrix<M,T,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_matrix_zero> tracker;
-    	assert(A.getNbColumns() == B.getNbRows());
+        [[maybe_unused]] Tracker<TrackerID::Native_matrix_zero> tracker;
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }
 };
@@ -302,8 +302,8 @@ struct MultiplicationFunctor<Zero,NullType,P,M,T,P,Zero,NullType,P,Native>
 {
     void operator () (Matrix<Zero,NullType,P> const& A, Matrix<M,T,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_zero_matrix> tracker;
-    	assert(A.getNbColumns() == B.getNbRows());
+        [[maybe_unused]] Tracker<TrackerID::Native_zero_matrix> tracker;
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }
 };
@@ -314,8 +314,8 @@ struct MultiplicationFunctor<Zero,NullType,P,Zero,NullType,P,Zero,NullType,P,Nat
 {
     void operator () (Matrix<Zero,NullType,P> const& A, Matrix<Zero,NullType,P> const& B, Matrix<Zero,NullType,P>& C) const
     {
-       	[[maybe_unused]] Tracker<TrackerID::Native_zero_zero> tracker;
-    	assert(A.getNbColumns() == B.getNbRows());
+        [[maybe_unused]] Tracker<TrackerID::Native_zero_zero> tracker;
+        assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
     }
 };

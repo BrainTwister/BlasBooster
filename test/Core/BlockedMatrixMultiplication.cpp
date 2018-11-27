@@ -14,10 +14,10 @@ using namespace BlasBooster;
 TEST(BlockMatrixMatrixMultiplicationTest, Test1)
 {
     Matrix<Dense, double> A{
-    	{2.0, 3.0, 0.0, 0.0},
-    	{4.0, 1.0, 0.0, 0.0},
-    	{0.0, 0.0, 2e-7, 3e-7},
-    	{0.0, 0.0, 4e-7, 1e-7}
+        {2.0, 3.0, 0.0, 0.0},
+        {4.0, 1.0, 0.0, 0.0},
+        {0.0, 0.0, 2e-7, 3e-7},
+        {0.0, 0.0, 4e-7, 1e-7}
     };
 
     auto&& C = (A * A).template execute<TheBestPolicy>();
@@ -38,5 +38,5 @@ TEST(BlockMatrixMatrixMultiplicationTest, Test1)
 
     auto&& CC = Matrix<Dense, double>(bC);
 
-	EXPECT_NEAR(0.0, norm<NormMax>(C - CC), 1e-6) << C << "\n" << CC;
+    EXPECT_NEAR(0.0, norm<NormMax>(C - CC), 1e-6) << C << "\n" << CC;
 }

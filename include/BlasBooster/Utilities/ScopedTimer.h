@@ -7,7 +7,7 @@
 
 class ScopedTimer
 {
-	using clock = std::chrono::high_resolution_clock;
+    using clock = std::chrono::high_resolution_clock;
 
 public:
 

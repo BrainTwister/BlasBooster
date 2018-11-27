@@ -15,7 +15,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,double,P,Dense,double,P,Blaze>
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::Blaze_dgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Blaze_dgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -36,7 +36,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,float,P,Dense,float,P,Blaze>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,float,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::Blaze_sgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Blaze_sgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -57,7 +57,7 @@ struct MultiplicationFunctor<Dense,float,P,Dense,double,P,Dense,double,P,Blaze>
 {
     void operator () (Matrix<Dense,float,P> const& A, Matrix<Dense,double,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::Blaze_sdgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Blaze_sdgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns());
@@ -79,7 +79,7 @@ struct MultiplicationFunctor<Dense,double,P,Dense,float,P,Dense,double,P,Blaze>
 {
     void operator () (Matrix<Dense,double,P> const& A, Matrix<Dense,float,P> const& B, Matrix<Dense,double,P>& C)
     {
-    	[[maybe_unused]] Tracker<TrackerID::Blaze_dsgemm> tracker;
+        [[maybe_unused]] Tracker<TrackerID::Blaze_dsgemm> tracker;
 
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(),B.getNbColumns());

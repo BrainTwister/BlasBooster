@@ -464,7 +464,7 @@ public:
     }
 
     void fill(T const& value) {
-    	std::fill(data_, data_ + size_, value);
+        std::fill(data_, data_ + size_, value);
     }
 
 protected:

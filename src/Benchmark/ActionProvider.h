@@ -15,8 +15,8 @@ class ActionProvider
 {
 public:
 
-	typedef std::vector<std::shared_ptr<ActionBase>> ActionList;
-	typedef bool is_record;
+    typedef std::vector<std::shared_ptr<ActionBase>> ActionList;
+    typedef bool is_record;
 
     ActionProvider(ptree const& tree = ptree());
 

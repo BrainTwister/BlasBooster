@@ -11,15 +11,15 @@ class MatrixFileImporter : public MatrixFactory
 {
 public:
 
-	MatrixFileImporter(filesystem::path const& file);
+    MatrixFileImporter(filesystem::path const& file);
 
-	virtual ~MatrixFileImporter() {}
+    virtual ~MatrixFileImporter() {}
 
-	Matrix<Dense,double> operator()() const;
+    Matrix<Dense,double> operator()() const;
 
 private:
 
-	filesystem::path dataFile;
+    filesystem::path dataFile;
 
 };
 

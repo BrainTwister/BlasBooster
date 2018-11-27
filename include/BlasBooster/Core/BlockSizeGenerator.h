@@ -45,7 +45,7 @@ auto get_matrix_frexp(Matrix<Dense,T,P> const& matrix)
     Matrix<Dense,T,P> matrix_log(matrix);
     int exp;
     for (auto&& value : matrix_log) {
-    	frexp(value, &exp);
+        frexp(value, &exp);
         value = exp;
     }
     return matrix_log;
@@ -104,7 +104,7 @@ std::tuple<std::vector<size_t>, std::vector<size_t>, std::vector<size_t>> BlockS
 template <class T, class P>
 std::tuple<std::vector<T>, std::vector<T>> BlockSizeGenerator::get_detection_arrays(Matrix<Dense,T,P> const& matrix) const
 {
-	[[maybe_unused]] Tracker<TrackerID::get_detection_arrays> tracker;
+    [[maybe_unused]] Tracker<TrackerID::get_detection_arrays> tracker;
 
     //auto&& matrix_log = get_matrix_log(matrix);
     auto&& matrix_log = get_matrix_frexp(matrix);
@@ -137,7 +137,7 @@ std::tuple<std::vector<T>, std::vector<T>> BlockSizeGenerator::get_detection_arr
 template <class T>
 std::vector<size_t> BlockSizeGenerator::get_block_size(std::vector<T> const& detect) const
 {
-	[[maybe_unused]] Tracker<TrackerID::get_block_size> tracker;
+    [[maybe_unused]] Tracker<TrackerID::get_block_size> tracker;
 
     auto&& sorted_indices = sort_indices(detect);
     std::set<size_t> borders{0, detect.size() + 1};
@@ -167,7 +167,7 @@ std::vector<size_t> BlockSizeGenerator::get_block_size(std::vector<T> const& det
                 right = *borders.upper_bound(idx) - idx;
                 if (left < min_block_size or right < min_block_size) {
                     equal_indices.erase(j);
-                	continue;
+                    continue;
                 }
                 if (std::min(left, right) > largest_min) {
                     largest_min = std::min(left, right);

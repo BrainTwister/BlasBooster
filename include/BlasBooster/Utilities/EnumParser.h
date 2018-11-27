@@ -40,8 +40,8 @@ private:
 
     void map(std::string const& s, T e)
     {
-    	mapStringToEnum[s] = e;
-    	mapEnumToString[e] = s;
+        mapStringToEnum[s] = e;
+        mapEnumToString[e] = s;
     }
 
     MapStringToEnum mapStringToEnum;

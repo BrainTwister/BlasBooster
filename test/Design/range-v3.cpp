@@ -6,7 +6,7 @@
 
 TEST(range_v3, zip)
 {
-	using namespace ranges;
+    using namespace ranges;
 
     std::vector<int> a{9,8,7};
     std::vector<std::string> b{"a", "b", "c"};
