@@ -217,22 +217,17 @@ struct MultiplicationFunctor<Sparse,T1,P1,Dense,T2,P2,Dense,T3,P3,Native>
         assert(A.getNbColumns() == B.getNbRows());
         C.resize(A.getNbRows(), B.getNbColumns(), AllFiller<T3>(0.0));
 
-        auto&& iter_A_off = A.beginOffset();
-        auto&& iter_A_off_end = A.endOffset() - 1;
-
-        auto&& iter_B = B.begin();
-        auto&& iter_C = C.begin();
-
-        for (; iter_A_off != iter_A_off_end; ++iter_A_off)
+        for (size_t col_A = 0; col_A != A.getNbColumns(); ++col_A)
         {
+            auto&& iter_A_off = A.beginOffset() + col_A;
             auto&& iter_A_val = A.begin() + *iter_A_off;
             auto&& iter_A_key = A.beginKey() + *iter_A_off;
-            auto&& iter_A_key_end = A.endKey() + *(iter_A_off + 1);
+            auto&& iter_A_key_end = A.beginKey() + *(iter_A_off + 1);
 
             for (; iter_A_key != iter_A_key_end; ++iter_A_key, ++iter_A_val)
             {
-                iter_B = B.begin() + *iter_A_key;
-                iter_C = C.begin() + *iter_A_key;
+            	auto&& iter_B = B.begin() + col_A;
+            	auto&& iter_C = C.begin() + *iter_A_key;
 
                 for (size_t i = 0; i != B.getNbColumns(); ++i, iter_B += B.getNbRows(), iter_C += C.getNbRows())
                 {

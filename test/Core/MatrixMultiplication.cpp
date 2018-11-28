@@ -23,14 +23,20 @@ void test(Matrix<Dense, double> const& refA, Matrix<Dense, double> const& refB, 
 {
     using TypeA = typename std::tuple_element<0, TypeParam>::type;
     using TypeB = typename std::tuple_element<1, TypeParam>::type;
-    //using TypeC = typename std::tuple_element<2, TypeParam>::type;
+    using TypeC = typename std::tuple_element<2, TypeParam>::type;
     using Interface = typename std::tuple_element<3, TypeParam>::type;
 
     TypeA A(refA);
     TypeB B(refB);
-    Matrix<Dense, double> C = (A * B).template execute<Interface>();
+    TypeC C;
 
-    EXPECT_NEAR(0.0, norm<NormMax>(C - refC), 1e-6) << C;
+    MultiplicationFunctor<typename TypeA::matrix_type, typename TypeA::value_type, typename TypeA::parameter,
+	                      typename TypeB::matrix_type, typename TypeB::value_type, typename TypeB::parameter,
+	                      typename TypeC::matrix_type, typename TypeC::value_type, typename TypeC::parameter,
+	                      Interface>()(A, B, C);
+
+    Matrix<Dense, double> resC(C);
+    EXPECT_NEAR(0.0, norm<NormMax>(resC - refC), 1e-6) << C;
 }
 
 TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test1)
@@ -54,7 +60,8 @@ typedef ::testing::Types<
     std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
     ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Native>
     ,std::tuple<Matrix<Sparse, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
-    //,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, Native>
+    ,std::tuple<Matrix<Dense, double>, Matrix<Sparse, double>, Matrix<Dense, double>, Native>
+    ,std::tuple<Matrix<Sparse, double>, Matrix<Sparse, double>, Matrix<Sparse, double>, Native>
 #ifdef WITH_INTELMKL
     ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, IntelMKL>
     ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, IntelMKL>
@@ -69,8 +76,8 @@ typedef ::testing::Types<
     ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, EigenI>
     ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, EigenI>
 #endif
-    ,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, Blaze>
-    ,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Blaze>
+    //,std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, Blaze>
+    //,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Blaze>
 > MyTypes;
 
 INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixMatrixMultiplicationTest, MyTypes);
