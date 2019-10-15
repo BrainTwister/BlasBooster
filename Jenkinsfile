@@ -17,7 +17,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
+              image 'braintwister/ubuntu-18.04-cmake-3.15-gcc-7-conan-1.19'
             }
           }
           steps {
@@ -38,7 +38,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.12-clang-6-conan-1.6'
+              image 'braintwister/ubuntu-18.04-cmake-3.15-clang-6-conan-1.19'
             }
           }
           steps {
@@ -63,7 +63,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
+              image 'braintwister/ubuntu-18.04-cmake-3.15-gcc-7-conan-1.19'
             }
           }
           steps {
@@ -83,7 +83,7 @@ pipeline {
           agent {
             docker {
               reuseNode true
-              image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-5-conan-1.6'
+              image 'braintwister/ubuntu-18.04-cmake-3.15-gcc-5-conan-1.19'
             }
           }
           steps {
@@ -105,7 +105,7 @@ pipeline {
       agent {
         docker {
           reuseNode true
-          image 'braintwister/ubuntu-18.04-cmake-3.12-gcc-7-conan-1.6'
+          image 'braintwister/ubuntu-18.04-cmake-3.15-gcc-7-conan-1.19'
         }
       }
       steps {
