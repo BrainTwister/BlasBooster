@@ -1,7 +1,9 @@
 #include "BlasBooster/Core/AllMatrixTypes.h"
 #include "BlasBooster/Core/Multiplication.h"
 #include "BlasBooster/Core/Multiplication_Blaze.h"
+#ifdef WITH_EIGEN
 #include "BlasBooster/Core/Multiplication_Eigen.h"
+#endif
 #include "BlasBooster/Core/Multiplication_IntelMKL.h"
 #include "BlasBooster/Core/Multiplication_Native.h"
 #include "BlasBooster/Core/Multiplication_OpenBLAS.h"
