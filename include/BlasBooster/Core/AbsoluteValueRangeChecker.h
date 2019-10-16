@@ -13,9 +13,13 @@ struct InclusiveBound {};
 
 struct ValueCheckerBase
 {
+	virtual ~ValueCheckerBase() = 0;
     virtual bool operator < (ValueCheckerBase const& other) const = 0;
     virtual size_t getID() const = 0;
 };
+
+inline ValueCheckerBase::~ValueCheckerBase()
+{}
 
 struct ValueCheckerLess
 {

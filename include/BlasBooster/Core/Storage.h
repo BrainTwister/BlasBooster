@@ -217,7 +217,6 @@ public:
     template < class T2, bool onStack2, bool isFixed2, size_t Size2 >
     bool equal( const Storage<T2,onStack2,isFixed2,Size2>& rhs ) const {
         if ( size_ != rhs.size_ ) return false;
-        typename Storage<T2,onStack2,isFixed2,Size2>::const_iterator iter2(rhs.begin());
         for ( size_t i(0); i != size_; ++i ) {
             if ( !equalWithinNumericalAccuracy(data_[i],rhs.data_[i]) ) return false;
         }

@@ -15,7 +15,7 @@ inline TypeMatrix generateTypeMatrix(BlockedDenseMatrix const& matrix)
     TypeMatrix typeMatrix(matrix.getNbRows(), matrix.getNbColumns());
 
     BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-    TypeMatrix::iterator typeMatrixCur(typeMatrix.begin()), typeMatrixEnd(typeMatrix.end());
+    TypeMatrix::iterator typeMatrixCur(typeMatrix.begin());
     for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++typeMatrixCur )
     {
         *typeMatrixCur = (*blockMatrixCur)->getTypeIndex();
@@ -36,7 +36,7 @@ inline DimensionMatrix generateDimensionMatrix(BlockedDenseMatrix const& matrix)
     DimensionMatrix dimMatrix(matrix.getNbRows(),matrix.getNbColumns());
 
     BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-    DimensionMatrix::iterator dimMatrixCur(dimMatrix.begin()), dimMatrixEnd(dimMatrix.end());
+    DimensionMatrix::iterator dimMatrixCur(dimMatrix.begin());
     for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++dimMatrixCur )
     {
         dimMatrixCur->first = getNbRows(*blockMatrixCur);
@@ -57,7 +57,7 @@ inline NormMatrix generateNormMatrix(BlockedDenseMatrix const& matrix)
     NormMatrix normMatrix(matrix.getNbRows(),matrix.getNbColumns());
 
     BlockedDenseMatrix::const_iterator blockMatrixCur(matrix.begin()), blockMatrixEnd(matrix.end());
-    NormMatrix::iterator normMatrixCur(normMatrix.begin()), normMatrixEnd(normMatrix.end());
+    NormMatrix::iterator normMatrixCur(normMatrix.begin());
     for ( ; blockMatrixCur != blockMatrixEnd; ++blockMatrixCur, ++normMatrixCur )
     {
         *normMatrixCur = getNorm(*blockMatrixCur);
