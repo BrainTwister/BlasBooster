@@ -1,6 +1,9 @@
 include_directories(
-    /usr/include/python3.5m
     ${PROJECT_SOURCE_DIR}/include
+)
+
+include_directories(SYSTEM
+    ${PYTHON_INCLUDE_DIRS}
 )
 
 add_library(

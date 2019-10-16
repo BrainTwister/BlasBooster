@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(BlasBooster VERSION 0.2.10 LANGUAGES CXX)
+project(BlasBooster VERSION 0.3 LANGUAGES CXX)
 
 message(STATUS "${PROJECT_NAME} version ${PROJECT_VERSION}")
 
@@ -114,9 +114,14 @@ add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
 add_subdirectory(src/Utilities)
 
-set(PYBIND11_PYTHON_VERSION 3.5)
-find_package(pybind11 REQUIRED)
-#add_subdirectory(src/PythonBinding)
+# PyBind
+set(PYBIND11_PYTHON_VERSION 3)
+find_package(pybind11 QUIET)
+if(pybind11_FOUND)
+    add_subdirectory(src/PythonBinding)
+else()
+    message(STATUS "Could NOT find pybind11")
+endif()
 
 # Google C++ unit test framework
 find_package(GTest)
