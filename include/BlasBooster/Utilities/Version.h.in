@@ -9,5 +9,6 @@
 namespace BlasBooster {
 
 const std::string version = STR(PROJECT_VERSION);
+const std::string revision = STR(GIT_REVISION);
 
 } // namespace BlasBooster

@@ -25,12 +25,8 @@ pipeline {
           }
           post {
             always {
-              step([
-                $class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false,
-                defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '',
-                parserConfigurations: [[parserName: 'GNU Make + GNU C Compiler (gcc)', pattern: 'build-gcc-7/make.out']],
-                unHealthy: ''
-              ])
+              recordIssues enabledForFailure: true, aggregatingResults: false,
+                tool: gcc(id: 'gcc-7', pattern: 'build-gcc-7/make.out')
             }
           }
         }
@@ -46,12 +42,8 @@ pipeline {
           }
           post {
             always {
-              step([
-                $class: 'WarningsPublisher', canComputeNew: false, canResolveRelativePaths: false,
-                defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '',
-                parserConfigurations: [[parserName: 'Clang (LLVM based)', pattern: 'build-clang-6/make.out']],
-                unHealthy: ''
-              ])
+              recordIssues enabledForFailure: true, aggregatingResults: false,
+                tool: gcc(id: 'clang-6', pattern: 'build-clang-6/make.out')
             }
           }
         }

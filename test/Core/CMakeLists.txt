@@ -16,6 +16,7 @@ add_executable(
     main.cpp
     MatrixConverter.cpp
     MatrixMultiplication.cpp
+    MatrixMultiplicationTyped.cpp
     MatrixNorm.cpp
     MatrixNorm2.cpp
     MultipleMatrix.cpp

@@ -66,7 +66,23 @@ set(CMAKE_VERBOSE_MAKEFILE false)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-# generate version string
+# Get Git revision
+if(EXISTS ${PROJECT_SOURCE_DIR}/.git)
+    find_package(Git)
+    if(GIT_FOUND)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+            OUTPUT_VARIABLE "GIT_REVISION"
+            ERROR_QUIET
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+        message(STATUS "Git revision: ${GIT_REVISION}")
+    else()
+        set(GIT_REVISION 0)
+    endif()
+endif()
+
+# Generate version and revision string
 configure_file (
     "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h.in"
     "${PROJECT_SOURCE_DIR}/include/BlasBooster/Utilities/Version.h"

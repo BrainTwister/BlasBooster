@@ -1,5 +1,6 @@
 #include <pybind11/functional.h>
 #include <pybind11/numpy.h>
+#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 
 #include "BlasBooster/Core/DenseMatrix.h"
@@ -19,7 +20,13 @@ PYBIND11_MODULE(blasbooster, m)
 		{
 			py::buffer_info info = b.request();
 			return new bb::DynamicMatrix;
-		}));
+		}))
+		.def(py::self + py::self)
+	    .def(py::self * py::self)
+        .def("__str__", [](bb::DynamicMatrix const& m)
+        {
+    	    return "DynamicMatrix";
+        });
 //		.def_buffer([](bb::DynamicMatrix &m) -> py::buffer_info
 //		{
 //			return py::buffer_info();

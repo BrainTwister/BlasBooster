@@ -1,5 +1,6 @@
-.project
 .cproject
+.ipynb_checkpoints
+.project
 .settings/
+.pydevproject
 /build/
-/.pydevproject
