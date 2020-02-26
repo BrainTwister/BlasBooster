@@ -7,7 +7,7 @@ clara/1.1.1@bincrafters/stable
 gtest/1.8.0@bincrafters/stable
 pybind11/2.2.2@conan/stable
 range-v3/0.3.6@ericniebler/stable
-record/1.1@braintwister/testing
+record/1.2@braintwister/testing
 
 #catch2/2.2.2@bincrafters/stable
 #eigen/3.3.5@conan/stable
