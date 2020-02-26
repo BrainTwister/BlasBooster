@@ -1,17 +1,17 @@
 [requires]
 benchmark/1.1@braintwister/testing
 blaze/3.4@braintwister/stable
-boost_filesystem/1.66.0@bincrafters/stable
-boost_serialization/1.66.0@bincrafters/stable
-boost_system/1.66.0@bincrafters/stable
-#catch2/2.2.2@bincrafters/stable
+boost/1.71.0@conan/stable
+bzip2/1.0.8@conan/stable
 clara/1.1.1@bincrafters/stable
-#eigen/3.3.5@conan/stable
 gtest/1.8.0@bincrafters/stable
+pybind11/2.2.2@conan/stable
 range-v3/0.3.6@ericniebler/stable
 record/1.1@braintwister/testing
+
+#catch2/2.2.2@bincrafters/stable
+#eigen/3.3.5@conan/stable
 #openblas/0.2.20@conan/stable
-pybind11/2.2.2@conan/stable
 
 [generators]
 cmake
