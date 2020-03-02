@@ -1,17 +1,15 @@
 [requires]
 benchmark/1.1@braintwister/testing
-blaze/3.4@braintwister/stable
-boost/1.71.0@conan/stable
+boost/1.72.0
+blaze/3.7@braintwister/stable
 bzip2/1.0.8@conan/stable
 clara/1.1.1@bincrafters/stable
-gtest/1.8.0@bincrafters/stable
-pybind11/2.2.2@conan/stable
-range-v3/0.3.6@ericniebler/stable
+#eigen/3.3.7
+gtest/1.8.1@bincrafters/stable
+openblas/0.3.7
+pybind11/2.3.0@conan/stable
+range-v3/0.10.0@ericniebler/stable
 record/1.2@braintwister/testing
-
-#catch2/2.2.2@bincrafters/stable
-#eigen/3.3.5@conan/stable
-#openblas/0.2.20@conan/stable
 
 [generators]
 cmake

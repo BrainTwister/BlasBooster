@@ -10,7 +10,7 @@ endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -DBLASBOOSTER_USE_TRACKER")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mfma")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mfma -fsized-deallocation")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBLASBOOSTER_DEBUG_MODE")
 #set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 #set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")

@@ -20,7 +20,6 @@
 #include <range/v3/view/zip.hpp>
 
 using namespace BlasBooster;
-using namespace ranges;
 
 BRAINTWISTER_RECORD( Settings, \
     (( ActionProvider, actions, ActionProvider{} )) \
@@ -79,7 +78,7 @@ int main(int argc, char* argv[])
         auto&& list_B = settings.matrices.get("B");
         if (list_A.size() != list_B.size()) std::runtime_error("Number of matrices A and B not equal");
 
-        for (auto&& [A, B, i] : view::zip(list_A, list_B, view::indices(list_A.size())))
+        for (auto&& [A, B, i] : ranges::views::zip(list_A, list_B, ranges::views::indices(list_A.size())))
         {
             std::cout << std::setw(10) << std::left << i
                       << std::setw(30) << std::left << actions[0]->name() << std::flush;
