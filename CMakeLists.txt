@@ -10,12 +10,12 @@ endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -DBLASBOOSTER_USE_TRACKER")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mfma -fsized-deallocation")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBLASBOOSTER_DEBUG_MODE")
-#set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-#set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-#set(CMAKE_CXX_FLAGS_PROFILING "-O3 -pg")
-#set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mfma")
+
+# https://github.com/pybind/pybind11/issues/1818
+if(${CMAKE_CXX_COMPILER} MATCHES "clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsized-deallocation")
+endif()
 
 # C++ ISO standard
 set(CPP_ISO_STANDARD "c++17" CACHE STRING "C++ ISO standard")
@@ -55,7 +55,7 @@ endif()
 
 if(${CMAKE_COMPILER_IS_GNUCXX})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-depth=10000 -msse2 -ftrack-macro-expansion=0")
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -funroll-loops -ffast-math -mfpmath=sse -march=core2 -mtune=core2 -DBLASBOOSTER_DEBUG_MODE")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -funroll-loops -ffast-math -mfpmath=sse -march=core2 -mtune=core2")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -funroll-loops --param max-unroll-times=100 -ffast-math -mfpmath=sse -march=core2 -mtune=core2")
 endif()
 
