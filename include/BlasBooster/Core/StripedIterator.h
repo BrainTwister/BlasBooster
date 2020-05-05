@@ -29,10 +29,10 @@ public:
        continuousSizeMinus1_(other.continuousSizeMinus1_), separatorSizePlus1_(other.separatorSizePlus1_), nbBlocks_(other.nbBlocks_)
     {}
 
-private:
+//private:
 
-    template <typename>
-    friend class StripedIterator;
+    // template <typename>
+    // friend class StripedIterator;
 
     friend class boost::iterator_core_access;
 

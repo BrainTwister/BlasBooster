@@ -3,6 +3,7 @@
 #include <numeric>
 #include <set>
 #include <tuple>
+#include "gtest/gtest.h"
 
 #include "BlasBooster/Core/BlockedMatrix.h"
 #include "BlasBooster/Core/DenseMatrix.h"
@@ -68,7 +69,9 @@ struct BlockSizeGenerator
     template <class T, class P>
     std::tuple<std::vector<T>, std::vector<T>> get_detection_arrays(Matrix<Dense,T,P> const& matrix) const;
 
-private:
+//private:
+
+    FRIEND_TEST(BlockSizeGenerator, get_block_size);
 
     template <class T>
     std::vector<size_t> get_block_size(std::vector<T> const& detect) const;
@@ -160,13 +163,12 @@ std::vector<size_t> BlockSizeGenerator::get_block_size(std::vector<T> const& det
             size_t largest_min = 0;
             size_t idx, left_idx, left, right;
             size_t next_j, next_idx, next_left_idx, next_left, next_right;
-            for (auto&& j : equal_indices) {
+            for (auto const& j : equal_indices) {
                 idx = sorted_indices[j] + 1;
                 left_idx = *(std::prev(borders.lower_bound(idx)));
                 left = idx - left_idx;
                 right = *borders.upper_bound(idx) - idx;
                 if (left < min_block_size or right < min_block_size) {
-                    equal_indices.erase(j);
                     continue;
                 }
                 if (std::min(left, right) > largest_min) {
