@@ -8,4 +8,4 @@ find_library(OPENBLAS_LIBRARY
 )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(OPENBLAS DEFAULT_MSG OPENBLAS_LIBRARY)
+find_package_handle_standard_args(OpenBLAS DEFAULT_MSG OPENBLAS_LIBRARY)
