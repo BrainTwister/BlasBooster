@@ -3,8 +3,9 @@ benchmark/1.1@braintwister/testing
 boost/1.72.0
 blaze/3.7@braintwister/stable
 bzip2/1.0.8@conan/stable
-clara/1.1.1@bincrafters/stable
+clara/1.1.5@bincrafters/stable
 #eigen/3.3.7
+fmt/6.2.1
 gtest/1.8.1@bincrafters/stable
 openblas/0.3.7
 pybind11/2.3.0@conan/stable
