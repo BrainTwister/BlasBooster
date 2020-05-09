@@ -16,16 +16,16 @@ PYBIND11_MODULE(blasbooster, m)
     m.attr("__version__") = std::string(PROJECT_VERSION) + " revision " + std::string(GIT_REVISION);
 
     py::class_<bb::DynamicMatrix>(m, "Matrix", py::buffer_protocol())
-		.def(py::init([](py::buffer b)
-		{
-			py::buffer_info info = b.request();
-			return new bb::DynamicMatrix;
-		}))
-		.def(py::self + py::self)
-	    .def(py::self * py::self)
+        .def(py::init([](py::buffer b)
+        {
+            py::buffer_info info = b.request();
+            return new bb::DynamicMatrix;
+        }))
+        .def(py::self + py::self)
+        .def(py::self * py::self)
         .def("__str__", [](bb::DynamicMatrix const& m)
         {
-    	    return "DynamicMatrix";
+            return "DynamicMatrix";
         });
 //		.def_buffer([](bb::DynamicMatrix &m) -> py::buffer_info
 //		{
