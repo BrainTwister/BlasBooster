@@ -1,11 +1,11 @@
 {
     "actions":
     {
-        "intelmkl_dgemm":
+        "openblas_dgemm":
         {
             "number_of_threads": 1
         },
-        "intelmkl_sgemm":
+        "openblas_sgemm":
         {
             "number_of_threads": 1
         },
@@ -13,8 +13,8 @@
         {
             "threshold":
             {
-                "significanceThresholdSinglePrecision": 1e-5,
-                "significanceThresholdDoublePrecision": 1e-10,
+                "significanceThresholdSinglePrecision": 1e-2,
+                "significanceThresholdDoublePrecision": 1e-4,
                 "occupationThresholdMatrixSparseFloatSinglePrecision":                     0.0,
                 "occupationThresholdMatrixSparseFloatDoublePrecision":                     0.2,
                 "occupationThresholdMatrixDenseFloatSinglePrecision":                      0.0,
@@ -36,7 +36,7 @@
     {
         "A":
         {
-            "File": "P_dna16.xml"
+            "File": "F_dna16.xml"
         },
         "B":
         {

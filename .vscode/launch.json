@@ -2,11 +2,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) benchmark dna16 FF",
+            "name": "(gdb) benchmark test",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/bin/benchmark",
-            "args": ["--settings", "benchmark_FF.json"],
+            "args": ["--settings", "benchmark.json"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/benchmark",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) benchmark dna16",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/benchmark",
+            "args": ["--settings", "benchmark.json"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/benchmark/PF_dna16",
             "environment": [],

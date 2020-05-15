@@ -1,3 +1,7 @@
 {
-    "cmake.parallelJobs": 2
+    "cmake.parallelJobs": 2,
+    "files.associations": {
+        "stdexcept": "cpp",
+        "chrono": "cpp"
+    }
 }
