@@ -76,7 +76,9 @@ int main(int argc, char* argv[])
         auto&& actions = settings.actions.get();
         auto&& list_A = settings.matrices.get("A");
         auto&& list_B = settings.matrices.get("B");
-        if (list_A.size() != list_B.size()) std::runtime_error("Number of matrices A and B not equal");
+        if (list_A.size() == 0) throw std::runtime_error("No matrices defined");
+        if (list_A.size() != list_B.size()) throw std::runtime_error("Number of matrices A and B not equal");
+        if (actions.size() == 0) throw std::runtime_error("No actions defined");
 
         for (auto&& [A, B, i] : ranges::views::zip(list_A, list_B, ranges::views::indices(list_A.size())))
         {
