@@ -2,7 +2,7 @@ version: "3"
 services:
 
   vscode:
-    image: braintwister/ubuntu-18.04-clang-9-vscode-1.42
+    image: braintwister/ubuntu-20.04-gcc-10-clang-11-vscode-1.52.1
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - home:/home/${USER_NAME}
