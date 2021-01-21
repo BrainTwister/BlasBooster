@@ -25,22 +25,27 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_ISO_STANDARD}")
 # CMake modules
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-# Download conan
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-   message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-   file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.15/conan.cmake"
-                 "${CMAKE_BINARY_DIR}/conan.cmake")
+find_program(CONAN conan)
+if(CONAN)
+    # Download conan-cmake
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+       message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+       file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.15/conan.cmake"
+                     "${CMAKE_BINARY_DIR}/conan.cmake")
+    endif()
+    
+    # Conan setup
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
+    conan_cmake_run(CONANFILE conanfile.txt
+                    BASIC_SETUP CMAKE_TARGETS NO_OUTPUT_DIRS
+                    SETTINGS compiler.libcxx=libstdc++11
+                    BUILD_TYPE "None"
+                    BUILD missing)
+    
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    set(CONAN_SYSTEM_INCLUDES "On")
+    conan_basic_setup(NO_OUTPUT_DIRS)
 endif()
-
-# Conan setup
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-conan_add_remote(NAME eagle42 URL https://api.bintray.com/conan/eagle42/Blaze)
-conan_cmake_run(CONANFILE conanfile.txt
-                BASIC_SETUP CMAKE_TARGETS
-                BUILD missing)
-
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
 
 # Use OpenMP
 #if(${CMAKE_CXX_COMPILER} MATCHES "clang")
