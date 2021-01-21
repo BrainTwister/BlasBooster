@@ -11,7 +11,7 @@ template <typename T>
 class TranspositionTest : public ::testing::Test
 {};
 
-TYPED_TEST_CASE_P(TranspositionTest);
+TYPED_TEST_SUITE_P(TranspositionTest);
 
  /// Test body
 template <class TypeParam>
@@ -43,6 +43,6 @@ TYPED_TEST_P(TranspositionTest, Test2)
     test2<TypeParam>({{1, 2, 3}, {4, 5, 6}}, {{1, 4}, {2, 5}, {3, 6}});
 }
 
-REGISTER_TYPED_TEST_CASE_P(TranspositionTest, Test1, Test2);
+REGISTER_TYPED_TEST_SUITE_P(TranspositionTest, Test1, Test2);
 
-INSTANTIATE_TYPED_TEST_CASE_P(My, TranspositionTest, MyTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(My, TranspositionTest, MyTypes);

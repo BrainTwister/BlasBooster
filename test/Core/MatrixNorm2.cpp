@@ -10,7 +10,7 @@ template <typename T>
 class MatrixNormTest : public ::testing::Test
 {};
 
-TYPED_TEST_CASE_P(MatrixNormTest);
+TYPED_TEST_SUITE_P(MatrixNormTest);
 
  /// Test body
 template <class TypeParam>
@@ -38,6 +38,6 @@ TYPED_TEST_P(MatrixNormTest, Test2)
     test<TypeParam>({{1,2,3}, {4,5,6}}, 9.5393920141694561);
 }
 
-REGISTER_TYPED_TEST_CASE_P(MatrixNormTest, Test1, Test2);
+REGISTER_TYPED_TEST_SUITE_P(MatrixNormTest, Test1, Test2);
 
-INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixNormTest, MyTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(My, MatrixNormTest, MyTypes);

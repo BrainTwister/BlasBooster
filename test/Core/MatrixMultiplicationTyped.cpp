@@ -17,7 +17,7 @@ template <typename T>
 class MatrixMatrixMultiplicationTest : public ::testing::Test
 {};
 
-TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest);
+TYPED_TEST_SUITE_P(MatrixMatrixMultiplicationTest);
 
  /// Test body
 template <class TypeParam>
@@ -56,7 +56,7 @@ TYPED_TEST_P(MatrixMatrixMultiplicationTest, Test3)
     test<TypeParam>({{1,2,3}}, {{1,2},{3,4},{5,6}}, {{22,28}});
 }
 
-REGISTER_TYPED_TEST_CASE_P(MatrixMatrixMultiplicationTest, Test1, Test2, Test3);
+REGISTER_TYPED_TEST_SUITE_P(MatrixMatrixMultiplicationTest, Test1, Test2, Test3);
 
 typedef ::testing::Types<
     std::tuple<Matrix<Dense, double>, Matrix<Dense, double>, Matrix<Dense, double>, Native>
@@ -82,4 +82,4 @@ typedef ::testing::Types<
     //,std::tuple<Matrix<Dense, float>, Matrix<Dense, float>, Matrix<Dense, float>, Blaze>
 > MyTypes;
 
-INSTANTIATE_TYPED_TEST_CASE_P(My, MatrixMatrixMultiplicationTest, MyTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(My, MatrixMatrixMultiplicationTest, MyTypes);

@@ -35,7 +35,7 @@ TEST_P(MatrixNorm, DynamicMatrix)
     EXPECT_NEAR(GetParam().result, norm<NormTwo>(dynMat), 1e-5);
 }
 
-INSTANTIATE_TEST_CASE_P(AllMatrixNormTests, MatrixNorm,
+INSTANTIATE_TEST_SUITE_P(AllMatrixNormTests, MatrixNorm,
     ::testing::Values(
         TestDataStructure(
             {{ 1e-12, 1e-6 }, { 1e-6, 1e-12 }}, 1.41421e-06

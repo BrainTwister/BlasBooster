@@ -41,7 +41,7 @@ TEST_P(BinaryFunctors, DynamicDenseDouble)
     EXPECT_NEAR(0.0, norm<NormTwo>(dynA + dynB - dynC), 1e-6);
 }
 
-INSTANTIATE_TEST_CASE_P(AllBinaryFunctorsTests, BinaryFunctors,
+INSTANTIATE_TEST_SUITE_P(AllBinaryFunctorsTests, BinaryFunctors,
     ::testing::Values(
         TestDataStructure(
             {{ 1.0, 2.0 }, { -4.0, 3.0 }},
