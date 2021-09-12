@@ -22,8 +22,9 @@ set(CPP_ISO_STANDARD "c++17" CACHE STRING "C++ ISO standard")
 message(STATUS "Use ${CPP_ISO_STANDARD} ISO standard")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_ISO_STANDARD}")
 
-# CMake modules
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+# Add CMake module path
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
 
 find_program(CONAN conan)
 if(CONAN)
@@ -105,7 +106,7 @@ endif(Boost_FOUND)
 # List for external BLAS interfaces
 set(EXTERNAL_BLAS_LIBRARIES "")
 
-find_package(Record REQUIRED)
+find_package(record REQUIRED)
 
 # Intel math kernel library (MKL)
 find_package(MKL)
@@ -129,15 +130,15 @@ if(EIGEN3_FOUND)
     add_definitions(-DWITH_EIGEN)
 endif(EIGEN3_FOUND)
 
-#find_package(blaze REQUIRED)
+find_package(blaze REQUIRED)
 
-add_subdirectory(src/Benchmark)
+#add_subdirectory(src/Benchmark)
 add_subdirectory(src/MatrixFactory)
 add_subdirectory(src/Utilities)
 
 # PyBind
 set(PYBIND11_PYTHON_VERSION 3)
-find_package(pybind11 QUIET)
+find_package(pybind11)
 if(pybind11_FOUND)
     add_subdirectory(src/PythonBinding)
 else()
@@ -171,6 +172,8 @@ if(DOXYGEN_FOUND)
     install(DIRECTORY ${PROJECT_BINARY_DIR}/docs/man DESTINATION share/doc)
     
 endif(DOXYGEN_FOUND)
+
+include(CTest)
 
 SET(CPACK_GENERATOR "TGZ;TBZ2;DEB")
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "BrainTwister")
